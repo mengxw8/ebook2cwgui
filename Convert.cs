@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,9 +17,42 @@ namespace CW
 {
     public partial class Convert : Form
     {
+
+        private const string configFileName= "cwConfig.ini"; 
         public Convert()
         {
             InitializeComponent();
+        }
+        [DllImport("kernel32.dll")] //写INI
+        private static extern long WritePrivateProfileString(string section, string key, string val, string filePath);
+        [DllImport("kernel32.dll")] //读INI
+        private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
+        /// <summary>
+        /// 读取INI文件值
+        /// </summary>
+        /// <param name="section">节点名</param>
+        /// <param name="key">键</param>
+        /// <param name="def">未取到值时返回的默认值</param>
+        /// <param name="filePath">INI文件完整路径</param>
+        /// <returns>读取的值</returns>
+        public string Read(string section, string key, string def, string filePath)
+        {
+            StringBuilder sb = new StringBuilder(1024);
+            GetPrivateProfileString(section, key, def, sb, 1024, filePath);
+            return sb.ToString();
+        }
+        /// <summary>
+        /// 写INI文件值
+        /// </summary>
+        /// <param name="section">欲在其中写入的节点名称</param>
+        /// <param name="key">欲设置的项名</param>
+        /// <param name="value">要写入的新字符串</param>
+        /// <param name="filePath">INI文件完整路径</param>
+        /// <returns>非零表示成功，零表示失败</returns>
+        public long Write(string section, string key, string value, string filePath)
+        {
+
+            return WritePrivateProfileString(section, key, value, filePath);
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -81,44 +116,45 @@ namespace CW
                 }
             }
 
-            List<string> args = new List<string>();
+     
+            var args = new Dictionary<string, string>();
 
-            args.Add("-q 1");
+            args.Add("q","1");
 
 
             //分隔符
             var separator = separatorTxb.Text;
             if (separator != "")
             {
-                args.Add("-c " + separator);
+                args.Add("c" , separator);
             }
             //速度
             var speed = speedTxb.Value;
-            args.Add("-w " + speed);
+            args.Add("w" , speed.ToString());
             //eff. Speed
             var effSpeed=effSpeedTxb.Value;
             if (effSpeed != 0) {
-                args.Add("-e "+ effSpeed);
+                args.Add("e", effSpeed.ToString());
             }
             //额外字间距
            var extraSpace= extraSpaceTxb.Value;
             if (extraSpace != 0) {
-                args.Add("-W " + extraSpace);
+                args.Add("W" , extraSpace.ToString());
             }
 
 
             //频率
             var tone=toneTxb.Value;
-            args.Add("-f " + tone);
+            args.Add("f" , tone.ToString());
             //波形
           var waveformType=   waveform.SelectedIndex;
-            args.Add("-T " + waveformType);
+            args.Add("T" , waveformType.ToString());
 
 
             //输出信息
             var fileName= fileNameTxb.Text;
             if (fileName != "") {
-                args.Add("-o " + outPath+"\\"+fileName);
+                args.Add("o" , outPath+"\\"+fileName);
             }
 
             //作者
@@ -126,55 +162,55 @@ namespace CW
            var author=   authorTxb.Text;
             if (author != "")
             {
-                args.Add("-a " + fileName);
+                args.Add("a" , fileName);
             }
             var title = titleTxb.Text;
             if (title != "")
             {
-                args.Add("-t " + title);
+                args.Add("t" , title);
             }
             else {
-                args.Add("-t " + fileName);
+                args.Add("t" ,fileName);
             }
 
             var comment = commentTxb.Text;
             if (comment != "")
             {
-                args.Add("-k " + comment);
+                args.Add("k" , comment);
             }
 
            var year= dateTxb.Text;
             if (year != "")
             {
-                args.Add("-y " + year);
+                args.Add("y" , year);
             }
             //输出文件类型
             var fileFormatType=fileFormat.SelectedIndex;
             if (fileFormatType != 0) {
-                args.Add("-O");
+                args.Add("O",null);
             }
 
 
             var wordsLimit= wordsLimitTxb.Value;
             if (wordsLimit > 0) {
-                args.Add("-l "+ wordsLimit);
+                args.Add("l", wordsLimit.ToString());
             }
 
             var timeLimit = timeLimitTxb.Value;
             if (timeLimit > 0)
             {
-                args.Add("-d " + timeLimit);
+                args.Add("d", timeLimit.ToString());
             }
             //禁止重新设置速度的时候使用 - Q选项
             if (!resetSpeedCbx.Checked)
             {
-                args.Add("-n ");
+                args.Add("n",null);
             }
             else {
                 var qrqValue = QRQ.Value;
                 if (qrqValue != 0)
                 {
-                    args.Add("-Q " + qrqValue);
+                    args.Add("Q" , qrqValue.ToString());
                 }
             }
             
@@ -183,18 +219,23 @@ namespace CW
 
             if (disableBtCbx.Checked)
             {
-                args.Add("-p");
+                args.Add("p",null);
             }
             //其余参数
             var parameters= parametersTxb.Text;
             if (parameters != "") {
-                args.Add(parameters);
+                args.Add(parameters,null);
             }
 
             //构建命令
             var param = "";
-            foreach (var p in args) {
-                param+=p+" ";
+            // 遍历字典
+            foreach (var pair in args)
+            {
+                param += "-" + pair.Key + " ";
+                if (pair.Value != null) {
+                    param += pair.Value + " ";
+                }
             }
 
             param += inputFile;
@@ -235,6 +276,8 @@ namespace CW
                         if (data.Length == 3)
                         {
                             MessageBox.Show("转换完成，共计用时" + data[2] + "！");
+                            //保存配置文件
+                            saveConfig(args);
                         }
                     }
 
@@ -246,6 +289,18 @@ namespace CW
 
 
         }
+
+        private void saveConfig(Dictionary<string, string> configs) {
+            //写配置
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configFileName);
+            foreach (var pair in configs)
+            {
+                if (pair.Value != null) {
+                    Write("settings", pair.Key, pair.Value, filePath);
+                }
+            }         
+        }
+
 
         private void Convert_Load(object sender, EventArgs e)
         {
@@ -266,6 +321,47 @@ namespace CW
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
             // 从身份中获取用户名
             authorTxb.Text= identity.Name;
+
+            //加载配置文件
+            loadConfig();
+
+        }
+
+        private void loadConfig() {
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configFileName);
+            if (File.Exists(filePath))
+            {
+                var outPath=Read("settings", "o", "", filePath);
+
+                //文件存在则恢复配置
+                if (outPath != "") {
+                    outputFilePathTxb.Text = Path.GetDirectoryName(outPath);
+                }
+                fileNameTxb.Text=Path.GetFileName(outPath);
+
+                separatorTxb.Text = Read("settings", "c", "", filePath);
+
+                speedTxb.Value = System.Convert.ToInt32( Read("settings", "w", "20", filePath)) ; 
+                effSpeedTxb.Value = System.Convert.ToInt32( Read("settings", "e", "0", filePath)) ; 
+                extraSpaceTxb.Value = System.Convert.ToInt32( Read("settings", "W", "0", filePath)) ; 
+                QRQ.Value = System.Convert.ToInt32( Read("settings", "Q", "0", filePath)) ; 
+                toneTxb.Value = System.Convert.ToInt32( Read("settings", "f", "600", filePath)) ; 
+                waveform.SelectedIndex= System.Convert.ToInt32(Read("settings", "T", "0", filePath));
+                authorTxb.Text = Read("settings", "a", "", filePath);
+                titleTxb.Text = Read("settings", "t", "", filePath);
+                commentTxb.Text = Read("settings", "k", "", filePath);
+                dateTxb.Text = Read("settings", "y", "", filePath);
+                wordsLimitTxb.Value= System.Convert.ToInt32(Read("settings", "l", "0", filePath));
+                timeLimitTxb.Value= System.Convert.ToInt32(Read("settings", "d", "0", filePath));
+
+
+
+
+            }
+            else
+            {
+                File.Create(filePath);
+            }
 
         }
 
