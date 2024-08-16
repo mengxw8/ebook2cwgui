@@ -243,7 +243,7 @@ namespace CW
  
             ProcessStartInfo startInfo = new ProcessStartInfo("ebook2cw.exe", param);
 
-            //process.StartInfo.UseShellExecute = true;    //是否使用操作系统的shell启动
+            startInfo.UseShellExecute = false;    //是否使用操作系统的shell启动
             //startInfo.RedirectStandardInput = true;      //接受来自调用程序的输入     
             startInfo.RedirectStandardOutput = true;     //由调用程序获取输出信息
             startInfo.CreateNoWindow = true;             //不显示调用程序的窗口 
@@ -254,6 +254,7 @@ namespace CW
             {
                 //调用EXE
                 using var process = Process.Start(startInfo);
+                
                 using var reader = process.StandardOutput;
                 // 获取exe的输出结果
                 string result = reader.ReadToEnd(); 
@@ -335,10 +336,9 @@ namespace CW
 
                 //文件存在则恢复配置
                 if (outPath != "") {
-                    outputFilePathTxb.Text = Path.GetDirectoryName(outPath);
-                }
-                fileNameTxb.Text=Path.GetFileName(outPath);
-
+                    outputFilePathTxb.Text = outPath.Substring(0, outPath.LastIndexOf("\\"));
+                }  
+                fileNameTxb.Text = outPath.Substring(outPath.LastIndexOf("\\")+1);
                 separatorTxb.Text = Read("settings", "c", "", filePath);
 
                 speedTxb.Value = System.Convert.ToInt32( Read("settings", "w", "20", filePath)) ; 
