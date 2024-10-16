@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO.Compression;
 using System.Linq;
 using System.Media;
 using System.Reflection.Metadata;
@@ -284,10 +285,15 @@ namespace CW
             File.WriteAllText(filePath, answer);
             //生成音频
             var audioFileName = GenerateAudio(fileName.ToString(), filePath);
+            //重命名音频文件名称
+            RenameMusic("./temp/"+audioFileName, filePath.Replace("txt", "mp3"));
+            audioFileName = filePath.Replace("txt", "mp3");
+
+
             Musicplay.PauseMusic(lastMusicPath);
             //播放音频
-            Musicplay.PlayMusic("./temp/" + audioFileName);
-            lastMusicPath = "./temp/" + audioFileName;
+            Musicplay.PlayMusic( audioFileName);
+            lastMusicPath =  audioFileName;
 
         }
 
@@ -345,6 +351,24 @@ namespace CW
 
         }
 
+        private void RenameMusic(string oldFileName ,string newFileName) {
+            try
+            {
+                // 确保目标文件名不存在，因为Move会替换目标文件
+                if (File.Exists(newFileName))
+                {
+                    File.Delete(newFileName);
+                }
+
+                // 重命名文件
+                File.Move(oldFileName, newFileName);
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
         private List<string> getWords()
         {
             //确定字符范围
@@ -430,6 +454,38 @@ namespace CW
 
         private void exportBtn_Click(object sender, EventArgs e)
         {
+            if (lastMusicPath == "") {
+                MessageBox.Show("您还尚未生成过报文哦，请生成后重试！");
+                return;
+            }
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "压缩文件(*.zip)|*.*";
+            saveFileDialog.Title = "保存音频文件和报文到目录";
+            saveFileDialog.FileName = "报文" + Path.GetFileName(lastMusicPath).Replace(".mp3","") + "-" + speetBox.Value + "wpm.zip";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK) {
+                if (File.Exists(saveFileDialog.FileName)) {
+                    File.Delete(saveFileDialog.FileName);                
+                }
+                using (FileStream zipToOpen = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                {
+                    // 创建ZIP存档
+                    using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
+                    {
+                        // 添加文件到ZIP存档
+                        //添加音频
+                        string musicFileName = Path.GetFileName(lastMusicPath);
+                        archive.CreateEntryFromFile(lastMusicPath, musicFileName);
+                        //添加报文
+                        string txtFileName = Path.GetFileName(lastMusicPath.Replace(".mp3", ".txt"));
+                        archive.CreateEntryFromFile(lastMusicPath.Replace(".mp3", ".txt"), txtFileName);
+
+
+                    }
+                }
+
+
+            }
+       
             //打包文件
 
         }
