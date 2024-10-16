@@ -59,11 +59,28 @@ namespace CW
         /// 停止当前音乐播放
         /// </summary>
         /// <param name="p_FileName">音乐文件名称</param>
-        public static void StopMusic(string p_FileName)
+        public static void CloseMusic(string p_FileName)
         {
             try
             {
                 mciSendString(@"close " + p_FileName, " ", 0, 0);
+            }
+            catch { }
+        }
+        public static void PauseMusic(string p_FileName)
+        {
+            try
+            {
+                mciSendString(@"pause " + p_FileName, " ", 0, 0);
+            }
+            catch { }
+        }
+
+        public static void StopMusic()
+        {
+            try
+            {
+                mciSendString(@"stop all" , null, 0, 0);
             }
             catch { }
         }

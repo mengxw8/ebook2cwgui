@@ -77,8 +77,10 @@ namespace CW
         Dictionary<string, string> alphabet = new Dictionary<string, string> { { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
         //符号
         Dictionary<string, string> symbol = new Dictionary<string, string> { { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "&", "...." }, { "@", ".--.-." } };
-       //答案
+        //答案
         string answer = "";
+        //上一次播放的音频文件路径
+        string lastMusicPath = "";
 
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -240,7 +242,7 @@ namespace CW
             var isContinuous = continuousRbtn.Checked;
             //组数限制
             var groupNum = groupNumBox.Value;
-             answer = "=== ";
+            answer = "=== ";
             Random random = new Random();
 
             for (int i = 0; i < groupNum; i++)
@@ -282,8 +284,10 @@ namespace CW
             File.WriteAllText(filePath, answer);
             //生成音频
             var audioFileName = GenerateAudio(fileName.ToString(), filePath);
+            Musicplay.PauseMusic(lastMusicPath);
             //播放音频
             Musicplay.PlayMusic("./temp/" + audioFileName);
+            lastMusicPath = "./temp/" + audioFileName;
 
         }
 
@@ -415,7 +419,18 @@ namespace CW
 
 
 
- 
+
+
+        }
+
+        private void stopBtn_Click(object sender, EventArgs e)
+        {
+            Musicplay.StopMusic();
+        }
+
+        private void exportBtn_Click(object sender, EventArgs e)
+        {
+            //打包文件
 
         }
     }

@@ -43,6 +43,7 @@
             eqRbtn = new RadioButton();
             neRbtn = new RadioButton();
             groupBox3 = new GroupBox();
+            stopBtn = new Button();
             exportBtn = new Button();
             repeatRbtn = new CheckBox();
             continuousRbtn = new CheckBox();
@@ -193,6 +194,7 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(stopBtn);
             groupBox3.Controls.Add(exportBtn);
             groupBox3.Controls.Add(repeatRbtn);
             groupBox3.Controls.Add(continuousRbtn);
@@ -211,14 +213,25 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "CW配置";
             // 
+            // stopBtn
+            // 
+            stopBtn.Location = new Point(291, 66);
+            stopBtn.Name = "stopBtn";
+            stopBtn.Size = new Size(75, 23);
+            stopBtn.TabIndex = 11;
+            stopBtn.Text = "结束抄收";
+            stopBtn.UseVisualStyleBackColor = true;
+            stopBtn.Click += stopBtn_Click;
+            // 
             // exportBtn
             // 
-            exportBtn.Location = new Point(291, 109);
+            exportBtn.Location = new Point(291, 133);
             exportBtn.Name = "exportBtn";
             exportBtn.Size = new Size(75, 23);
             exportBtn.TabIndex = 10;
             exportBtn.Text = "导出";
             exportBtn.UseVisualStyleBackColor = true;
+            exportBtn.Click += exportBtn_Click;
             // 
             // repeatRbtn
             // 
@@ -242,7 +255,7 @@
             // 
             // submitAnswerBtn
             // 
-            submitAnswerBtn.Location = new Point(291, 66);
+            submitAnswerBtn.Location = new Point(291, 95);
             submitAnswerBtn.Name = "submitAnswerBtn";
             submitAnswerBtn.Size = new Size(75, 23);
             submitAnswerBtn.TabIndex = 7;
@@ -408,5 +421,6 @@
         private CheckBox continuousRbtn;
         private Button exportBtn;
         private CheckBox repeatRbtn;
+        private Button stopBtn;
     }
 }
