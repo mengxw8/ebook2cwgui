@@ -243,16 +243,16 @@ namespace CW
             var isContinuous = continuousRbtn.Checked;
             //组数限制
             var groupNum = groupNumBox.Value;
-            answer = "=== ";
+            answer = "===\r\n";
             Random random = new Random();
 
             for (int i = 0; i < groupNum; i++)
             {
                 var key = "";
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < EachGroup.Value; j++)
                 {
-
-                    var s = words[random.Next(0, words.Count - 1)];
+                    //注意：Random.Next(minValue, maxValue)方法生成的随机数范围是从minValue（包括）到maxValue（不包括）之间的随机整数。
+                    var s = words[random.Next(0, words.Count)];
                     if (isContinuous && key.Contains(s))
                     {
                         //重新生成
@@ -269,9 +269,13 @@ namespace CW
 
                 }
                 answer += key;
-                answer += " ";
+                if (i + 1 < groupNum) {
+                    answer += " ";
+                }
+              
             }
-            answer += "iii ";
+            answer += "\r\niii\r\n";
+            answer=answer.ToLower();
 
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
@@ -441,10 +445,6 @@ namespace CW
             AnswerBoard answerBoard = new AnswerBoard(answer, dataGridView1);
             answerBoard.ShowDialog();
 
-
-
-
-
         }
 
         private void stopBtn_Click(object sender, EventArgs e)
@@ -464,8 +464,9 @@ namespace CW
             saveFileDialog.FileName = "报文" + Path.GetFileName(lastMusicPath).Replace(".mp3","") + "-" + speetBox.Value + "wpm.zip";
             if (saveFileDialog.ShowDialog() == DialogResult.OK) {
                 if (File.Exists(saveFileDialog.FileName)) {
-                    File.Delete(saveFileDialog.FileName);                
-                }
+                    File.Delete(saveFileDialog.FileName);
+                }            
+                //打包文件
                 using (FileStream zipToOpen = new FileStream(saveFileDialog.FileName, FileMode.Create))
                 {
                     // 创建ZIP存档
@@ -482,11 +483,7 @@ namespace CW
 
                     }
                 }
-
-
             }
-       
-            //打包文件
 
         }
     }

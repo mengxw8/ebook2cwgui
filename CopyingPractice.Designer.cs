@@ -57,6 +57,8 @@
             label1 = new Label();
             groupBox4 = new GroupBox();
             dataGridView1 = new DataGridView();
+            EachGroup = new NumericUpDown();
+            label4 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -65,6 +67,7 @@
             ((System.ComponentModel.ISupportInitialize)groupNumBox).BeginInit();
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)EachGroup).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -194,6 +197,8 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(EachGroup);
+            groupBox3.Controls.Add(label4);
             groupBox3.Controls.Add(stopBtn);
             groupBox3.Controls.Add(exportBtn);
             groupBox3.Controls.Add(repeatRbtn);
@@ -236,7 +241,7 @@
             // repeatRbtn
             // 
             repeatRbtn.AutoSize = true;
-            repeatRbtn.Location = new Point(13, 138);
+            repeatRbtn.Location = new Point(125, 139);
             repeatRbtn.Name = "repeatRbtn";
             repeatRbtn.Size = new Size(87, 21);
             repeatRbtn.TabIndex = 9;
@@ -246,7 +251,7 @@
             // continuousRbtn
             // 
             continuousRbtn.AutoSize = true;
-            continuousRbtn.Location = new Point(13, 111);
+            continuousRbtn.Location = new Point(13, 139);
             continuousRbtn.Name = "continuousRbtn";
             continuousRbtn.Size = new Size(87, 21);
             continuousRbtn.TabIndex = 8;
@@ -369,6 +374,24 @@
             dataGridView1.CellEnter += dataGridView1_CellEnter;
             dataGridView1.EditingControlShowing += dataGridView1_EditingControlShowing;
             // 
+            // EachGroup
+            // 
+            EachGroup.Location = new Point(93, 112);
+            EachGroup.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            EachGroup.Name = "EachGroup";
+            EachGroup.Size = new Size(120, 23);
+            EachGroup.TabIndex = 13;
+            EachGroup.Value = new decimal(new int[] { 4, 0, 0, 0 });
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(14, 114);
+            label4.Name = "label4";
+            label4.Size = new Size(81, 17);
+            label4.TabIndex = 12;
+            label4.Text = "数量(个/组)：";
+            // 
             // CopyingPractice
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -391,6 +414,7 @@
             ((System.ComponentModel.ISupportInitialize)groupNumBox).EndInit();
             groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)EachGroup).EndInit();
             ResumeLayout(false);
         }
 
@@ -422,5 +446,7 @@
         private Button exportBtn;
         private CheckBox repeatRbtn;
         private Button stopBtn;
+        private NumericUpDown EachGroup;
+        private Label label4;
     }
 }
