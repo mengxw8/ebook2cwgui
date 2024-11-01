@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
             radioButton5 = new RadioButton();
             radioButton4 = new RadioButton();
@@ -43,6 +43,11 @@
             eqRbtn = new RadioButton();
             neRbtn = new RadioButton();
             groupBox3 = new GroupBox();
+            checkAnserSpeed = new NumericUpDown();
+            checkAnswerChb = new CheckBox();
+            showAnswerChb = new CheckBox();
+            EachGroup = new NumericUpDown();
+            label4 = new Label();
             stopBtn = new Button();
             exportBtn = new Button();
             repeatRbtn = new CheckBox();
@@ -57,17 +62,16 @@
             label1 = new Label();
             groupBox4 = new GroupBox();
             dataGridView1 = new DataGridView();
-            EachGroup = new NumericUpDown();
-            label4 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)checkAnserSpeed).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)EachGroup).BeginInit();
             ((System.ComponentModel.ISupportInitialize)speetBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)toneBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)groupNumBox).BeginInit();
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)EachGroup).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -197,6 +201,9 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(checkAnserSpeed);
+            groupBox3.Controls.Add(checkAnswerChb);
+            groupBox3.Controls.Add(showAnswerChb);
             groupBox3.Controls.Add(EachGroup);
             groupBox3.Controls.Add(label4);
             groupBox3.Controls.Add(stopBtn);
@@ -213,14 +220,64 @@
             groupBox3.Controls.Add(label1);
             groupBox3.Location = new Point(612, 2);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(393, 166);
+            groupBox3.Size = new Size(499, 166);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "CW配置";
             // 
+            // checkAnserSpeed
+            // 
+            checkAnserSpeed.Enabled = false;
+            checkAnserSpeed.Location = new Point(92, 139);
+            checkAnserSpeed.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            checkAnserSpeed.Name = "checkAnserSpeed";
+            checkAnserSpeed.Size = new Size(66, 23);
+            checkAnserSpeed.TabIndex = 16;
+            checkAnserSpeed.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            // 
+            // checkAnswerChb
+            // 
+            checkAnswerChb.AutoSize = true;
+            checkAnswerChb.Location = new Point(16, 139);
+            checkAnswerChb.Name = "checkAnswerChb";
+            checkAnswerChb.Size = new Size(51, 21);
+            checkAnswerChb.TabIndex = 15;
+            checkAnswerChb.Text = "校码";
+            checkAnswerChb.UseVisualStyleBackColor = true;
+            checkAnswerChb.CheckedChanged += checkAnswerChb_CheckedChanged;
+            // 
+            // showAnswerChb
+            // 
+            showAnswerChb.AutoSize = true;
+            showAnswerChb.Location = new Point(164, 84);
+            showAnswerChb.Name = "showAnswerChb";
+            showAnswerChb.Size = new Size(75, 21);
+            showAnswerChb.TabIndex = 14;
+            showAnswerChb.Text = "显示答案";
+            showAnswerChb.UseVisualStyleBackColor = true;
+            showAnswerChb.CheckedChanged += showAnswerChb_CheckedChanged;
+            // 
+            // EachGroup
+            // 
+            EachGroup.Location = new Point(93, 112);
+            EachGroup.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            EachGroup.Name = "EachGroup";
+            EachGroup.Size = new Size(66, 23);
+            EachGroup.TabIndex = 13;
+            EachGroup.Value = new decimal(new int[] { 4, 0, 0, 0 });
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(13, 114);
+            label4.Name = "label4";
+            label4.Size = new Size(81, 17);
+            label4.TabIndex = 12;
+            label4.Text = "数量(个/组)：";
+            // 
             // stopBtn
             // 
-            stopBtn.Location = new Point(291, 66);
+            stopBtn.Location = new Point(291, 61);
             stopBtn.Name = "stopBtn";
             stopBtn.Size = new Size(75, 23);
             stopBtn.TabIndex = 11;
@@ -230,7 +287,7 @@
             // 
             // exportBtn
             // 
-            exportBtn.Location = new Point(291, 133);
+            exportBtn.Location = new Point(291, 131);
             exportBtn.Name = "exportBtn";
             exportBtn.Size = new Size(75, 23);
             exportBtn.TabIndex = 10;
@@ -241,7 +298,7 @@
             // repeatRbtn
             // 
             repeatRbtn.AutoSize = true;
-            repeatRbtn.Location = new Point(125, 139);
+            repeatRbtn.Location = new Point(164, 23);
             repeatRbtn.Name = "repeatRbtn";
             repeatRbtn.Size = new Size(87, 21);
             repeatRbtn.TabIndex = 9;
@@ -251,7 +308,7 @@
             // continuousRbtn
             // 
             continuousRbtn.AutoSize = true;
-            continuousRbtn.Location = new Point(13, 139);
+            continuousRbtn.Location = new Point(164, 56);
             continuousRbtn.Name = "continuousRbtn";
             continuousRbtn.Size = new Size(87, 21);
             continuousRbtn.TabIndex = 8;
@@ -260,7 +317,7 @@
             // 
             // submitAnswerBtn
             // 
-            submitAnswerBtn.Location = new Point(291, 95);
+            submitAnswerBtn.Location = new Point(291, 96);
             submitAnswerBtn.Name = "submitAnswerBtn";
             submitAnswerBtn.Size = new Size(75, 23);
             submitAnswerBtn.TabIndex = 7;
@@ -283,7 +340,7 @@
             speetBox.Location = new Point(92, 25);
             speetBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             speetBox.Name = "speetBox";
-            speetBox.Size = new Size(120, 23);
+            speetBox.Size = new Size(66, 23);
             speetBox.TabIndex = 5;
             speetBox.Value = new decimal(new int[] { 20, 0, 0, 0 });
             // 
@@ -293,7 +350,7 @@
             toneBox.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             toneBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             toneBox.Name = "toneBox";
-            toneBox.Size = new Size(120, 23);
+            toneBox.Size = new Size(66, 23);
             toneBox.TabIndex = 4;
             toneBox.Value = new decimal(new int[] { 600, 0, 0, 0 });
             // 
@@ -302,7 +359,7 @@
             groupNumBox.Location = new Point(92, 82);
             groupNumBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             groupNumBox.Name = "groupNumBox";
-            groupNumBox.Size = new Size(120, 23);
+            groupNumBox.Size = new Size(66, 23);
             groupNumBox.TabIndex = 3;
             groupNumBox.Value = new decimal(new int[] { 100, 0, 0, 0 });
             groupNumBox.Leave += groupNumBox_Leave;
@@ -310,7 +367,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(13, 82);
+            label3.Location = new Point(13, 84);
             label3.Name = "label3";
             label3.Size = new Size(64, 17);
             label3.TabIndex = 2;
@@ -349,48 +406,30 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
-            dataGridViewCellStyle2.Font = new Font("Microsoft YaHei UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = SystemColors.Control;
+            dataGridViewCellStyle8.Font = new Font("Microsoft YaHei UI", 9F);
+            dataGridViewCellStyle8.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = SystemColors.HighlightText;
+            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(3, 19);
             dataGridView1.Name = "dataGridView1";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle9;
             dataGridView1.RowTemplate.Height = 40;
             dataGridView1.Size = new Size(1249, 482);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellEnter += dataGridView1_CellEnter;
             dataGridView1.EditingControlShowing += dataGridView1_EditingControlShowing;
-            // 
-            // EachGroup
-            // 
-            EachGroup.Location = new Point(93, 112);
-            EachGroup.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            EachGroup.Name = "EachGroup";
-            EachGroup.Size = new Size(120, 23);
-            EachGroup.TabIndex = 13;
-            EachGroup.Value = new decimal(new int[] { 4, 0, 0, 0 });
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(14, 114);
-            label4.Name = "label4";
-            label4.Size = new Size(81, 17);
-            label4.TabIndex = 12;
-            label4.Text = "数量(个/组)：";
             // 
             // CopyingPractice
             // 
@@ -409,12 +448,13 @@
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)checkAnserSpeed).EndInit();
+            ((System.ComponentModel.ISupportInitialize)EachGroup).EndInit();
             ((System.ComponentModel.ISupportInitialize)speetBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)toneBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)groupNumBox).EndInit();
             groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)EachGroup).EndInit();
             ResumeLayout(false);
         }
 
@@ -448,5 +488,8 @@
         private Button stopBtn;
         private NumericUpDown EachGroup;
         private Label label4;
+        private CheckBox showAnswerChb;
+        private NumericUpDown checkAnserSpeed;
+        private CheckBox checkAnswerChb;
     }
 }

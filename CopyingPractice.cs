@@ -144,7 +144,7 @@ namespace CW
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // 如果点击的不是行头（如果不需要可以不检查）
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            123if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
                 // 将点击的单元格设置为编辑状态
                 //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].ReadOnly = false;
@@ -213,12 +213,12 @@ namespace CW
 
             //四个一组，输完直接下一组
             var dgv = sender as TextBox;
-            if (dgv != null)
+            if (dgv != null&&!showAnswerChb.Checked)
             {
                 var data = dgv.Text;
 
                 data += e.KeyChar;
-                if (data.Length == 4)
+                if (data.Length == EachGroup.Value)
                 {
                     SendKeys.Send("{tab}");
                 }
@@ -269,13 +269,14 @@ namespace CW
 
                 }
                 answer += key;
-                if (i + 1 < groupNum) {
+                if (i + 1 < groupNum)
+                {
                     answer += " ";
                 }
-              
+
             }
             answer += "\r\niii\r\n";
-            answer=answer.ToLower();
+            answer = answer.ToLower();
 
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
@@ -290,14 +291,14 @@ namespace CW
             //生成音频
             var audioFileName = GenerateAudio(fileName.ToString(), filePath);
             //重命名音频文件名称
-            RenameMusic("./temp/"+audioFileName, filePath.Replace("txt", "mp3"));
+            RenameMusic("./temp/" + audioFileName, filePath.Replace("txt", "mp3"));
             audioFileName = filePath.Replace("txt", "mp3");
 
 
             Musicplay.PauseMusic(lastMusicPath);
             //播放音频
-            Musicplay.PlayMusic( audioFileName);
-            lastMusicPath =  audioFileName;
+            Musicplay.PlayMusic(audioFileName);
+            lastMusicPath = audioFileName;
 
         }
 
@@ -355,7 +356,8 @@ namespace CW
 
         }
 
-        private void RenameMusic(string oldFileName ,string newFileName) {
+        private void RenameMusic(string oldFileName, string newFileName)
+        {
             try
             {
                 // 确保目标文件名不存在，因为Move会替换目标文件
@@ -454,18 +456,21 @@ namespace CW
 
         private void exportBtn_Click(object sender, EventArgs e)
         {
-            if (lastMusicPath == "") {
+            if (lastMusicPath == "")
+            {
                 MessageBox.Show("您还尚未生成过报文哦，请生成后重试！");
                 return;
             }
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "压缩文件(*.zip)|*.*";
             saveFileDialog.Title = "保存音频文件和报文到目录";
-            saveFileDialog.FileName = "报文" + Path.GetFileName(lastMusicPath).Replace(".mp3","") + "-" + speetBox.Value + "wpm.zip";
-            if (saveFileDialog.ShowDialog() == DialogResult.OK) {
-                if (File.Exists(saveFileDialog.FileName)) {
+            saveFileDialog.FileName = "报文" + Path.GetFileName(lastMusicPath).Replace(".mp3", "") + "-" + speetBox.Value + "wpm.zip";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (File.Exists(saveFileDialog.FileName))
+                {
                     File.Delete(saveFileDialog.FileName);
-                }            
+                }
                 //打包文件
                 using (FileStream zipToOpen = new FileStream(saveFileDialog.FileName, FileMode.Create))
                 {
@@ -484,6 +489,45 @@ namespace CW
                     }
                 }
             }
+
+        }
+
+        private void checkAnswerChb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkAnswerChb.Checked)
+            {
+                checkAnserSpeed.Enabled = true;
+
+
+            }
+            else
+            {
+                checkAnserSpeed.Enabled = false;
+
+            }
+        }
+
+        private void showAnswerChb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (showAnswerChb.Checked && answer != "") {
+
+                showAnswer();
+            }
+        }
+        /// <summary>
+        /// 展示答案
+        /// </summary>
+        private void showAnswer() {
+            
+            if (answer != "") {
+                var s = answer.Replace("===\r\n", "").Replace("iii\r\n", "").Split(" ");
+                for (var i = 0; i < s.Length; i++) {
+                  dataGridView1[i /10, i % 10].Value = s[i];
+
+                }                       
+                        
+            }
+            dataGridView1[0, 0].Value = "dfadf";
 
         }
     }
