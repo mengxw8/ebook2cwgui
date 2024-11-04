@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CW
 {
@@ -13,13 +14,13 @@ namespace CW
         public static uint SND_ASYNC = 0x0001;
         public static uint SND_FILENAME = 0x00020000;
         [DllImport("winmm.dll")]
-        public static extern uint mciSendString(string lpstrCommand, string lpstrReturnString, uint uReturnLength, uint hWndCallback);
+        public static extern uint mciSendString(string lpstrCommand, StringBuilder lpstrReturnString, int uReturnLength, uint hWndCallback);
 
         public static void PlayNmusinc(string path)
         {
-            mciSendString(@"close temp_alias", null, 0, 0);
-            mciSendString(@"open """ + path + @""" alias temp_alias", null, 0, 0);
-            mciSendString("play temp_alias repeat", null, 0, 0);
+            mciSendString(@"close temp_music", null, 0, 0);
+            mciSendString(@"open """ + path + @""" alias temp_music", null, 0, 0);
+            mciSendString("play temp_music repeat", null, 0, 0);
         }
 
         /// <summary>
@@ -30,9 +31,9 @@ namespace CW
         {
             try
             {
-                mciSendString(@"close temp_music", " ", 0, 0);
-                mciSendString(@"open " + p_FileName + " alias temp_music", " ", 0, 0);
-                mciSendString(@"play temp_music repeat", " ", 0, 0);
+                mciSendString(@"close temp_music", new StringBuilder(), 0, 0);
+                mciSendString(@"open " + p_FileName + " alias temp_music", new StringBuilder(), 0, 0);
+                mciSendString(@"play temp_music repeat", new StringBuilder(), 0, 0);
             }
             catch
             { }
@@ -46,10 +47,10 @@ namespace CW
         {
             try
             {
-                mciSendString(@"close temp_music", " ", 0, 0);
+                mciSendString(@"close temp_music", new StringBuilder(), 0, 0);
                 //mciSendString(@"open " + p_FileName + " alias temp_music", " ", 0, 0);
                 mciSendString(@"open """ + p_FileName + @""" alias temp_music", null, 0, 0);
-                mciSendString(@"play temp_music", " ", 0, 0);
+                mciSendString(@"play temp_music", new StringBuilder(), 0, 0);
             }
             catch
             { }
@@ -63,15 +64,27 @@ namespace CW
         {
             try
             {
-                mciSendString(@"close " + p_FileName, " ", 0, 0);
+                mciSendString(@"close " + p_FileName, new StringBuilder(), 0, 0);
             }
             catch { }
+        }
+        public static StringBuilder Status(string p_FileName)
+        {
+            StringBuilder status = new StringBuilder(255);
+            try
+            {
+           
+                mciSendString(@"status movie mode" + p_FileName, status, status.Capacity, 0);
+                
+            }
+            catch { }
+            return status;
         }
         public static void PauseMusic(string p_FileName)
         {
             try
             {
-                mciSendString(@"pause " + p_FileName, " ", 0, 0);
+                mciSendString(@"pause " + p_FileName, new StringBuilder(), 0, 0);
             }
             catch { }
         }

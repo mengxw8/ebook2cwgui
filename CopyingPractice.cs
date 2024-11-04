@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -82,6 +83,7 @@ namespace CW
         string answer = "";
         //上一次播放的音频文件路径
         string lastMusicPath = "";
+        string lastCheckMusicPath = "";
 
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -144,7 +146,7 @@ namespace CW
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // 如果点击的不是行头（如果不需要可以不检查）
-            123if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
                 // 将点击的单元格设置为编辑状态
                 //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].ReadOnly = false;
@@ -213,7 +215,7 @@ namespace CW
 
             //四个一组，输完直接下一组
             var dgv = sender as TextBox;
-            if (dgv != null&&!showAnswerChb.Checked)
+            if (dgv != null && !showAnswerChb.Checked)
             {
                 var data = dgv.Text;
 
@@ -289,23 +291,46 @@ namespace CW
             //写入临时文件
             File.WriteAllText(filePath, answer);
             //生成音频
-            var audioFileName = GenerateAudio(fileName.ToString(), filePath);
+            var audioFileName = GenerateAudio(fileName.ToString(), filePath, speetBox.Value.ToString());
             //重命名音频文件名称
             RenameMusic("./temp/" + audioFileName, filePath.Replace("txt", "mp3"));
             audioFileName = filePath.Replace("txt", "mp3");
 
 
-            Musicplay.PauseMusic(lastMusicPath);
+            Mp3Player.Stop();
+
+
+
+
             //播放音频
-            Musicplay.PlayMusic(audioFileName);
             lastMusicPath = audioFileName;
+            Mp3Player.Play(audioFileName);
+            //处理校报逻辑
+            if (checkAnswerChb.Checked) {
+                //生成校验报文音频
+                lastCheckMusicPath = filePath.Replace(".txt", "") + "-check.mp3";
+                //生成音频
+                var checkAudioFileName = GenerateAudio(fileName.ToString(), filePath, checkAnserSpeed.Value.ToString());
+                //重命名音频文件名称
+                RenameMusic("./temp/" + checkAudioFileName, lastCheckMusicPath);        
+                //开启定时器
+                timer1.Start();
+            }
+
+
+
+            //如果是开启了显示答案的按钮，直接显示答案
+            if (showAnswerChb.Checked)
+            {
+                showAnswer();
+            }
 
         }
 
-        private string GenerateAudio(string fileName, string filePath)
+        private string GenerateAudio(string fileName, string filePath,string speed)
         {
             //生成音频
-            var param = "-q 1 -o " + "./temp/" + fileName + " -w " + speetBox.Value + " -f " + toneBox.Value + " " + filePath;
+            var param = "-q 1 -o " + "./temp/" + fileName + " -w " + speed + " -f " + toneBox.Value + " " + filePath;
             ProcessStartInfo startInfo = new ProcessStartInfo("ebook2cw.exe", param);
 
             startInfo.UseShellExecute = false;    //是否使用操作系统的shell启动
@@ -509,7 +534,8 @@ namespace CW
 
         private void showAnswerChb_CheckedChanged(object sender, EventArgs e)
         {
-            if (showAnswerChb.Checked && answer != "") {
+            if (showAnswerChb.Checked && answer != "")
+            {
 
                 showAnswer();
             }
@@ -517,18 +543,32 @@ namespace CW
         /// <summary>
         /// 展示答案
         /// </summary>
-        private void showAnswer() {
-            
-            if (answer != "") {
+        private void showAnswer()
+        {
+
+            if (answer != "")
+            {
                 var s = answer.Replace("===\r\n", "").Replace("iii\r\n", "").Split(" ");
-                for (var i = 0; i < s.Length; i++) {
-                  dataGridView1[i /10, i % 10].Value = s[i];
+                for (var i = 0; i < s.Length; i++)
+                {
+                    dataGridView1[i % 10,i / 10 ].Value = s[i];
 
-                }                       
-                        
+                }
+                dataGridView1.Refresh();
+
             }
-            dataGridView1[0, 0].Value = "dfadf";
 
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+     
+            if (Mp3Player.Status()== PlaybackState.Stopped)
+            {
+                //结束了，需要进行校报
+                Mp3Player.Play(lastCheckMusicPath);
+                timer1.Stop();
+            }
         }
     }
 }
