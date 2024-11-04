@@ -21,6 +21,8 @@ namespace CW
         public CopyingPractice()
         {
             InitializeComponent();
+            //不允许息屏
+            SystemSleep.PreventForCurrentThread();
             //数据区域初始化
             DataTable dataTable = new DataTable();
             //先来10列
@@ -511,7 +513,8 @@ namespace CW
                         string txtFileName = Path.GetFileName(lastMusicPath.Replace(".mp3", ".txt"));
                         archive.CreateEntryFromFile(lastMusicPath.Replace(".mp3", ".txt"), txtFileName);
                         //添加校报音频
-                        if (checkAnswerChb.Checked) {
+                        if (checkAnswerChb.Checked)
+                        {
                             string checkFileName = Path.GetFileName(lastCheckMusicPath);
                             archive.CreateEntryFromFile(lastCheckMusicPath, checkFileName);
                         }
@@ -581,11 +584,14 @@ namespace CW
         {
             Mp3Player.Stop();
             //清除缓存
-            if (lastMusicPath!=null&&Path.Exists(Path.GetDirectoryName(lastMusicPath)))
+            if (lastMusicPath != null && Path.Exists(Path.GetDirectoryName(lastMusicPath)))
             {
-                Directory.Delete(Path.GetDirectoryName(lastMusicPath),true);
+                Directory.Delete(Path.GetDirectoryName(lastMusicPath), true);
             }
-
+        }
+        private void speetBox_ValueChanged(object sender, EventArgs e)
+        {
+            checkAnserSpeed.Value = speetBox.Value + 2;
         }
     }
 }
