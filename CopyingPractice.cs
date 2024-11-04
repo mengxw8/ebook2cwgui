@@ -309,7 +309,7 @@ namespace CW
             if (checkAnswerChb.Checked)
             {
                 //生成校验报文音频
-                lastCheckMusicPath = filePath.Replace(".txt", "") + "-check.mp3";
+                lastCheckMusicPath = filePath.Replace(".txt", "") + "-校报.mp3";
                 //生成音频
                 var checkAudioFileName = GenerateAudio(fileName.ToString(), filePath, checkAnserSpeed.Value.ToString());
                 //重命名音频文件名称
@@ -510,6 +510,11 @@ namespace CW
                         //添加报文
                         string txtFileName = Path.GetFileName(lastMusicPath.Replace(".mp3", ".txt"));
                         archive.CreateEntryFromFile(lastMusicPath.Replace(".mp3", ".txt"), txtFileName);
+                        //添加校报音频
+                        if (checkAnswerChb.Checked) {
+                            string checkFileName = Path.GetFileName(lastCheckMusicPath);
+                            archive.CreateEntryFromFile(lastCheckMusicPath, checkFileName);
+                        }
 
 
                     }
