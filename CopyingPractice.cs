@@ -306,13 +306,14 @@ namespace CW
             lastMusicPath = audioFileName;
             Mp3Player.Play(audioFileName);
             //处理校报逻辑
-            if (checkAnswerChb.Checked) {
+            if (checkAnswerChb.Checked)
+            {
                 //生成校验报文音频
                 lastCheckMusicPath = filePath.Replace(".txt", "") + "-check.mp3";
                 //生成音频
                 var checkAudioFileName = GenerateAudio(fileName.ToString(), filePath, checkAnserSpeed.Value.ToString());
                 //重命名音频文件名称
-                RenameMusic("./temp/" + checkAudioFileName, lastCheckMusicPath);        
+                RenameMusic("./temp/" + checkAudioFileName, lastCheckMusicPath);
                 //开启定时器
                 timer1.Start();
             }
@@ -327,7 +328,7 @@ namespace CW
 
         }
 
-        private string GenerateAudio(string fileName, string filePath,string speed)
+        private string GenerateAudio(string fileName, string filePath, string speed)
         {
             //生成音频
             var param = "-q 1 -o " + "./temp/" + fileName + " -w " + speed + " -f " + toneBox.Value + " " + filePath;
@@ -551,7 +552,7 @@ namespace CW
                 var s = answer.Replace("===\r\n", "").Replace("iii\r\n", "").Split(" ");
                 for (var i = 0; i < s.Length; i++)
                 {
-                    dataGridView1[i % 10,i / 10 ].Value = s[i];
+                    dataGridView1[i % 10, i / 10].Value = s[i];
 
                 }
                 dataGridView1.Refresh();
@@ -562,13 +563,24 @@ namespace CW
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-     
-            if (Mp3Player.Status()== PlaybackState.Stopped)
+
+            if (Mp3Player.Status() == PlaybackState.Stopped)
             {
                 //结束了，需要进行校报
                 Mp3Player.Play(lastCheckMusicPath);
                 timer1.Stop();
             }
+        }
+
+        private void CopyingPractice_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Mp3Player.Stop();
+            //清除缓存
+            if (lastMusicPath!=null&&Path.Exists(Path.GetDirectoryName(lastMusicPath)))
+            {
+                Directory.Delete(Path.GetDirectoryName(lastMusicPath),true);
+            }
+
         }
     }
 }
