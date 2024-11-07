@@ -23,21 +23,7 @@ namespace CW
             InitializeComponent();
             //不允许息屏
             SystemSleep.PreventForCurrentThread();
-            //数据区域初始化
-            DataTable dataTable = new DataTable();
-            //先来10列
-            for (int i = 1; i <= 10; i++)
-            {
-                dataTable.Columns.Add(i.ToString(), typeof(string));
-            }
-            //再来十行
-            for (int i = 1; i <= 10; i++)
-            {
-                dataTable.Rows.Add(dataTable.NewRow());
-
-            }
-
-            dataGridView1.DataSource = dataTable;
+            clearAnswer();
 
 
             dataGridView1.RowsDefaultCellStyle.Font = new Font("Segoe UI", 20, FontStyle.Bold);
@@ -628,6 +614,27 @@ namespace CW
             checkAnserSpeed.Value = speetBox.Value + 2;
         }
 
+        private void clearAnswer() {
+            //数据区域初始化
+            DataTable dataTable = new DataTable();
+            //先来10列
+            for (int i = 1; i <= 10; i++)
+            {
+                dataTable.Columns.Add(i.ToString(), typeof(string));
+            }
+            //再来十行
+            for (int i = 1; i <= 10; i++)
+            {
+                dataTable.Rows.Add(dataTable.NewRow());
 
+            }
+
+            dataGridView1.DataSource = dataTable;
+        }
+        //清空答案
+        private void clearAnswer_Click(object sender, EventArgs e)
+        {
+         clearAnswer();
+        }
     }
 }

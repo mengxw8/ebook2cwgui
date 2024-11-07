@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
             radioButton8 = new RadioButton();
             radioButton6 = new RadioButton();
@@ -73,6 +73,11 @@
             groupBox4 = new GroupBox();
             dataGridView1 = new DataGridView();
             timer1 = new System.Windows.Forms.Timer(components);
+            groupBox5 = new GroupBox();
+            clearAnswerBtn = new Button();
+            button2 = new Button();
+            button3 = new Button();
+            button4 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -85,6 +90,7 @@
             ((System.ComponentModel.ISupportInitialize)groupNumBox).BeginInit();
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            groupBox5.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -521,24 +527,24 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
-            dataGridViewCellStyle2.Font = new Font("Microsoft YaHei UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = SystemColors.Control;
+            dataGridViewCellStyle8.Font = new Font("Microsoft YaHei UI", 9F);
+            dataGridViewCellStyle8.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = SystemColors.HighlightText;
+            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(3, 19);
             dataGridView1.Name = "dataGridView1";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle9;
             dataGridView1.RowTemplate.Height = 40;
             dataGridView1.Size = new Size(1249, 482);
             dataGridView1.TabIndex = 0;
@@ -551,11 +557,62 @@
             timer1.Interval = 5000;
             timer1.Tick += timer1_Tick;
             // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(button4);
+            groupBox5.Controls.Add(button3);
+            groupBox5.Controls.Add(button2);
+            groupBox5.Controls.Add(clearAnswerBtn);
+            groupBox5.Location = new Point(1132, 12);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(126, 156);
+            groupBox5.TabIndex = 4;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "控制";
+            // 
+            // clearAnswer
+            // 
+            clearAnswerBtn.Location = new Point(26, 22);
+            clearAnswerBtn.Name = "clearAnswer";
+            clearAnswerBtn.Size = new Size(75, 23);
+            clearAnswerBtn.TabIndex = 0;
+            clearAnswerBtn.Text = "清空答案";
+            clearAnswerBtn.UseVisualStyleBackColor = true;
+            clearAnswerBtn.Click += clearAnswer_Click;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(26, 51);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 1;
+            button2.Text = "暂停播放";
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(28, 80);
+            button3.Name = "button3";
+            button3.Size = new Size(75, 23);
+            button3.TabIndex = 2;
+            button3.Text = "继续播放";
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(28, 110);
+            button4.Name = "button4";
+            button4.Size = new Size(75, 23);
+            button4.TabIndex = 3;
+            button4.Text = "重播";
+            button4.UseVisualStyleBackColor = true;
+            // 
             // CopyingPractice
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 681);
+            Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
@@ -578,6 +635,7 @@
             ((System.ComponentModel.ISupportInitialize)groupNumBox).EndInit();
             groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            groupBox5.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -624,5 +682,10 @@
         private RadioButton radioButton7;
         private ComboBox comboBox1;
         private RadioButton radioButton8;
+        private GroupBox groupBox5;
+        private Button button4;
+        private Button button3;
+        private Button button2;
+        private Button clearAnswerBtn;
     }
 }
