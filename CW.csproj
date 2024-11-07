@@ -11,10 +11,14 @@
 
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="ebook2cw.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="word\Level8.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -22,6 +26,7 @@
   <ItemGroup>
     <Folder Include="newspapers\" />
     <Folder Include="Properties\" />
+    <Folder Include="text\" />
   </ItemGroup>
 
 </Project>

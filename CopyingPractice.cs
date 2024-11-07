@@ -1,4 +1,6 @@
-﻿using NAudio.Wave;
+﻿using NAudio.SoundFont;
+using NAudio.Wave;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +13,7 @@ using System.Linq;
 using System.Media;
 using System.Reflection.Metadata;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -147,6 +150,22 @@ namespace CW
                 neBox.Items.Add(k);
             }
         }
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            //英文文章
+
+        }
+        //新闻
+        private void radioButton6_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+        //随机单词
+        private void radioButton8_CheckedChanged(object sender, EventArgs e)
+        {
+            radioButton2_CheckedChanged(sender, e);
+            mode = 6;
+        }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -206,8 +225,6 @@ namespace CW
         private void dataGridViewTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
 
-
-
             //if ((int)e.KeyChar >= 48 & (int)e.KeyChar <= 57 | (int)e.KeyChar == 8 | (int)e.KeyChar == 46)
             //{
             //    e.Handled = false;
@@ -220,7 +237,7 @@ namespace CW
 
             //N个一组，输完直接下一组
             var dgv = sender as TextBox;
-            if (dgv != null && !showAnswerChb.Checked)
+            if (dgv != null && !showAnswerChb.Checked&& mode > 3)
             {
                 var data = dgv.Text;
 
@@ -235,14 +252,10 @@ namespace CW
 
         }
 
-        private void startBtn_Click(object sender, EventArgs e)
+
+        private string generateAnswer(List<string> words)
         {
-            //生成测试数据
-            List<string> words = getWords();
-            if (words.Count == 0 || words == null)
-            {
-                return;
-            }
+
             //随机字符
             //同组无连续
             var isRepeat = repeatRbtn.Checked;
@@ -250,7 +263,7 @@ namespace CW
             var isContinuous = continuousRbtn.Checked;
             //组数限制
             var groupNum = groupNumBox.Value;
-            answer = "===\r\n";
+
             Random random = new Random();
 
             for (int i = 0; i < groupNum; i++)
@@ -282,11 +295,60 @@ namespace CW
                 }
 
             }
+            return answer;
+
+        }
+        /// <summary>
+        /// 生成单词串
+        /// </summary>
+        /// <param name="words"></param>
+        /// <returns></returns>
+        private string generateWord(List<string> words) {
+            //组数限制
+            var groupNum = groupNumBox.Value;
+
+            string answer = "";
+
+            Dictionary<string, string> book = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(@".\word\Level8.json"));
+            if (book == null) { 
+            return answer;
+            }
+            Random random = new Random();
+            while (groupNum > 0) {
+                string word= book[random.Next(1, 12198).ToString()];
+                //允许指定开头字母
+                if (words.Contains(word.Substring(0, 1).ToUpper())) {
+                    answer += word;
+                    groupNum--;
+                    if (groupNum > 0) {
+                        answer += " ";
+                    }
+                }
+            }
+            return answer;
+        }
+
+        //生成报文并播放
+        private void startBtn_Click(object sender, EventArgs e)
+        {
+            //生成测试数据
+            List<string> words = getWords();
+            if (words.Count == 0 || words == null)
+            {
+                return ;
+            }
+            answer = "===\r\n";
+            if (mode == 0 || mode == 1 || mode == 2 || mode == 3)
+            {
+                answer += generateAnswer(words);
+            }
+            else if (mode == 6) {
+                answer += generateWord(words);
+
+
+            }
             answer += "\r\niii\r\n";
             answer = answer.ToLower();
-            //把小写的q换成大写的Q，符合抄写习惯
-            answer = answer.Replace("q", "Q");
-
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
             var filePath = "./temp/" + fileName + ".txt";
@@ -325,7 +387,7 @@ namespace CW
                 timer1.Start();
             }
             //解除封禁
-            pauseBtn.Enabled = true;   
+            pauseBtn.Enabled = true;
             rePlayBtn.Enabled = true;
 
 
@@ -485,6 +547,7 @@ namespace CW
                     case 1: words.AddRange(alphabet.Keys); break;
                     case 2: words.AddRange(number.Keys); words.AddRange(alphabet.Keys); break;
                     case 3: words.AddRange(symbol.Keys); break;
+                    case 6: words.AddRange(alphabet.Keys); break;
 
                 }
             }
@@ -581,6 +644,8 @@ namespace CW
 
             if (answer != "")
             {
+                //把小写的q换成大写的Q，符合抄写习惯
+                answer = answer.Replace("q", "Q");
                 var s = answer.Replace("===\r\n", "").Replace("iii\r\n", "").Split(" ");
                 for (var i = 0; i < s.Length; i++)
                 {
@@ -621,7 +686,8 @@ namespace CW
         private void clearAnswer()
         {
             //数据区域初始化
-            if (dataTable == null) {
+            if (dataTable == null)
+            {
                 dataTable = new DataTable();
                 //先来10列
                 for (int i = 1; i <= 10; i++)
@@ -631,15 +697,15 @@ namespace CW
                 dataGridView1.DataSource = dataTable;
             }
             dataTable.Clear();
-             
+
 
             //再来十行
             for (int i = 1; i <= 10; i++)
             {
-               var row= dataTable.NewRow();
+                var row = dataTable.NewRow();
                 dataTable.Rows.Add(row);
             }
-           
+
         }
         //清空答案
         private void clearAnswer_Click(object sender, EventArgs e)
