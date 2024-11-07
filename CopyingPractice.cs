@@ -725,11 +725,14 @@ namespace CW
             Mp3Player.ContinuePlay();
             continuePlayBtn.Enabled = false;
             pauseBtn.Enabled = true;
+            if (checkAnswerChb.Checked) { 
+            timer1.Start();
+            }
         }
 
         private void resumeBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.RePlay();
+            Mp3Player.Play(lastMusicPath);
         }
 
 
