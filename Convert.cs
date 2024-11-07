@@ -278,7 +278,7 @@ namespace CW
                         {
                             MessageBox.Show("转换完成，共计用时" + data[2] + "！");
                             //保存配置文件
-                            saveConfig(args);
+                            //saveConfig(args);
                         }
                     }
 
@@ -324,7 +324,7 @@ namespace CW
             authorTxb.Text= identity.Name;
 
             //加载配置文件
-            loadConfig();
+            //loadConfig();
 
         }
 
