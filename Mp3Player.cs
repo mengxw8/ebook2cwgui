@@ -16,7 +16,8 @@ namespace CW
             if (!File.Exists(path)) { 
             return;
             }
-           mp3=new Mp3FileReader(path);
+            Stop();
+           mp3 =new Mp3FileReader(path);
             waveOut = new WaveOut();
             waveOut.Init(mp3);
             waveOut.Play();
@@ -40,6 +41,14 @@ namespace CW
             else if (mp3 != null) {
                 mp3.Close();
             }
+        }
+        public static void Resume()
+        {
+            if (waveOut != null )
+            {
+                waveOut.Resume();
+            }
+
         }
 
         public static PlaybackState Status()

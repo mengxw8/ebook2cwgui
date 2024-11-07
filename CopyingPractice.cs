@@ -642,5 +642,10 @@ namespace CW
         {
             Mp3Player.Pause();
         }
+
+        private void resumeBtn_Click(object sender, EventArgs e)
+        {
+            Mp3Player.Resume();
+        }
     }
 }

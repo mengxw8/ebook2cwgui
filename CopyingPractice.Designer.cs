@@ -74,7 +74,7 @@
             dataGridView1 = new DataGridView();
             timer1 = new System.Windows.Forms.Timer(components);
             groupBox5 = new GroupBox();
-            button4 = new Button();
+            resumeBtn = new Button();
             button3 = new Button();
             pauseBtn = new Button();
             clearAnswerBtn = new Button();
@@ -559,7 +559,7 @@
             // 
             // groupBox5
             // 
-            groupBox5.Controls.Add(button4);
+            groupBox5.Controls.Add(resumeBtn);
             groupBox5.Controls.Add(button3);
             groupBox5.Controls.Add(pauseBtn);
             groupBox5.Controls.Add(clearAnswerBtn);
@@ -570,14 +570,15 @@
             groupBox5.TabStop = false;
             groupBox5.Text = "控制";
             // 
-            // button4
+            // resumeBtn
             // 
-            button4.Location = new Point(28, 110);
-            button4.Name = "button4";
-            button4.Size = new Size(75, 23);
-            button4.TabIndex = 3;
-            button4.Text = "重播";
-            button4.UseVisualStyleBackColor = true;
+            resumeBtn.Location = new Point(28, 110);
+            resumeBtn.Name = "resumeBtn";
+            resumeBtn.Size = new Size(75, 23);
+            resumeBtn.TabIndex = 3;
+            resumeBtn.Text = "重播";
+            resumeBtn.UseVisualStyleBackColor = true;
+            resumeBtn.Click += resumeBtn_Click;
             // 
             // button3
             // 
@@ -684,7 +685,7 @@
         private ComboBox comboBox1;
         private RadioButton radioButton8;
         private GroupBox groupBox5;
-        private Button button4;
+        private Button resumeBtn;
         private Button button3;
         private Button pauseBtn;
         private Button clearAnswerBtn;
