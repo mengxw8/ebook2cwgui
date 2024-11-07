@@ -74,10 +74,10 @@
             dataGridView1 = new DataGridView();
             timer1 = new System.Windows.Forms.Timer(components);
             groupBox5 = new GroupBox();
-            clearAnswerBtn = new Button();
-            button2 = new Button();
-            button3 = new Button();
             button4 = new Button();
+            button3 = new Button();
+            pauseBtn = new Button();
+            clearAnswerBtn = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -561,7 +561,7 @@
             // 
             groupBox5.Controls.Add(button4);
             groupBox5.Controls.Add(button3);
-            groupBox5.Controls.Add(button2);
+            groupBox5.Controls.Add(pauseBtn);
             groupBox5.Controls.Add(clearAnswerBtn);
             groupBox5.Location = new Point(1132, 12);
             groupBox5.Name = "groupBox5";
@@ -570,24 +570,14 @@
             groupBox5.TabStop = false;
             groupBox5.Text = "控制";
             // 
-            // clearAnswer
+            // button4
             // 
-            clearAnswerBtn.Location = new Point(26, 22);
-            clearAnswerBtn.Name = "clearAnswer";
-            clearAnswerBtn.Size = new Size(75, 23);
-            clearAnswerBtn.TabIndex = 0;
-            clearAnswerBtn.Text = "清空答案";
-            clearAnswerBtn.UseVisualStyleBackColor = true;
-            clearAnswerBtn.Click += clearAnswer_Click;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(26, 51);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 1;
-            button2.Text = "暂停播放";
-            button2.UseVisualStyleBackColor = true;
+            button4.Location = new Point(28, 110);
+            button4.Name = "button4";
+            button4.Size = new Size(75, 23);
+            button4.TabIndex = 3;
+            button4.Text = "重播";
+            button4.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
@@ -598,14 +588,25 @@
             button3.Text = "继续播放";
             button3.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // pauseBtn
             // 
-            button4.Location = new Point(28, 110);
-            button4.Name = "button4";
-            button4.Size = new Size(75, 23);
-            button4.TabIndex = 3;
-            button4.Text = "重播";
-            button4.UseVisualStyleBackColor = true;
+            pauseBtn.Location = new Point(26, 51);
+            pauseBtn.Name = "pauseBtn";
+            pauseBtn.Size = new Size(75, 23);
+            pauseBtn.TabIndex = 1;
+            pauseBtn.Text = "暂停播放";
+            pauseBtn.UseVisualStyleBackColor = true;
+            pauseBtn.Click += pauseBtn_Click;
+            // 
+            // clearAnswerBtn
+            // 
+            clearAnswerBtn.Location = new Point(26, 22);
+            clearAnswerBtn.Name = "clearAnswerBtn";
+            clearAnswerBtn.Size = new Size(75, 23);
+            clearAnswerBtn.TabIndex = 0;
+            clearAnswerBtn.Text = "清空答案";
+            clearAnswerBtn.UseVisualStyleBackColor = true;
+            clearAnswerBtn.Click += clearAnswer_Click;
             // 
             // CopyingPractice
             // 
@@ -685,7 +686,7 @@
         private GroupBox groupBox5;
         private Button button4;
         private Button button3;
-        private Button button2;
+        private Button pauseBtn;
         private Button clearAnswerBtn;
     }
 }

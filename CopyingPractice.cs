@@ -614,7 +614,8 @@ namespace CW
             checkAnserSpeed.Value = speetBox.Value + 2;
         }
 
-        private void clearAnswer() {
+        private void clearAnswer()
+        {
             //数据区域初始化
             DataTable dataTable = new DataTable();
             //先来10列
@@ -634,7 +635,12 @@ namespace CW
         //清空答案
         private void clearAnswer_Click(object sender, EventArgs e)
         {
-         clearAnswer();
+            clearAnswer();
+        }
+
+        private void pauseBtn_Click(object sender, EventArgs e)
+        {
+            Mp3Player.Pause();
         }
     }
 }

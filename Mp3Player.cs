@@ -23,6 +23,7 @@ namespace CW
                 waveOut.Pause();
             } 
         }
+
         public static void Stop()
         {
             if (waveOut != null && waveOut.PlaybackState == PlaybackState.Playing)
