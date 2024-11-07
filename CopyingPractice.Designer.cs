@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
             radioButton8 = new RadioButton();
             radioButton6 = new RadioButton();
@@ -41,8 +41,8 @@
             radioButton2 = new RadioButton();
             radioButton1 = new RadioButton();
             groupBox2 = new GroupBox();
-            comboBox1 = new ComboBox();
-            radioButton7 = new RadioButton();
+            newsType = new ComboBox();
+            newsTypeRbtn = new RadioButton();
             eqBox = new CheckedListBox();
             neBox = new CheckedListBox();
             eqRbtn = new RadioButton();
@@ -58,7 +58,6 @@
             showAnswerChb = new CheckBox();
             EachGroup = new NumericUpDown();
             label4 = new Label();
-            stopBtn = new Button();
             exportBtn = new Button();
             repeatRbtn = new CheckBox();
             continuousRbtn = new CheckBox();
@@ -70,6 +69,7 @@
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
+            stopBtn = new Button();
             groupBox4 = new GroupBox();
             dataGridView1 = new DataGridView();
             timer1 = new System.Windows.Forms.Timer(components);
@@ -195,8 +195,8 @@
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(comboBox1);
-            groupBox2.Controls.Add(radioButton7);
+            groupBox2.Controls.Add(newsType);
+            groupBox2.Controls.Add(newsTypeRbtn);
             groupBox2.Controls.Add(eqBox);
             groupBox2.Controls.Add(neBox);
             groupBox2.Controls.Add(eqRbtn);
@@ -208,27 +208,27 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "个性化定制";
             // 
-            // comboBox1
+            // newsType
             // 
-            comboBox1.Enabled = false;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "中国", "旅行", "文化", "生活", "科技" });
-            comboBox1.Location = new Point(533, 29);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(61, 25);
-            comboBox1.TabIndex = 5;
+            newsType.Enabled = false;
+            newsType.FormattingEnabled = true;
+            newsType.Items.AddRange(new object[] { "中国", "旅行", "文化", "生活", "科技" });
+            newsType.Location = new Point(533, 29);
+            newsType.Name = "newsType";
+            newsType.Size = new Size(61, 25);
+            newsType.TabIndex = 5;
             // 
-            // radioButton7
+            // newsTypeRbtn
             // 
-            radioButton7.AutoSize = true;
-            radioButton7.Enabled = false;
-            radioButton7.Location = new Point(460, 32);
-            radioButton7.Name = "radioButton7";
-            radioButton7.Size = new Size(74, 21);
-            radioButton7.TabIndex = 4;
-            radioButton7.TabStop = true;
-            radioButton7.Text = "新闻类型";
-            radioButton7.UseVisualStyleBackColor = true;
+            newsTypeRbtn.AutoSize = true;
+            newsTypeRbtn.Enabled = false;
+            newsTypeRbtn.Location = new Point(460, 32);
+            newsTypeRbtn.Name = "newsTypeRbtn";
+            newsTypeRbtn.Size = new Size(74, 21);
+            newsTypeRbtn.TabIndex = 4;
+            newsTypeRbtn.TabStop = true;
+            newsTypeRbtn.Text = "新闻类型";
+            newsTypeRbtn.UseVisualStyleBackColor = true;
             // 
             // eqBox
             // 
@@ -283,7 +283,6 @@
             groupBox3.Controls.Add(showAnswerChb);
             groupBox3.Controls.Add(EachGroup);
             groupBox3.Controls.Add(label4);
-            groupBox3.Controls.Add(stopBtn);
             groupBox3.Controls.Add(exportBtn);
             groupBox3.Controls.Add(repeatRbtn);
             groupBox3.Controls.Add(continuousRbtn);
@@ -398,16 +397,6 @@
             label4.TabIndex = 12;
             label4.Text = "数量(个/组)：";
             // 
-            // stopBtn
-            // 
-            stopBtn.Location = new Point(424, 61);
-            stopBtn.Name = "stopBtn";
-            stopBtn.Size = new Size(75, 23);
-            stopBtn.TabIndex = 11;
-            stopBtn.Text = "结束抄收";
-            stopBtn.UseVisualStyleBackColor = true;
-            stopBtn.Click += stopBtn_Click;
-            // 
             // exportBtn
             // 
             exportBtn.Location = new Point(424, 131);
@@ -515,6 +504,16 @@
             label1.TabIndex = 0;
             label1.Text = "速度(WPM):";
             // 
+            // stopBtn
+            // 
+            stopBtn.Location = new Point(28, 134);
+            stopBtn.Name = "stopBtn";
+            stopBtn.Size = new Size(75, 23);
+            stopBtn.TabIndex = 11;
+            stopBtn.Text = "结束抄收";
+            stopBtn.UseVisualStyleBackColor = true;
+            stopBtn.Click += stopBtn_Click;
+            // 
             // groupBox4
             // 
             groupBox4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -530,24 +529,24 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
-            dataGridViewCellStyle2.Font = new Font("Microsoft YaHei UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = SystemColors.Control;
+            dataGridViewCellStyle5.Font = new Font("Microsoft YaHei UI", 9F);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(3, 19);
             dataGridView1.Name = "dataGridView1";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle6;
             dataGridView1.RowTemplate.Height = 40;
             dataGridView1.Size = new Size(1249, 482);
             dataGridView1.TabIndex = 0;
@@ -566,9 +565,10 @@
             groupBox5.Controls.Add(continuePlayBtn);
             groupBox5.Controls.Add(pauseBtn);
             groupBox5.Controls.Add(clearAnswerBtn);
-            groupBox5.Location = new Point(1132, 12);
+            groupBox5.Controls.Add(stopBtn);
+            groupBox5.Location = new Point(1132, 2);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(126, 156);
+            groupBox5.Size = new Size(126, 166);
             groupBox5.TabIndex = 4;
             groupBox5.TabStop = false;
             groupBox5.Text = "控制";
@@ -576,7 +576,7 @@
             // rePlayBtn
             // 
             rePlayBtn.Enabled = false;
-            rePlayBtn.Location = new Point(28, 110);
+            rePlayBtn.Location = new Point(28, 106);
             rePlayBtn.Name = "rePlayBtn";
             rePlayBtn.Size = new Size(75, 23);
             rePlayBtn.TabIndex = 3;
@@ -587,7 +587,7 @@
             // continuePlayBtn
             // 
             continuePlayBtn.Enabled = false;
-            continuePlayBtn.Location = new Point(28, 80);
+            continuePlayBtn.Location = new Point(28, 78);
             continuePlayBtn.Name = "continuePlayBtn";
             continuePlayBtn.Size = new Size(75, 23);
             continuePlayBtn.TabIndex = 2;
@@ -598,7 +598,7 @@
             // pauseBtn
             // 
             pauseBtn.Enabled = false;
-            pauseBtn.Location = new Point(26, 51);
+            pauseBtn.Location = new Point(28, 50);
             pauseBtn.Name = "pauseBtn";
             pauseBtn.Size = new Size(75, 23);
             pauseBtn.TabIndex = 1;
@@ -608,7 +608,7 @@
             // 
             // clearAnswerBtn
             // 
-            clearAnswerBtn.Location = new Point(26, 22);
+            clearAnswerBtn.Location = new Point(28, 22);
             clearAnswerBtn.Name = "clearAnswerBtn";
             clearAnswerBtn.Size = new Size(75, 23);
             clearAnswerBtn.TabIndex = 0;
@@ -688,8 +688,8 @@
         private Label label6;
         private RadioButton radioButton6;
         private CheckBox checkBox1;
-        private RadioButton radioButton7;
-        private ComboBox comboBox1;
+        private RadioButton newsTypeRbtn;
+        private ComboBox newsType;
         private RadioButton radioButton8;
         private GroupBox groupBox5;
         private Button rePlayBtn;

@@ -41,6 +41,8 @@ namespace CW
 
             dataGridView1.RowHeadersVisible = true;
             dataGridView1.ColumnHeadersVisible = true;
+            //新闻类型
+            newsType.SelectedIndex = 0;
 
             //dataGridView1.RowPostPaint += new DataGridViewRowPostPaintEventHandler(dataGridView1_RowPostPaint);
         }
@@ -86,6 +88,8 @@ namespace CW
             eqRbtn.Visible = true;
             neRbtn.Visible = true;
             neBox.Visible = true;
+            newsType.Enabled = false;
+            newsTypeRbtn.Enabled = false;
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -102,6 +106,8 @@ namespace CW
             eqRbtn.Visible = true;
             neRbtn.Visible = true;
             neBox.Visible = true;
+            newsType.Enabled = false;
+            newsTypeRbtn.Enabled = false;
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -119,6 +125,8 @@ namespace CW
             eqRbtn.Visible = true;
             neRbtn.Visible = true;
             neBox.Visible = true;
+            newsType.Enabled = false;
+            newsTypeRbtn.Enabled = false;
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -141,6 +149,8 @@ namespace CW
             eqRbtn.Visible = true;
             neRbtn.Visible = true;
             neBox.Visible = true;
+            newsType.Enabled = false;
+            newsTypeRbtn.Enabled = false;
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -153,12 +163,19 @@ namespace CW
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
             //英文文章
+            newsType.Enabled = false;
+            newsTypeRbtn.Enabled = false;
 
         }
         //新闻
         private void radioButton6_CheckedChanged(object sender, EventArgs e)
         {
-
+            eqBox.Enabled = false;
+            eqRbtn.Enabled = false;
+            neRbtn.Enabled = false;
+            neBox.Enabled = false;
+            newsType.Enabled = true;
+            newsTypeRbtn.Enabled = true;
         }
         //随机单词
         private void radioButton8_CheckedChanged(object sender, EventArgs e)
