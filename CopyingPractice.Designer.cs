@@ -135,6 +135,7 @@
             radioButton5.TabStop = true;
             radioButton5.Text = "符号";
             radioButton5.UseVisualStyleBackColor = true;
+            radioButton5.CheckedChanged += radioButton5_CheckedChanged;
             // 
             // radioButton4
             // 

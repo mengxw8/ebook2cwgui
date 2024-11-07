@@ -143,7 +143,22 @@ namespace CW
             }
         }
 
-
+        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        {
+            mode = 3;
+            eqBox.Visible = true;
+            eqRbtn.Visible = true;
+            neRbtn.Visible = true;
+            neBox.Visible = true;
+            //填充值
+            eqBox.Items.Clear();
+            neBox.Items.Clear();
+            foreach (var k in symbol.Keys)
+            {
+                eqBox.Items.Add(k);
+                neBox.Items.Add(k);
+            }
+        }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -282,7 +297,7 @@ namespace CW
             answer += "\r\niii\r\n";
             answer = answer.ToLower();
             //把小写的q换成大写的Q，符合抄写习惯
-            answer = answer.Replace("q","Q");
+            answer = answer.Replace("q", "Q");
 
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
@@ -342,13 +357,14 @@ namespace CW
         private string GenerateAudio(string fileName, string filePath, string speed)
         {
             var param = "";
-            if (effectiveSpeed.Value > 0) {
-                param+=" -e ";
+            if (effectiveSpeed.Value > 0)
+            {
+                param += " -e ";
                 param += effectiveSpeed.Value;
             }
 
             //生成音频
-             param += " -q 1 -o " + "./temp/" + fileName + " -w " + speed + " -f " + toneBox.Value ++ +" -W "+ extraWordSpacing .Value+ " " + filePath ;
+            param += " -q 1 -o " + "./temp/" + fileName + " -w " + speed + " -f " + toneBox.Value++ + " -W " + extraWordSpacing.Value + " " + filePath;
             ProcessStartInfo startInfo = new ProcessStartInfo("ebook2cw.exe", param);
 
             startInfo.UseShellExecute = false;    //是否使用操作系统的shell启动
@@ -478,6 +494,8 @@ namespace CW
                     case 0: words.AddRange(number.Keys); break;
                     case 1: words.AddRange(alphabet.Keys); break;
                     case 2: words.AddRange(number.Keys); words.AddRange(alphabet.Keys); break;
+                    case 3: words.AddRange(symbol.Keys); break;
+
                 }
             }
 
@@ -608,5 +626,7 @@ namespace CW
         {
             checkAnserSpeed.Value = speetBox.Value + 2;
         }
+
+
     }
 }
