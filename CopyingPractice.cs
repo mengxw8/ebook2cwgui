@@ -513,6 +513,7 @@ namespace CW
         private void stopBtn_Click(object sender, EventArgs e)
         {
             Mp3Player.Stop();
+            timer1.Stop();
         }
 
         private void exportBtn_Click(object sender, EventArgs e)
