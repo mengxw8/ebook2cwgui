@@ -12,6 +12,10 @@ namespace CW
         private static WaveOut waveOut = null;
         private static Mp3FileReader mp3 = null;
         public static void Play(string path) {
+            //文件不存在，不播放
+            if (!File.Exists(path)) { 
+            return;
+            }
            mp3=new Mp3FileReader(path);
             waveOut = new WaveOut();
             waveOut.Init(mp3);
