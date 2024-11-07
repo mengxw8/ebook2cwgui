@@ -215,7 +215,7 @@ namespace CW
             //}
 
 
-            //四个一组，输完直接下一组
+            //N个一组，输完直接下一组
             var dgv = sender as TextBox;
             if (dgv != null && !showAnswerChb.Checked)
             {
@@ -281,6 +281,8 @@ namespace CW
             }
             answer += "\r\niii\r\n";
             answer = answer.ToLower();
+            //把小写的q换成大写的Q，符合抄写习惯
+            answer = answer.Replace("q","Q");
 
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
@@ -329,11 +331,24 @@ namespace CW
             }
 
         }
+        /// <summary>
+        /// 生成音频文件
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="filePath"></param>
+        /// <param name="speed"></param>
+        /// <returns></returns>
 
         private string GenerateAudio(string fileName, string filePath, string speed)
         {
+            var param = "";
+            if (effectiveSpeed.Value > 0) {
+                param+=" -e ";
+                param += effectiveSpeed.Value;
+            }
+
             //生成音频
-            var param = "-q 1 -o " + "./temp/" + fileName + " -w " + speed + " -f " + toneBox.Value + " " + filePath;
+             param += " -q 1 -o " + "./temp/" + fileName + " -w " + speed + " -f " + toneBox.Value ++ +" -W "+ extraWordSpacing .Value+ " " + filePath ;
             ProcessStartInfo startInfo = new ProcessStartInfo("ebook2cw.exe", param);
 
             startInfo.UseShellExecute = false;    //是否使用操作系统的shell启动
@@ -479,7 +494,7 @@ namespace CW
 
         private void stopBtn_Click(object sender, EventArgs e)
         {
-            Musicplay.StopMusic();
+            Mp3Player.Stop();
         }
 
         private void exportBtn_Click(object sender, EventArgs e)

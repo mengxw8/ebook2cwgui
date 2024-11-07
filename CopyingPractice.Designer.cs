@@ -29,21 +29,30 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
+            radioButton8 = new RadioButton();
+            radioButton6 = new RadioButton();
             radioButton5 = new RadioButton();
             radioButton4 = new RadioButton();
             radioButton3 = new RadioButton();
             radioButton2 = new RadioButton();
             radioButton1 = new RadioButton();
             groupBox2 = new GroupBox();
+            comboBox1 = new ComboBox();
+            radioButton7 = new RadioButton();
             eqBox = new CheckedListBox();
             neBox = new CheckedListBox();
             eqRbtn = new RadioButton();
             neRbtn = new RadioButton();
             groupBox3 = new GroupBox();
+            checkBox1 = new CheckBox();
+            extraWordSpacing = new NumericUpDown();
+            label6 = new Label();
+            effectiveSpeed = new NumericUpDown();
+            label5 = new Label();
             checkAnserSpeed = new NumericUpDown();
             checkAnswerChb = new CheckBox();
             showAnswerChb = new CheckBox();
@@ -67,6 +76,8 @@
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)extraWordSpacing).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)effectiveSpeed).BeginInit();
             ((System.ComponentModel.ISupportInitialize)checkAnserSpeed).BeginInit();
             ((System.ComponentModel.ISupportInitialize)EachGroup).BeginInit();
             ((System.ComponentModel.ISupportInitialize)speetBox).BeginInit();
@@ -78,6 +89,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(radioButton8);
+            groupBox1.Controls.Add(radioButton6);
             groupBox1.Controls.Add(radioButton5);
             groupBox1.Controls.Add(radioButton4);
             groupBox1.Controls.Add(radioButton3);
@@ -90,10 +103,32 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "练习模式";
             // 
+            // radioButton8
+            // 
+            radioButton8.AutoSize = true;
+            radioButton8.Location = new Point(500, 20);
+            radioButton8.Name = "radioButton8";
+            radioButton8.Size = new Size(74, 21);
+            radioButton8.TabIndex = 6;
+            radioButton8.TabStop = true;
+            radioButton8.Text = "随机单词";
+            radioButton8.UseVisualStyleBackColor = true;
+            // 
+            // radioButton6
+            // 
+            radioButton6.AutoSize = true;
+            radioButton6.Location = new Point(444, 20);
+            radioButton6.Name = "radioButton6";
+            radioButton6.Size = new Size(50, 21);
+            radioButton6.TabIndex = 5;
+            radioButton6.TabStop = true;
+            radioButton6.Text = "新闻";
+            radioButton6.UseVisualStyleBackColor = true;
+            // 
             // radioButton5
             // 
             radioButton5.AutoSize = true;
-            radioButton5.Location = new Point(388, 22);
+            radioButton5.Location = new Point(302, 20);
             radioButton5.Name = "radioButton5";
             radioButton5.Size = new Size(50, 21);
             radioButton5.TabIndex = 4;
@@ -104,7 +139,7 @@
             // radioButton4
             // 
             radioButton4.AutoSize = true;
-            radioButton4.Location = new Point(308, 22);
+            radioButton4.Location = new Point(361, 20);
             radioButton4.Name = "radioButton4";
             radioButton4.Size = new Size(74, 21);
             radioButton4.TabIndex = 3;
@@ -115,7 +150,7 @@
             // radioButton3
             // 
             radioButton3.AutoSize = true;
-            radioButton3.Location = new Point(195, 22);
+            radioButton3.Location = new Point(186, 20);
             radioButton3.Name = "radioButton3";
             radioButton3.Size = new Size(107, 21);
             radioButton3.TabIndex = 2;
@@ -127,7 +162,7 @@
             // radioButton2
             // 
             radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(104, 22);
+            radioButton2.Location = new Point(103, 20);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new Size(74, 21);
             radioButton2.TabIndex = 1;
@@ -139,7 +174,7 @@
             // radioButton1
             // 
             radioButton1.AutoSize = true;
-            radioButton1.Location = new Point(20, 22);
+            radioButton1.Location = new Point(20, 20);
             radioButton1.Name = "radioButton1";
             radioButton1.Size = new Size(74, 21);
             radioButton1.TabIndex = 0;
@@ -150,6 +185,8 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(comboBox1);
+            groupBox2.Controls.Add(radioButton7);
             groupBox2.Controls.Add(eqBox);
             groupBox2.Controls.Add(neBox);
             groupBox2.Controls.Add(eqRbtn);
@@ -161,28 +198,51 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "个性化定制";
             // 
+            // comboBox1
+            // 
+            comboBox1.Enabled = false;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "中国", "旅行", "文化", "生活", "科技" });
+            comboBox1.Location = new Point(533, 29);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(61, 25);
+            comboBox1.TabIndex = 5;
+            // 
+            // radioButton7
+            // 
+            radioButton7.AutoSize = true;
+            radioButton7.Enabled = false;
+            radioButton7.Location = new Point(460, 32);
+            radioButton7.Name = "radioButton7";
+            radioButton7.Size = new Size(74, 21);
+            radioButton7.TabIndex = 4;
+            radioButton7.TabStop = true;
+            radioButton7.Text = "新闻类型";
+            radioButton7.UseVisualStyleBackColor = true;
+            // 
             // eqBox
             // 
             eqBox.FormattingEnabled = true;
             eqBox.Items.AddRange(new object[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
-            eqBox.Location = new Point(388, 16);
+            eqBox.Location = new Point(302, 18);
             eqBox.Name = "eqBox";
             eqBox.Size = new Size(121, 76);
             eqBox.TabIndex = 3;
             // 
             // neBox
             // 
+            neBox.Font = new Font("Microsoft YaHei UI", 9F);
             neBox.FormattingEnabled = true;
             neBox.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" });
-            neBox.Location = new Point(118, 16);
+            neBox.Location = new Point(103, 16);
             neBox.Name = "neBox";
-            neBox.Size = new Size(121, 76);
+            neBox.Size = new Size(87, 76);
             neBox.TabIndex = 2;
             // 
             // eqRbtn
             // 
             eqRbtn.AutoSize = true;
-            eqRbtn.Location = new Point(284, 28);
+            eqRbtn.Location = new Point(209, 29);
             eqRbtn.Name = "eqRbtn";
             eqRbtn.Size = new Size(98, 21);
             eqRbtn.TabIndex = 1;
@@ -193,7 +253,7 @@
             // neRbtn
             // 
             neRbtn.AutoSize = true;
-            neRbtn.Location = new Point(23, 29);
+            neRbtn.Location = new Point(10, 29);
             neRbtn.Name = "neRbtn";
             neRbtn.Size = new Size(98, 21);
             neRbtn.TabIndex = 0;
@@ -203,6 +263,11 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(checkBox1);
+            groupBox3.Controls.Add(extraWordSpacing);
+            groupBox3.Controls.Add(label6);
+            groupBox3.Controls.Add(effectiveSpeed);
+            groupBox3.Controls.Add(label5);
             groupBox3.Controls.Add(checkAnserSpeed);
             groupBox3.Controls.Add(checkAnswerChb);
             groupBox3.Controls.Add(showAnswerChb);
@@ -222,10 +287,56 @@
             groupBox3.Controls.Add(label1);
             groupBox3.Location = new Point(612, 2);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(394, 166);
+            groupBox3.Size = new Size(514, 166);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "CW配置";
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(330, 113);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(87, 21);
+            checkBox1.TabIndex = 21;
+            checkBox1.Text = "文章含符号";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // extraWordSpacing
+            // 
+            extraWordSpacing.DecimalPlaces = 1;
+            extraWordSpacing.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            extraWordSpacing.Location = new Point(271, 55);
+            extraWordSpacing.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
+            extraWordSpacing.Name = "extraWordSpacing";
+            extraWordSpacing.Size = new Size(40, 23);
+            extraWordSpacing.TabIndex = 20;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(171, 56);
+            label6.Name = "label6";
+            label6.Size = new Size(83, 17);
+            label6.TabIndex = 19;
+            label6.Text = "词间额外间隔:";
+            // 
+            // effectiveSpeed
+            // 
+            effectiveSpeed.Location = new Point(271, 24);
+            effectiveSpeed.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
+            effectiveSpeed.Name = "effectiveSpeed";
+            effectiveSpeed.Size = new Size(40, 23);
+            effectiveSpeed.TabIndex = 18;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(171, 25);
+            label5.Name = "label5";
+            label5.Size = new Size(98, 17);
+            label5.TabIndex = 17;
+            label5.Text = "有效速度(WPM):";
             // 
             // checkAnserSpeed
             // 
@@ -233,7 +344,7 @@
             checkAnserSpeed.Location = new Point(92, 139);
             checkAnserSpeed.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             checkAnserSpeed.Name = "checkAnserSpeed";
-            checkAnserSpeed.Size = new Size(66, 23);
+            checkAnserSpeed.Size = new Size(48, 23);
             checkAnserSpeed.TabIndex = 16;
             checkAnserSpeed.Value = new decimal(new int[] { 20, 0, 0, 0 });
             // 
@@ -251,7 +362,7 @@
             // showAnswerChb
             // 
             showAnswerChb.AutoSize = true;
-            showAnswerChb.Location = new Point(164, 84);
+            showAnswerChb.Location = new Point(330, 83);
             showAnswerChb.Name = "showAnswerChb";
             showAnswerChb.Size = new Size(75, 21);
             showAnswerChb.TabIndex = 14;
@@ -264,7 +375,7 @@
             EachGroup.Location = new Point(93, 112);
             EachGroup.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             EachGroup.Name = "EachGroup";
-            EachGroup.Size = new Size(66, 23);
+            EachGroup.Size = new Size(47, 23);
             EachGroup.TabIndex = 13;
             EachGroup.Value = new decimal(new int[] { 4, 0, 0, 0 });
             // 
@@ -279,7 +390,7 @@
             // 
             // stopBtn
             // 
-            stopBtn.Location = new Point(291, 61);
+            stopBtn.Location = new Point(424, 61);
             stopBtn.Name = "stopBtn";
             stopBtn.Size = new Size(75, 23);
             stopBtn.TabIndex = 11;
@@ -289,7 +400,7 @@
             // 
             // exportBtn
             // 
-            exportBtn.Location = new Point(291, 131);
+            exportBtn.Location = new Point(424, 131);
             exportBtn.Name = "exportBtn";
             exportBtn.Size = new Size(75, 23);
             exportBtn.TabIndex = 10;
@@ -300,7 +411,7 @@
             // repeatRbtn
             // 
             repeatRbtn.AutoSize = true;
-            repeatRbtn.Location = new Point(164, 23);
+            repeatRbtn.Location = new Point(330, 26);
             repeatRbtn.Name = "repeatRbtn";
             repeatRbtn.Size = new Size(87, 21);
             repeatRbtn.TabIndex = 9;
@@ -310,7 +421,7 @@
             // continuousRbtn
             // 
             continuousRbtn.AutoSize = true;
-            continuousRbtn.Location = new Point(164, 56);
+            continuousRbtn.Location = new Point(330, 54);
             continuousRbtn.Name = "continuousRbtn";
             continuousRbtn.Size = new Size(87, 21);
             continuousRbtn.TabIndex = 8;
@@ -319,7 +430,7 @@
             // 
             // submitAnswerBtn
             // 
-            submitAnswerBtn.Location = new Point(291, 96);
+            submitAnswerBtn.Location = new Point(424, 96);
             submitAnswerBtn.Name = "submitAnswerBtn";
             submitAnswerBtn.Size = new Size(75, 23);
             submitAnswerBtn.TabIndex = 7;
@@ -329,7 +440,7 @@
             // 
             // startBtn
             // 
-            startBtn.Location = new Point(291, 26);
+            startBtn.Location = new Point(424, 26);
             startBtn.Name = "startBtn";
             startBtn.Size = new Size(75, 23);
             startBtn.TabIndex = 6;
@@ -339,10 +450,10 @@
             // 
             // speetBox
             // 
-            speetBox.Location = new Point(92, 25);
+            speetBox.Location = new Point(92, 23);
             speetBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             speetBox.Name = "speetBox";
-            speetBox.Size = new Size(66, 23);
+            speetBox.Size = new Size(48, 23);
             speetBox.TabIndex = 5;
             speetBox.Value = new decimal(new int[] { 20, 0, 0, 0 });
             speetBox.ValueChanged += speetBox_ValueChanged;
@@ -353,7 +464,7 @@
             toneBox.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             toneBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             toneBox.Name = "toneBox";
-            toneBox.Size = new Size(66, 23);
+            toneBox.Size = new Size(48, 23);
             toneBox.TabIndex = 4;
             toneBox.Value = new decimal(new int[] { 600, 0, 0, 0 });
             // 
@@ -362,7 +473,7 @@
             groupNumBox.Location = new Point(92, 82);
             groupNumBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             groupNumBox.Name = "groupNumBox";
-            groupNumBox.Size = new Size(66, 23);
+            groupNumBox.Size = new Size(48, 23);
             groupNumBox.TabIndex = 3;
             groupNumBox.Value = new decimal(new int[] { 100, 0, 0, 0 });
             groupNumBox.Leave += groupNumBox_Leave;
@@ -409,24 +520,24 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = SystemColors.Control;
-            dataGridViewCellStyle5.Font = new Font("Microsoft YaHei UI", 9F);
-            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Microsoft YaHei UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(3, 19);
             dataGridView1.Name = "dataGridView1";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dataGridView1.RowTemplate.Height = 40;
             dataGridView1.Size = new Size(1249, 482);
             dataGridView1.TabIndex = 0;
@@ -457,6 +568,8 @@
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)extraWordSpacing).EndInit();
+            ((System.ComponentModel.ISupportInitialize)effectiveSpeed).EndInit();
             ((System.ComponentModel.ISupportInitialize)checkAnserSpeed).EndInit();
             ((System.ComponentModel.ISupportInitialize)EachGroup).EndInit();
             ((System.ComponentModel.ISupportInitialize)speetBox).EndInit();
@@ -501,5 +614,14 @@
         private NumericUpDown checkAnserSpeed;
         private CheckBox checkAnswerChb;
         private System.Windows.Forms.Timer timer1;
+        private NumericUpDown effectiveSpeed;
+        private Label label5;
+        private NumericUpDown extraWordSpacing;
+        private Label label6;
+        private RadioButton radioButton6;
+        private CheckBox checkBox1;
+        private RadioButton radioButton7;
+        private ComboBox comboBox1;
+        private RadioButton radioButton8;
     }
 }
