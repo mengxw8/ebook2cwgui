@@ -39,7 +39,7 @@ namespace CW
             dataGridView1.RowHeadersVisible = true;
             dataGridView1.ColumnHeadersVisible = true;
 
-            dataGridView1.RowPostPaint += new DataGridViewRowPostPaintEventHandler(dataGridView1_RowPostPaint);
+            //dataGridView1.RowPostPaint += new DataGridViewRowPostPaintEventHandler(dataGridView1_RowPostPaint);
         }
         private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
@@ -67,6 +67,8 @@ namespace CW
         Dictionary<string, string> alphabet = new Dictionary<string, string> { { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
         //符号
         Dictionary<string, string> symbol = new Dictionary<string, string> { { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "&", "...." }, { "@", ".--.-." } };
+        //用来装答案的表格
+        DataTable dataTable = null;
         //答案
         string answer = "";
         //上一次播放的音频文件路径
@@ -322,7 +324,9 @@ namespace CW
                 //开启定时器
                 timer1.Start();
             }
-
+            //解除封禁
+            pauseBtn.Enabled = true;   
+            rePlayBtn.Enabled = true;
 
 
             //如果是开启了显示答案的按钮，直接显示答案
@@ -617,35 +621,51 @@ namespace CW
         private void clearAnswer()
         {
             //数据区域初始化
-            DataTable dataTable = new DataTable();
-            //先来10列
-            for (int i = 1; i <= 10; i++)
-            {
-                dataTable.Columns.Add(i.ToString(), typeof(string));
+            if (dataTable == null) {
+                dataTable = new DataTable();
+                //先来10列
+                for (int i = 1; i <= 10; i++)
+                {
+                    dataTable.Columns.Add(i.ToString(), typeof(string));
+                }
+                dataGridView1.DataSource = dataTable;
             }
+            dataTable.Clear();
+             
+
             //再来十行
             for (int i = 1; i <= 10; i++)
             {
-                dataTable.Rows.Add(dataTable.NewRow());
-
+               var row= dataTable.NewRow();
+                dataTable.Rows.Add(row);
             }
-
-            dataGridView1.DataSource = dataTable;
+           
         }
         //清空答案
         private void clearAnswer_Click(object sender, EventArgs e)
         {
             clearAnswer();
+            showAnswerChb.Checked = false;
         }
 
         private void pauseBtn_Click(object sender, EventArgs e)
         {
             Mp3Player.Pause();
+            continuePlayBtn.Enabled = true;
+            pauseBtn.Enabled = false;
+        }
+        private void continuePlayBtn_Click(object sender, EventArgs e)
+        {
+            Mp3Player.ContinuePlay();
+            continuePlayBtn.Enabled = false;
+            pauseBtn.Enabled = true;
         }
 
         private void resumeBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.Resume();
+            Mp3Player.RePlay();
         }
+
+
     }
 }

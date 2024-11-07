@@ -74,8 +74,8 @@
             dataGridView1 = new DataGridView();
             timer1 = new System.Windows.Forms.Timer(components);
             groupBox5 = new GroupBox();
-            resumeBtn = new Button();
-            button3 = new Button();
+            rePlayBtn = new Button();
+            continuePlayBtn = new Button();
             pauseBtn = new Button();
             clearAnswerBtn = new Button();
             groupBox1.SuspendLayout();
@@ -559,8 +559,8 @@
             // 
             // groupBox5
             // 
-            groupBox5.Controls.Add(resumeBtn);
-            groupBox5.Controls.Add(button3);
+            groupBox5.Controls.Add(rePlayBtn);
+            groupBox5.Controls.Add(continuePlayBtn);
             groupBox5.Controls.Add(pauseBtn);
             groupBox5.Controls.Add(clearAnswerBtn);
             groupBox5.Location = new Point(1132, 12);
@@ -570,27 +570,31 @@
             groupBox5.TabStop = false;
             groupBox5.Text = "控制";
             // 
-            // resumeBtn
+            // rePlayBtn
             // 
-            resumeBtn.Location = new Point(28, 110);
-            resumeBtn.Name = "resumeBtn";
-            resumeBtn.Size = new Size(75, 23);
-            resumeBtn.TabIndex = 3;
-            resumeBtn.Text = "重播";
-            resumeBtn.UseVisualStyleBackColor = true;
-            resumeBtn.Click += resumeBtn_Click;
+            rePlayBtn.Enabled = false;
+            rePlayBtn.Location = new Point(28, 110);
+            rePlayBtn.Name = "rePlayBtn";
+            rePlayBtn.Size = new Size(75, 23);
+            rePlayBtn.TabIndex = 3;
+            rePlayBtn.Text = "重播";
+            rePlayBtn.UseVisualStyleBackColor = true;
+            rePlayBtn.Click += resumeBtn_Click;
             // 
-            // button3
+            // continuePlayBtn
             // 
-            button3.Location = new Point(28, 80);
-            button3.Name = "button3";
-            button3.Size = new Size(75, 23);
-            button3.TabIndex = 2;
-            button3.Text = "继续播放";
-            button3.UseVisualStyleBackColor = true;
+            continuePlayBtn.Enabled = false;
+            continuePlayBtn.Location = new Point(28, 80);
+            continuePlayBtn.Name = "continuePlayBtn";
+            continuePlayBtn.Size = new Size(75, 23);
+            continuePlayBtn.TabIndex = 2;
+            continuePlayBtn.Text = "继续播放";
+            continuePlayBtn.UseVisualStyleBackColor = true;
+            continuePlayBtn.Click += continuePlayBtn_Click;
             // 
             // pauseBtn
             // 
+            pauseBtn.Enabled = false;
             pauseBtn.Location = new Point(26, 51);
             pauseBtn.Name = "pauseBtn";
             pauseBtn.Size = new Size(75, 23);
@@ -685,8 +689,8 @@
         private ComboBox comboBox1;
         private RadioButton radioButton8;
         private GroupBox groupBox5;
-        private Button resumeBtn;
-        private Button button3;
+        private Button rePlayBtn;
+        private Button continuePlayBtn;
         private Button pauseBtn;
         private Button clearAnswerBtn;
     }

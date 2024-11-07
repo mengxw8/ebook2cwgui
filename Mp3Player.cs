@@ -27,6 +27,10 @@ namespace CW
             if (waveOut != null&&waveOut.PlaybackState== PlaybackState.Playing) {
                 waveOut.Pause();
             } 
+        }        public static void ContinuePlay() {
+            if (waveOut != null&&waveOut.PlaybackState== PlaybackState.Paused) {
+                waveOut.Play();
+            } 
         }
 
         public static void Stop()
@@ -34,6 +38,7 @@ namespace CW
             if (waveOut != null && waveOut.PlaybackState == PlaybackState.Playing)
             {
                 waveOut.Stop();
+                waveOut.Dispose();
                 mp3.Close();
 
 
@@ -42,14 +47,18 @@ namespace CW
                 mp3.Close();
             }
         }
-        public static void Resume()
+        public static void RePlay()
         {
-            if (waveOut != null )
-            {
-                waveOut.Resume();
+            if (waveOut != null) {
+                waveOut.Dispose();
             }
+            waveOut = new WaveOut();
+            waveOut.Init(mp3);
+            waveOut.Play();
+
 
         }
+
 
         public static PlaybackState Status()
         {            
