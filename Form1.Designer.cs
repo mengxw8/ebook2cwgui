@@ -61,6 +61,7 @@
             Controls.Add(button1);
             Name = "Form1";
             Text = "CW 工具箱";
+            Load += Form1_Load;
             ResumeLayout(false);
         }
 

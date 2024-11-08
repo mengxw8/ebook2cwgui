@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace CW
 {
@@ -20,10 +21,18 @@ namespace CW
 
         private void copyBtn_Click(object sender, EventArgs e)
         {
-            CopyingPractice copyingPractice=new CopyingPractice();
+            CopyingPractice copyingPractice = new CopyingPractice();
             this.Visible = false;
             copyingPractice.ShowDialog();
             this.Close();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // 获取当前程序集的版本
+            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+            Version version = currentAssembly.GetName().Version;
+            this.Text = this.Text + " V" + version;
         }
     }
 }

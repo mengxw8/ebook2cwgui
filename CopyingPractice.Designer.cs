@@ -607,6 +607,7 @@
             Name = "CopyingPractice";
             Text = "抄收练习";
             FormClosed += CopyingPractice_FormClosed;
+            Load += CopyingPractice_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);

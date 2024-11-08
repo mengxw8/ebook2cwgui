@@ -12,6 +12,7 @@ using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
 using System.Media;
+using System.Reflection;
 using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -34,7 +35,7 @@ namespace CW
             //不允许息屏
             SystemSleep.PreventForCurrentThread();
             //输入法切换为英文
-            LoadKeyboardLayout("00000409",1);
+            LoadKeyboardLayout("00000409", 1);
 
             clearAnswer();
 
@@ -81,8 +82,8 @@ namespace CW
         //符号
         Dictionary<string, string> symbol = new Dictionary<string, string> { { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "&", "...." }, { "@", ".--.-." } };
         //新闻类型
-        Dictionary<string, string> newsType = new Dictionary<string, string> { { "中国", "https://www.cgtn.com/subscribe/rss/section/china.xml" },{ "世界", "https://www.cgtn.com/subscribe/rss/section/world.xml" },{"商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" },{ "体育", "https://www.cgtn.com/subscribe/rss/section/sports.xml" },{"科学", "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" },{"旅行", "https://www.cgtn.com/subscribe/rss/section/travel.xml" },{"现场", "https://www.cgtn.com/subscribe/rss/section/live.xml" },{"文化", "https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
-        
+        Dictionary<string, string> newsType = new Dictionary<string, string> { { "中国", "https://www.cgtn.com/subscribe/rss/section/china.xml" }, { "世界", "https://www.cgtn.com/subscribe/rss/section/world.xml" }, { "商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" }, { "体育", "https://www.cgtn.com/subscribe/rss/section/sports.xml" }, { "科学", "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" }, { "旅行", "https://www.cgtn.com/subscribe/rss/section/travel.xml" }, { "现场", "https://www.cgtn.com/subscribe/rss/section/live.xml" }, { "文化", "https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
+
         private static string ArticlePath = @"./text/";
         //用来装答案的表格
         DataTable dataTable = null;
@@ -380,28 +381,32 @@ namespace CW
         /// </summary>
         /// <param name="words"></param>
         /// <returns></returns>
-        private string getArticle(List<string> words) {
+        private string getArticle(List<string> words)
+        {
             string answer = "";
             //组数限制
             int groupNum = System.Convert.ToInt32(groupNumBox.Value);
             //是否不要符号
             var flag = symbolsChb.Checked;
             Random random = new Random();
-            var index=random.Next(0,words.Count);
+            var index = random.Next(0, words.Count);
 
-            if (!File.Exists(ArticlePath + words[index])) { 
-                 return answer;
+            if (!File.Exists(ArticlePath + words[index]))
+            {
+                return answer;
             }
 
-           var article =File.ReadAllText(ArticlePath + words[index]);
-            if (!flag) {
-                foreach (string s in symbol.Keys) {
+            var article = File.ReadAllText(ArticlePath + words[index]);
+            if (!flag)
+            {
+                foreach (string s in symbol.Keys)
+                {
                     article = article.Replace(s, "");
                 }
                 article.Trim();
             }
-          var list=  article.Split(' ').Take(groupNum).ToList();
-            
+            var list = article.Split(' ').Take(groupNum).ToList();
+
 
 
 
@@ -413,7 +418,8 @@ namespace CW
         /// </summary>
         /// <param name="words"></param>
         /// <returns></returns>
-        private string getNewsPapers(List<string> words) {
+        private string getNewsPapers(List<string> words)
+        {
             string answer = "";
             //组数限制
             int groupNum = System.Convert.ToInt32(groupNumBox.Value);
@@ -421,13 +427,13 @@ namespace CW
             var flag = symbolsChb.Checked;
             Random random = new Random();
             var type = random.Next(0, words.Count);
-           var resp= newspapers.HttpRequestUtil.GetWebRequest(newsType[words[type]]);
+            var resp = newspapers.HttpRequestUtil.GetWebRequest(newsType[words[type]]);
             XmlDocument doc = new XmlDocument();
-           doc.LoadXml(resp);
-           var item=  doc.SelectNodes("/rss/channel/item");
-           var index= random.Next(0,item.Count);
-           var newsPaper=  item[index];
-            var title= newsPaper.SelectSingleNode("title").InnerText;
+            doc.LoadXml(resp);
+            var item = doc.SelectNodes("/rss/channel/item");
+            var index = random.Next(0, item.Count);
+            var newsPaper = item[index];
+            var title = newsPaper.SelectSingleNode("title").InnerText;
             XmlNamespaceManager nsm1 = new XmlNamespaceManager(doc.NameTable);
             nsm1.AddNamespace("dc", @"http://purl.org/dc/elements/1.1/");
             var date = newsPaper.SelectSingleNode("//dc:date", nsm1).InnerText;
@@ -436,10 +442,11 @@ namespace CW
             var contentHtml = newsPaper.SelectSingleNode("//content:encoded", nsm2).InnerText;
             //处理超文本
             NSoup.Nodes.Document html = NSoup.NSoupClient.Parse(contentHtml);
-           var content= html.Text();
+            var content = html.Text();
             //处理时间
             content = DateTime.Parse(date).ToString("yyyy-MM-dd HH:mm:ss") + " " + content;
-            if (!flag) {
+            if (!flag)
+            {
                 foreach (string s in symbol.Keys)
                 {
                     content = content.Replace(s, "");
@@ -448,7 +455,7 @@ namespace CW
             }
 
 
-           var list =  content.Split(' ').Take(groupNum).ToList();
+            var list = content.Split(' ').Take(groupNum).ToList();
 
 
             return System.String.Join(" ", list);
@@ -475,7 +482,8 @@ namespace CW
             else if (mode == 5)
             {
                 //检查网络
-                if (newspapers.HttpRequestUtil.GetWebRequest("https://www.cgtn.com/subscribe/rss/section/china.xml") == "") {
+                if (newspapers.HttpRequestUtil.GetWebRequest("https://www.cgtn.com/subscribe/rss/section/china.xml") == "")
+                {
                     MessageBox.Show("当前网络不通畅，请试试其他模式吧！");
                     return;
                 }
@@ -483,12 +491,13 @@ namespace CW
                 {
                     answer += getNewsPapers(words);
                 }
-                catch {
+                catch
+                {
                     MessageBox.Show("当前网络不通畅，请试试其他模式吧！");
                     return;
                 }
 
-            
+
             }
             else if (mode == 6)
             {
@@ -496,7 +505,7 @@ namespace CW
 
 
             }
-            
+
             answer += "\r\niii\r\n";
             answer = answer.ToLower();
 
@@ -697,7 +706,7 @@ namespace CW
                     case 1: words.AddRange(alphabet.Keys); break;
                     case 2: words.AddRange(number.Keys); words.AddRange(alphabet.Keys); break;
                     case 3: words.AddRange(symbol.Keys); break;
-                    case 4: words.AddRange(new List<string>(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n=>n.Replace(ArticlePath,"")).ToList()); break;
+                    case 4: words.AddRange(new List<string>(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n => n.Replace(ArticlePath, "")).ToList()); break;
                     case 5: words.AddRange(newsType.Keys); break;
                     case 6: words.AddRange(alphabet.Keys); break;
 
@@ -898,6 +907,14 @@ namespace CW
         {
             eqBox.Enabled = true;
             neBox.Enabled = false;
+        }
+
+        private void CopyingPractice_Load(object sender, EventArgs e)
+        {
+            // 获取当前程序集的版本
+            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+            Version version = currentAssembly.GetName().Version;
+            this.Text = this.Text + " V" + version;
         }
     }
 }
