@@ -8,10 +8,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
 using System.Media;
 using System.Reflection.Metadata;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
@@ -24,11 +26,16 @@ namespace CW
 {
     public partial class CopyingPractice : Form
     {
+        [DllImport("user32.dll")]
+        static extern long LoadKeyboardLayout(string pwszKLID, uint Flags);
         public CopyingPractice()
         {
             InitializeComponent();
             //不允许息屏
             SystemSleep.PreventForCurrentThread();
+            //输入法切换为英文
+            LoadKeyboardLayout("00000409",1);
+
             clearAnswer();
 
 
