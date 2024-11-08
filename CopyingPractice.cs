@@ -72,6 +72,7 @@ namespace CW
         Dictionary<string, string> alphabet = new Dictionary<string, string> { { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
         //符号
         Dictionary<string, string> symbol = new Dictionary<string, string> { { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "&", "...." }, { "@", ".--.-." } };
+        private static string ArticlePath = @"./text/";
         //用来装答案的表格
         DataTable dataTable = null;
         //答案
@@ -84,10 +85,10 @@ namespace CW
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             mode = 0;
-            eqBox.Visible = true;
-            eqRbtn.Visible = true;
-            neRbtn.Visible = true;
-            neBox.Visible = true;
+
+            eqRbtn.Enabled = true;
+            neRbtn.Enabled = true;
+
             newsType.Enabled = false;
             newsTypeRbtn.Enabled = false;
             //填充值
@@ -102,10 +103,8 @@ namespace CW
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             mode = 1;
-            eqBox.Visible = true;
-            eqRbtn.Visible = true;
-            neRbtn.Visible = true;
-            neBox.Visible = true;
+            eqRbtn.Enabled = true;
+            neRbtn.Enabled = true;
             newsType.Enabled = false;
             newsTypeRbtn.Enabled = false;
             //填充值
@@ -121,10 +120,8 @@ namespace CW
         {
             mode = 2;
 
-            eqBox.Visible = true;
-            eqRbtn.Visible = true;
-            neRbtn.Visible = true;
-            neBox.Visible = true;
+            eqRbtn.Enabled = true;
+            neRbtn.Enabled = true;
             newsType.Enabled = false;
             newsTypeRbtn.Enabled = false;
             //填充值
@@ -145,10 +142,8 @@ namespace CW
         private void radioButton5_CheckedChanged(object sender, EventArgs e)
         {
             mode = 3;
-            eqBox.Visible = true;
-            eqRbtn.Visible = true;
-            neRbtn.Visible = true;
-            neBox.Visible = true;
+            eqRbtn.Enabled = true;
+            neRbtn.Enabled = true;
             newsType.Enabled = false;
             newsTypeRbtn.Enabled = false;
             //填充值
@@ -162,9 +157,31 @@ namespace CW
         }
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
+            mode = 4;
             //英文文章
+            eqRbtn.Enabled = true;
+            neRbtn.Enabled = true;
             newsType.Enabled = false;
             newsTypeRbtn.Enabled = false;
+
+            //加载文章列表
+            // 确保路径是目录并且存在
+            if (!Directory.Exists(ArticlePath))
+            {
+                MessageBox.Show("没有可供的选择文章!");
+                return;
+            }
+
+            List<string> files = new List<string>(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly));
+            //填充值
+            eqBox.Items.Clear();
+            neBox.Items.Clear();
+            foreach (string file in files)
+            {
+                string fileNmae = file.Replace(ArticlePath, "");
+                eqBox.Items.Add(fileNmae);
+                neBox.Items.Add(fileNmae);
+            }
 
         }
         //新闻
@@ -254,7 +271,7 @@ namespace CW
 
             //N个一组，输完直接下一组
             var dgv = sender as TextBox;
-            if (dgv != null && !showAnswerChb.Checked&& mode > 3)
+            if (dgv != null && !showAnswerChb.Checked && mode > 3)
             {
                 var data = dgv.Text;
 
@@ -320,24 +337,29 @@ namespace CW
         /// </summary>
         /// <param name="words"></param>
         /// <returns></returns>
-        private string generateWord(List<string> words) {
+        private string generateWord(List<string> words)
+        {
             //组数限制
             var groupNum = groupNumBox.Value;
 
             string answer = "";
 
             Dictionary<string, string> book = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(@".\word\Level8.json"));
-            if (book == null) { 
-            return answer;
+            if (book == null)
+            {
+                return answer;
             }
             Random random = new Random();
-            while (groupNum > 0) {
-                string word= book[random.Next(1, 12198).ToString()];
+            while (groupNum > 0)
+            {
+                string word = book[random.Next(1, 12198).ToString()];
                 //允许指定开头字母
-                if (words.Contains(word.Substring(0, 1).ToUpper())) {
+                if (words.Contains(word.Substring(0, 1).ToUpper()))
+                {
                     answer += word;
                     groupNum--;
-                    if (groupNum > 0) {
+                    if (groupNum > 0)
+                    {
                         answer += " ";
                     }
                 }
@@ -345,6 +367,35 @@ namespace CW
             return answer;
         }
 
+
+        private string getArticle(List<string> words) {
+            string answer = "";
+            //组数限制
+            int groupNum = System.Convert.ToInt32(groupNumBox.Value);
+            //是否不要符号
+            var flag = symbolsChb.Checked;
+            Random random = new Random();
+            var index=random.Next(0,words.Count);
+
+            if (!File.Exists(ArticlePath + words[index])) { 
+                 return answer;
+            }
+
+           var article =File.ReadAllText(ArticlePath + words[index]);
+            if (!flag) {
+                foreach (string s in symbol.Keys) {
+                    article = article.Replace(s, "");
+                }
+                article.Trim();
+            }
+          var list=  article.Split(' ').Take(groupNum).ToList();
+            
+
+
+
+            return String.Join(" ", list);
+
+        }
         //生成报文并播放
         private void startBtn_Click(object sender, EventArgs e)
         {
@@ -352,18 +403,24 @@ namespace CW
             List<string> words = getWords();
             if (words.Count == 0 || words == null)
             {
-                return ;
+                return;
             }
             answer = "===\r\n";
             if (mode == 0 || mode == 1 || mode == 2 || mode == 3)
             {
                 answer += generateAnswer(words);
             }
-            else if (mode == 6) {
+            else if (mode == 4)
+            {
+                answer += getArticle(words);
+            }
+            else if (mode == 6)
+            {
                 answer += generateWord(words);
 
 
             }
+            
             answer += "\r\niii\r\n";
             answer = answer.ToLower();
 
@@ -564,6 +621,7 @@ namespace CW
                     case 1: words.AddRange(alphabet.Keys); break;
                     case 2: words.AddRange(number.Keys); words.AddRange(alphabet.Keys); break;
                     case 3: words.AddRange(symbol.Keys); break;
+                    case 4: words.AddRange(new List<string>(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n=>n.Replace(ArticlePath,"")).ToList()); break;
                     case 6: words.AddRange(alphabet.Keys); break;
 
                 }
@@ -742,8 +800,9 @@ namespace CW
             Mp3Player.ContinuePlay();
             continuePlayBtn.Enabled = false;
             pauseBtn.Enabled = true;
-            if (checkAnswerChb.Checked) { 
-            timer1.Start();
+            if (checkAnswerChb.Checked)
+            {
+                timer1.Start();
             }
         }
 
@@ -752,6 +811,16 @@ namespace CW
             Mp3Player.Play(lastMusicPath);
         }
 
+        private void neRbtn_CheckedChanged(object sender, EventArgs e)
+        {
+            neBox.Enabled = true;
+            eqBox.Enabled = false;
+        }
 
+        private void eqRbtn_CheckedChanged(object sender, EventArgs e)
+        {
+            eqBox.Enabled = true;
+            neBox.Enabled = false;
+        }
     }
 }

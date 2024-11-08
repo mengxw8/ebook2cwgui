@@ -48,7 +48,7 @@
             eqRbtn = new RadioButton();
             neRbtn = new RadioButton();
             groupBox3 = new GroupBox();
-            checkBox1 = new CheckBox();
+            symbolsChb = new CheckBox();
             extraWordSpacing = new NumericUpDown();
             label6 = new Label();
             effectiveSpeed = new NumericUpDown();
@@ -210,6 +210,7 @@
             // 
             // newsType
             // 
+            newsType.DropDownStyle = ComboBoxStyle.DropDownList;
             newsType.Enabled = false;
             newsType.FormattingEnabled = true;
             newsType.Items.AddRange(new object[] { "中国", "旅行", "文化", "生活", "科技" });
@@ -232,48 +233,52 @@
             // 
             // eqBox
             // 
+            eqBox.Enabled = false;
             eqBox.FormattingEnabled = true;
             eqBox.Items.AddRange(new object[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
-            eqBox.Location = new Point(302, 18);
+            eqBox.Location = new Point(303, 18);
             eqBox.Name = "eqBox";
-            eqBox.Size = new Size(66, 76);
+            eqBox.Size = new Size(152, 76);
             eqBox.TabIndex = 3;
             // 
             // neBox
             // 
+            neBox.Enabled = false;
             neBox.Font = new Font("Microsoft YaHei UI", 9F);
             neBox.FormattingEnabled = true;
             neBox.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" });
-            neBox.Location = new Point(103, 16);
+            neBox.Location = new Point(66, 20);
             neBox.Name = "neBox";
-            neBox.Size = new Size(74, 76);
+            neBox.Size = new Size(171, 76);
             neBox.TabIndex = 2;
             // 
             // eqRbtn
             // 
             eqRbtn.AutoSize = true;
-            eqRbtn.Location = new Point(209, 29);
+            eqRbtn.Location = new Point(243, 29);
             eqRbtn.Name = "eqRbtn";
-            eqRbtn.Size = new Size(98, 21);
+            eqRbtn.Size = new Size(62, 21);
             eqRbtn.TabIndex = 1;
             eqRbtn.TabStop = true;
-            eqRbtn.Text = "只含指定字符";
+            eqRbtn.Text = "仅包含";
             eqRbtn.UseVisualStyleBackColor = true;
+            eqRbtn.CheckedChanged += eqRbtn_CheckedChanged;
             // 
             // neRbtn
             // 
             neRbtn.AutoSize = true;
             neRbtn.Location = new Point(10, 29);
             neRbtn.Name = "neRbtn";
-            neRbtn.Size = new Size(98, 21);
+            neRbtn.Size = new Size(50, 21);
             neRbtn.TabIndex = 0;
             neRbtn.TabStop = true;
-            neRbtn.Text = "排除指定字符";
+            neRbtn.Text = "排除";
             neRbtn.UseVisualStyleBackColor = true;
+            neRbtn.CheckedChanged += neRbtn_CheckedChanged;
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(checkBox1);
+            groupBox3.Controls.Add(symbolsChb);
             groupBox3.Controls.Add(extraWordSpacing);
             groupBox3.Controls.Add(label6);
             groupBox3.Controls.Add(effectiveSpeed);
@@ -301,15 +306,15 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "CW配置";
             // 
-            // checkBox1
+            // symbolsChb
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(330, 113);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(87, 21);
-            checkBox1.TabIndex = 21;
-            checkBox1.Text = "文章含符号";
-            checkBox1.UseVisualStyleBackColor = true;
+            symbolsChb.AutoSize = true;
+            symbolsChb.Location = new Point(330, 113);
+            symbolsChb.Name = "symbolsChb";
+            symbolsChb.Size = new Size(87, 21);
+            symbolsChb.TabIndex = 21;
+            symbolsChb.Text = "文章含符号";
+            symbolsChb.UseVisualStyleBackColor = true;
             // 
             // extraWordSpacing
             // 
@@ -687,7 +692,7 @@
         private NumericUpDown extraWordSpacing;
         private Label label6;
         private RadioButton radioButton6;
-        private CheckBox checkBox1;
+        private CheckBox symbolsChb;
         private RadioButton newsTypeRbtn;
         private ComboBox newsType;
         private RadioButton radioButton8;
