@@ -15,7 +15,10 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
+using System.Xml;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CW
 {
@@ -41,8 +44,6 @@ namespace CW
 
             dataGridView1.RowHeadersVisible = true;
             dataGridView1.ColumnHeadersVisible = true;
-            //新闻类型
-            newsType.SelectedIndex = 0;
 
             //dataGridView1.RowPostPaint += new DataGridViewRowPostPaintEventHandler(dataGridView1_RowPostPaint);
         }
@@ -72,6 +73,9 @@ namespace CW
         Dictionary<string, string> alphabet = new Dictionary<string, string> { { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
         //符号
         Dictionary<string, string> symbol = new Dictionary<string, string> { { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "&", "...." }, { "@", ".--.-." } };
+        //新闻类型
+        Dictionary<string, string> newsType = new Dictionary<string, string> { { "中国", "https://www.cgtn.com/subscribe/rss/section/china.xml" },{ "世界", "https://www.cgtn.com/subscribe/rss/section/world.xml" },{"商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" },{ "体育", "https://www.cgtn.com/subscribe/rss/section/sports.xml" },{"科学", "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" },{"旅行", "https://www.cgtn.com/subscribe/rss/section/travel.xml" },{"现场", "https://www.cgtn.com/subscribe/rss/section/live.xml" },{"文化", "https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
+        
         private static string ArticlePath = @"./text/";
         //用来装答案的表格
         DataTable dataTable = null;
@@ -88,9 +92,6 @@ namespace CW
 
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-
-            newsType.Enabled = false;
-            newsTypeRbtn.Enabled = false;
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -105,8 +106,7 @@ namespace CW
             mode = 1;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            newsType.Enabled = false;
-            newsTypeRbtn.Enabled = false;
+
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -122,8 +122,7 @@ namespace CW
 
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            newsType.Enabled = false;
-            newsTypeRbtn.Enabled = false;
+
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -144,8 +143,6 @@ namespace CW
             mode = 3;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            newsType.Enabled = false;
-            newsTypeRbtn.Enabled = false;
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -161,8 +158,6 @@ namespace CW
             //英文文章
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            newsType.Enabled = false;
-            newsTypeRbtn.Enabled = false;
 
             //加载文章列表
             // 确保路径是目录并且存在
@@ -187,12 +182,18 @@ namespace CW
         //新闻
         private void radioButton6_CheckedChanged(object sender, EventArgs e)
         {
-            eqBox.Enabled = false;
-            eqRbtn.Enabled = false;
-            neRbtn.Enabled = false;
-            neBox.Enabled = false;
-            newsType.Enabled = true;
-            newsTypeRbtn.Enabled = true;
+            mode = 5;
+            eqRbtn.Enabled = true;
+            neRbtn.Enabled = true;
+            //填充值
+            eqBox.Items.Clear();
+            neBox.Items.Clear();
+            foreach (string type in newsType.Keys)
+            {
+                eqBox.Items.Add(type);
+                neBox.Items.Add(type);
+            }
+
         }
         //随机单词
         private void radioButton8_CheckedChanged(object sender, EventArgs e)
@@ -367,7 +368,11 @@ namespace CW
             return answer;
         }
 
-
+        /// <summary>
+        /// 随机一篇文章
+        /// </summary>
+        /// <param name="words"></param>
+        /// <returns></returns>
         private string getArticle(List<string> words) {
             string answer = "";
             //组数限制
@@ -393,9 +398,55 @@ namespace CW
 
 
 
-            return String.Join(" ", list);
+            return System.String.Join(" ", list);
 
         }
+        /// <summary>
+        /// 取网上下载一篇新闻
+        /// </summary>
+        /// <param name="words"></param>
+        /// <returns></returns>
+        private string getNewsPapers(List<string> words) {
+            string answer = "";
+            //组数限制
+            int groupNum = System.Convert.ToInt32(groupNumBox.Value);
+            //是否不要符号
+            var flag = symbolsChb.Checked;
+            Random random = new Random();
+            var type = random.Next(0, words.Count);
+           var resp= newspapers.HttpRequestUtil.GetWebRequest(newsType[words[type]]);
+            XmlDocument doc = new XmlDocument();
+           doc.LoadXml(resp);
+           var item=  doc.SelectNodes("/rss/channel/item");
+           var index= random.Next(0,item.Count);
+           var newsPaper=  item[index];
+            var title= newsPaper.SelectSingleNode("title").InnerText;
+            XmlNamespaceManager nsm1 = new XmlNamespaceManager(doc.NameTable);
+            nsm1.AddNamespace("dc", @"http://purl.org/dc/elements/1.1/");
+            var date = newsPaper.SelectSingleNode("//dc:date", nsm1).InnerText;
+            XmlNamespaceManager nsm2 = new XmlNamespaceManager(doc.NameTable);
+            nsm2.AddNamespace("content", @"http://purl.org/rss/1.0/modules/content/");
+            var contentHtml = newsPaper.SelectSingleNode("//content:encoded", nsm2).InnerText;
+            //处理超文本
+            NSoup.Nodes.Document html = NSoup.NSoupClient.Parse(contentHtml);
+           var content= html.Text();
+            //处理时间
+            content = DateTime.Parse(date).ToString("yyyy-MM-dd HH:mm:ss") + " " + content;
+            if (!flag) {
+                foreach (string s in symbol.Keys)
+                {
+                    content = content.Replace(s, "");
+                }
+                content.Trim();
+            }
+
+
+           var list =  content.Split(' ').Take(groupNum).ToList();
+
+
+            return System.String.Join(" ", list);
+        }
+
         //生成报文并播放
         private void startBtn_Click(object sender, EventArgs e)
         {
@@ -413,6 +464,16 @@ namespace CW
             else if (mode == 4)
             {
                 answer += getArticle(words);
+            }
+            else if (mode == 5)
+            {
+                //检查网络
+                if (newspapers.HttpRequestUtil.GetWebRequest("https://www.cgtn.com/subscribe/rss/section/china.xml") == "") {
+                    MessageBox.Show("当前网络不通畅，请试试其他模式吧！");
+                    return;
+                }
+
+                answer += getNewsPapers(words);
             }
             else if (mode == 6)
             {
@@ -622,6 +683,7 @@ namespace CW
                     case 2: words.AddRange(number.Keys); words.AddRange(alphabet.Keys); break;
                     case 3: words.AddRange(symbol.Keys); break;
                     case 4: words.AddRange(new List<string>(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n=>n.Replace(ArticlePath,"")).ToList()); break;
+                    case 5: words.AddRange(newsType.Keys); break;
                     case 6: words.AddRange(alphabet.Keys); break;
 
                 }

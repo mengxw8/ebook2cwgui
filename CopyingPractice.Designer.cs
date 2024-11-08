@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
             radioButton8 = new RadioButton();
             radioButton6 = new RadioButton();
@@ -41,8 +41,6 @@
             radioButton2 = new RadioButton();
             radioButton1 = new RadioButton();
             groupBox2 = new GroupBox();
-            newsType = new ComboBox();
-            newsTypeRbtn = new RadioButton();
             eqBox = new CheckedListBox();
             neBox = new CheckedListBox();
             eqRbtn = new RadioButton();
@@ -195,8 +193,6 @@
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(newsType);
-            groupBox2.Controls.Add(newsTypeRbtn);
             groupBox2.Controls.Add(eqBox);
             groupBox2.Controls.Add(neBox);
             groupBox2.Controls.Add(eqRbtn);
@@ -207,29 +203,6 @@
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "个性化定制";
-            // 
-            // newsType
-            // 
-            newsType.DropDownStyle = ComboBoxStyle.DropDownList;
-            newsType.Enabled = false;
-            newsType.FormattingEnabled = true;
-            newsType.Items.AddRange(new object[] { "中国", "旅行", "文化", "生活", "科技" });
-            newsType.Location = new Point(533, 29);
-            newsType.Name = "newsType";
-            newsType.Size = new Size(61, 25);
-            newsType.TabIndex = 5;
-            // 
-            // newsTypeRbtn
-            // 
-            newsTypeRbtn.AutoSize = true;
-            newsTypeRbtn.Enabled = false;
-            newsTypeRbtn.Location = new Point(460, 32);
-            newsTypeRbtn.Name = "newsTypeRbtn";
-            newsTypeRbtn.Size = new Size(74, 21);
-            newsTypeRbtn.TabIndex = 4;
-            newsTypeRbtn.TabStop = true;
-            newsTypeRbtn.Text = "新闻类型";
-            newsTypeRbtn.UseVisualStyleBackColor = true;
             // 
             // eqBox
             // 
@@ -534,24 +507,24 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = SystemColors.Control;
-            dataGridViewCellStyle5.Font = new Font("Microsoft YaHei UI", 9F);
-            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Microsoft YaHei UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(3, 19);
             dataGridView1.Name = "dataGridView1";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dataGridView1.RowTemplate.Height = 40;
             dataGridView1.Size = new Size(1249, 482);
             dataGridView1.TabIndex = 0;
@@ -693,8 +666,6 @@
         private Label label6;
         private RadioButton radioButton6;
         private CheckBox symbolsChb;
-        private RadioButton newsTypeRbtn;
-        private ComboBox newsType;
         private RadioButton radioButton8;
         private GroupBox groupBox5;
         private Button rePlayBtn;

@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NSoup" Version="0.8.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,7 +70,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="newspapers\" />
     <Folder Include="Properties\" />
     <Folder Include="text\" />
   </ItemGroup>
