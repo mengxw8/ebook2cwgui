@@ -472,8 +472,16 @@ namespace CW
                     MessageBox.Show("当前网络不通畅，请试试其他模式吧！");
                     return;
                 }
+                try
+                {
+                    answer += getNewsPapers(words);
+                }
+                catch {
+                    MessageBox.Show("当前网络不通畅，请试试其他模式吧！");
+                    return;
+                }
 
-                answer += getNewsPapers(words);
+            
             }
             else if (mode == 6)
             {
