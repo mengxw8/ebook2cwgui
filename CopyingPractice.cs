@@ -519,7 +519,7 @@ namespace CW
 
             answerBuilder.Append("\r\niii\r\n");
             if (mode != 7) {
-                answer=answer.ToString();
+                answer= answerBuilder.ToString();
                 answer = answer.ToLower();
             }
             
