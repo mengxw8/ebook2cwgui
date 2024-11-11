@@ -100,6 +100,7 @@ namespace CW
 
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
+            dataGridView1.Enabled= true;
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -114,6 +115,7 @@ namespace CW
             mode = 1;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
+            dataGridView1.Enabled = true;
 
             //填充值
             eqBox.Items.Clear();
@@ -130,6 +132,7 @@ namespace CW
 
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
+            dataGridView1.Enabled = true;
 
             //填充值
             eqBox.Items.Clear();
@@ -151,6 +154,8 @@ namespace CW
             mode = 3;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
+            dataGridView1.Enabled = true;
+
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -166,6 +171,7 @@ namespace CW
             //英文文章
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
+            dataGridView1.Enabled = true;
 
             //加载文章列表
             // 确保路径是目录并且存在
@@ -193,6 +199,7 @@ namespace CW
             mode = 5;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
+            dataGridView1.Enabled = true;
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -466,18 +473,19 @@ namespace CW
         {
             //生成测试数据
             List<string> words = getWords();
-            if (words.Count == 0 || words == null)
+            if ((words.Count == 0 || words == null)&&mode!=7)
             {
                 return;
             }
-            answer = "===\r\n";
+            StringBuilder answerBuilder = new StringBuilder();
+            answerBuilder.Append("===\r\n");  
             if (mode == 0 || mode == 1 || mode == 2 || mode == 3)
             {
-                answer += generateAnswer(words);
+                answerBuilder.Append(generateAnswer(words)); 
             }
             else if (mode == 4)
             {
-                answer += getArticle(words);
+                answerBuilder.Append(getArticle(words))  ;
             }
             else if (mode == 5)
             {
@@ -489,7 +497,7 @@ namespace CW
                 }
                 try
                 {
-                    answer += getNewsPapers(words);
+                    answerBuilder.Append(getNewsPapers(words));
                 }
                 catch
                 {
@@ -501,13 +509,20 @@ namespace CW
             }
             else if (mode == 6)
             {
-                answer += generateWord(words);
+                answerBuilder.Append(generateWord(words)) ;
 
 
             }
+            else if (mode == 7) { 
+            
+            }
 
-            answer += "\r\niii\r\n";
-            answer = answer.ToLower();
+            answerBuilder.Append("\r\niii\r\n");
+            if (mode != 7) {
+                answer=answer.ToString();
+                answer = answer.ToLower();
+            }
+            
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
             var filePath = "./temp/" + fileName + ".txt";
@@ -915,6 +930,33 @@ namespace CW
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
             Version version = currentAssembly.GetName().Version;
             this.Text = this.Text + " V" + version;
+        }
+
+        private void individuationRbtn_CheckedChanged(object sender, EventArgs e)
+        {
+            if (individuationRbtn.Checked == true) {
+                mode = 7;
+                dataGridView1.Enabled = false;
+                eqRbtn.Enabled = false;
+                neRbtn.Enabled = false;
+                //弹出文件选择框
+                OpenFileDialog openImageDialog = new OpenFileDialog();
+
+                openImageDialog.Filter = "报文(*.txt)|*.txt";
+                openImageDialog.Multiselect = false;//关闭多选
+                if (openImageDialog.ShowDialog() == DialogResult.OK)
+                {
+                    answer = File.ReadAllText(openImageDialog.FileName);
+
+                }
+                else
+                {
+                    MessageBox.Show("未选择任何文件,试试其他模式吧!");
+                    radioButton8.Checked = true;
+
+                }
+            }
+
         }
     }
 }

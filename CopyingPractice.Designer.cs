@@ -33,6 +33,7 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
+            individuationRbtn = new RadioButton();
             radioButton8 = new RadioButton();
             radioButton6 = new RadioButton();
             radioButton5 = new RadioButton();
@@ -93,6 +94,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(individuationRbtn);
             groupBox1.Controls.Add(radioButton8);
             groupBox1.Controls.Add(radioButton6);
             groupBox1.Controls.Add(radioButton5);
@@ -102,15 +104,27 @@
             groupBox1.Controls.Add(radioButton1);
             groupBox1.Location = new Point(6, 2);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(600, 60);
+            groupBox1.Size = new Size(650, 60);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "练习模式";
             // 
+            // individuationRbtn
+            // 
+            individuationRbtn.AutoSize = true;
+            individuationRbtn.Location = new Point(568, 20);
+            individuationRbtn.Name = "individuationRbtn";
+            individuationRbtn.Size = new Size(62, 21);
+            individuationRbtn.TabIndex = 7;
+            individuationRbtn.TabStop = true;
+            individuationRbtn.Text = "自定义";
+            individuationRbtn.UseVisualStyleBackColor = true;
+            individuationRbtn.CheckedChanged += individuationRbtn_CheckedChanged;
+            // 
             // radioButton8
             // 
             radioButton8.AutoSize = true;
-            radioButton8.Location = new Point(500, 20);
+            radioButton8.Location = new Point(488, 20);
             radioButton8.Name = "radioButton8";
             radioButton8.Size = new Size(74, 21);
             radioButton8.TabIndex = 6;
@@ -122,7 +136,7 @@
             // radioButton6
             // 
             radioButton6.AutoSize = true;
-            radioButton6.Location = new Point(444, 20);
+            radioButton6.Location = new Point(432, 20);
             radioButton6.Name = "radioButton6";
             radioButton6.Size = new Size(50, 21);
             radioButton6.TabIndex = 5;
@@ -134,7 +148,7 @@
             // radioButton5
             // 
             radioButton5.AutoSize = true;
-            radioButton5.Location = new Point(302, 20);
+            radioButton5.Location = new Point(290, 20);
             radioButton5.Name = "radioButton5";
             radioButton5.Size = new Size(50, 21);
             radioButton5.TabIndex = 4;
@@ -146,7 +160,7 @@
             // radioButton4
             // 
             radioButton4.AutoSize = true;
-            radioButton4.Location = new Point(361, 20);
+            radioButton4.Location = new Point(349, 20);
             radioButton4.Name = "radioButton4";
             radioButton4.Size = new Size(74, 21);
             radioButton4.TabIndex = 3;
@@ -158,7 +172,7 @@
             // radioButton3
             // 
             radioButton3.AutoSize = true;
-            radioButton3.Location = new Point(186, 20);
+            radioButton3.Location = new Point(174, 20);
             radioButton3.Name = "radioButton3";
             radioButton3.Size = new Size(107, 21);
             radioButton3.TabIndex = 2;
@@ -170,7 +184,7 @@
             // radioButton2
             // 
             radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(103, 20);
+            radioButton2.Location = new Point(91, 20);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new Size(74, 21);
             radioButton2.TabIndex = 1;
@@ -182,7 +196,7 @@
             // radioButton1
             // 
             radioButton1.AutoSize = true;
-            radioButton1.Location = new Point(20, 20);
+            radioButton1.Location = new Point(8, 20);
             radioButton1.Name = "radioButton1";
             radioButton1.Size = new Size(74, 21);
             radioButton1.TabIndex = 0;
@@ -199,7 +213,7 @@
             groupBox2.Controls.Add(neRbtn);
             groupBox2.Location = new Point(6, 68);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(600, 100);
+            groupBox2.Size = new Size(650, 100);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "个性化定制";
@@ -209,9 +223,9 @@
             eqBox.Enabled = false;
             eqBox.FormattingEnabled = true;
             eqBox.Items.AddRange(new object[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
-            eqBox.Location = new Point(303, 18);
+            eqBox.Location = new Point(346, 18);
             eqBox.Name = "eqBox";
-            eqBox.Size = new Size(152, 76);
+            eqBox.Size = new Size(214, 76);
             eqBox.TabIndex = 3;
             // 
             // neBox
@@ -222,13 +236,13 @@
             neBox.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" });
             neBox.Location = new Point(66, 20);
             neBox.Name = "neBox";
-            neBox.Size = new Size(171, 76);
+            neBox.Size = new Size(214, 76);
             neBox.TabIndex = 2;
             // 
             // eqRbtn
             // 
             eqRbtn.AutoSize = true;
-            eqRbtn.Location = new Point(243, 29);
+            eqRbtn.Location = new Point(286, 29);
             eqRbtn.Name = "eqRbtn";
             eqRbtn.Size = new Size(62, 21);
             eqRbtn.TabIndex = 1;
@@ -272,9 +286,9 @@
             groupBox3.Controls.Add(label3);
             groupBox3.Controls.Add(label2);
             groupBox3.Controls.Add(label1);
-            groupBox3.Location = new Point(612, 2);
+            groupBox3.Location = new Point(662, 2);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(514, 166);
+            groupBox3.Size = new Size(482, 166);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "CW配置";
@@ -282,7 +296,7 @@
             // symbolsChb
             // 
             symbolsChb.AutoSize = true;
-            symbolsChb.Location = new Point(330, 113);
+            symbolsChb.Location = new Point(304, 113);
             symbolsChb.Name = "symbolsChb";
             symbolsChb.Size = new Size(87, 21);
             symbolsChb.TabIndex = 21;
@@ -293,7 +307,7 @@
             // 
             extraWordSpacing.DecimalPlaces = 1;
             extraWordSpacing.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            extraWordSpacing.Location = new Point(271, 55);
+            extraWordSpacing.Location = new Point(253, 55);
             extraWordSpacing.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
             extraWordSpacing.Name = "extraWordSpacing";
             extraWordSpacing.Size = new Size(40, 23);
@@ -302,7 +316,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(171, 56);
+            label6.Location = new Point(153, 56);
             label6.Name = "label6";
             label6.Size = new Size(83, 17);
             label6.TabIndex = 19;
@@ -310,7 +324,7 @@
             // 
             // effectiveSpeed
             // 
-            effectiveSpeed.Location = new Point(271, 24);
+            effectiveSpeed.Location = new Point(253, 24);
             effectiveSpeed.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
             effectiveSpeed.Name = "effectiveSpeed";
             effectiveSpeed.Size = new Size(40, 23);
@@ -319,7 +333,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(171, 25);
+            label5.Location = new Point(153, 25);
             label5.Name = "label5";
             label5.Size = new Size(98, 17);
             label5.TabIndex = 17;
@@ -349,7 +363,7 @@
             // showAnswerChb
             // 
             showAnswerChb.AutoSize = true;
-            showAnswerChb.Location = new Point(330, 83);
+            showAnswerChb.Location = new Point(304, 83);
             showAnswerChb.Name = "showAnswerChb";
             showAnswerChb.Size = new Size(75, 21);
             showAnswerChb.TabIndex = 14;
@@ -377,7 +391,7 @@
             // 
             // exportBtn
             // 
-            exportBtn.Location = new Point(424, 131);
+            exportBtn.Location = new Point(398, 106);
             exportBtn.Name = "exportBtn";
             exportBtn.Size = new Size(75, 23);
             exportBtn.TabIndex = 10;
@@ -388,7 +402,7 @@
             // repeatRbtn
             // 
             repeatRbtn.AutoSize = true;
-            repeatRbtn.Location = new Point(330, 26);
+            repeatRbtn.Location = new Point(304, 26);
             repeatRbtn.Name = "repeatRbtn";
             repeatRbtn.Size = new Size(87, 21);
             repeatRbtn.TabIndex = 9;
@@ -398,7 +412,7 @@
             // continuousRbtn
             // 
             continuousRbtn.AutoSize = true;
-            continuousRbtn.Location = new Point(330, 54);
+            continuousRbtn.Location = new Point(304, 54);
             continuousRbtn.Name = "continuousRbtn";
             continuousRbtn.Size = new Size(87, 21);
             continuousRbtn.TabIndex = 8;
@@ -407,7 +421,7 @@
             // 
             // submitAnswerBtn
             // 
-            submitAnswerBtn.Location = new Point(424, 96);
+            submitAnswerBtn.Location = new Point(398, 56);
             submitAnswerBtn.Name = "submitAnswerBtn";
             submitAnswerBtn.Size = new Size(75, 23);
             submitAnswerBtn.TabIndex = 7;
@@ -417,7 +431,7 @@
             // 
             // startBtn
             // 
-            startBtn.Location = new Point(424, 26);
+            startBtn.Location = new Point(398, 26);
             startBtn.Name = "startBtn";
             startBtn.Size = new Size(75, 23);
             startBtn.TabIndex = 6;
@@ -484,7 +498,7 @@
             // 
             // stopBtn
             // 
-            stopBtn.Location = new Point(28, 134);
+            stopBtn.Location = new Point(18, 134);
             stopBtn.Name = "stopBtn";
             stopBtn.Size = new Size(75, 23);
             stopBtn.TabIndex = 11;
@@ -544,9 +558,9 @@
             groupBox5.Controls.Add(pauseBtn);
             groupBox5.Controls.Add(clearAnswerBtn);
             groupBox5.Controls.Add(stopBtn);
-            groupBox5.Location = new Point(1132, 2);
+            groupBox5.Location = new Point(1149, 2);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(126, 166);
+            groupBox5.Size = new Size(109, 166);
             groupBox5.TabIndex = 4;
             groupBox5.TabStop = false;
             groupBox5.Text = "控制";
@@ -554,7 +568,7 @@
             // rePlayBtn
             // 
             rePlayBtn.Enabled = false;
-            rePlayBtn.Location = new Point(28, 106);
+            rePlayBtn.Location = new Point(18, 106);
             rePlayBtn.Name = "rePlayBtn";
             rePlayBtn.Size = new Size(75, 23);
             rePlayBtn.TabIndex = 3;
@@ -565,7 +579,7 @@
             // continuePlayBtn
             // 
             continuePlayBtn.Enabled = false;
-            continuePlayBtn.Location = new Point(28, 78);
+            continuePlayBtn.Location = new Point(18, 78);
             continuePlayBtn.Name = "continuePlayBtn";
             continuePlayBtn.Size = new Size(75, 23);
             continuePlayBtn.TabIndex = 2;
@@ -576,7 +590,7 @@
             // pauseBtn
             // 
             pauseBtn.Enabled = false;
-            pauseBtn.Location = new Point(28, 50);
+            pauseBtn.Location = new Point(18, 50);
             pauseBtn.Name = "pauseBtn";
             pauseBtn.Size = new Size(75, 23);
             pauseBtn.TabIndex = 1;
@@ -586,7 +600,7 @@
             // 
             // clearAnswerBtn
             // 
-            clearAnswerBtn.Location = new Point(28, 22);
+            clearAnswerBtn.Location = new Point(18, 22);
             clearAnswerBtn.Name = "clearAnswerBtn";
             clearAnswerBtn.Size = new Size(75, 23);
             clearAnswerBtn.TabIndex = 0;
@@ -673,5 +687,6 @@
         private Button continuePlayBtn;
         private Button pauseBtn;
         private Button clearAnswerBtn;
+        private RadioButton individuationRbtn;
     }
 }
