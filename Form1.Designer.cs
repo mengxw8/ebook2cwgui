@@ -30,6 +30,9 @@
         {
             button1 = new Button();
             copyBtn = new Button();
+            label1 = new Label();
+            label2 = new Label();
+            linkLabel1 = new LinkLabel();
             SuspendLayout();
             // 
             // button1
@@ -52,22 +55,58 @@
             copyBtn.UseVisualStyleBackColor = true;
             copyBtn.Click += copyBtn_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(43, 357);
+            label1.Name = "label1";
+            label1.Size = new Size(179, 17);
+            label1.TabIndex = 2;
+            label1.Text = "本软件基于GPL-2.0 license开源";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(49, 374);
+            label2.Name = "label2";
+            label2.Size = new Size(164, 17);
+            label2.TabIndex = 3;
+            label2.Text = "使用该软件代表同意相关协议";
+            // 
+            // linkLabel1
+            // 
+            linkLabel1.AutoSize = true;
+            linkLabel1.Location = new Point(94, 391);
+            linkLabel1.Name = "linkLabel1";
+            linkLabel1.Size = new Size(56, 17);
+            linkLabel1.TabIndex = 4;
+            linkLabel1.TabStop = true;
+            linkLabel1.Text = "反馈问题";
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(263, 463);
+            Controls.Add(linkLabel1);
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(copyBtn);
             Controls.Add(button1);
             Name = "Form1";
             Text = "CW 工具箱";
             Load += Form1_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private Button button1;
         private Button copyBtn;
+        private Label label1;
+        private Label label2;
+        private LinkLabel linkLabel1;
     }
 }

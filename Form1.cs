@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace CW
@@ -33,6 +34,13 @@ namespace CW
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
             Version version = currentAssembly.GetName().Version;
             this.Text = this.Text + " V" + version;
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // 当链接文本被点击时触发的事件
+            // 在这里执行你希望的操作，比如打开一个链接或执行一些特定的任务
+            System.Diagnostics.Process.Start(new ProcessStartInfo("https://github.com/mengxw8/ebook2cwgui/issues") { UseShellExecute = true });
         }
     }
 }
