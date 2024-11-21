@@ -42,5 +42,13 @@ namespace CW
             // 在这里执行你希望的操作，比如打开一个链接或执行一些特定的任务
             System.Diagnostics.Process.Start(new ProcessStartInfo("https://github.com/mengxw8/ebook2cwgui/issues") { UseShellExecute = true });
         }
+
+        private void sendBtn_Click(object sender, EventArgs e)
+        {
+            SendPractice sendPractice = new SendPractice();
+            this.Visible = false;
+            sendPractice.ShowDialog();
+            this.Close();
+        }
     }
 }

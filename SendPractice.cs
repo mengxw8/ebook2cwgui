@@ -1,4 +1,5 @@
-﻿using NAudio.SoundFont;
+﻿using Microsoft.VisualBasic.Logging;
+using NAudio.SoundFont;
 using NAudio.Wave;
 using Newtonsoft.Json;
 using System;
@@ -25,11 +26,11 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CW
 {
-    public partial class CopyingPractice : Form
+    public partial class SendPractice : Form
     {
         [DllImport("user32.dll")]
         static extern long LoadKeyboardLayout(string pwszKLID, uint Flags);
-        public CopyingPractice()
+        public SendPractice()
         {
             InitializeComponent();
             //不允许息屏
@@ -37,40 +38,9 @@ namespace CW
             //输入法切换为英文
             LoadKeyboardLayout("00000409", 1);
 
-            clearAnswer();
 
 
-            dataGridView1.RowsDefaultCellStyle.Font = new Font("Segoe UI", 20, FontStyle.Bold);
-            //表头居中
-            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            //禁用排序
-            for (int i = 0; i < dataGridView1.Columns.Count; i++)
-            {
-                dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
 
-
-            dataGridView1.RowHeadersVisible = true;
-            dataGridView1.ColumnHeadersVisible = true;
-
-            //dataGridView1.RowPostPaint += new DataGridViewRowPostPaintEventHandler(dataGridView1_RowPostPaint);
-        }
-        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
-            var grid = sender as DataGridView;
-            var rowIdx = e.RowIndex;
-
-            var row = grid.Rows[rowIdx];
-            var cell = row.Cells[0];
-
-            var centerFormat = new StringFormat()
-            {
-
-                LineAlignment = StringAlignment.Center
-            };
-
-            var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height);
-            e.Graphics.DrawString((rowIdx + 1).ToString(), dataGridView1.RowHeadersDefaultCellStyle.Font, SystemBrushes.ControlText, headerBounds, centerFormat);
         }
 
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
@@ -100,7 +70,7 @@ namespace CW
 
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            dataGridView1.Enabled= true;
+
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -115,7 +85,7 @@ namespace CW
             mode = 1;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            dataGridView1.Enabled = true;
+
 
             //填充值
             eqBox.Items.Clear();
@@ -132,7 +102,7 @@ namespace CW
 
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            dataGridView1.Enabled = true;
+
 
             //填充值
             eqBox.Items.Clear();
@@ -154,7 +124,7 @@ namespace CW
             mode = 3;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            dataGridView1.Enabled = true;
+
 
             //填充值
             eqBox.Items.Clear();
@@ -171,7 +141,7 @@ namespace CW
             //英文文章
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            dataGridView1.Enabled = true;
+
 
             //加载文章列表
             // 确保路径是目录并且存在
@@ -199,7 +169,7 @@ namespace CW
             mode = 5;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            dataGridView1.Enabled = true;
+
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -217,90 +187,14 @@ namespace CW
             mode = 6;
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // 如果点击的不是行头（如果不需要可以不检查）
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                // 将点击的单元格设置为编辑状态
-                //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].ReadOnly = false;
-                dataGridView1.BeginEdit(true);
-            }
-        }
-
-        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            dataGridView1_CellClick(sender, e);
-        }
-
-        private void groupNumBox_Leave(object sender, EventArgs e)
-        {
-            //更改答案提交范围
-            var groupNum = groupNumBox.Value;
-            for (var rowIndex = 0; rowIndex < dataGridView1.RowCount; rowIndex++)
-            {
-                for (var columnIndex = 0; columnIndex < dataGridView1.Rows[rowIndex].Cells.Count; columnIndex++)
-                {
-
-                    dataGridView1.Rows[rowIndex].Cells[columnIndex].ReadOnly = --groupNum < 0;
-
-                }
-            }
-
-        }
 
 
 
-        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
-            //检测是被表示的控件还是DataGridViewTextBoxEditingControl
-            if (e.Control is DataGridViewTextBoxEditingControl)
-            {
-                DataGridView dgv = (DataGridView)sender;
-
-                //取得被表示的控件
-                DataGridViewTextBoxEditingControl tb = (DataGridViewTextBoxEditingControl)e.Control;
-
-                //事件处理器删除
-                tb.KeyPress -= new KeyPressEventHandler(dataGridViewTextBox_KeyPress);
-
-                tb.KeyPress += new KeyPressEventHandler(dataGridViewTextBox_KeyPress);
 
 
 
-            }
-
-        }
-
-        private void dataGridViewTextBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-            //if ((int)e.KeyChar >= 48 & (int)e.KeyChar <= 57 | (int)e.KeyChar == 8 | (int)e.KeyChar == 46)
-            //{
-            //    e.Handled = false;
-            //}
-            //else
-            //{
-            //    e.Handled = true;
-            //}
 
 
-            //N个一组，输完直接下一组
-            var dgv = sender as TextBox;
-            if (dgv != null && !showAnswerChb.Checked && mode > 3)
-            {
-                var data = dgv.Text;
-
-                data += e.KeyChar;
-                if (data.Length == EachGroup.Value)
-                {
-                    SendKeys.Send("{tab}");
-                }
-
-            }
-
-
-        }
 
 
         private string generateAnswer(List<string> words)
@@ -473,19 +367,19 @@ namespace CW
         {
             //生成测试数据
             List<string> words = getWords();
-            if ((words.Count == 0 || words == null)&&mode!=7)
+            if ((words.Count == 0 || words == null) && mode != 7)
             {
                 return;
             }
             StringBuilder answerBuilder = new StringBuilder();
-            answerBuilder.Append("===\r\n");  
+            answerBuilder.Append("===\r\n");
             if (mode == 0 || mode == 1 || mode == 2 || mode == 3)
             {
-                answerBuilder.Append(generateAnswer(words)); 
+                answerBuilder.Append(generateAnswer(words));
             }
             else if (mode == 4)
             {
-                answerBuilder.Append(getArticle(words))  ;
+                answerBuilder.Append(getArticle(words));
             }
             else if (mode == 5)
             {
@@ -509,20 +403,22 @@ namespace CW
             }
             else if (mode == 6)
             {
-                answerBuilder.Append(generateWord(words)) ;
+                answerBuilder.Append(generateWord(words));
 
 
             }
-            else if (mode == 7) { 
-            
+            else if (mode == 7)
+            {
+
             }
 
             answerBuilder.Append("\r\niii\r\n");
-            if (mode != 7) {
-                answer=answerBuilder.ToString();
+            if (mode != 7)
+            {
+                answer = answerBuilder.ToString();
                 answer = answer.ToLower();
             }
-            
+
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
             var filePath = "./temp/" + fileName + ".txt";
@@ -731,13 +627,7 @@ namespace CW
             return words;
         }
 
-        private void submitAnswerBtn_Click(object sender, EventArgs e)
-        {
 
-            AnswerBoard answerBoard = new AnswerBoard(answer, dataGridView1);
-            answerBoard.ShowDialog();
-
-        }
 
         private void stopBtn_Click(object sender, EventArgs e)
         {
@@ -818,19 +708,7 @@ namespace CW
         private void showAnswer()
         {
 
-            if (answer != "")
-            {
-                //把小写的q换成大写的Q，符合抄写习惯
-                answer = answer.Replace("q", "Q");
-                var s = answer.Replace("===\r\n", "").Replace("iii\r\n", "").Split(" ");
-                for (var i = 0; i < s.Length; i++)
-                {
-                    dataGridView1[i % 10, i / 10].Value = s[i];
 
-                }
-                dataGridView1.Refresh();
-
-            }
 
         }
 
@@ -859,34 +737,11 @@ namespace CW
             checkAnserSpeed.Value = speetBox.Value + 2;
         }
 
-        private void clearAnswer()
-        {
-            //数据区域初始化
-            if (dataTable == null)
-            {
-                dataTable = new DataTable();
-                //先来10列
-                for (int i = 1; i <= 10; i++)
-                {
-                    dataTable.Columns.Add(i.ToString(), typeof(string));
-                }
-                dataGridView1.DataSource = dataTable;
-            }
-            dataTable.Clear();
 
-
-            //再来十行
-            for (int i = 1; i <= 10; i++)
-            {
-                var row = dataTable.NewRow();
-                dataTable.Rows.Add(row);
-            }
-
-        }
         //清空答案
         private void clearAnswer_Click(object sender, EventArgs e)
         {
-            clearAnswer();
+
             showAnswerChb.Checked = false;
         }
 
@@ -934,9 +789,10 @@ namespace CW
 
         private void individuationRbtn_CheckedChanged(object sender, EventArgs e)
         {
-            if (individuationRbtn.Checked == true) {
+            if (individuationRbtn.Checked == true)
+            {
                 mode = 7;
-                dataGridView1.Enabled = false;
+
                 eqRbtn.Enabled = false;
                 neRbtn.Enabled = false;
                 //弹出文件选择框
@@ -957,6 +813,27 @@ namespace CW
                 }
             }
 
+        }
+
+        long start = 0;
+        private void calculateInput(object sender, KeyEventArgs e)
+        {
+            long endTime = DateTime.Now.Ticks;
+            var subTime= endTime - start;
+            if (subTime < 600000)
+            {
+                richTextBox1.Text += ".";
+            }
+            else  {
+                richTextBox1.Text += "-";
+            }
+
+
+        }
+
+        private void richTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            start =DateTime.Now.Ticks;
         }
     }
 }

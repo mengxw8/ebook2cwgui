@@ -33,6 +33,7 @@
             label1 = new Label();
             label2 = new Label();
             linkLabel1 = new LinkLabel();
+            sendBtn = new Button();
             SuspendLayout();
             // 
             // button1
@@ -84,18 +85,29 @@
             linkLabel1.Text = "反馈问题";
             linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
+            // sendBtn
+            // 
+            sendBtn.Location = new Point(75, 125);
+            sendBtn.Name = "sendBtn";
+            sendBtn.Size = new Size(100, 23);
+            sendBtn.TabIndex = 5;
+            sendBtn.Text = "CW发报练习";
+            sendBtn.UseVisualStyleBackColor = true;
+            sendBtn.Click += sendBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(263, 463);
+            Controls.Add(sendBtn);
             Controls.Add(linkLabel1);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(copyBtn);
             Controls.Add(button1);
             Name = "Form1";
-            Text = "CW 工具箱";
+            Text = "CW工具箱";
             Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -108,5 +120,6 @@
         private Label label1;
         private Label label2;
         private LinkLabel linkLabel1;
+        private Button sendBtn;
     }
 }

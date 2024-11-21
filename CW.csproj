@@ -72,8 +72,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="doc\img\" />
     <Folder Include="Properties\" />
     <Folder Include="text\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="SendPractice.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>
