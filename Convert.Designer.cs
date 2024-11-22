@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Convert));
             label1 = new Label();
             label2 = new Label();
             inputFilePathTxb = new TextBox();
@@ -535,6 +536,7 @@
             Controls.Add(inputFilePathTxb);
             Controls.Add(label2);
             Controls.Add(label1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Convert";
             Text = "文本转换CW";
             Load += Convert_Load;

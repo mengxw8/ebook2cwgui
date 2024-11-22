@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             button1 = new Button();
             copyBtn = new Button();
             label1 = new Label();
@@ -93,6 +94,7 @@
             sendBtn.TabIndex = 5;
             sendBtn.Text = "CW发报练习";
             sendBtn.UseVisualStyleBackColor = true;
+            sendBtn.Visible = false;
             sendBtn.Click += sendBtn_Click;
             // 
             // Form1
@@ -106,6 +108,7 @@
             Controls.Add(label1);
             Controls.Add(copyBtn);
             Controls.Add(button1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
             Text = "CW工具箱";
             Load += Form1_Load;
