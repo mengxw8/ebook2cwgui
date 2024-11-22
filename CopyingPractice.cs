@@ -74,7 +74,7 @@ namespace CW
         }
 
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
-        int mode = 0;
+        WorkingMode mode = WorkingMode.None;
         //数字
         static readonly Dictionary<string, string> number = new() { { "1", ".----" }, { "2", "..---" }, { "3", "...--" }, { "4", "....-" }, { "5", "....." }, { "6", "-...." }, { "7", "--..." }, { "8", "---.." }, { "9", "----." }, { "0", "-----" } };
         //字母
@@ -137,7 +137,7 @@ namespace CW
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            mode = 0;
+            mode = WorkingMode.Number;
             KochList.Enabled = false;
 
             eqRbtn.Enabled = true;
@@ -154,7 +154,7 @@ namespace CW
         }
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            mode = 1;
+            mode = WorkingMode.Alphabet;
             KochList.Enabled = false;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
@@ -171,7 +171,7 @@ namespace CW
         }
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            mode = 2;
+            mode = WorkingMode.AlphabetAndNumber;
             KochList.Enabled = false;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
@@ -194,7 +194,7 @@ namespace CW
 
         private void radioButton5_CheckedChanged(object sender, EventArgs e)
         {
-            mode = 3;
+            mode = WorkingMode.Symbol;
             KochList.Enabled = false;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
@@ -211,7 +211,7 @@ namespace CW
         }
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
-            mode = 4;
+            mode = WorkingMode.Article;
             //英文文章
             KochList.Enabled = false;
             eqRbtn.Enabled = true;
@@ -241,7 +241,7 @@ namespace CW
         //新闻
         private void radioButton6_CheckedChanged(object sender, EventArgs e)
         {
-            mode = 5;
+            mode = WorkingMode.News;
             KochList.Enabled = false;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
@@ -260,12 +260,12 @@ namespace CW
         private void radioButton8_CheckedChanged(object sender, EventArgs e)
         {
             radioButton2_CheckedChanged(sender, e);
-            mode = 6;
+            mode = WorkingMode.Word;
         }
         //Koch训练法
         private void radioButton7_CheckedChanged(object sender, EventArgs e)
         {
-            mode = 8;
+            mode = WorkingMode.Koch;
             KochList.Enabled = true;
             KochList.SelectedIndex = 0;
             eqRbtn.Enabled = true;
@@ -342,7 +342,7 @@ namespace CW
 
             //N个一组，输完直接下一组
             var dgv = sender as TextBox;
-            if (dgv != null && !showAnswerChb.Checked && mode > 3)
+            if (dgv != null && !showAnswerChb.Checked && ((int)mode) > 3)
             {
                 var data = dgv.Text;
 
@@ -370,6 +370,7 @@ namespace CW
             var groupNum = groupNumBox.Value;
 
             Random random = new Random();
+            StringBuilder answerBuilder = new();
 
             for (int i = 0; i < groupNum; i++)
             {
@@ -393,14 +394,15 @@ namespace CW
                     key += s;
 
                 }
-                answer += key;
+                answerBuilder.Append(key);
+
                 if (i + 1 < groupNum)
                 {
-                    answer += " ";
+                    answerBuilder.Append( " ");
                 }
 
             }
-            return answer;
+            return answerBuilder.ToString();
 
         }
         /// <summary>
@@ -526,23 +528,24 @@ namespace CW
         //生成报文并播放
         private void startBtn_Click(object sender, EventArgs e)
         {
+            
             //生成测试数据
             List<string> words = getWords();
-            if ((words.Count == 0 || words == null) && mode != 7)
+            if ((words.Count == 0 || words == null) && mode != WorkingMode.Customize)
             {
                 return;
             }
             StringBuilder answerBuilder = new StringBuilder();
             answerBuilder.Append("===\r\n");
-            if (mode == 0 || mode == 1 || mode == 2 || mode == 3||mode==8)
+            if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol||mode==WorkingMode.Koch)
             {
                 answerBuilder.Append(generateAnswer(words));
             }
-            else if (mode == 4)
+            else if (mode == WorkingMode.Article)
             {
                 answerBuilder.Append(getArticle(words));
             }
-            else if (mode == 5)
+            else if (mode == WorkingMode.News)
             {
                 //检查网络
                 if (newspapers.HttpRequestUtil.GetWebRequest("https://www.cgtn.com/subscribe/rss/section/china.xml") == "")
@@ -562,19 +565,19 @@ namespace CW
 
 
             }
-            else if (mode == 6)
+            else if (mode == WorkingMode.Word)
             {
                 answerBuilder.Append(generateWord(words));
 
 
             }
-            else if (mode == 7)
+            else if (mode == WorkingMode.Customize)
             {
 
             }
 
             answerBuilder.Append("\r\niii\r\n");
-            if (mode != 7)
+            if (mode != WorkingMode.Customize)
             {
                 answer = answerBuilder.ToString();
                 answer = answer.ToLower();
@@ -774,13 +777,13 @@ namespace CW
             {
                 switch (mode)
                 {
-                    case 0: words.AddRange(number.Keys); break;
-                    case 1: words.AddRange(alphabet.Keys); break;
-                    case 2: words.AddRange(number.Keys); words.AddRange(alphabet.Keys); break;
-                    case 3: words.AddRange(symbol.Keys); break;
-                    case 4: words.AddRange(new List<string>(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n => n.Replace(ArticlePath, "")).ToList()); break;
-                    case 5: words.AddRange(newsType.Keys); break;
-                    case 6: words.AddRange(alphabet.Keys); break;
+                    case WorkingMode.Number: words.AddRange(number.Keys); break;
+                    case WorkingMode.Alphabet: words.AddRange(alphabet.Keys); break;
+                    case WorkingMode.AlphabetAndNumber: words.AddRange(number.Keys); words.AddRange(alphabet.Keys); break;
+                    case WorkingMode.Symbol: words.AddRange(symbol.Keys); break;
+                    case WorkingMode.Article: words.AddRange(new List<string>(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n => n.Replace(ArticlePath, "")).ToList()); break;
+                    case WorkingMode.News: words.AddRange(newsType.Keys); break;
+                    case WorkingMode.Word: words.AddRange(alphabet.Keys); break;
 
                 }
             }
@@ -880,9 +883,12 @@ namespace CW
                 //把小写的q换成大写的Q，符合抄写习惯
                 answer = answer.Replace("q", "Q");
                 var s = answer.Replace("===\r\n", "").Replace("iii\r\n", "").Split(" ");
+                
                 for (var i = 0; i < s.Length; i++)
                 {
-                    dataGridView1[i % 10, i / 10].Value = s[i];
+                  var row=  dataTable.Rows[i % 10];
+                    row[i / 10] = s[i];
+                    //dataGridView1[i % 10, i / 10].Value = s[i];
 
                 }
                 dataGridView1.Refresh();
@@ -993,7 +999,7 @@ namespace CW
         {
             if (individuationRbtn.Checked == true)
             {
-                mode = 7;
+                mode = WorkingMode.Customize;
                 KochList.Enabled = false;
                 dataGridView1.Enabled = false;
                 eqRbtn.Enabled = false;
