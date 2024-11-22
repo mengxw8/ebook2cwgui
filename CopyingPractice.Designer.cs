@@ -33,6 +33,7 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
+            radioButton7 = new RadioButton();
             individuationRbtn = new RadioButton();
             radioButton8 = new RadioButton();
             radioButton6 = new RadioButton();
@@ -42,6 +43,8 @@
             radioButton2 = new RadioButton();
             radioButton1 = new RadioButton();
             groupBox2 = new GroupBox();
+            label7 = new Label();
+            KochList = new ComboBox();
             eqBox = new CheckedListBox();
             neBox = new CheckedListBox();
             eqRbtn = new RadioButton();
@@ -94,6 +97,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(radioButton7);
             groupBox1.Controls.Add(individuationRbtn);
             groupBox1.Controls.Add(radioButton8);
             groupBox1.Controls.Add(radioButton6);
@@ -104,10 +108,22 @@
             groupBox1.Controls.Add(radioButton1);
             groupBox1.Location = new Point(6, 2);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(650, 60);
+            groupBox1.Size = new Size(735, 60);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "练习模式";
+            // 
+            // radioButton7
+            // 
+            radioButton7.AutoSize = true;
+            radioButton7.Location = new Point(636, 20);
+            radioButton7.Name = "radioButton7";
+            radioButton7.Size = new Size(91, 21);
+            radioButton7.TabIndex = 8;
+            radioButton7.TabStop = true;
+            radioButton7.Text = "Koch训练法";
+            radioButton7.UseVisualStyleBackColor = true;
+            radioButton7.CheckedChanged += radioButton7_CheckedChanged;
             // 
             // individuationRbtn
             // 
@@ -207,16 +223,39 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(label7);
+            groupBox2.Controls.Add(KochList);
             groupBox2.Controls.Add(eqBox);
             groupBox2.Controls.Add(neBox);
             groupBox2.Controls.Add(eqRbtn);
             groupBox2.Controls.Add(neRbtn);
             groupBox2.Location = new Point(6, 68);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(650, 100);
+            groupBox2.Size = new Size(735, 100);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "个性化定制";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(572, 33);
+            label7.Name = "label7";
+            label7.Size = new Size(64, 17);
+            label7.TabIndex = 5;
+            label7.Text = "Koch课时:";
+            // 
+            // KochList
+            // 
+            KochList.DropDownStyle = ComboBoxStyle.DropDownList;
+            KochList.Enabled = false;
+            KochList.FormattingEnabled = true;
+            KochList.Items.AddRange(new object[] { "第1课", "第2课", "第3课", "第4课", "第5课", "第6课", "第7课", "第8课", "第9课", "第10课", "第11课", "第12课", "第13课", "第14课", "第15课", "第16课", "第17课", "第18课", "第19课", "第20课", "第21课", "第22课", "第23课", "第24课", "第25课", "第26课", "第27课", "第28课", "第29课", "第30课", "第31课", "第32课", "第33课", "第34课", "第35课", "第36课", "第37课", "第38课", "第39课", "", "" });
+            KochList.Location = new Point(638, 29);
+            KochList.Name = "KochList";
+            KochList.Size = new Size(88, 25);
+            KochList.TabIndex = 4;
+            KochList.SelectedIndexChanged += KochList_SelectedIndexChanged;
             // 
             // eqBox
             // 
@@ -286,7 +325,7 @@
             groupBox3.Controls.Add(label3);
             groupBox3.Controls.Add(label2);
             groupBox3.Controls.Add(label1);
-            groupBox3.Location = new Point(662, 2);
+            groupBox3.Location = new Point(747, 2);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(482, 166);
             groupBox3.TabIndex = 2;
@@ -512,7 +551,7 @@
             groupBox4.Controls.Add(dataGridView1);
             groupBox4.Location = new Point(6, 174);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(1255, 504);
+            groupBox4.Size = new Size(1895, 864);
             groupBox4.TabIndex = 3;
             groupBox4.TabStop = false;
             groupBox4.Text = "抄收结果";
@@ -540,7 +579,7 @@
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dataGridView1.RowTemplate.Height = 40;
-            dataGridView1.Size = new Size(1249, 482);
+            dataGridView1.Size = new Size(1889, 842);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellEnter += dataGridView1_CellEnter;
@@ -558,7 +597,7 @@
             groupBox5.Controls.Add(pauseBtn);
             groupBox5.Controls.Add(clearAnswerBtn);
             groupBox5.Controls.Add(stopBtn);
-            groupBox5.Location = new Point(1149, 2);
+            groupBox5.Location = new Point(1234, 2);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(109, 166);
             groupBox5.TabIndex = 4;
@@ -612,7 +651,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1264, 681);
+            ClientSize = new Size(1904, 1041);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
@@ -688,5 +727,8 @@
         private Button pauseBtn;
         private Button clearAnswerBtn;
         private RadioButton individuationRbtn;
+        private RadioButton radioButton7;
+        private Label label7;
+        private ComboBox KochList;
     }
 }

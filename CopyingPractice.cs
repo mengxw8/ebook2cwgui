@@ -76,15 +76,56 @@ namespace CW
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
         int mode = 0;
         //数字
-        Dictionary<string, string> number = new Dictionary<string, string> { { "1", ".----" }, { "2", "..---" }, { "3", "...--" }, { "4", "....-" }, { "5", "....." }, { "6", "-...." }, { "7", "--..." }, { "8", "---.." }, { "9", "----." }, { "0", "-----" } };
+        static readonly Dictionary<string, string> number = new() { { "1", ".----" }, { "2", "..---" }, { "3", "...--" }, { "4", "....-" }, { "5", "....." }, { "6", "-...." }, { "7", "--..." }, { "8", "---.." }, { "9", "----." }, { "0", "-----" } };
         //字母
-        Dictionary<string, string> alphabet = new Dictionary<string, string> { { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
+        static readonly Dictionary<string, string> alphabet = new(){ { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
         //符号
-        Dictionary<string, string> symbol = new Dictionary<string, string> { { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "&", "...." }, { "@", ".--.-." } };
+        static readonly Dictionary<string, string> symbol = new(){ { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "&", "...." }, { "@", ".--.-." } };
         //新闻类型
-        Dictionary<string, string> newsType = new Dictionary<string, string> { { "中国", "https://www.cgtn.com/subscribe/rss/section/china.xml" }, { "世界", "https://www.cgtn.com/subscribe/rss/section/world.xml" }, { "商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" }, { "体育", "https://www.cgtn.com/subscribe/rss/section/sports.xml" }, { "科学", "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" }, { "旅行", "https://www.cgtn.com/subscribe/rss/section/travel.xml" }, { "现场", "https://www.cgtn.com/subscribe/rss/section/live.xml" }, { "文化", "https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
-
-        private static string ArticlePath = @"./text/";
+        static readonly Dictionary<string, string> newsType = new (){ { "中国", "https://www.cgtn.com/subscribe/rss/section/china.xml" }, { "世界", "https://www.cgtn.com/subscribe/rss/section/world.xml" }, { "商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" }, { "体育", "https://www.cgtn.com/subscribe/rss/section/sports.xml" }, { "科学", "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" }, { "旅行", "https://www.cgtn.com/subscribe/rss/section/travel.xml" }, { "现场", "https://www.cgtn.com/subscribe/rss/section/live.xml" }, { "文化", "https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
+        //力大砖飞
+        static readonly Dictionary<string, string[]> KochType = new() { 
+            { "第1课", new string[] { "K", "M" } },
+            { "第2课", new string[] { "K", "M", "R" } },
+            { "第3课", new string[] { "K", "M", "R", "S" } },
+            { "第4课", new string[] { "K", "M", "R", "S", "U" } }, 
+            { "第5课", new string[] { "K", "M", "R", "S", "U", "A" } },
+            { "第6课", new string[] { "K", "M", "R", "S", "U", "A", "P" } }, 
+            { "第7课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T" } },
+            { "第8课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L" } },
+            { "第9课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O" } },
+            { "第10课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W" } },
+            { "第11课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" } },
+            { "第12课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,"."} },
+            { "第13课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N"} },
+            { "第14课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J"} },
+            { "第15课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E"} },
+            { "第16课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F"} },
+            { "第17课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O"} },
+            { "第18课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y"} },
+            { "第19课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",","} },
+            { "第20课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V"} },
+            { "第21课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G"} },
+            { "第22课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5"} },
+            { "第23课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/"} },
+            { "第24课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q"} },
+            { "第25课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9"} },
+            { "第26课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z"} },
+            { "第27课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H"} },
+            { "第28课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H","3"} },
+            { "第29课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H","3","8"} },
+            { "第30课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H","3","8","B"} },
+            { "第31课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H","3","8","B","?"} },
+            { "第32课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H","3","8","B","?","4"} },
+            { "第33课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H","3","8","B","?","4","2"} },
+            { "第34课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H","3","8","B","?","4","2","7"} },
+            { "第35课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H","3","8","B","?","4","2","7","C"} },
+            { "第36课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H","3","8","B","?","4","2","7","C","1"} },
+            { "第37课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H","3","8","B","?","4","2","7","C","1","D"} },
+            { "第38课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H","3","8","B","?","4","2","7","C","1","D","6"} },
+            { "第39课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H","3","8","B","?","4","2","7","C","1","D","6","X"} },
+        };
+        private static readonly string ArticlePath = @"./text/";
         //用来装答案的表格
         DataTable dataTable = null;
         //答案
@@ -97,10 +138,11 @@ namespace CW
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             mode = 0;
+            KochList.Enabled = false;
 
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            dataGridView1.Enabled= true;
+            dataGridView1.Enabled = true;
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -113,6 +155,7 @@ namespace CW
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             mode = 1;
+            KochList.Enabled = false;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
             dataGridView1.Enabled = true;
@@ -129,7 +172,7 @@ namespace CW
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
             mode = 2;
-
+            KochList.Enabled = false;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
             dataGridView1.Enabled = true;
@@ -152,6 +195,7 @@ namespace CW
         private void radioButton5_CheckedChanged(object sender, EventArgs e)
         {
             mode = 3;
+            KochList.Enabled = false;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
             dataGridView1.Enabled = true;
@@ -169,6 +213,7 @@ namespace CW
         {
             mode = 4;
             //英文文章
+            KochList.Enabled = false;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
             dataGridView1.Enabled = true;
@@ -197,6 +242,7 @@ namespace CW
         private void radioButton6_CheckedChanged(object sender, EventArgs e)
         {
             mode = 5;
+            KochList.Enabled = false;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
             dataGridView1.Enabled = true;
@@ -216,7 +262,16 @@ namespace CW
             radioButton2_CheckedChanged(sender, e);
             mode = 6;
         }
-
+        //Koch训练法
+        private void radioButton7_CheckedChanged(object sender, EventArgs e)
+        {
+            mode = 8;
+            KochList.Enabled = true;
+            KochList.SelectedIndex = 0;
+            eqRbtn.Enabled = true;
+            neRbtn.Enabled = false;
+            eqRbtn.Checked = true;
+        }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // 如果点击的不是行头（如果不需要可以不检查）
@@ -473,19 +528,19 @@ namespace CW
         {
             //生成测试数据
             List<string> words = getWords();
-            if ((words.Count == 0 || words == null)&&mode!=7)
+            if ((words.Count == 0 || words == null) && mode != 7)
             {
                 return;
             }
             StringBuilder answerBuilder = new StringBuilder();
-            answerBuilder.Append("===\r\n");  
-            if (mode == 0 || mode == 1 || mode == 2 || mode == 3)
+            answerBuilder.Append("===\r\n");
+            if (mode == 0 || mode == 1 || mode == 2 || mode == 3||mode==8)
             {
-                answerBuilder.Append(generateAnswer(words)); 
+                answerBuilder.Append(generateAnswer(words));
             }
             else if (mode == 4)
             {
-                answerBuilder.Append(getArticle(words))  ;
+                answerBuilder.Append(getArticle(words));
             }
             else if (mode == 5)
             {
@@ -509,20 +564,22 @@ namespace CW
             }
             else if (mode == 6)
             {
-                answerBuilder.Append(generateWord(words)) ;
+                answerBuilder.Append(generateWord(words));
 
 
             }
-            else if (mode == 7) { 
-            
+            else if (mode == 7)
+            {
+
             }
 
             answerBuilder.Append("\r\niii\r\n");
-            if (mode != 7) {
-                answer=answerBuilder.ToString();
+            if (mode != 7)
+            {
+                answer = answerBuilder.ToString();
                 answer = answer.ToLower();
             }
-            
+
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
             var filePath = "./temp/" + fileName + ".txt";
@@ -934,8 +991,10 @@ namespace CW
 
         private void individuationRbtn_CheckedChanged(object sender, EventArgs e)
         {
-            if (individuationRbtn.Checked == true) {
+            if (individuationRbtn.Checked == true)
+            {
                 mode = 7;
+                KochList.Enabled = false;
                 dataGridView1.Enabled = false;
                 eqRbtn.Enabled = false;
                 neRbtn.Enabled = false;
@@ -956,6 +1015,23 @@ namespace CW
 
                 }
             }
+
+        }
+
+        private void KochList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var item = KochList.SelectedItem;
+            if (item == null)
+            {
+                return;
+            }
+            var list= new List<string>();
+            eqBox.Items.Clear();
+            foreach (var data in KochType[item.ToString()])
+            {
+                eqBox.Items.Add(data,true);
+                
+            };
 
         }
     }

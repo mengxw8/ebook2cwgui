@@ -44,7 +44,7 @@ namespace CW
         }
 
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
-        int mode = 0;
+        WorkingMode mode =WorkingMode.None;
         //数字
         Dictionary<string, string> number = new Dictionary<string, string> { { "1", ".----" }, { "2", "..---" }, { "3", "...--" }, { "4", "....-" }, { "5", "....." }, { "6", "-...." }, { "7", "--..." }, { "8", "---.." }, { "9", "----." }, { "0", "-----" } };
         //字母
@@ -66,7 +66,7 @@ namespace CW
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            mode = 0;
+            mode = WorkingMode.Number;
 
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
@@ -82,7 +82,7 @@ namespace CW
         }
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            mode = 1;
+            mode = WorkingMode.Alphabet;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
 
@@ -98,7 +98,7 @@ namespace CW
         }
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            mode = 2;
+            mode = WorkingMode.AlphabetAndNumber;
 
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
@@ -121,7 +121,7 @@ namespace CW
 
         private void radioButton5_CheckedChanged(object sender, EventArgs e)
         {
-            mode = 3;
+            mode = WorkingMode.Symbol;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
 
@@ -137,7 +137,7 @@ namespace CW
         }
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
-            mode = 4;
+            mode = WorkingMode.Article;
             //英文文章
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
@@ -166,7 +166,7 @@ namespace CW
         //新闻
         private void radioButton6_CheckedChanged(object sender, EventArgs e)
         {
-            mode = 5;
+            mode = WorkingMode.News;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
 
@@ -184,7 +184,7 @@ namespace CW
         private void radioButton8_CheckedChanged(object sender, EventArgs e)
         {
             radioButton2_CheckedChanged(sender, e);
-            mode = 6;
+            mode = WorkingMode.Word;
         }
 
 
@@ -367,21 +367,21 @@ namespace CW
         {
             //生成测试数据
             List<string> words = getWords();
-            if ((words.Count == 0 || words == null) && mode != 7)
+            if ((words.Count == 0 || words == null) && mode != WorkingMode.Customize)
             {
                 return;
             }
             StringBuilder answerBuilder = new StringBuilder();
             answerBuilder.Append("===\r\n");
-            if (mode == 0 || mode == 1 || mode == 2 || mode == 3)
+            if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol)
             {
                 answerBuilder.Append(generateAnswer(words));
             }
-            else if (mode == 4)
+            else if (mode == WorkingMode.Article)
             {
                 answerBuilder.Append(getArticle(words));
             }
-            else if (mode == 5)
+            else if (mode == WorkingMode.News)
             {
                 //检查网络
                 if (newspapers.HttpRequestUtil.GetWebRequest("https://www.cgtn.com/subscribe/rss/section/china.xml") == "")
@@ -401,19 +401,19 @@ namespace CW
 
 
             }
-            else if (mode == 6)
+            else if (mode == WorkingMode.Word)
             {
                 answerBuilder.Append(generateWord(words));
 
 
             }
-            else if (mode == 7)
+            else if (mode == WorkingMode.Customize)
             {
 
             }
 
             answerBuilder.Append("\r\niii\r\n");
-            if (mode != 7)
+            if (mode != WorkingMode.Customize)
             {
                 answer = answerBuilder.ToString();
                 answer = answer.ToLower();
@@ -613,13 +613,13 @@ namespace CW
             {
                 switch (mode)
                 {
-                    case 0: words.AddRange(number.Keys); break;
-                    case 1: words.AddRange(alphabet.Keys); break;
-                    case 2: words.AddRange(number.Keys); words.AddRange(alphabet.Keys); break;
-                    case 3: words.AddRange(symbol.Keys); break;
-                    case 4: words.AddRange(new List<string>(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n => n.Replace(ArticlePath, "")).ToList()); break;
-                    case 5: words.AddRange(newsType.Keys); break;
-                    case 6: words.AddRange(alphabet.Keys); break;
+                    case WorkingMode.Number: words.AddRange(number.Keys); break;
+                    case WorkingMode.Alphabet: words.AddRange(alphabet.Keys); break;
+                    case WorkingMode.AlphabetAndNumber: words.AddRange(number.Keys); words.AddRange(alphabet.Keys); break;
+                    case WorkingMode.Symbol: words.AddRange(symbol.Keys); break;
+                    case WorkingMode.Article: words.AddRange(new List<string>(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n => n.Replace(ArticlePath, "")).ToList()); break;
+                    case WorkingMode.News: words.AddRange(newsType.Keys); break;
+                    case WorkingMode.Customize: words.AddRange(alphabet.Keys); break;
 
                 }
             }
@@ -791,7 +791,7 @@ namespace CW
         {
             if (individuationRbtn.Checked == true)
             {
-                mode = 7;
+                mode = WorkingMode.Customize;
 
                 eqRbtn.Enabled = false;
                 neRbtn.Enabled = false;
