@@ -24,8 +24,8 @@ Lakey支持的方案很简单，网上有很多通过改装鼠标来实现的，
 和网上卖的也大差不差的，虽然丑点，功能能够正常实现不就行了吗，毕竟又不是专业的，要求不高。
 
 ### 抄收练习设备固件
-这个固件好写，非常好写无非就是K1高电平的时候认为鼠标左键被按下，低电平的时候认为鼠标被松开，为了更直观的展示是否按下还是松开，我还特意加了个灯，K1高电平的时候拉高LED—R的电平就是，非常简单，[代码如下](https://github.com/mengxw8/ebook2cwgui/blob/master/firmware/CW/CW.ino)：
-```
+这个固件好写，非常好写无非就是K1高电平的时候认为鼠标左键被按下，低电平的时候认为鼠标被松开，为了更直观的展示是否按下还是松开，我还特意加了个灯，K1高电平的时候拉高LED—R的电平就是，非常简单，C语言开发环境太复杂了，根本用不上，直接上arduino就行，[代码如下](https://github.com/mengxw8/ebook2cwgui/blob/master/firmware/CW/CW.ino)：
+```arduino
 /*
   HID Keyboard mouse combo example
 
@@ -95,7 +95,7 @@ void loop() {
   delay(1);  //naive debouncing
 }
 
-```arduino
+```
 
 编译，烧录，测试，搞定。
 当然，如果你制作的和我的一样板子，连编译都省了，直接下载我编译后的[固件](https://github.com/mengxw8/ebook2cwgui/blob/master/firmware/CW/build/CH55xDuino.mcs51.ch552/CW.ino.hex)
