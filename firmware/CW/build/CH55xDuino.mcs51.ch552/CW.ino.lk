@@ -1,0 +1,25 @@
+-muwx
+-i C:\Users\mxw\AppData\Local\arduino\sketches\28A4279093C7EBEB78C115D86E2270EB/CW.ino.elf
+-M
+-X 0x036c
+-C 0x3800
+-b HOME = 0x0000
+-b XSEG = 0x0094
+-b PSEG = 0x0094
+-b ISEG = 0x0000
+-b BSEG = 0x0000
+-k C:\Users\mxw\AppData\Local\arduino\sketches\28A4279093C7EBEB78C115D86E2270EB
+-k C:\Users\mxw\AppData\Local\Arduino15\packages\CH55xDuino\tools\sdcc\build.13407/lib/small
+-l C:\Users\mxw\AppData\Local\arduino\sketches\28A4279093C7EBEB78C115D86E2270EB/core\core.lib
+-l mcs51
+-l libsdcc
+-l liblong
+-l liblonglong
+-l libint
+-l libfloat
+C:\Users\mxw\AppData\Local\arduino\sketches\28A4279093C7EBEB78C115D86E2270EB\sketch\CW.ino.cpp.rel
+C:\Users\mxw\AppData\Local\arduino\sketches\28A4279093C7EBEB78C115D86E2270EB\sketch\src\userUsbHidKeyboardMouse\USBHIDKeyboardMouse.c.rel
+C:\Users\mxw\AppData\Local\arduino\sketches\28A4279093C7EBEB78C115D86E2270EB\sketch\src\userUsbHidKeyboardMouse\USBconstant.c.rel
+C:\Users\mxw\AppData\Local\arduino\sketches\28A4279093C7EBEB78C115D86E2270EB\sketch\src\userUsbHidKeyboardMouse\USBhandler.c.rel
+
+-e
