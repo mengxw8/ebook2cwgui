@@ -886,8 +886,8 @@ namespace CW
                 
                 for (var i = 0; i < s.Length; i++)
                 {
-                  var row=  dataTable.Rows[i % 10];
-                    row[i / 10] = s[i];
+                  var row=  dataTable.Rows[i /10];
+                    row[i % 10] = s[i];
                     //dataGridView1[i % 10, i / 10].Value = s[i];
 
                 }
