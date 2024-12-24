@@ -78,19 +78,19 @@ namespace CW
         //数字
         static readonly Dictionary<string, string> number = new() { { "1", ".----" }, { "2", "..---" }, { "3", "...--" }, { "4", "....-" }, { "5", "....." }, { "6", "-...." }, { "7", "--..." }, { "8", "---.." }, { "9", "----." }, { "0", "-----" } };
         //字母
-        static readonly Dictionary<string, string> alphabet = new(){ { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
+        static readonly Dictionary<string, string> alphabet = new() { { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
         //符号
-        static readonly Dictionary<string, string> symbol = new(){ { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "&", "...." }, { "@", ".--.-." } };
+        static readonly Dictionary<string, string> symbol = new() { { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "&", "...." }, { "@", ".--.-." } };
         //新闻类型
-        static readonly Dictionary<string, string> newsType = new (){ { "中国", "https://www.cgtn.com/subscribe/rss/section/china.xml" }, { "世界", "https://www.cgtn.com/subscribe/rss/section/world.xml" }, { "商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" }, { "体育", "https://www.cgtn.com/subscribe/rss/section/sports.xml" }, { "科学", "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" }, { "旅行", "https://www.cgtn.com/subscribe/rss/section/travel.xml" }, { "现场", "https://www.cgtn.com/subscribe/rss/section/live.xml" }, { "文化", "https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
+        static readonly Dictionary<string, string> newsType = new() { { "中国", "https://www.cgtn.com/subscribe/rss/section/china.xml" }, { "世界", "https://www.cgtn.com/subscribe/rss/section/world.xml" }, { "商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" }, { "体育", "https://www.cgtn.com/subscribe/rss/section/sports.xml" }, { "科学", "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" }, { "旅行", "https://www.cgtn.com/subscribe/rss/section/travel.xml" }, { "现场", "https://www.cgtn.com/subscribe/rss/section/live.xml" }, { "文化", "https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
         //力大砖飞
-        static readonly Dictionary<string, string[]> KochType = new() { 
+        static readonly Dictionary<string, string[]> KochType = new() {
             { "第1课", new string[] { "K", "M" } },
             { "第2课", new string[] { "K", "M", "R" } },
             { "第3课", new string[] { "K", "M", "R", "S" } },
-            { "第4课", new string[] { "K", "M", "R", "S", "U" } }, 
+            { "第4课", new string[] { "K", "M", "R", "S", "U" } },
             { "第5课", new string[] { "K", "M", "R", "S", "U", "A" } },
-            { "第6课", new string[] { "K", "M", "R", "S", "U", "A", "P" } }, 
+            { "第6课", new string[] { "K", "M", "R", "S", "U", "A", "P" } },
             { "第7课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T" } },
             { "第8课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L" } },
             { "第9课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O" } },
@@ -398,7 +398,7 @@ namespace CW
 
                 if (i + 1 < groupNum)
                 {
-                    answerBuilder.Append( " ");
+                    answerBuilder.Append(" ");
                 }
 
             }
@@ -528,7 +528,7 @@ namespace CW
         //生成报文并播放
         private void startBtn_Click(object sender, EventArgs e)
         {
-            
+
             //生成测试数据
             List<string> words = getWords();
             if ((words.Count == 0 || words == null) && mode != WorkingMode.Customize)
@@ -537,7 +537,7 @@ namespace CW
             }
             StringBuilder answerBuilder = new StringBuilder();
             answerBuilder.Append("===\r\n");
-            if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol||mode==WorkingMode.Koch)
+            if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol || mode == WorkingMode.Koch)
             {
                 answerBuilder.Append(generateAnswer(words));
             }
@@ -883,10 +883,10 @@ namespace CW
                 //把小写的q换成大写的Q，符合抄写习惯
                 answer = answer.Replace("q", "Q");
                 var s = answer.Replace("===\r\n", "").Replace("iii\r\n", "").Split(" ");
-                
+
                 for (var i = 0; i < s.Length; i++)
                 {
-                  var row=  dataTable.Rows[i /10];
+                    var row = dataTable.Rows[i / 10];
                     row[i % 10] = s[i];
                     //dataGridView1[i % 10, i / 10].Value = s[i];
 
@@ -1031,13 +1031,26 @@ namespace CW
             {
                 return;
             }
-            var list= new List<string>();
+            var list = new List<string>();
             eqBox.Items.Clear();
             foreach (var data in KochType[item.ToString()])
             {
-                eqBox.Items.Add(data,true);
-                
+                eqBox.Items.Add(data, true);
+
             };
+
+        }
+
+
+        private void CopyingPractice_SizeChanged(object sender, EventArgs e)
+        {
+            //调整窗体大小时需要动态的调整表格的高度，不然空的就太多了
+            int h = (int)(groupBox4.Height * 0.7) / 10;
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            foreach (DataGridViewRow item in dataGridView1.Rows)
+            {
+                item.Height = h;
+            }
 
         }
     }
