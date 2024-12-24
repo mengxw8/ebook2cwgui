@@ -650,7 +650,7 @@ namespace CW
             }
 
             //生成音频
-            param += " -q 1 -o " + "./temp/" + fileName + " -w " + speed + " -f " + toneBox.Value++ + " -W " + extraWordSpacing.Value + " " + filePath;
+            param += " -q 1 -o " + "./temp/" + fileName + " -w " + speed + " -f " + toneBox.Value + " -W " + extraWordSpacing.Value + " " + filePath;
             ProcessStartInfo startInfo = new ProcessStartInfo("ebook2cw.exe", param);
 
             startInfo.UseShellExecute = false;    //是否使用操作系统的shell启动
