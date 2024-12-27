@@ -4,6 +4,7 @@ using NAudio.Wave;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -44,7 +45,7 @@ namespace CW
         }
 
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
-        WorkingMode mode =WorkingMode.None;
+        WorkingMode mode = WorkingMode.None;
         //数字
         Dictionary<string, string> number = new Dictionary<string, string> { { "1", ".----" }, { "2", "..---" }, { "3", "...--" }, { "4", "....-" }, { "5", "....." }, { "6", "-...." }, { "7", "--..." }, { "8", "---.." }, { "9", "----." }, { "0", "-----" } };
         //字母
@@ -62,6 +63,9 @@ namespace CW
         //上一次播放的音频文件路径
         string lastMusicPath = "";
         string lastCheckMusicPath = "";
+        //用来装生成的图形
+        private static  ConcurrentQueue<Bitmap> bitmapQueue = new ConcurrentQueue<Bitmap>(); // 双缓冲队列
+        private static Bitmap bitmap;
 
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -785,6 +789,17 @@ namespace CW
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
             Version version = currentAssembly.GetName().Version;
             this.Text = this.Text + " V" + version;
+            //初始化
+            bitmap = new Bitmap(visualizedBox.Width, visualizedBox.Height);
+            TimerCallback callback = TimerProc;
+            UIntPtr user = UIntPtr.Zero;
+            uint timerId = timeSetEvent(
+                10, // 延迟 1000 毫秒（1 秒）
+                TIMER_RESOLUTION, // 分辨率
+                callback,
+                user,
+                TIME_PERIODIC // 周期性定时器
+            );
         }
 
         private void individuationRbtn_CheckedChanged(object sender, EventArgs e)
@@ -819,12 +834,13 @@ namespace CW
         private void calculateInput(object sender, KeyEventArgs e)
         {
             long endTime = DateTime.Now.Ticks;
-            var subTime= endTime - start;
+            var subTime = endTime - start;
             if (subTime < 600000)
             {
                 richTextBox1.Text += ".";
             }
-            else  {
+            else
+            {
                 richTextBox1.Text += "-";
             }
 
@@ -833,7 +849,108 @@ namespace CW
 
         private void richTextBox1_KeyDown(object sender, KeyEventArgs e)
         {
-            start =DateTime.Now.Ticks;
+            start = DateTime.Now.Ticks;
         }
+
+        // 导入 timeSetEvent, timeKillEvent 和 MMRESULT 枚举
+        private const uint TIME_KILL_EVENT = 0;
+        private const uint TIME_PERIODIC = 1;
+        private const uint TIMER_RESOLUTION = 1;
+
+        [DllImport("winmm.dll", SetLastError = true)]
+        private static extern uint timeSetEvent(
+            uint uDelay,
+            uint uResolution,
+            TimerCallback lpTimeFunc,
+            UIntPtr dwUser,
+            uint fuEvent);
+
+
+        //是否在绘制中
+        private static bool isDraw = false;
+        private static int wait = 50;
+        private static int drawWidth =1;
+
+
+        // 回调函数的委托类型
+        private delegate void TimerCallback(UIntPtr uTimerID, UIntPtr uMsg, UIntPtr dwUser, UIntPtr dw1, UIntPtr dw2);
+
+        // 定时器的回调函数
+        private static void TimerProc(UIntPtr uTimerID, UIntPtr uMsg, UIntPtr dwUser, UIntPtr dw1, UIntPtr dw2)
+        {
+            if (isDraw)
+            {
+                wait = 0;
+   
+                using (Graphics g = Graphics.FromImage(bitmap))
+                {
+                    // 将原图像绘制到新图像中，向左平移指定偏移量
+                    g.DrawImage(bitmap, -drawWidth, 0);
+                    using (Pen pen = new Pen(Color.Black, 5)) // 2是线条的宽度
+                    {
+                        // 绘制竖线
+                        // 参数分别为：x1, y1, x2, y2，表示线条的起点和终点
+                        g.DrawLine(pen, bitmap.Width - drawWidth, bitmap.Height / 2, bitmap.Width, bitmap.Height / 2);
+                    }
+                }
+                bitmapQueue.Enqueue((Bitmap)bitmap.Clone());
+
+            }
+            if (wait < 30&&!isDraw)
+            {
+                using (Graphics g = Graphics.FromImage(bitmap))
+                {
+                    // 将原图像绘制到新图像中，向左平移指定偏移量
+                    g.DrawImage(bitmap, -drawWidth, 0);
+                    using (Pen pen = new Pen(SystemColors.Control, 5)) // 2是线条的宽度
+                    {
+                        // 绘制竖线
+                        // 参数分别为：x1, y1, x2, y2，表示线条的起点和终点
+                        g.DrawLine(pen, bitmap.Width - drawWidth, bitmap.Height / 2, bitmap.Width, bitmap.Height / 2);
+                    }
+                }
+                bitmapQueue.Enqueue((Bitmap)bitmap.Clone());
+                wait++;
+            }
+
+        }
+
+        private void sendBtn_MouseDown(object sender, MouseEventArgs e)
+        {
+            isDraw = true;
+
+
+
+
+            visualizedBox.Update();
+        }
+
+
+        private void sendBtn_MouseUp(object sender, MouseEventArgs e)
+        {
+            isDraw = false;
+            
+        }
+
+
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            Bitmap sb;
+            for (int i = 0; i < bitmapQueue.Count; i++) {
+                if (bitmapQueue.TryDequeue(out sb))
+                {
+                    if (visualizedBox.Image != null) {
+                        visualizedBox.Image.Dispose();
+                    }
+            
+                    visualizedBox.Image = sb;
+                }
+            }
+
+    
+            
+        }
+
     }
 }

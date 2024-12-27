@@ -76,11 +76,9 @@
             continuePlayBtn = new Button();
             pauseBtn = new Button();
             clearAnswerBtn = new Button();
-            groupBox6 = new GroupBox();
-            daTxb = new TextBox();
-            diTxb = new TextBox();
-            label9 = new Label();
-            label8 = new Label();
+            sendBtn = new Button();
+            visualizedBox = new PictureBox();
+            timer2 = new System.Windows.Forms.Timer(components);
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -93,7 +91,7 @@
             ((System.ComponentModel.ISupportInitialize)groupNumBox).BeginInit();
             groupBox4.SuspendLayout();
             groupBox5.SuspendLayout();
-            groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)visualizedBox).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -606,57 +604,40 @@
             clearAnswerBtn.UseVisualStyleBackColor = true;
             clearAnswerBtn.Click += clearAnswer_Click;
             // 
-            // groupBox6
+            // sendBtn
             // 
-            groupBox6.Controls.Add(daTxb);
-            groupBox6.Controls.Add(diTxb);
-            groupBox6.Controls.Add(label9);
-            groupBox6.Controls.Add(label8);
-            groupBox6.Location = new Point(1264, 2);
-            groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(115, 166);
-            groupBox6.TabIndex = 5;
-            groupBox6.TabStop = false;
-            groupBox6.Text = "模拟设置";
+            sendBtn.Font = new Font("Microsoft YaHei UI", 15F, FontStyle.Bold);
+            sendBtn.Location = new Point(1795, 108);
+            sendBtn.Name = "sendBtn";
+            sendBtn.Size = new Size(106, 66);
+            sendBtn.TabIndex = 6;
+            sendBtn.Text = "发送";
+            sendBtn.UseVisualStyleBackColor = true;
+            sendBtn.MouseDown += sendBtn_MouseDown;
+            sendBtn.MouseUp += sendBtn_MouseUp;
             // 
-            // daTxb
+            // visualizedBox
             // 
-            daTxb.Location = new Point(42, 77);
-            daTxb.Name = "daTxb";
-            daTxb.Size = new Size(40, 23);
-            daTxb.TabIndex = 3;
+            visualizedBox.BorderStyle = BorderStyle.FixedSingle;
+            visualizedBox.Location = new Point(1264, 12);
+            visualizedBox.Name = "visualizedBox";
+            visualizedBox.Size = new Size(637, 90);
+            visualizedBox.TabIndex = 7;
+            visualizedBox.TabStop = false;
             // 
-            // diTxb
+            // timer2
             // 
-            diTxb.Location = new Point(41, 40);
-            diTxb.Name = "diTxb";
-            diTxb.Size = new Size(41, 23);
-            diTxb.TabIndex = 2;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(15, 78);
-            label9.Name = "label9";
-            label9.Size = new Size(20, 17);
-            label9.TabIndex = 1;
-            label9.Text = "哒";
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(15, 43);
-            label8.Name = "label8";
-            label8.Size = new Size(20, 17);
-            label8.TabIndex = 0;
-            label8.Text = "滴";
+            timer2.Enabled = true;
+            timer2.Interval = 1;
+            timer2.Tick += timer2_Tick;
             // 
             // SendPractice
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1904, 1041);
-            Controls.Add(groupBox6);
+            Controls.Add(visualizedBox);
+            Controls.Add(sendBtn);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
@@ -681,8 +662,7 @@
             ((System.ComponentModel.ISupportInitialize)groupNumBox).EndInit();
             groupBox4.ResumeLayout(false);
             groupBox5.ResumeLayout(false);
-            groupBox6.ResumeLayout(false);
-            groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)visualizedBox).EndInit();
             ResumeLayout(false);
         }
 
@@ -734,10 +714,8 @@
         private RadioButton individuationRbtn;
         private Label label7;
         private RichTextBox richTextBox1;
-        private GroupBox groupBox6;
-        private Label label9;
-        private Label label8;
-        private TextBox daTxb;
-        private TextBox diTxb;
+        private Button sendBtn;
+        private PictureBox visualizedBox;
+        private System.Windows.Forms.Timer timer2;
     }
 }
