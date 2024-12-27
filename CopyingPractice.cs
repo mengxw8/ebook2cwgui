@@ -40,37 +40,8 @@ namespace CW
             clearAnswer();
 
 
-            dataGridView1.RowsDefaultCellStyle.Font = new Font("Segoe UI", 20, FontStyle.Bold);
-            //表头居中
-            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            //禁用排序
-            for (int i = 0; i < dataGridView1.Columns.Count; i++)
-            {
-                dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
 
-
-            dataGridView1.RowHeadersVisible = true;
-            dataGridView1.ColumnHeadersVisible = true;
-
-            //dataGridView1.RowPostPaint += new DataGridViewRowPostPaintEventHandler(dataGridView1_RowPostPaint);
-        }
-        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
-            var grid = sender as DataGridView;
-            var rowIdx = e.RowIndex;
-
-            var row = grid.Rows[rowIdx];
-            var cell = row.Cells[0];
-
-            var centerFormat = new StringFormat()
-            {
-
-                LineAlignment = StringAlignment.Center
-            };
-
-            var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height);
-            e.Graphics.DrawString((rowIdx + 1).ToString(), dataGridView1.RowHeadersDefaultCellStyle.Font, SystemBrushes.ControlText, headerBounds, centerFormat);
+          
         }
 
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
@@ -142,7 +113,6 @@ namespace CW
 
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            dataGridView1.Enabled = true;
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -158,7 +128,6 @@ namespace CW
             KochList.Enabled = false;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            dataGridView1.Enabled = true;
 
             //填充值
             eqBox.Items.Clear();
@@ -175,7 +144,6 @@ namespace CW
             KochList.Enabled = false;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            dataGridView1.Enabled = true;
 
             //填充值
             eqBox.Items.Clear();
@@ -198,7 +166,6 @@ namespace CW
             KochList.Enabled = false;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            dataGridView1.Enabled = true;
 
             //填充值
             eqBox.Items.Clear();
@@ -216,7 +183,6 @@ namespace CW
             KochList.Enabled = false;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            dataGridView1.Enabled = true;
 
             //加载文章列表
             // 确保路径是目录并且存在
@@ -245,7 +211,6 @@ namespace CW
             KochList.Enabled = false;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
-            dataGridView1.Enabled = true;
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -272,91 +237,15 @@ namespace CW
             neRbtn.Enabled = false;
             eqRbtn.Checked = true;
         }
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // 如果点击的不是行头（如果不需要可以不检查）
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                // 将点击的单元格设置为编辑状态
-                //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].ReadOnly = false;
-                dataGridView1.BeginEdit(true);
-            }
-        }
-
-        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            dataGridView1_CellClick(sender, e);
-        }
-
-        private void groupNumBox_Leave(object sender, EventArgs e)
-        {
-            //更改答案提交范围
-            var groupNum = groupNumBox.Value;
-            for (var rowIndex = 0; rowIndex < dataGridView1.RowCount; rowIndex++)
-            {
-                for (var columnIndex = 0; columnIndex < dataGridView1.Rows[rowIndex].Cells.Count; columnIndex++)
-                {
-
-                    dataGridView1.Rows[rowIndex].Cells[columnIndex].ReadOnly = --groupNum < 0;
-
-                }
-            }
-
-        }
 
 
 
-        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
-            //检测是被表示的控件还是DataGridViewTextBoxEditingControl
-            if (e.Control is DataGridViewTextBoxEditingControl)
-            {
-                DataGridView dgv = (DataGridView)sender;
-
-                //取得被表示的控件
-                DataGridViewTextBoxEditingControl tb = (DataGridViewTextBoxEditingControl)e.Control;
-
-                //事件处理器删除
-                tb.KeyPress -= new KeyPressEventHandler(dataGridViewTextBox_KeyPress);
-
-                tb.KeyPress += new KeyPressEventHandler(dataGridViewTextBox_KeyPress);
 
 
 
-            }
-
-        }
-
-        private void dataGridViewTextBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-            //if ((int)e.KeyChar >= 48 & (int)e.KeyChar <= 57 | (int)e.KeyChar == 8 | (int)e.KeyChar == 46)
-            //{
-            //    e.Handled = false;
-            //}
-            //else
-            //{
-            //    e.Handled = true;
-            //}
 
 
-            //N个一组，输完直接下一组
-            var dgv = sender as TextBox;
-            if (dgv != null && !showAnswerChb.Checked && ((int)mode) > 3)
-            {
-                var data = dgv.Text;
-
-                data += e.KeyChar;
-                if (data.Length == EachGroup.Value)
-                {
-                    SendKeys.Send("{tab}");
-                }
-
-            }
-
-
-        }
-
+  
 
         private string generateAnswer(List<string> words)
         {
@@ -793,8 +682,13 @@ namespace CW
 
         private void submitAnswerBtn_Click(object sender, EventArgs e)
         {
-
-            AnswerBoard answerBoard = new AnswerBoard(answer, dataGridView1);
+            Mp3Player.Stop();
+            timer1.Stop();
+            if (answer == "") {
+                MessageBox.Show("请先开始抄收！");
+                return;
+            }
+            AnswerBoard answerBoard = new AnswerBoard(answer, answerBox.Text);
             answerBoard.ShowDialog();
 
         }
@@ -882,16 +776,7 @@ namespace CW
             {
                 //把小写的q换成大写的Q，符合抄写习惯
                 answer = answer.Replace("q", "Q");
-                var s = answer.Replace("===\r\n", "").Replace("iii\r\n", "").Split(" ");
-
-                for (var i = 0; i < s.Length; i++)
-                {
-                    var row = dataTable.Rows[i / 10];
-                    row[i % 10] = s[i];
-                    //dataGridView1[i % 10, i / 10].Value = s[i];
-
-                }
-                dataGridView1.Refresh();
+                answerBox.Text = answer.Replace("===\r\n", "").Replace("iii\r\n", "");
 
             }
 
@@ -924,26 +809,7 @@ namespace CW
 
         private void clearAnswer()
         {
-            //数据区域初始化
-            if (dataTable == null)
-            {
-                dataTable = new DataTable();
-                //先来10列
-                for (int i = 1; i <= 10; i++)
-                {
-                    dataTable.Columns.Add(i.ToString(), typeof(string));
-                }
-                dataGridView1.DataSource = dataTable;
-            }
-            dataTable.Clear();
-
-
-            //再来十行
-            for (int i = 1; i <= 10; i++)
-            {
-                var row = dataTable.NewRow();
-                dataTable.Rows.Add(row);
-            }
+            answerBox.Text = "";
 
         }
         //清空答案
@@ -1001,7 +867,7 @@ namespace CW
             {
                 mode = WorkingMode.Customize;
                 KochList.Enabled = false;
-                dataGridView1.Enabled = false;
+
                 eqRbtn.Enabled = false;
                 neRbtn.Enabled = false;
                 //弹出文件选择框
@@ -1042,16 +908,6 @@ namespace CW
         }
 
 
-        private void CopyingPractice_SizeChanged(object sender, EventArgs e)
-        {
-            //调整窗体大小时需要动态的调整表格的高度，不然空的就太多了
-            int h = (int)(groupBox4.Height * 0.7) / 10;
-            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            foreach (DataGridViewRow item in dataGridView1.Rows)
-            {
-                item.Height = h;
-            }
-
-        }
+      
     }
 }

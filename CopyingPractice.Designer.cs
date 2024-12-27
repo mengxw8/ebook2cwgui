@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CopyingPractice));
             groupBox1 = new GroupBox();
             radioButton7 = new RadioButton();
@@ -74,7 +71,7 @@
             label1 = new Label();
             stopBtn = new Button();
             groupBox4 = new GroupBox();
-            dataGridView1 = new DataGridView();
+            answerBox = new RichTextBox();
             timer1 = new System.Windows.Forms.Timer(components);
             groupBox5 = new GroupBox();
             rePlayBtn = new Button();
@@ -92,7 +89,6 @@
             ((System.ComponentModel.ISupportInitialize)toneBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)groupNumBox).BeginInit();
             groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox5.SuspendLayout();
             SuspendLayout();
             // 
@@ -507,7 +503,6 @@
             groupNumBox.Size = new Size(48, 23);
             groupNumBox.TabIndex = 3;
             groupNumBox.Value = new decimal(new int[] { 100, 0, 0, 0 });
-            groupNumBox.Leave += groupNumBox_Leave;
             // 
             // label3
             // 
@@ -549,7 +544,7 @@
             // groupBox4
             // 
             groupBox4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox4.Controls.Add(dataGridView1);
+            groupBox4.Controls.Add(answerBox);
             groupBox4.Location = new Point(6, 174);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(1895, 864);
@@ -557,34 +552,15 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "抄收结果";
             // 
-            // dataGridView1
+            // answerBox
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
-            dataGridViewCellStyle2.Font = new Font("Microsoft YaHei UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(3, 19);
-            dataGridView1.Name = "dataGridView1";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            dataGridView1.RowTemplate.Height = 40;
-            dataGridView1.Size = new Size(1889, 842);
-            dataGridView1.TabIndex = 0;
-            dataGridView1.CellClick += dataGridView1_CellClick;
-            dataGridView1.CellEnter += dataGridView1_CellEnter;
-            dataGridView1.EditingControlShowing += dataGridView1_EditingControlShowing;
+            answerBox.Dock = DockStyle.Fill;
+            answerBox.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
+            answerBox.Location = new Point(3, 19);
+            answerBox.Name = "answerBox";
+            answerBox.Size = new Size(1889, 842);
+            answerBox.TabIndex = 0;
+            answerBox.Text = " ";
             // 
             // timer1
             // 
@@ -663,7 +639,6 @@
             Text = "抄收练习";
             FormClosed += CopyingPractice_FormClosed;
             Load += CopyingPractice_Load;
-            SizeChanged += CopyingPractice_SizeChanged;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
@@ -678,7 +653,6 @@
             ((System.ComponentModel.ISupportInitialize)toneBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)groupNumBox).EndInit();
             groupBox4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             groupBox5.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -701,7 +675,6 @@
         private Label label2;
         private Label label1;
         private GroupBox groupBox4;
-        private DataGridView dataGridView1;
         private NumericUpDown speetBox;
         private NumericUpDown toneBox;
         private NumericUpDown groupNumBox;
@@ -733,5 +706,6 @@
         private RadioButton radioButton7;
         private Label label7;
         private ComboBox KochList;
+        private RichTextBox answerBox;
     }
 }
