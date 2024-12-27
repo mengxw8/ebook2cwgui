@@ -7,7 +7,7 @@
 ## 汉化仿制的ebook2cwGUI界面
 ![txt转音频](https://github.com/mengxw8/ebook2cwgui/blob/master/doc/img/Convert.png)
 ## 抄收练习工具
-目前集成了数字，字母，数字字母混合，符号，英文文章，新闻，和专八单词随机练习的功能，后续预计加入Koch练习法
+目前集成了数字，字母，数字字母混合，符号，英文文章，新闻，和专八单词随机练习，Koch练习法等功能。量大管饱！
 ![抄收练习](https://github.com/mengxw8/ebook2cwgui/blob/master/doc/img/copy.png)
 ## 抄收练习工具
 目前还没有头绪，后续再说，目前还在学抄收
@@ -99,6 +99,8 @@ void loop() {
 
 编译，烧录，测试，搞定。
 当然，如果你制作的和我的一样板子，连编译都省了，直接下载我编译后的[固件](https://github.com/mengxw8/ebook2cwgui/blob/master/firmware/CW/build/CH55xDuino.mcs51.ch552/CW.ino.hex)
+
+此时，把练习器插进电脑，然后把鼠标移动到发报按钮上，操作手键，电脑上的软件就会开始动作了。
 
 
 # 特别声明
