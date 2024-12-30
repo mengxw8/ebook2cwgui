@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
@@ -47,11 +48,16 @@ namespace CW
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
         WorkingMode mode = WorkingMode.None;
         //数字
-        Dictionary<string, string> number = new Dictionary<string, string> { { "1", ".----" }, { "2", "..---" }, { "3", "...--" }, { "4", "....-" }, { "5", "....." }, { "6", "-...." }, { "7", "--..." }, { "8", "---.." }, { "9", "----." }, { "0", "-----" } };
+       private static readonly  Dictionary<string, string> number = new Dictionary<string, string> { { "1", ".----" }, { "2", "..---" }, { "3", "...--" }, { "4", "....-" }, { "5", "....." }, { "6", "-...." }, { "7", "--..." }, { "8", "---.." }, { "9", "----." }, { "0", "-----" } };
         //字母
-        Dictionary<string, string> alphabet = new Dictionary<string, string> { { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
+        private static readonly Dictionary<string, string> alphabet = new Dictionary<string, string> { { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
         //符号
-        Dictionary<string, string> symbol = new Dictionary<string, string> { { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "&", "...." }, { "@", ".--.-." } };
+        private static readonly Dictionary<string, string> symbol = new Dictionary<string, string> { { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "&", "...." }, { "@", ".--.-." } };
+        private static readonly Dictionary<string, string> allCode = new Dictionary<string, string>[] { alphabet, number, symbol }.SelectMany(disc => disc).ToLookup(pair => pair.Value, pair => pair.Key)
+            .ToDictionary(
+                group => group.Key,
+                group => group.Last() // 取最后一个值（覆盖冲突键）
+            );
         //新闻类型
         Dictionary<string, string> newsType = new Dictionary<string, string> { { "中国", "https://www.cgtn.com/subscribe/rss/section/china.xml" }, { "世界", "https://www.cgtn.com/subscribe/rss/section/world.xml" }, { "商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" }, { "体育", "https://www.cgtn.com/subscribe/rss/section/sports.xml" }, { "科学", "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" }, { "旅行", "https://www.cgtn.com/subscribe/rss/section/travel.xml" }, { "现场", "https://www.cgtn.com/subscribe/rss/section/live.xml" }, { "文化", "https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
 
@@ -65,7 +71,10 @@ namespace CW
         string lastCheckMusicPath = "";
         //用来装生成的图形
         private static ConcurrentQueue<Bitmap> bitmapQueue = new ConcurrentQueue<Bitmap>(); // 双缓冲队列
-        private static Bitmap bitmap;
+        //用来装敲过的字符
+        private static ConcurrentQueue<char> charQueue = new ConcurrentQueue<char>(); 
+      
+        private static Bitmap? bitmap;
 
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -324,8 +333,7 @@ namespace CW
         /// <param name="words"></param>
         /// <returns></returns>
         private string getNewsPapers(List<string> words)
-        {
-            string answer = "";
+        {   
             //组数限制
             int groupNum = System.Convert.ToInt32(groupNumBox.Value);
             //是否不要符号
@@ -664,12 +672,7 @@ namespace CW
         private void timer1_Tick(object sender, EventArgs e)
         {
 
-            if (Mp3Player.Status() == PlaybackState.Stopped)
-            {
-                //结束了，需要进行校报
-                Mp3Player.Play(lastCheckMusicPath);
-                timer1.Stop();
-            }
+
         }
 
         private void CopyingPractice_FormClosed(object sender, FormClosedEventArgs e)
@@ -728,7 +731,7 @@ namespace CW
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
             Version version = currentAssembly.GetName().Version;
             this.Text = this.Text + " V" + version;
-            //初始化
+            //初始化画布
             bitmap = new Bitmap(visualizedBox.Width, visualizedBox.Height);
             TimerCallback callback = TimerProc;
             UIntPtr user = UIntPtr.Zero;
@@ -814,7 +817,8 @@ namespace CW
         private static int wait = blankWidth + 1;
         //每次绘制的宽度
         private readonly static int drawWidth = 1;
-
+        //可视化用来显示的字体
+        private readonly static Font font = new Font("Arial‌", 8, FontStyle.Regular, GraphicsUnit.Point);
 
 
         // 回调函数的委托类型
@@ -842,27 +846,66 @@ namespace CW
                     wait++;
                     color = SystemColors.Control;
                 }
+                var str="";
+                if (wait > blankWidth) {
+                    var sb = new StringBuilder();
+                    
+                    for (int i = 0; i < bitmapQueue.Count; i++)
+                    {
+                        if (charQueue.TryDequeue(out char c))
+                        {
 
+                            sb.Append(c);
+                        }
+                    }
+                    
+                    while (str == ""&& sb.ToString()!="") {
+                        str = allCode[sb.ToString()];
+                        if (str != "") {
+                            break;
+                        }
+                        sb.Length--;
+                    }
+                  
+                }
 
-
-                using (Graphics g = Graphics.FromImage(bitmap))
+                Bitmap map = new Bitmap(bitmap.Width, bitmap.Height);
+                using (Graphics g = Graphics.FromImage(map))
                 {
                     // 将原图像绘制到新图像中，向左平移指定偏移量
                     g.DrawImage(bitmap, -drawWidth, 0);
+                    //水平位置
+                    var horizontalPosition = (bitmap.Height / 2) - 10;
+                     
                     using (Pen pen = new Pen(color, 5)) // 2是线条的宽度
                     {
-                        //水平位置
-                        var horizontalPosition = (bitmap.Height / 2) - 10;
+       
                         // 绘制竖线
                         // 参数分别为：x1, y1, x2, y2，表示线条的起点和终点
                         g.DrawLine(pen, bitmap.Width - drawWidth, horizontalPosition, bitmap.Width, horizontalPosition);
+
                     }
+                    //写字
+                    if (str != "")
+                    {
+                        g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+                        // 设置文本要绘制的位置
+                        Point position = new Point(bitmap.Width - 10-blankWidth, horizontalPosition + 15);
+
+                        g.DrawString(str, font, Brushes.Black, position);
+
+
+                    }
+
                 }
+                bitmap.Dispose();
+                bitmap =map;
                 bitmapQueue.Enqueue((Bitmap)bitmap.Clone());
 
             }
         }
         WaveOutEvent waveOut;
+        Stopwatch sw = new Stopwatch();
         private void sendBtn_MouseDown(object sender, MouseEventArgs e)
         {
             //开始绘制
@@ -880,6 +923,8 @@ namespace CW
 
             // 开始播放音频
             waveOut.Play();
+            //开始计时            
+            sw.Start();
 
         }
 
@@ -890,10 +935,21 @@ namespace CW
             //停止播放声音
             waveOut.Stop();
             waveOut.Dispose();
+            //结束计时
+            sw.Stop();
+            var t = sw.ElapsedMilliseconds;
+            Console.WriteLine(t);
+            //暂且认为，比Di长的就是Da
+            if (t >= System.Convert.ToInt16(sendDiLength.Text))
+            {
+                charQueue.Enqueue('-');
+            }
+            else { 
+                charQueue.Enqueue('.');
+            }
+            sw.Reset();
 
         }
-
-
         /// <summary>
         /// 这个定时器的作用就是把队列中的图像刷新到页面上显示
         /// </summary>
