@@ -809,7 +809,7 @@ namespace CW
         //是否在绘制中
         private static bool isDraw = false;
         //空闲绘制的长度
-        private readonly static int blankWidth = 35;
+        private static int blankWidth = 42;
         //是否空闲
         private static int wait = blankWidth + 1;
         //每次绘制的宽度
@@ -948,6 +948,18 @@ namespace CW
             if (!Char.IsNumber(e.KeyChar) && e.KeyChar != 8)                       //判断输入的字符是否为十进制数字,是否为退格（输入错误可删除）
             {
                 e.Handled = true;                               //将事件标记为已处理，否则无效字符会继续填充进去
+            }
+        }
+
+        private void charInterval_TextChanged(object sender, EventArgs e)
+        {
+           
+            try
+            {
+                blankWidth = (System.Convert.ToInt16(charInterval.Text)/10);
+            }
+            catch (Exception)
+            {
             }
         }
     }

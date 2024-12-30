@@ -650,6 +650,7 @@
             charInterval.Size = new Size(29, 23);
             charInterval.TabIndex = 13;
             charInterval.Text = "420";
+            charInterval.TextChanged += charInterval_TextChanged;
             charInterval.KeyPress += numberTxb_KeyPress;
             // 
             // label15
