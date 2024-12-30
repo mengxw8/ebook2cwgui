@@ -78,19 +78,19 @@
             sendToneBox = new TextBox();
             label17 = new Label();
             label14 = new Label();
-            textBox5 = new TextBox();
+            charInterval = new TextBox();
             label15 = new Label();
             label12 = new Label();
-            textBox4 = new TextBox();
+            keyInterval = new TextBox();
             label13 = new Label();
             label10 = new Label();
-            textBox3 = new TextBox();
+            sendDaLength = new TextBox();
             label11 = new Label();
             label8 = new Label();
             sendDiLength = new TextBox();
             label9 = new Label();
             label6 = new Label();
-            snedSpeedTxb = new TextBox();
+            sendSpeedTxb = new TextBox();
             label5 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -584,19 +584,19 @@
             groupBox7.Controls.Add(sendToneBox);
             groupBox7.Controls.Add(label17);
             groupBox7.Controls.Add(label14);
-            groupBox7.Controls.Add(textBox5);
+            groupBox7.Controls.Add(charInterval);
             groupBox7.Controls.Add(label15);
             groupBox7.Controls.Add(label12);
-            groupBox7.Controls.Add(textBox4);
+            groupBox7.Controls.Add(keyInterval);
             groupBox7.Controls.Add(label13);
             groupBox7.Controls.Add(label10);
-            groupBox7.Controls.Add(textBox3);
+            groupBox7.Controls.Add(sendDaLength);
             groupBox7.Controls.Add(label11);
             groupBox7.Controls.Add(label8);
             groupBox7.Controls.Add(sendDiLength);
             groupBox7.Controls.Add(label9);
             groupBox7.Controls.Add(label6);
-            groupBox7.Controls.Add(snedSpeedTxb);
+            groupBox7.Controls.Add(sendSpeedTxb);
             groupBox7.Controls.Add(label5);
             groupBox7.Location = new Point(1030, 110);
             groupBox7.Name = "groupBox7";
@@ -621,6 +621,7 @@
             sendToneBox.Size = new Size(59, 23);
             sendToneBox.TabIndex = 16;
             sendToneBox.Text = "650";
+            sendToneBox.KeyPress += numberTxb_KeyPress;
             // 
             // label17
             // 
@@ -640,13 +641,14 @@
             label14.TabIndex = 14;
             label14.Text = "(ms)";
             // 
-            // textBox5
+            // charInterval
             // 
-            textBox5.Location = new Point(545, 16);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(29, 23);
-            textBox5.TabIndex = 13;
-            textBox5.Text = "195";
+            charInterval.Location = new Point(545, 16);
+            charInterval.Name = "charInterval";
+            charInterval.Size = new Size(29, 23);
+            charInterval.TabIndex = 13;
+            charInterval.Text = "195";
+            charInterval.KeyPress += numberTxb_KeyPress;
             // 
             // label15
             // 
@@ -666,13 +668,14 @@
             label12.TabIndex = 11;
             label12.Text = "(ms)";
             // 
-            // textBox4
+            // keyInterval
             // 
-            textBox4.Location = new Point(424, 16);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(29, 23);
-            textBox4.TabIndex = 10;
-            textBox4.Text = "65";
+            keyInterval.Location = new Point(424, 16);
+            keyInterval.Name = "keyInterval";
+            keyInterval.Size = new Size(29, 23);
+            keyInterval.TabIndex = 10;
+            keyInterval.Text = "65";
+            keyInterval.KeyPress += numberTxb_KeyPress;
             // 
             // label13
             // 
@@ -692,13 +695,14 @@
             label10.TabIndex = 8;
             label10.Text = "(ms)";
             // 
-            // textBox3
+            // sendDaLength
             // 
-            textBox3.Location = new Point(304, 18);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(29, 23);
-            textBox3.TabIndex = 7;
-            textBox3.Text = "195";
+            sendDaLength.Location = new Point(304, 18);
+            sendDaLength.Name = "sendDaLength";
+            sendDaLength.Size = new Size(29, 23);
+            sendDaLength.TabIndex = 7;
+            sendDaLength.Text = "195";
+            sendDaLength.KeyPress += numberTxb_KeyPress;
             // 
             // label11
             // 
@@ -725,6 +729,7 @@
             sendDiLength.Size = new Size(29, 23);
             sendDiLength.TabIndex = 4;
             sendDiLength.Text = "65";
+            sendDiLength.KeyPress += numberTxb_KeyPress;
             // 
             // label9
             // 
@@ -744,13 +749,16 @@
             label6.TabIndex = 2;
             label6.Text = "(WPM)";
             // 
-            // snedSpeedTxb
+            // sendSpeedTxb
             // 
-            snedSpeedTxb.Location = new Point(44, 15);
-            snedSpeedTxb.Name = "snedSpeedTxb";
-            snedSpeedTxb.Size = new Size(29, 23);
-            snedSpeedTxb.TabIndex = 1;
-            snedSpeedTxb.Text = "20";
+            sendSpeedTxb.Location = new Point(44, 15);
+            sendSpeedTxb.MaxLength = 2;
+            sendSpeedTxb.Name = "sendSpeedTxb";
+            sendSpeedTxb.Size = new Size(29, 23);
+            sendSpeedTxb.TabIndex = 1;
+            sendSpeedTxb.Text = "20";
+            sendSpeedTxb.KeyPress += numberTxb_KeyPress;
+            sendSpeedTxb.Leave += snedSpeedTxb_Leave;
             // 
             // label5
             // 
@@ -843,20 +851,20 @@
         private System.Windows.Forms.Timer timer2;
         private GroupBox groupBox6;
         private GroupBox groupBox7;
-        private TextBox snedSpeedTxb;
+        private TextBox sendSpeedTxb;
         private Label label5;
         private Label label6;
         private Label label12;
-        private TextBox textBox4;
+        private TextBox keyInterval;
         private Label label13;
         private Label label10;
-        private TextBox textBox3;
+        private TextBox sendDaLength;
         private Label label11;
         private Label label8;
         private TextBox sendDiLength;
         private Label label9;
         private Label label14;
-        private TextBox textBox5;
+        private TextBox charInterval;
         private Label label15;
         private Label label16;
         private TextBox sendToneBox;
