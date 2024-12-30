@@ -617,6 +617,7 @@
             // sendToneBox
             // 
             sendToneBox.Location = new Point(654, 16);
+            sendToneBox.MaxLength = 5;
             sendToneBox.Name = "sendToneBox";
             sendToneBox.Size = new Size(59, 23);
             sendToneBox.TabIndex = 16;
@@ -644,10 +645,11 @@
             // charInterval
             // 
             charInterval.Location = new Point(545, 16);
+            charInterval.MaxLength = 3;
             charInterval.Name = "charInterval";
             charInterval.Size = new Size(29, 23);
             charInterval.TabIndex = 13;
-            charInterval.Text = "195";
+            charInterval.Text = "420";
             charInterval.KeyPress += numberTxb_KeyPress;
             // 
             // label15
@@ -671,10 +673,11 @@
             // keyInterval
             // 
             keyInterval.Location = new Point(424, 16);
+            keyInterval.MaxLength = 3;
             keyInterval.Name = "keyInterval";
             keyInterval.Size = new Size(29, 23);
             keyInterval.TabIndex = 10;
-            keyInterval.Text = "65";
+            keyInterval.Text = "60";
             keyInterval.KeyPress += numberTxb_KeyPress;
             // 
             // label13
@@ -698,10 +701,11 @@
             // sendDaLength
             // 
             sendDaLength.Location = new Point(304, 18);
+            sendDaLength.MaxLength = 3;
             sendDaLength.Name = "sendDaLength";
             sendDaLength.Size = new Size(29, 23);
             sendDaLength.TabIndex = 7;
-            sendDaLength.Text = "195";
+            sendDaLength.Text = "180";
             sendDaLength.KeyPress += numberTxb_KeyPress;
             // 
             // label11
@@ -725,10 +729,11 @@
             // sendDiLength
             // 
             sendDiLength.Location = new Point(182, 16);
+            sendDiLength.MaxLength = 3;
             sendDiLength.Name = "sendDiLength";
             sendDiLength.Size = new Size(29, 23);
             sendDiLength.TabIndex = 4;
-            sendDiLength.Text = "65";
+            sendDiLength.Text = "60";
             sendDiLength.KeyPress += numberTxb_KeyPress;
             // 
             // label9

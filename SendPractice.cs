@@ -926,30 +926,29 @@ namespace CW
             {
                 speed = System.Convert.ToInt16(sendSpeedTxb.Text);
             }
-            catch (Exception ) { 
+            catch (Exception)
+            {
             }
-           
+
             if (speed > 99 || speed < 0)
             {
                 sendSpeedTxb.Text = "20";
                 speed = 20;
             }
             //计算剩下的值以Paris计
-            var di =   60000 / (speed * 50);
-          sendDiLength.Text = di.ToString();
+            var di = 60000 / (speed * 50);
+            sendDiLength.Text = di.ToString();
             sendDaLength.Text = (di * 3).ToString();
             keyInterval.Text = di.ToString();
-            charInterval.Text=(di*7).ToString();
+            charInterval.Text = (di * 7).ToString();
         }
 
         private void numberTxb_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!Char.IsNumber(e.KeyChar) && e.KeyChar != 8)                       //判断输入的字符是否为十进制数字,是否为退格（输入错误可删除）
-            {           
+            {
                 e.Handled = true;                               //将事件标记为已处理，否则无效字符会继续填充进去
             }
-
-
         }
     }
 }
