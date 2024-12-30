@@ -46,13 +46,6 @@
             neRbtn = new RadioButton();
             groupBox3 = new GroupBox();
             symbolsChb = new CheckBox();
-            extraWordSpacing = new NumericUpDown();
-            label6 = new Label();
-            effectiveSpeed = new NumericUpDown();
-            label5 = new Label();
-            checkAnserSpeed = new NumericUpDown();
-            checkAnswerChb = new CheckBox();
-            showAnswerChb = new CheckBox();
             EachGroup = new NumericUpDown();
             label4 = new Label();
             exportBtn = new Button();
@@ -79,12 +72,29 @@
             sendBtn = new Button();
             visualizedBox = new PictureBox();
             timer2 = new System.Windows.Forms.Timer(components);
+            groupBox6 = new GroupBox();
+            groupBox7 = new GroupBox();
+            label16 = new Label();
+            sendToneBox = new TextBox();
+            label17 = new Label();
+            label14 = new Label();
+            textBox5 = new TextBox();
+            label15 = new Label();
+            label12 = new Label();
+            textBox4 = new TextBox();
+            label13 = new Label();
+            label10 = new Label();
+            textBox3 = new TextBox();
+            label11 = new Label();
+            label8 = new Label();
+            sendDiLength = new TextBox();
+            label9 = new Label();
+            label6 = new Label();
+            snedSpeedTxb = new TextBox();
+            label5 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)extraWordSpacing).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)effectiveSpeed).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)checkAnserSpeed).BeginInit();
             ((System.ComponentModel.ISupportInitialize)EachGroup).BeginInit();
             ((System.ComponentModel.ISupportInitialize)speetBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)toneBox).BeginInit();
@@ -92,6 +102,8 @@
             groupBox4.SuspendLayout();
             groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)visualizedBox).BeginInit();
+            groupBox6.SuspendLayout();
+            groupBox7.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -268,13 +280,6 @@
             // groupBox3
             // 
             groupBox3.Controls.Add(symbolsChb);
-            groupBox3.Controls.Add(extraWordSpacing);
-            groupBox3.Controls.Add(label6);
-            groupBox3.Controls.Add(effectiveSpeed);
-            groupBox3.Controls.Add(label5);
-            groupBox3.Controls.Add(checkAnserSpeed);
-            groupBox3.Controls.Add(checkAnswerChb);
-            groupBox3.Controls.Add(showAnswerChb);
             groupBox3.Controls.Add(EachGroup);
             groupBox3.Controls.Add(label4);
             groupBox3.Controls.Add(exportBtn);
@@ -290,7 +295,7 @@
             groupBox3.Controls.Add(label1);
             groupBox3.Location = new Point(662, 2);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(482, 166);
+            groupBox3.Size = new Size(246, 166);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "背景音配置";
@@ -298,80 +303,12 @@
             // symbolsChb
             // 
             symbolsChb.AutoSize = true;
-            symbolsChb.Location = new Point(304, 113);
+            symbolsChb.Location = new Point(155, 60);
             symbolsChb.Name = "symbolsChb";
             symbolsChb.Size = new Size(87, 21);
             symbolsChb.TabIndex = 21;
             symbolsChb.Text = "文章含符号";
             symbolsChb.UseVisualStyleBackColor = true;
-            // 
-            // extraWordSpacing
-            // 
-            extraWordSpacing.DecimalPlaces = 1;
-            extraWordSpacing.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            extraWordSpacing.Location = new Point(253, 55);
-            extraWordSpacing.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
-            extraWordSpacing.Name = "extraWordSpacing";
-            extraWordSpacing.Size = new Size(40, 23);
-            extraWordSpacing.TabIndex = 20;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(153, 56);
-            label6.Name = "label6";
-            label6.Size = new Size(83, 17);
-            label6.TabIndex = 19;
-            label6.Text = "词间额外间隔:";
-            // 
-            // effectiveSpeed
-            // 
-            effectiveSpeed.Location = new Point(253, 24);
-            effectiveSpeed.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
-            effectiveSpeed.Name = "effectiveSpeed";
-            effectiveSpeed.Size = new Size(40, 23);
-            effectiveSpeed.TabIndex = 18;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(153, 25);
-            label5.Name = "label5";
-            label5.Size = new Size(98, 17);
-            label5.TabIndex = 17;
-            label5.Text = "有效速度(WPM):";
-            // 
-            // checkAnserSpeed
-            // 
-            checkAnserSpeed.Enabled = false;
-            checkAnserSpeed.Location = new Point(92, 139);
-            checkAnserSpeed.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            checkAnserSpeed.Name = "checkAnserSpeed";
-            checkAnserSpeed.Size = new Size(48, 23);
-            checkAnserSpeed.TabIndex = 16;
-            checkAnserSpeed.Value = new decimal(new int[] { 20, 0, 0, 0 });
-            // 
-            // checkAnswerChb
-            // 
-            checkAnswerChb.AutoSize = true;
-            checkAnswerChb.Location = new Point(16, 139);
-            checkAnswerChb.Name = "checkAnswerChb";
-            checkAnswerChb.Size = new Size(51, 21);
-            checkAnswerChb.TabIndex = 15;
-            checkAnswerChb.Text = "校报";
-            checkAnswerChb.UseVisualStyleBackColor = true;
-            checkAnswerChb.CheckedChanged += checkAnswerChb_CheckedChanged;
-            // 
-            // showAnswerChb
-            // 
-            showAnswerChb.AutoSize = true;
-            showAnswerChb.Location = new Point(304, 83);
-            showAnswerChb.Name = "showAnswerChb";
-            showAnswerChb.Size = new Size(75, 21);
-            showAnswerChb.TabIndex = 14;
-            showAnswerChb.Text = "显示答案";
-            showAnswerChb.UseVisualStyleBackColor = true;
-            showAnswerChb.CheckedChanged += showAnswerChb_CheckedChanged;
             // 
             // EachGroup
             // 
@@ -393,7 +330,7 @@
             // 
             // exportBtn
             // 
-            exportBtn.Location = new Point(398, 106);
+            exportBtn.Location = new Point(155, 130);
             exportBtn.Name = "exportBtn";
             exportBtn.Size = new Size(75, 23);
             exportBtn.TabIndex = 10;
@@ -404,7 +341,7 @@
             // repeatRbtn
             // 
             repeatRbtn.AutoSize = true;
-            repeatRbtn.Location = new Point(304, 26);
+            repeatRbtn.Location = new Point(155, 16);
             repeatRbtn.Name = "repeatRbtn";
             repeatRbtn.Size = new Size(87, 21);
             repeatRbtn.TabIndex = 9;
@@ -414,7 +351,7 @@
             // continuousRbtn
             // 
             continuousRbtn.AutoSize = true;
-            continuousRbtn.Location = new Point(304, 54);
+            continuousRbtn.Location = new Point(155, 38);
             continuousRbtn.Name = "continuousRbtn";
             continuousRbtn.Size = new Size(87, 21);
             continuousRbtn.TabIndex = 8;
@@ -423,7 +360,7 @@
             // 
             // submitAnswerBtn
             // 
-            submitAnswerBtn.Location = new Point(398, 56);
+            submitAnswerBtn.Location = new Point(155, 106);
             submitAnswerBtn.Name = "submitAnswerBtn";
             submitAnswerBtn.Size = new Size(75, 23);
             submitAnswerBtn.TabIndex = 7;
@@ -432,11 +369,11 @@
             // 
             // startBtn
             // 
-            startBtn.Location = new Point(398, 26);
+            startBtn.Location = new Point(155, 82);
             startBtn.Name = "startBtn";
             startBtn.Size = new Size(75, 23);
             startBtn.TabIndex = 6;
-            startBtn.Text = "开始抄收";
+            startBtn.Text = "开始发报";
             startBtn.UseVisualStyleBackColor = true;
             startBtn.Click += startBtn_Click;
             // 
@@ -448,7 +385,6 @@
             speetBox.Size = new Size(48, 23);
             speetBox.TabIndex = 5;
             speetBox.Value = new decimal(new int[] { 20, 0, 0, 0 });
-            speetBox.ValueChanged += speetBox_ValueChanged;
             // 
             // toneBox
             // 
@@ -502,7 +438,7 @@
             stopBtn.Name = "stopBtn";
             stopBtn.Size = new Size(75, 23);
             stopBtn.TabIndex = 11;
-            stopBtn.Text = "结束抄收";
+            stopBtn.Text = "停止";
             stopBtn.UseVisualStyleBackColor = true;
             stopBtn.Click += stopBtn_Click;
             // 
@@ -554,7 +490,7 @@
             groupBox5.Controls.Add(pauseBtn);
             groupBox5.Controls.Add(clearAnswerBtn);
             groupBox5.Controls.Add(stopBtn);
-            groupBox5.Location = new Point(1149, 2);
+            groupBox5.Location = new Point(912, 2);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(109, 166);
             groupBox5.TabIndex = 4;
@@ -618,10 +554,11 @@
             // 
             // visualizedBox
             // 
-            visualizedBox.BorderStyle = BorderStyle.FixedSingle;
-            visualizedBox.Location = new Point(1264, 12);
+            visualizedBox.Dock = DockStyle.Fill;
+            visualizedBox.Location = new Point(3, 19);
             visualizedBox.Name = "visualizedBox";
-            visualizedBox.Size = new Size(637, 90);
+            visualizedBox.Size = new Size(868, 83);
+            visualizedBox.SizeMode = PictureBoxSizeMode.StretchImage;
             visualizedBox.TabIndex = 7;
             visualizedBox.TabStop = false;
             // 
@@ -631,12 +568,206 @@
             timer2.Interval = 1;
             timer2.Tick += timer2_Tick;
             // 
+            // groupBox6
+            // 
+            groupBox6.Controls.Add(visualizedBox);
+            groupBox6.Location = new Point(1027, 2);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Size = new Size(874, 105);
+            groupBox6.TabIndex = 8;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "可视化";
+            // 
+            // groupBox7
+            // 
+            groupBox7.Controls.Add(label16);
+            groupBox7.Controls.Add(sendToneBox);
+            groupBox7.Controls.Add(label17);
+            groupBox7.Controls.Add(label14);
+            groupBox7.Controls.Add(textBox5);
+            groupBox7.Controls.Add(label15);
+            groupBox7.Controls.Add(label12);
+            groupBox7.Controls.Add(textBox4);
+            groupBox7.Controls.Add(label13);
+            groupBox7.Controls.Add(label10);
+            groupBox7.Controls.Add(textBox3);
+            groupBox7.Controls.Add(label11);
+            groupBox7.Controls.Add(label8);
+            groupBox7.Controls.Add(sendDiLength);
+            groupBox7.Controls.Add(label9);
+            groupBox7.Controls.Add(label6);
+            groupBox7.Controls.Add(snedSpeedTxb);
+            groupBox7.Controls.Add(label5);
+            groupBox7.Location = new Point(1030, 110);
+            groupBox7.Name = "groupBox7";
+            groupBox7.Size = new Size(759, 58);
+            groupBox7.TabIndex = 9;
+            groupBox7.TabStop = false;
+            groupBox7.Text = "CW规则";
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(714, 19);
+            label16.Name = "label16";
+            label16.Size = new Size(31, 17);
+            label16.TabIndex = 17;
+            label16.Text = "(Hz)";
+            // 
+            // sendToneBox
+            // 
+            sendToneBox.Location = new Point(654, 16);
+            sendToneBox.Name = "sendToneBox";
+            sendToneBox.Size = new Size(59, 23);
+            sendToneBox.TabIndex = 16;
+            sendToneBox.Text = "650";
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(613, 19);
+            label17.Name = "label17";
+            label17.Size = new Size(35, 17);
+            label17.TabIndex = 15;
+            label17.Text = "频率:";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(575, 19);
+            label14.Name = "label14";
+            label14.Size = new Size(33, 17);
+            label14.TabIndex = 14;
+            label14.Text = "(ms)";
+            // 
+            // textBox5
+            // 
+            textBox5.Location = new Point(545, 16);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(29, 23);
+            textBox5.TabIndex = 13;
+            textBox5.Text = "195";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(490, 19);
+            label15.Name = "label15";
+            label15.Size = new Size(59, 17);
+            label15.TabIndex = 12;
+            label15.Text = "字符间隔:";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(454, 19);
+            label12.Name = "label12";
+            label12.Size = new Size(33, 17);
+            label12.TabIndex = 11;
+            label12.Text = "(ms)";
+            // 
+            // textBox4
+            // 
+            textBox4.Location = new Point(424, 16);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(29, 23);
+            textBox4.TabIndex = 10;
+            textBox4.Text = "65";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(369, 19);
+            label13.Name = "label13";
+            label13.Size = new Size(59, 17);
+            label13.TabIndex = 9;
+            label13.Text = "键击间隔:";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(334, 21);
+            label10.Name = "label10";
+            label10.Size = new Size(33, 17);
+            label10.TabIndex = 8;
+            label10.Text = "(ms)";
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(304, 18);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(29, 23);
+            textBox3.TabIndex = 7;
+            textBox3.Text = "195";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(249, 21);
+            label11.Name = "label11";
+            label11.Size = new Size(57, 17);
+            label11.TabIndex = 6;
+            label11.Text = "\"嗒\"声长:";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(212, 19);
+            label8.Name = "label8";
+            label8.Size = new Size(33, 17);
+            label8.TabIndex = 5;
+            label8.Text = "(ms)";
+            // 
+            // sendDiLength
+            // 
+            sendDiLength.Location = new Point(182, 16);
+            sendDiLength.Name = "sendDiLength";
+            sendDiLength.Size = new Size(29, 23);
+            sendDiLength.TabIndex = 4;
+            sendDiLength.Text = "65";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(127, 19);
+            label9.Name = "label9";
+            label9.Size = new Size(57, 17);
+            label9.TabIndex = 3;
+            label9.Text = "\"嘀\"声长:";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(76, 18);
+            label6.Name = "label6";
+            label6.Size = new Size(47, 17);
+            label6.TabIndex = 2;
+            label6.Text = "(WPM)";
+            // 
+            // snedSpeedTxb
+            // 
+            snedSpeedTxb.Location = new Point(44, 15);
+            snedSpeedTxb.Name = "snedSpeedTxb";
+            snedSpeedTxb.Size = new Size(29, 23);
+            snedSpeedTxb.TabIndex = 1;
+            snedSpeedTxb.Text = "20";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(7, 18);
+            label5.Name = "label5";
+            label5.Size = new Size(35, 17);
+            label5.TabIndex = 0;
+            label5.Text = "键速:";
+            // 
             // SendPractice
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1904, 1041);
-            Controls.Add(visualizedBox);
+            Controls.Add(groupBox7);
+            Controls.Add(groupBox6);
             Controls.Add(sendBtn);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
@@ -653,9 +784,6 @@
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)extraWordSpacing).EndInit();
-            ((System.ComponentModel.ISupportInitialize)effectiveSpeed).EndInit();
-            ((System.ComponentModel.ISupportInitialize)checkAnserSpeed).EndInit();
             ((System.ComponentModel.ISupportInitialize)EachGroup).EndInit();
             ((System.ComponentModel.ISupportInitialize)speetBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)toneBox).EndInit();
@@ -663,6 +791,9 @@
             groupBox4.ResumeLayout(false);
             groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)visualizedBox).EndInit();
+            groupBox6.ResumeLayout(false);
+            groupBox7.ResumeLayout(false);
+            groupBox7.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -695,14 +826,7 @@
         private Button stopBtn;
         private NumericUpDown EachGroup;
         private Label label4;
-        private CheckBox showAnswerChb;
-        private NumericUpDown checkAnserSpeed;
-        private CheckBox checkAnswerChb;
         private System.Windows.Forms.Timer timer1;
-        private NumericUpDown effectiveSpeed;
-        private Label label5;
-        private NumericUpDown extraWordSpacing;
-        private Label label6;
         private RadioButton radioButton6;
         private CheckBox symbolsChb;
         private RadioButton radioButton8;
@@ -717,5 +841,25 @@
         private Button sendBtn;
         private PictureBox visualizedBox;
         private System.Windows.Forms.Timer timer2;
+        private GroupBox groupBox6;
+        private GroupBox groupBox7;
+        private TextBox snedSpeedTxb;
+        private Label label5;
+        private Label label6;
+        private Label label12;
+        private TextBox textBox4;
+        private Label label13;
+        private Label label10;
+        private TextBox textBox3;
+        private Label label11;
+        private Label label8;
+        private TextBox sendDiLength;
+        private Label label9;
+        private Label label14;
+        private TextBox textBox5;
+        private Label label15;
+        private Label label16;
+        private TextBox sendToneBox;
+        private Label label17;
     }
 }

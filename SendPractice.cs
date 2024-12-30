@@ -64,7 +64,7 @@ namespace CW
         string lastMusicPath = "";
         string lastCheckMusicPath = "";
         //用来装生成的图形
-        private static  ConcurrentQueue<Bitmap> bitmapQueue = new ConcurrentQueue<Bitmap>(); // 双缓冲队列
+        private static ConcurrentQueue<Bitmap> bitmapQueue = new ConcurrentQueue<Bitmap>(); // 双缓冲队列
         private static Bitmap bitmap;
 
 
@@ -448,28 +448,13 @@ namespace CW
             //播放音频
             lastMusicPath = audioFileName;
             Mp3Player.Play(audioFileName);
-            //处理校报逻辑
-            if (checkAnswerChb.Checked)
-            {
-                //生成校验报文音频
-                lastCheckMusicPath = filePath.Replace(".txt", "") + "-校报.mp3";
-                //生成音频
-                var checkAudioFileName = GenerateAudio(fileName.ToString(), filePath, checkAnserSpeed.Value.ToString());
-                //重命名音频文件名称
-                RenameMusic("./temp/" + checkAudioFileName, lastCheckMusicPath);
-                //开启定时器
-                timer1.Start();
-            }
+
             //解除封禁
             pauseBtn.Enabled = true;
             rePlayBtn.Enabled = true;
 
 
-            //如果是开启了显示答案的按钮，直接显示答案
-            if (showAnswerChb.Checked)
-            {
-                showAnswer();
-            }
+
 
         }
         /// <summary>
@@ -483,14 +468,10 @@ namespace CW
         private string GenerateAudio(string fileName, string filePath, string speed)
         {
             var param = "";
-            if (effectiveSpeed.Value > 0)
-            {
-                param += " -e ";
-                param += effectiveSpeed.Value;
-            }
+
 
             //生成音频
-            param += " -q 1 -o " + "./temp/" + fileName + " -w " + speed + " -f " + toneBox.Value++ + " -W " + extraWordSpacing.Value + " " + filePath;
+            param += " -q 1 -o " + "./temp/" + fileName + " -w " + speed + " -f " + toneBox.Value + " " + filePath;
             ProcessStartInfo startInfo = new ProcessStartInfo("ebook2cw.exe", param);
 
             startInfo.UseShellExecute = false;    //是否使用操作系统的shell启动
@@ -669,12 +650,7 @@ namespace CW
                         //添加报文
                         string txtFileName = Path.GetFileName(lastMusicPath.Replace(".mp3", ".txt"));
                         archive.CreateEntryFromFile(lastMusicPath.Replace(".mp3", ".txt"), txtFileName);
-                        //添加校报音频
-                        if (checkAnswerChb.Checked)
-                        {
-                            string checkFileName = Path.GetFileName(lastCheckMusicPath);
-                            archive.CreateEntryFromFile(lastCheckMusicPath, checkFileName);
-                        }
+
 
 
                     }
@@ -683,38 +659,7 @@ namespace CW
 
         }
 
-        private void checkAnswerChb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkAnswerChb.Checked)
-            {
-                checkAnserSpeed.Enabled = true;
 
-
-            }
-            else
-            {
-                checkAnserSpeed.Enabled = false;
-
-            }
-        }
-
-        private void showAnswerChb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (showAnswerChb.Checked && answer != "")
-            {
-
-                showAnswer();
-            }
-        }
-        /// <summary>
-        /// 展示答案
-        /// </summary>
-        private void showAnswer()
-        {
-
-
-
-        }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -736,17 +681,14 @@ namespace CW
                 Directory.Delete(Path.GetDirectoryName(lastMusicPath), true);
             }
         }
-        private void speetBox_ValueChanged(object sender, EventArgs e)
-        {
-            checkAnserSpeed.Value = speetBox.Value + 2;
-        }
+
 
 
         //清空答案
         private void clearAnswer_Click(object sender, EventArgs e)
         {
 
-            showAnswerChb.Checked = false;
+
         }
 
         private void pauseBtn_Click(object sender, EventArgs e)
@@ -760,10 +702,7 @@ namespace CW
             Mp3Player.ContinuePlay();
             continuePlayBtn.Enabled = false;
             pauseBtn.Enabled = true;
-            if (checkAnswerChb.Checked)
-            {
-                timer1.Start();
-            }
+
         }
 
         private void resumeBtn_Click(object sender, EventArgs e)
@@ -855,6 +794,7 @@ namespace CW
         // 导入 timeSetEvent, timeKillEvent 和 MMRESULT 枚举
         private const uint TIME_KILL_EVENT = 0;
         private const uint TIME_PERIODIC = 1;
+        //定时器分辨率，1ms级别
         private const uint TIMER_RESOLUTION = 1;
 
         [DllImport("winmm.dll", SetLastError = true)]
@@ -868,89 +808,117 @@ namespace CW
 
         //是否在绘制中
         private static bool isDraw = false;
-        private static int wait = 50;
-        private static int drawWidth =1;
+        //空闲绘制的长度
+        private readonly static int blankWidth = 35;
+        //是否空闲
+        private static int wait = blankWidth + 1;
+        //每次绘制的宽度
+        private readonly static int drawWidth = 1;
+
 
 
         // 回调函数的委托类型
         private delegate void TimerCallback(UIntPtr uTimerID, UIntPtr uMsg, UIntPtr dwUser, UIntPtr dw1, UIntPtr dw2);
 
-        // 定时器的回调函数
+        /// <summary>
+        /// 高精度定时器，主要处理按键按下后的图像绘制
+        /// </summary>
+        /// <param name="uTimerID"></param>
+        /// <param name="uMsg"></param>
+        /// <param name="dwUser"></param>
+        /// <param name="dw1"></param>
+        /// <param name="dw2"></param>
         private static void TimerProc(UIntPtr uTimerID, UIntPtr uMsg, UIntPtr dwUser, UIntPtr dw1, UIntPtr dw2)
         {
-            if (isDraw)
+            if (isDraw || wait <= blankWidth && !isDraw)
             {
-                wait = 0;
-   
+                var color = Color.Black;
+                if (isDraw)
+                {
+                    wait = 0;
+                }
+                else if (wait <= blankWidth && !isDraw)
+                {
+                    wait++;
+                    color = SystemColors.Control;
+                }
+
+
+
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
                     // 将原图像绘制到新图像中，向左平移指定偏移量
                     g.DrawImage(bitmap, -drawWidth, 0);
-                    using (Pen pen = new Pen(Color.Black, 5)) // 2是线条的宽度
+                    using (Pen pen = new Pen(color, 5)) // 2是线条的宽度
                     {
+                        //水平位置
+                        var horizontalPosition = (bitmap.Height / 2) - 10;
                         // 绘制竖线
                         // 参数分别为：x1, y1, x2, y2，表示线条的起点和终点
-                        g.DrawLine(pen, bitmap.Width - drawWidth, bitmap.Height / 2, bitmap.Width, bitmap.Height / 2);
+                        g.DrawLine(pen, bitmap.Width - drawWidth, horizontalPosition, bitmap.Width, horizontalPosition);
                     }
                 }
                 bitmapQueue.Enqueue((Bitmap)bitmap.Clone());
 
             }
-            if (wait < 30&&!isDraw)
-            {
-                using (Graphics g = Graphics.FromImage(bitmap))
-                {
-                    // 将原图像绘制到新图像中，向左平移指定偏移量
-                    g.DrawImage(bitmap, -drawWidth, 0);
-                    using (Pen pen = new Pen(SystemColors.Control, 5)) // 2是线条的宽度
-                    {
-                        // 绘制竖线
-                        // 参数分别为：x1, y1, x2, y2，表示线条的起点和终点
-                        g.DrawLine(pen, bitmap.Width - drawWidth, bitmap.Height / 2, bitmap.Width, bitmap.Height / 2);
-                    }
-                }
-                bitmapQueue.Enqueue((Bitmap)bitmap.Clone());
-                wait++;
-            }
-
         }
-
+        WaveOutEvent waveOut;
         private void sendBtn_MouseDown(object sender, MouseEventArgs e)
         {
+            //开始绘制
             isDraw = true;
+            //播放声音
 
+            // 创建 SineWaveProvider
+            var sineWaveProvider = new SineWaveProvider(System.Convert.ToDouble(sendToneBox.Text));
 
+            // 创建 WaveOutEvent 对象来播放音频
+            waveOut = new WaveOutEvent();
 
+            // 将 SineWaveProvider 连接到 WaveOutEvent
+            waveOut.Init(sineWaveProvider);
 
-            visualizedBox.Update();
+            // 开始播放音频
+            waveOut.Play();
+
         }
 
 
         private void sendBtn_MouseUp(object sender, MouseEventArgs e)
         {
             isDraw = false;
-            
+            //停止播放声音
+            waveOut.Stop();
+            waveOut.Dispose();
+
         }
 
 
-
+        /// <summary>
+        /// 这个定时器的作用就是把队列中的图像刷新到页面上显示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timer2_Tick(object sender, EventArgs e)
         {
-            Bitmap sb;
-            for (int i = 0; i < bitmapQueue.Count; i++) {
-                if (bitmapQueue.TryDequeue(out sb))
+
+            for (int i = 0; i < bitmapQueue.Count; i++)
+            {
+                if (bitmapQueue.TryDequeue(out Bitmap? sb))
                 {
-                    if (visualizedBox.Image != null) {
+                    if (visualizedBox.Image != null)
+                    {
                         visualizedBox.Image.Dispose();
                     }
-            
+
                     visualizedBox.Image = sb;
                 }
             }
 
-    
-            
+
+
         }
 
+ 
     }
 }

@@ -94,7 +94,6 @@
             sendBtn.TabIndex = 5;
             sendBtn.Text = "CW发报练习";
             sendBtn.UseVisualStyleBackColor = true;
-            sendBtn.Visible = false;
             sendBtn.Click += sendBtn_Click;
             // 
             // Form1

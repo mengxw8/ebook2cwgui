@@ -1,6 +1,10 @@
+using NAudio.Wave;
 using System;
 using System.Diagnostics;
 using System.Reflection;
+
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
 
 namespace CW
 {
@@ -50,5 +54,8 @@ namespace CW
             sendPractice.ShowDialog();
             this.Close();
         }
+
+
+
     }
 }
