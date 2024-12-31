@@ -448,16 +448,13 @@ namespace CW
             //重命名音频文件名称
             RenameMusic("./temp/" + audioFileName, filePath.Replace("txt", "mp3"));
             audioFileName = filePath.Replace("txt", "mp3");
-
-
-            Mp3Player.Stop();
-
-
-
-
             //播放音频
-            lastMusicPath = audioFileName;
-            Mp3Player.Play(audioFileName);
+            Mp3Player.Stop();
+            if (bgmCbx.Checked) {  
+                lastMusicPath = audioFileName;
+                Mp3Player.Play(audioFileName);
+            }
+
 
             //解除封禁
             pauseBtn.Enabled = true;

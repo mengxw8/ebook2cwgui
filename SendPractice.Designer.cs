@@ -75,6 +75,7 @@
             timer2 = new System.Windows.Forms.Timer(components);
             groupBox6 = new GroupBox();
             groupBox7 = new GroupBox();
+            strictCbx = new CheckBox();
             label16 = new Label();
             sendToneBox = new TextBox();
             label17 = new Label();
@@ -94,7 +95,6 @@
             sendSpeedTxb = new TextBox();
             label5 = new Label();
             groupBox8 = new GroupBox();
-            strictCbx = new CheckBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -415,7 +415,7 @@
             startBtn.Name = "startBtn";
             startBtn.Size = new Size(75, 23);
             startBtn.TabIndex = 6;
-            startBtn.Text = "开始发报";
+            startBtn.Text = "生成报文";
             startBtn.UseVisualStyleBackColor = true;
             startBtn.Click += startBtn_Click;
             // 
@@ -611,6 +611,17 @@
             groupBox7.TabStop = false;
             groupBox7.Text = "CW规则";
             // 
+            // strictCbx
+            // 
+            strictCbx.AutoSize = true;
+            strictCbx.Location = new Point(705, 19);
+            strictCbx.Name = "strictCbx";
+            strictCbx.Size = new Size(51, 21);
+            strictCbx.TabIndex = 18;
+            strictCbx.Text = "严格";
+            strictCbx.UseVisualStyleBackColor = true;
+            strictCbx.CheckedChanged += strictCbx_CheckedChanged;
+            // 
             // label16
             // 
             label16.AutoSize = true;
@@ -799,17 +810,6 @@
             groupBox8.TabIndex = 22;
             groupBox8.TabStop = false;
             groupBox8.Text = "报文控制";
-            // 
-            // strictCbx
-            // 
-            strictCbx.AutoSize = true;
-            strictCbx.Location = new Point(705, 19);
-            strictCbx.Name = "strictCbx";
-            strictCbx.Size = new Size(51, 21);
-            strictCbx.TabIndex = 18;
-            strictCbx.Text = "严格";
-            strictCbx.UseVisualStyleBackColor = true;
-            strictCbx.CheckedChanged += strictCbx_CheckedChanged;
             // 
             // SendPractice
             // 
