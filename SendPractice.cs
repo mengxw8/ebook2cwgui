@@ -52,7 +52,7 @@ namespace CW
         //字母
         private static readonly Dictionary<string, string> alphabet = new Dictionary<string, string> { { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
         //符号
-        private static readonly Dictionary<string, string> symbol = new Dictionary<string, string> { { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "&", "...." }, { "@", ".--.-." } };
+        private static readonly Dictionary<string, string> symbol = new Dictionary<string, string> { { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "@", ".--.-." } };
         private static readonly Dictionary<string, string> allCode = new Dictionary<string, string>[] { alphabet, number, symbol }.SelectMany(disc => disc).ToLookup(pair => pair.Value, pair => pair.Key)
             .ToDictionary(
                 group => group.Key,
@@ -799,7 +799,12 @@ namespace CW
         private const uint TIME_PERIODIC = 1;
         //定时器分辨率，1ms级别
         private const uint TIMER_RESOLUTION = 1;
-
+        // 获取开始计数值
+        [DllImport("kernel32.dll")]
+        private static extern bool QueryPerformanceCounter(out long lpPerformanceCount);
+        // 获取性能计数器频率
+        [DllImport("kernel32.dll")]
+        private static extern bool QueryPerformanceFrequency(out long lpFrequency);
         [DllImport("winmm.dll", SetLastError = true)]
         private static extern uint timeSetEvent(
             uint uDelay,
@@ -847,21 +852,14 @@ namespace CW
                     color = SystemColors.Control;
                 }
                 var str="";
-                if (wait > blankWidth) {
+                if (wait > blankWidth&&!isDraw) {
                     var sb = new StringBuilder();
-                    
-                    for (int i = 0; i < bitmapQueue.Count; i++)
-                    {
-                        if (charQueue.TryDequeue(out char c))
-                        {
-
-                            sb.Append(c);
-                        }
+                    while (charQueue.TryDequeue(out char c)) {
+                        sb.Append(c);
                     }
                     
-                    while (str == ""&& sb.ToString()!="") {
-                        str = allCode[sb.ToString()];
-                        if (str != "") {
+                    while ( sb.Length!=0) {                         
+                        if (allCode.TryGetValue(sb.ToString(), out str)) {
                             break;
                         }
                         sb.Length--;
@@ -905,7 +903,7 @@ namespace CW
             }
         }
         WaveOutEvent waveOut;
-        Stopwatch sw = new Stopwatch();
+        long startTime ;
         private void sendBtn_MouseDown(object sender, MouseEventArgs e)
         {
             //开始绘制
@@ -924,7 +922,7 @@ namespace CW
             // 开始播放音频
             waveOut.Play();
             //开始计时            
-            sw.Start();
+            QueryPerformanceCounter(out startTime);
 
         }
 
@@ -936,18 +934,22 @@ namespace CW
             waveOut.Stop();
             waveOut.Dispose();
             //结束计时
-            sw.Stop();
-            var t = sw.ElapsedMilliseconds;
-            Console.WriteLine(t);
-            //暂且认为，比Di长的就是Da
-            if (t >= System.Convert.ToInt16(sendDiLength.Text))
+            
+            QueryPerformanceCounter(out long endTime);
+            QueryPerformanceFrequency(out long lpFrequency);
+
+            var t = ((endTime-startTime)/ (double)lpFrequency)*1000;
+            Debug.WriteLine(t);
+            //暂且认为，比Da短的就是Di
+            if (t >= System.Convert.ToInt16(sendDaLength.Text))
             {
                 charQueue.Enqueue('-');
+                Debug.WriteLine("-");
             }
             else { 
                 charQueue.Enqueue('.');
+                Debug.WriteLine(".");
             }
-            sw.Reset();
 
         }
         /// <summary>
