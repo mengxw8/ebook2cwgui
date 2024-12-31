@@ -48,7 +48,7 @@ namespace CW
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
         WorkingMode mode = WorkingMode.None;
         //数字
-       private static readonly  Dictionary<string, string> number = new Dictionary<string, string> { { "1", ".----" }, { "2", "..---" }, { "3", "...--" }, { "4", "....-" }, { "5", "....." }, { "6", "-...." }, { "7", "--..." }, { "8", "---.." }, { "9", "----." }, { "0", "-----" } };
+        private static readonly Dictionary<string, string> number = new Dictionary<string, string> { { "1", ".----" }, { "2", "..---" }, { "3", "...--" }, { "4", "....-" }, { "5", "....." }, { "6", "-...." }, { "7", "--..." }, { "8", "---.." }, { "9", "----." }, { "0", "-----" } };
         //字母
         private static readonly Dictionary<string, string> alphabet = new Dictionary<string, string> { { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
         //符号
@@ -72,9 +72,11 @@ namespace CW
         //用来装生成的图形
         private static ConcurrentQueue<Bitmap> bitmapQueue = new ConcurrentQueue<Bitmap>(); // 双缓冲队列
         //用来装敲过的字符
-        private static ConcurrentQueue<char> charQueue = new ConcurrentQueue<char>(); 
-      
+        private static ConcurrentQueue<char> charQueue = new ConcurrentQueue<char>();
+        //当前帧
         private static Bitmap? bitmap;
+        //是否严格解析
+        private static bool isStrict = false;
 
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -333,7 +335,7 @@ namespace CW
         /// <param name="words"></param>
         /// <returns></returns>
         private string getNewsPapers(List<string> words)
-        {   
+        {
             //组数限制
             int groupNum = System.Convert.ToInt32(groupNumBox.Value);
             //是否不要符号
@@ -851,20 +853,24 @@ namespace CW
                     wait++;
                     color = SystemColors.Control;
                 }
-                var str="";
-                if (wait > blankWidth&&!isDraw) {
+                var str = "";
+                if (wait > blankWidth && !isDraw)
+                {
                     var sb = new StringBuilder();
-                    while (charQueue.TryDequeue(out char c)) {
+                    while (charQueue.TryDequeue(out char c))
+                    {
                         sb.Append(c);
                     }
-                    
-                    while ( sb.Length!=0) {                         
-                        if (allCode.TryGetValue(sb.ToString(), out str)) {
+
+                    while (sb.Length != 0)
+                    {
+                        if (allCode.TryGetValue(sb.ToString(), out str))
+                        {
                             break;
                         }
                         sb.Length--;
                     }
-                  
+
                 }
 
                 Bitmap map = new Bitmap(bitmap.Width, bitmap.Height);
@@ -874,10 +880,10 @@ namespace CW
                     g.DrawImage(bitmap, -drawWidth, 0);
                     //水平位置
                     var horizontalPosition = (bitmap.Height / 2) - 10;
-                     
+
                     using (Pen pen = new Pen(color, 5)) // 2是线条的宽度
                     {
-       
+
                         // 绘制竖线
                         // 参数分别为：x1, y1, x2, y2，表示线条的起点和终点
                         g.DrawLine(pen, bitmap.Width - drawWidth, horizontalPosition, bitmap.Width, horizontalPosition);
@@ -888,7 +894,7 @@ namespace CW
                     {
                         g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
                         // 设置文本要绘制的位置
-                        Point position = new Point(bitmap.Width - 10-blankWidth, horizontalPosition + 15);
+                        Point position = new Point(bitmap.Width - 10 - blankWidth, horizontalPosition + 15);
 
                         g.DrawString(str, font, Brushes.Black, position);
 
@@ -897,13 +903,13 @@ namespace CW
 
                 }
                 bitmap.Dispose();
-                bitmap =map;
+                bitmap = map;
                 bitmapQueue.Enqueue((Bitmap)bitmap.Clone());
 
             }
         }
         WaveOutEvent waveOut;
-        long startTime ;
+        long startTime;
         private void sendBtn_MouseDown(object sender, MouseEventArgs e)
         {
             //开始绘制
@@ -934,19 +940,22 @@ namespace CW
             waveOut.Stop();
             waveOut.Dispose();
             //结束计时
-            
+
             QueryPerformanceCounter(out long endTime);
             QueryPerformanceFrequency(out long lpFrequency);
 
-            var t = ((endTime-startTime)/ (double)lpFrequency)*1000;
+            var t = ((endTime - startTime) / (double)lpFrequency) * 1000;
             Debug.WriteLine(t);
             //暂且认为，比Da短的就是Di
-            if (t >= System.Convert.ToInt16(sendDaLength.Text))
+            //严格被勾选则比Di长的都为Da
+
+            if (t >= System.Convert.ToInt16(sendDaLength.Text)||(isStrict&& t > System.Convert.ToInt16(sendDiLength.Text)))
             {
                 charQueue.Enqueue('-');
                 Debug.WriteLine("-");
             }
-            else { 
+            else
+            {
                 charQueue.Enqueue('.');
                 Debug.WriteLine(".");
             }
@@ -1011,14 +1020,19 @@ namespace CW
 
         private void charInterval_TextChanged(object sender, EventArgs e)
         {
-           
+
             try
             {
-                blankWidth = (System.Convert.ToInt16(charInterval.Text)/10);
+                blankWidth = (System.Convert.ToInt16(charInterval.Text) / 10);
             }
             catch (Exception)
             {
             }
+        }
+
+        private void strictCbx_CheckedChanged(object sender, EventArgs e)
+        {
+            isStrict = strictCbx.Checked;
         }
     }
 }
