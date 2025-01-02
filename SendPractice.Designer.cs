@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SendPractice));
             groupBox1 = new GroupBox();
             individuationRbtn = new RadioButton();
             radioButton8 = new RadioButton();
@@ -62,6 +61,16 @@
             label3 = new Label();
             stopBtn = new Button();
             groupBox4 = new GroupBox();
+            replicationBox6 = new RichTextBox();
+            answerLbl6 = new Label();
+            replicationBox5 = new RichTextBox();
+            answerLbl5 = new Label();
+            replicationBox4 = new RichTextBox();
+            answerLbl4 = new Label();
+            replicationBox3 = new RichTextBox();
+            answerLbl3 = new Label();
+            replicationBox2 = new RichTextBox();
+            answerLbl2 = new Label();
             replicationBox1 = new RichTextBox();
             answerLbl1 = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
@@ -95,16 +104,6 @@
             sendSpeedTxb = new TextBox();
             label5 = new Label();
             groupBox8 = new GroupBox();
-            replicationBox2 = new RichTextBox();
-            answerLbl2 = new Label();
-            replicationBox3 = new RichTextBox();
-            answerLbl3 = new Label();
-            replicationBox4 = new RichTextBox();
-            answerLbl4 = new Label();
-            replicationBox5 = new RichTextBox();
-            answerLbl5 = new Label();
-            replicationBox6 = new RichTextBox();
-            answerLbl6 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -479,6 +478,111 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "拍发";
             // 
+            // replicationBox6
+            // 
+            replicationBox6.BorderStyle = BorderStyle.FixedSingle;
+            replicationBox6.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox6.Location = new Point(10, 748);
+            replicationBox6.Margin = new Padding(3, 0, 3, 0);
+            replicationBox6.Name = "replicationBox6";
+            replicationBox6.ScrollBars = RichTextBoxScrollBars.None;
+            replicationBox6.Size = new Size(1885, 77);
+            replicationBox6.TabIndex = 11;
+            replicationBox6.Text = "";
+            // 
+            // answerLbl6
+            // 
+            answerLbl6.BorderStyle = BorderStyle.FixedSingle;
+            answerLbl6.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
+            answerLbl6.Location = new Point(6, 691);
+            answerLbl6.Name = "answerLbl6";
+            answerLbl6.Size = new Size(1889, 54);
+            answerLbl6.TabIndex = 10;
+            // 
+            // replicationBox5
+            // 
+            replicationBox5.BorderStyle = BorderStyle.FixedSingle;
+            replicationBox5.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox5.Location = new Point(10, 614);
+            replicationBox5.Margin = new Padding(3, 0, 3, 0);
+            replicationBox5.Name = "replicationBox5";
+            replicationBox5.ScrollBars = RichTextBoxScrollBars.None;
+            replicationBox5.Size = new Size(1885, 77);
+            replicationBox5.TabIndex = 9;
+            replicationBox5.Text = "";
+            // 
+            // answerLbl5
+            // 
+            answerLbl5.BorderStyle = BorderStyle.FixedSingle;
+            answerLbl5.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
+            answerLbl5.Location = new Point(6, 557);
+            answerLbl5.Name = "answerLbl5";
+            answerLbl5.Size = new Size(1889, 54);
+            answerLbl5.TabIndex = 8;
+            // 
+            // replicationBox4
+            // 
+            replicationBox4.BorderStyle = BorderStyle.FixedSingle;
+            replicationBox4.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox4.Location = new Point(10, 480);
+            replicationBox4.Margin = new Padding(3, 0, 3, 0);
+            replicationBox4.Name = "replicationBox4";
+            replicationBox4.ScrollBars = RichTextBoxScrollBars.None;
+            replicationBox4.Size = new Size(1885, 77);
+            replicationBox4.TabIndex = 7;
+            replicationBox4.Text = "";
+            // 
+            // answerLbl4
+            // 
+            answerLbl4.BorderStyle = BorderStyle.FixedSingle;
+            answerLbl4.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
+            answerLbl4.Location = new Point(6, 423);
+            answerLbl4.Name = "answerLbl4";
+            answerLbl4.Size = new Size(1889, 54);
+            answerLbl4.TabIndex = 6;
+            // 
+            // replicationBox3
+            // 
+            replicationBox3.BorderStyle = BorderStyle.FixedSingle;
+            replicationBox3.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox3.Location = new Point(10, 346);
+            replicationBox3.Margin = new Padding(3, 0, 3, 0);
+            replicationBox3.Name = "replicationBox3";
+            replicationBox3.ScrollBars = RichTextBoxScrollBars.None;
+            replicationBox3.Size = new Size(1885, 77);
+            replicationBox3.TabIndex = 5;
+            replicationBox3.Text = "";
+            // 
+            // answerLbl3
+            // 
+            answerLbl3.BorderStyle = BorderStyle.FixedSingle;
+            answerLbl3.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
+            answerLbl3.Location = new Point(6, 289);
+            answerLbl3.Name = "answerLbl3";
+            answerLbl3.Size = new Size(1889, 54);
+            answerLbl3.TabIndex = 4;
+            // 
+            // replicationBox2
+            // 
+            replicationBox2.BorderStyle = BorderStyle.FixedSingle;
+            replicationBox2.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox2.Location = new Point(10, 212);
+            replicationBox2.Margin = new Padding(3, 0, 3, 0);
+            replicationBox2.Name = "replicationBox2";
+            replicationBox2.ScrollBars = RichTextBoxScrollBars.None;
+            replicationBox2.Size = new Size(1885, 77);
+            replicationBox2.TabIndex = 3;
+            replicationBox2.Text = "";
+            // 
+            // answerLbl2
+            // 
+            answerLbl2.BorderStyle = BorderStyle.FixedSingle;
+            answerLbl2.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
+            answerLbl2.Location = new Point(6, 155);
+            answerLbl2.Name = "answerLbl2";
+            answerLbl2.Size = new Size(1889, 54);
+            answerLbl2.TabIndex = 2;
+            // 
             // replicationBox1
             // 
             replicationBox1.BorderStyle = BorderStyle.FixedSingle;
@@ -496,12 +600,11 @@
             // answerLbl1
             // 
             answerLbl1.BorderStyle = BorderStyle.FixedSingle;
-            answerLbl1.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            answerLbl1.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             answerLbl1.Location = new Point(6, 21);
             answerLbl1.Name = "answerLbl1";
-            answerLbl1.Size = new Size(11052, 54);
+            answerLbl1.Size = new Size(1889, 54);
             answerLbl1.TabIndex = 0;
-            answerLbl1.Text = resources.GetString("answerLbl1.Text");
             // 
             // timer1
             // 
@@ -830,116 +933,6 @@
             groupBox8.TabIndex = 3;
             groupBox8.TabStop = false;
             groupBox8.Text = "报文控制";
-            // 
-            // replicationBox2
-            // 
-            replicationBox2.BorderStyle = BorderStyle.FixedSingle;
-            replicationBox2.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
-            replicationBox2.Location = new Point(10, 212);
-            replicationBox2.Margin = new Padding(3, 0, 3, 0);
-            replicationBox2.Name = "replicationBox2";
-            replicationBox2.ScrollBars = RichTextBoxScrollBars.None;
-            replicationBox2.Size = new Size(1885, 77);
-            replicationBox2.TabIndex = 3;
-            replicationBox2.Text = "";
-            // 
-            // answerLbl2
-            // 
-            answerLbl2.BorderStyle = BorderStyle.FixedSingle;
-            answerLbl2.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
-            answerLbl2.Location = new Point(6, 155);
-            answerLbl2.Name = "answerLbl2";
-            answerLbl2.Size = new Size(11052, 54);
-            answerLbl2.TabIndex = 2;
-            answerLbl2.Text = resources.GetString("answerLbl2.Text");
-            // 
-            // replicationBox3
-            // 
-            replicationBox3.BorderStyle = BorderStyle.FixedSingle;
-            replicationBox3.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
-            replicationBox3.Location = new Point(10, 346);
-            replicationBox3.Margin = new Padding(3, 0, 3, 0);
-            replicationBox3.Name = "replicationBox3";
-            replicationBox3.ScrollBars = RichTextBoxScrollBars.None;
-            replicationBox3.Size = new Size(1885, 77);
-            replicationBox3.TabIndex = 5;
-            replicationBox3.Text = "";
-            // 
-            // answerLbl3
-            // 
-            answerLbl3.BorderStyle = BorderStyle.FixedSingle;
-            answerLbl3.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
-            answerLbl3.Location = new Point(6, 289);
-            answerLbl3.Name = "answerLbl3";
-            answerLbl3.Size = new Size(11052, 54);
-            answerLbl3.TabIndex = 4;
-            answerLbl3.Text = resources.GetString("answerLbl3.Text");
-            // 
-            // replicationBox4
-            // 
-            replicationBox4.BorderStyle = BorderStyle.FixedSingle;
-            replicationBox4.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
-            replicationBox4.Location = new Point(10, 480);
-            replicationBox4.Margin = new Padding(3, 0, 3, 0);
-            replicationBox4.Name = "replicationBox4";
-            replicationBox4.ScrollBars = RichTextBoxScrollBars.None;
-            replicationBox4.Size = new Size(1885, 77);
-            replicationBox4.TabIndex = 7;
-            replicationBox4.Text = "";
-            // 
-            // answerLbl4
-            // 
-            answerLbl4.BorderStyle = BorderStyle.FixedSingle;
-            answerLbl4.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
-            answerLbl4.Location = new Point(6, 423);
-            answerLbl4.Name = "answerLbl4";
-            answerLbl4.Size = new Size(11052, 54);
-            answerLbl4.TabIndex = 6;
-            answerLbl4.Text = resources.GetString("answerLbl4.Text");
-            // 
-            // replicationBox5
-            // 
-            replicationBox5.BorderStyle = BorderStyle.FixedSingle;
-            replicationBox5.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
-            replicationBox5.Location = new Point(10, 614);
-            replicationBox5.Margin = new Padding(3, 0, 3, 0);
-            replicationBox5.Name = "replicationBox5";
-            replicationBox5.ScrollBars = RichTextBoxScrollBars.None;
-            replicationBox5.Size = new Size(1885, 77);
-            replicationBox5.TabIndex = 9;
-            replicationBox5.Text = "";
-            // 
-            // answerLbl5
-            // 
-            answerLbl5.BorderStyle = BorderStyle.FixedSingle;
-            answerLbl5.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
-            answerLbl5.Location = new Point(6, 557);
-            answerLbl5.Name = "answerLbl5";
-            answerLbl5.Size = new Size(11052, 54);
-            answerLbl5.TabIndex = 8;
-            answerLbl5.Text = resources.GetString("answerLbl5.Text");
-            // 
-            // replicationBox6
-            // 
-            replicationBox6.BorderStyle = BorderStyle.FixedSingle;
-            replicationBox6.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
-            replicationBox6.Location = new Point(10, 748);
-            replicationBox6.Margin = new Padding(3, 0, 3, 0);
-            replicationBox6.Name = "replicationBox6";
-            replicationBox6.ScrollBars = RichTextBoxScrollBars.None;
-            replicationBox6.Size = new Size(1885, 77);
-            replicationBox6.TabIndex = 11;
-            replicationBox6.Text = "";
-            // 
-            // answerLbl6
-            // 
-            answerLbl6.BorderStyle = BorderStyle.FixedSingle;
-            answerLbl6.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
-            answerLbl6.Location = new Point(6, 691);
-            answerLbl6.Name = "answerLbl6";
-            answerLbl6.Size = new Size(11052, 54);
-            answerLbl6.TabIndex = 10;
-            answerLbl6.Text = resources.GetString("answerLbl6.Text");
             // 
             // SendPractice
             // 

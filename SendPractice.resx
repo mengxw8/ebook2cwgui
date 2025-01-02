@@ -117,30 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="answerLbl1.Text" xml:space="preserve">
-    <value>In fact the fundamental difference between a door and a window has nothing to do with them being either entrances or exits. When it comes to the admiration of spring, it could be put this way: a door makes it possible for one to go out, whereas a window makes it possible for one not to have to. A window helps to pull down the partition between man and nature. It leads breezes and sunlight in, and keeps part of the spring in the house. It allows one to sit and enjoy the spring in peace, and makes it unnecessary to go looking for it outside.</value>
-  </data>
   <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <metadata name="timer2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>109, 17</value>
   </metadata>
-  <data name="answerLbl2.Text" xml:space="preserve">
-    <value>In fact the fundamental difference between a door and a window has nothing to do with them being either entrances or exits. When it comes to the admiration of spring, it could be put this way: a door makes it possible for one to go out, whereas a window makes it possible for one not to have to. A window helps to pull down the partition between man and nature. It leads breezes and sunlight in, and keeps part of the spring in the house. It allows one to sit and enjoy the spring in peace, and makes it unnecessary to go looking for it outside.</value>
-  </data>
-  <data name="answerLbl3.Text" xml:space="preserve">
-    <value>In fact the fundamental difference between a door and a window has nothing to do with them being either entrances or exits. When it comes to the admiration of spring, it could be put this way: a door makes it possible for one to go out, whereas a window makes it possible for one not to have to. A window helps to pull down the partition between man and nature. It leads breezes and sunlight in, and keeps part of the spring in the house. It allows one to sit and enjoy the spring in peace, and makes it unnecessary to go looking for it outside.</value>
-  </data>
-  <data name="answerLbl4.Text" xml:space="preserve">
-    <value>In fact the fundamental difference between a door and a window has nothing to do with them being either entrances or exits. When it comes to the admiration of spring, it could be put this way: a door makes it possible for one to go out, whereas a window makes it possible for one not to have to. A window helps to pull down the partition between man and nature. It leads breezes and sunlight in, and keeps part of the spring in the house. It allows one to sit and enjoy the spring in peace, and makes it unnecessary to go looking for it outside.</value>
-  </data>
-  <data name="answerLbl5.Text" xml:space="preserve">
-    <value>In fact the fundamental difference between a door and a window has nothing to do with them being either entrances or exits. When it comes to the admiration of spring, it could be put this way: a door makes it possible for one to go out, whereas a window makes it possible for one not to have to. A window helps to pull down the partition between man and nature. It leads breezes and sunlight in, and keeps part of the spring in the house. It allows one to sit and enjoy the spring in peace, and makes it unnecessary to go looking for it outside.</value>
-  </data>
-  <data name="answerLbl6.Text" xml:space="preserve">
-    <value>In fact the fundamental difference between a door and a window has nothing to do with them being either entrances or exits. When it comes to the admiration of spring, it could be put this way: a door makes it possible for one to go out, whereas a window makes it possible for one not to have to. A window helps to pull down the partition between man and nature. It leads breezes and sunlight in, and keeps part of the spring in the house. It allows one to sit and enjoy the spring in peace, and makes it unnecessary to go looking for it outside.</value>
-  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>25</value>
   </metadata>

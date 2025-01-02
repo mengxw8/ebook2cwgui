@@ -27,6 +27,8 @@ using System.Web;
 using System.Windows.Forms;
 using System.Xml;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Net.Mime.MediaTypeNames;
+using System.Reflection.Emit;
 
 namespace CW
 {
@@ -77,7 +79,7 @@ namespace CW
         //是否严格解析
         private static bool isStrict = false;
         //用来显示参考文本的label
-        private readonly static List<Label> answerLableList =new(6);
+        private readonly static List<System.Windows.Forms.Label> answerLableList =new(6);
         
 
 
@@ -402,6 +404,7 @@ namespace CW
             {
                 return;
             }
+            answer = "";
             StringBuilder answerBuilder = new ();
             answerBuilder.Append("===\r\n");
             if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol)
@@ -470,7 +473,7 @@ namespace CW
                 audioFileName = filePath.Replace("txt", "mp3");
 
             });
-            task.Start();
+            //task.Start();
             //显示报文
             ShowAnswer();
 
@@ -723,12 +726,39 @@ namespace CW
 
 
         private void ShowAnswer() {
-            if (answer == "") {
+            if (answer == "")
+            {
                 return;
+            }
+            answer = answer.Replace("===\r\n", "").Replace("\r\niii\r\n", "");
+            var data = answer.Split(" ");
+            var index = 0;
+            var lableIndex = 0;
+             StringBuilder sb = new StringBuilder();
+            while (index < data.Length)
+            {
+                if (lableIndex >= answerLableList.Count) {
+                    break;
+                }
+                var tempLable = answerLableList[lableIndex];
+                Size textSize = TextRenderer.MeasureText(sb.ToString() + data[index], tempLable.Font);
+                // 检查文本是否适合 Label 的宽度和高度
+                if (textSize.Width > tempLable.Width || textSize.Height > tempLable.Height)
+                {
+                    //显示不下，需要换行
+                    tempLable.Text = sb.ToString();
+                    sb.Clear();
+                    lableIndex++;
+                }
+                sb.Append(data[index]);
+                sb.Append(" ");
+                index++;
             }
 
 
-        
+
+
+
         }
         //清空答案
         private void ClearAnswer_Click(object sender, EventArgs e)
@@ -876,7 +906,7 @@ namespace CW
         //每次绘制的宽度
         private readonly static int drawWidth = 1;
         //可视化用来显示的字体
-        private readonly static Font font = new ("Arial‌", 8, FontStyle.Regular, GraphicsUnit.Point);
+        private readonly static System.Drawing.Font font = new ("Arial‌", 8, FontStyle.Regular, GraphicsUnit.Point);
 
 
         // 回调函数的委托类型
