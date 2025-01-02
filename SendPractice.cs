@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualBasic.Logging;
+﻿using AngleSharp.Dom;
+using AngleSharp;
+using Microsoft.VisualBasic.Logging;
 using NAudio.SoundFont;
 using NAudio.Wave;
 using Newtonsoft.Json;
@@ -356,8 +358,8 @@ namespace CW
             nsm2.AddNamespace("content", @"http://purl.org/rss/1.0/modules/content/");
             var contentHtml = newsPaper.SelectSingleNode("//content:encoded", nsm2).InnerText;
             //处理超文本
-            NSoup.Nodes.Document html = NSoup.NSoupClient.Parse(contentHtml);
-            var content = html.Text();
+            IDocument document = BrowsingContext.New(Configuration.Default).OpenAsync(req => req.Content(contentHtml)).Result;
+            var content = document.Body.TextContent;
             //处理时间
             content = DateTime.Parse(date).ToString("yyyy-MM-dd HH:mm:ss") + " " + content;
             if (!flag)
