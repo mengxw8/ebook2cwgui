@@ -1015,8 +1015,6 @@ namespace CW
                 //解析字符
                 if ((wait == keyWidth || wait > blankWidth) && !isDraw)
                 {
-                    Debug.WriteLine(wait);
-                    Debug.WriteLine(blankWidth);
                     var sb = new StringBuilder();
                     while (codeQueue.TryDequeue(out char c))
                     {
