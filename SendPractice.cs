@@ -82,7 +82,7 @@ namespace CW
         private readonly static List<System.Windows.Forms.Label> answerLableList = new(6);
 
         // 创建 WaveOutEvent 对象来播放音频
-        WaveOutEvent waveOut = new WaveOutEvent();
+        WaveOutEvent waveOut = new();
 
 
 
@@ -733,6 +733,8 @@ namespace CW
             {
                 Directory.Delete(Path.GetDirectoryName(lastMusicPath) ?? "", true);
             }
+            waveOut?.Stop();
+            waveOut?.Dispose();
         }
 
 
@@ -764,7 +766,7 @@ namespace CW
                     lableIndex++;
                 }
                 sb.Append(data[index]);
-                sb.Append(" ");
+                sb.Append(' ');
                 index++;
             }
 
@@ -918,8 +920,10 @@ namespace CW
 
         //是否在绘制中
         private static bool isDraw = false;
-        //空闲绘制的长度
+        //空闲绘制的长度,词间隔
         private static int blankWidth = 42;
+        //字间隔
+        private static int keyWidth = 18;
         //是否空闲
         private static int wait = blankWidth + 1;
         //每次绘制的宽度
@@ -954,8 +958,10 @@ namespace CW
                     color = SystemColors.Control;
                 }
                 var str = "";
-                if (wait > blankWidth && !isDraw)
+                if ((wait == keyWidth|| wait > blankWidth) && !isDraw)
                 {
+                    Debug.WriteLine(wait);
+                    Debug.WriteLine(blankWidth);
                     var sb = new StringBuilder();
                     while (charQueue.TryDequeue(out char c))
                     {
@@ -994,7 +1000,7 @@ namespace CW
                     {
                         g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
                         // 设置文本要绘制的位置
-                        Point position = new(bitmap.Width - 10 - blankWidth, horizontalPosition + 15);
+                        Point position = new(bitmap.Width  - 25, horizontalPosition + 15);
 
                         g.DrawString(str, font, Brushes.Black, position);
 
@@ -1110,10 +1116,19 @@ namespace CW
 
         private void CharInterval_TextChanged(object sender, EventArgs e)
         {
-
             try
             {
                 blankWidth = (System.Convert.ToInt16(charInterval.Text) / 10);
+            }
+            catch (Exception)
+            {
+            }
+        }
+        private void KeyInterval_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                keyWidth = (System.Convert.ToInt16(sendDaLength.Text) / 10);
             }
             catch (Exception)
             {
@@ -1125,16 +1140,18 @@ namespace CW
             isStrict = strictCbx.Checked;
         }
 
-        private void sendToneBox_TextChanged(object sender, EventArgs e)
+        private void SendToneBox_TextChanged(object sender, EventArgs e)
         {
             //改变发报声音频率
             SineWaveProvider sineWaveProvider = new SineWaveProvider(System.Convert.ToDouble(sendToneBox.Text));
             waveOut?.Stop();
             waveOut?.Dispose();
-            waveOut = new WaveOutEvent();
+            waveOut = new();
             // 将 SineWaveProvider 连接到 WaveOutEvent
             waveOut.Init(sineWaveProvider);
 
         }
+
+    
     }
 }

@@ -480,6 +480,7 @@
             // 
             // replicationBox6
             // 
+            replicationBox6.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             replicationBox6.BorderStyle = BorderStyle.FixedSingle;
             replicationBox6.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
             replicationBox6.Location = new Point(10, 748);
@@ -492,6 +493,7 @@
             // 
             // answerLbl6
             // 
+            answerLbl6.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             answerLbl6.BorderStyle = BorderStyle.FixedSingle;
             answerLbl6.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             answerLbl6.Location = new Point(6, 691);
@@ -501,6 +503,7 @@
             // 
             // replicationBox5
             // 
+            replicationBox5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             replicationBox5.BorderStyle = BorderStyle.FixedSingle;
             replicationBox5.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
             replicationBox5.Location = new Point(10, 614);
@@ -513,6 +516,7 @@
             // 
             // answerLbl5
             // 
+            answerLbl5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             answerLbl5.BorderStyle = BorderStyle.FixedSingle;
             answerLbl5.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             answerLbl5.Location = new Point(6, 557);
@@ -522,6 +526,7 @@
             // 
             // replicationBox4
             // 
+            replicationBox4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             replicationBox4.BorderStyle = BorderStyle.FixedSingle;
             replicationBox4.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
             replicationBox4.Location = new Point(10, 480);
@@ -534,6 +539,7 @@
             // 
             // answerLbl4
             // 
+            answerLbl4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             answerLbl4.BorderStyle = BorderStyle.FixedSingle;
             answerLbl4.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             answerLbl4.Location = new Point(6, 423);
@@ -543,6 +549,7 @@
             // 
             // replicationBox3
             // 
+            replicationBox3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             replicationBox3.BorderStyle = BorderStyle.FixedSingle;
             replicationBox3.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
             replicationBox3.Location = new Point(10, 346);
@@ -555,6 +562,7 @@
             // 
             // answerLbl3
             // 
+            answerLbl3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             answerLbl3.BorderStyle = BorderStyle.FixedSingle;
             answerLbl3.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             answerLbl3.Location = new Point(6, 289);
@@ -564,6 +572,7 @@
             // 
             // replicationBox2
             // 
+            replicationBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             replicationBox2.BorderStyle = BorderStyle.FixedSingle;
             replicationBox2.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
             replicationBox2.Location = new Point(10, 212);
@@ -576,6 +585,7 @@
             // 
             // answerLbl2
             // 
+            answerLbl2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             answerLbl2.BorderStyle = BorderStyle.FixedSingle;
             answerLbl2.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             answerLbl2.Location = new Point(6, 155);
@@ -585,6 +595,7 @@
             // 
             // replicationBox1
             // 
+            replicationBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             replicationBox1.BorderStyle = BorderStyle.FixedSingle;
             replicationBox1.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
             replicationBox1.Location = new Point(10, 78);
@@ -599,6 +610,7 @@
             // 
             // answerLbl1
             // 
+            answerLbl1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             answerLbl1.BorderStyle = BorderStyle.FixedSingle;
             answerLbl1.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             answerLbl1.Location = new Point(6, 21);
@@ -670,6 +682,7 @@
             // 
             // sendBtn
             // 
+            sendBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             sendBtn.Font = new Font("Microsoft YaHei UI", 15F, FontStyle.Bold);
             sendBtn.Location = new Point(1795, 108);
             sendBtn.Name = "sendBtn";
@@ -682,7 +695,7 @@
             // 
             // visualizedBox
             // 
-            visualizedBox.Dock = DockStyle.Fill;
+            visualizedBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             visualizedBox.Location = new Point(3, 19);
             visualizedBox.Name = "visualizedBox";
             visualizedBox.Size = new Size(868, 83);
@@ -698,6 +711,7 @@
             // 
             // groupBox6
             // 
+            groupBox6.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox6.Controls.Add(visualizedBox);
             groupBox6.Location = new Point(1027, 2);
             groupBox6.Name = "groupBox6";
@@ -762,7 +776,7 @@
             sendToneBox.Size = new Size(59, 23);
             sendToneBox.TabIndex = 5;
             sendToneBox.Text = "650";
-            sendToneBox.TextChanged += sendToneBox_TextChanged;
+            sendToneBox.TextChanged += SendToneBox_TextChanged;
             sendToneBox.KeyPress += NumberTxb_KeyPress;
             // 
             // label17
@@ -820,6 +834,7 @@
             keyInterval.Size = new Size(29, 23);
             keyInterval.TabIndex = 3;
             keyInterval.Text = "60";
+            keyInterval.TextChanged += KeyInterval_TextChanged;
             keyInterval.KeyPress += NumberTxb_KeyPress;
             // 
             // label13
