@@ -147,7 +147,7 @@
             individuationRbtn.TabStop = true;
             individuationRbtn.Text = "自定义";
             individuationRbtn.UseVisualStyleBackColor = true;
-            individuationRbtn.CheckedChanged += individuationRbtn_CheckedChanged;
+            individuationRbtn.CheckedChanged += IndividuationRbtn_CheckedChanged;
             // 
             // radioButton8
             // 
@@ -277,7 +277,7 @@
             eqRbtn.TabStop = true;
             eqRbtn.Text = "仅包含";
             eqRbtn.UseVisualStyleBackColor = true;
-            eqRbtn.CheckedChanged += eqRbtn_CheckedChanged;
+            eqRbtn.CheckedChanged += EqRbtn_CheckedChanged;
             // 
             // neRbtn
             // 
@@ -289,7 +289,7 @@
             neRbtn.TabStop = true;
             neRbtn.Text = "排除";
             neRbtn.UseVisualStyleBackColor = true;
-            neRbtn.CheckedChanged += neRbtn_CheckedChanged;
+            neRbtn.CheckedChanged += NeRbtn_CheckedChanged;
             // 
             // groupBox3
             // 
@@ -388,7 +388,7 @@
             exportBtn.TabIndex = 7;
             exportBtn.Text = "导出";
             exportBtn.UseVisualStyleBackColor = true;
-            exportBtn.Click += exportBtn_Click;
+            exportBtn.Click += ExportBtn_Click;
             // 
             // repeatRbtn
             // 
@@ -427,7 +427,7 @@
             startBtn.TabIndex = 5;
             startBtn.Text = "生成报文";
             startBtn.UseVisualStyleBackColor = true;
-            startBtn.Click += startBtn_Click;
+            startBtn.Click += StartBtn_Click;
             // 
             // groupNumBox
             // 
@@ -455,7 +455,7 @@
             stopBtn.TabIndex = 4;
             stopBtn.Text = "停止";
             stopBtn.UseVisualStyleBackColor = true;
-            stopBtn.Click += stopBtn_Click;
+            stopBtn.Click += StopBtn_Click;
             // 
             // groupBox4
             // 
@@ -490,8 +490,8 @@
             replicationBox1.Size = new Size(1885, 77);
             replicationBox1.TabIndex = 1;
             replicationBox1.Text = "";
-            replicationBox1.KeyDown += richTextBox1_KeyDown;
-            replicationBox1.KeyUp += calculateInput;
+            replicationBox1.KeyDown += RichTextBox1_KeyDown;
+            replicationBox1.KeyUp += CalculateInput;
             // 
             // answerLbl1
             // 
@@ -506,7 +506,7 @@
             // timer1
             // 
             timer1.Interval = 5000;
-            timer1.Tick += timer1_Tick;
+            timer1.Tick += Timer1_Tick;
             // 
             // groupBox5
             // 
@@ -531,7 +531,7 @@
             rePlayBtn.TabIndex = 3;
             rePlayBtn.Text = "重播";
             rePlayBtn.UseVisualStyleBackColor = true;
-            rePlayBtn.Click += resumeBtn_Click;
+            rePlayBtn.Click += ResumeBtn_Click;
             // 
             // continuePlayBtn
             // 
@@ -542,7 +542,7 @@
             continuePlayBtn.TabIndex = 2;
             continuePlayBtn.Text = "继续播放";
             continuePlayBtn.UseVisualStyleBackColor = true;
-            continuePlayBtn.Click += continuePlayBtn_Click;
+            continuePlayBtn.Click += ContinuePlayBtn_Click;
             // 
             // pauseBtn
             // 
@@ -553,7 +553,7 @@
             pauseBtn.TabIndex = 1;
             pauseBtn.Text = "暂停播放";
             pauseBtn.UseVisualStyleBackColor = true;
-            pauseBtn.Click += pauseBtn_Click;
+            pauseBtn.Click += PauseBtn_Click;
             // 
             // clearAnswerBtn
             // 
@@ -563,7 +563,7 @@
             clearAnswerBtn.TabIndex = 0;
             clearAnswerBtn.Text = "清空答案";
             clearAnswerBtn.UseVisualStyleBackColor = true;
-            clearAnswerBtn.Click += clearAnswer_Click;
+            clearAnswerBtn.Click += ClearAnswer_Click;
             // 
             // sendBtn
             // 
@@ -574,8 +574,8 @@
             sendBtn.TabIndex = 7;
             sendBtn.Text = "发送";
             sendBtn.UseVisualStyleBackColor = true;
-            sendBtn.MouseDown += sendBtn_MouseDown;
-            sendBtn.MouseUp += sendBtn_MouseUp;
+            sendBtn.MouseDown += SendBtn_MouseDown;
+            sendBtn.MouseUp += SendBtn_MouseUp;
             // 
             // visualizedBox
             // 
@@ -591,7 +591,7 @@
             // 
             timer2.Enabled = true;
             timer2.Interval = 1;
-            timer2.Tick += timer2_Tick;
+            timer2.Tick += Timer2_Tick;
             // 
             // groupBox6
             // 
@@ -640,7 +640,7 @@
             strictCbx.TabIndex = 6;
             strictCbx.Text = "严格";
             strictCbx.UseVisualStyleBackColor = true;
-            strictCbx.CheckedChanged += strictCbx_CheckedChanged;
+            strictCbx.CheckedChanged += StrictCbx_CheckedChanged;
             // 
             // label16
             // 
@@ -659,7 +659,7 @@
             sendToneBox.Size = new Size(59, 23);
             sendToneBox.TabIndex = 5;
             sendToneBox.Text = "650";
-            sendToneBox.KeyPress += numberTxb_KeyPress;
+            sendToneBox.KeyPress += NumberTxb_KeyPress;
             // 
             // label17
             // 
@@ -687,8 +687,8 @@
             charInterval.Size = new Size(29, 23);
             charInterval.TabIndex = 4;
             charInterval.Text = "420";
-            charInterval.TextChanged += charInterval_TextChanged;
-            charInterval.KeyPress += numberTxb_KeyPress;
+            charInterval.TextChanged += CharInterval_TextChanged;
+            charInterval.KeyPress += NumberTxb_KeyPress;
             // 
             // label15
             // 
@@ -716,7 +716,7 @@
             keyInterval.Size = new Size(29, 23);
             keyInterval.TabIndex = 3;
             keyInterval.Text = "60";
-            keyInterval.KeyPress += numberTxb_KeyPress;
+            keyInterval.KeyPress += NumberTxb_KeyPress;
             // 
             // label13
             // 
@@ -744,7 +744,7 @@
             sendDaLength.Size = new Size(29, 23);
             sendDaLength.TabIndex = 2;
             sendDaLength.Text = "180";
-            sendDaLength.KeyPress += numberTxb_KeyPress;
+            sendDaLength.KeyPress += NumberTxb_KeyPress;
             // 
             // label11
             // 
@@ -772,7 +772,7 @@
             sendDiLength.Size = new Size(29, 23);
             sendDiLength.TabIndex = 1;
             sendDiLength.Text = "60";
-            sendDiLength.KeyPress += numberTxb_KeyPress;
+            sendDiLength.KeyPress += NumberTxb_KeyPress;
             // 
             // label9
             // 
@@ -800,8 +800,8 @@
             sendSpeedTxb.Size = new Size(29, 23);
             sendSpeedTxb.TabIndex = 0;
             sendSpeedTxb.Text = "20";
-            sendSpeedTxb.KeyPress += numberTxb_KeyPress;
-            sendSpeedTxb.Leave += snedSpeedTxb_Leave;
+            sendSpeedTxb.KeyPress += NumberTxb_KeyPress;
+            sendSpeedTxb.Leave += SnedSpeedTxb_Leave;
             // 
             // label5
             // 

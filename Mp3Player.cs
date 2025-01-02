@@ -39,19 +39,13 @@ namespace CW
             {
                 waveOut.Stop();
                 waveOut.Dispose();
-                mp3.Close();
-
-
             }
-            else if (mp3 != null) {
-                mp3.Close();
-            }
+            mp3?.Close();
+
         }
         public static void RePlay()
         {
-            if (waveOut != null) {
-                waveOut.Dispose();
-            }
+            waveOut?.Dispose();
             waveOut = new WaveOut();
             waveOut.Init(mp3);
             waveOut.Play();

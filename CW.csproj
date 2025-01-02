@@ -9,6 +9,7 @@
     <SignAssembly>False</SignAssembly>
     <FileVersion>1.0.0.2</FileVersion>
     <AssemblyVersion>1.0.0.2</AssemblyVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

@@ -42,42 +42,39 @@ namespace CW
             //输入法切换为英文
             LoadKeyboardLayout("00000409", 1);
 
-
-
-
         }
 
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
         WorkingMode mode = WorkingMode.None;
         //数字
-        private static readonly Dictionary<string, string> number = new Dictionary<string, string> { { "1", ".----" }, { "2", "..---" }, { "3", "...--" }, { "4", "....-" }, { "5", "....." }, { "6", "-...." }, { "7", "--..." }, { "8", "---.." }, { "9", "----." }, { "0", "-----" } };
+        private static readonly Dictionary<string, string> number = new() { { "1", ".----" }, { "2", "..---" }, { "3", "...--" }, { "4", "....-" }, { "5", "....." }, { "6", "-...." }, { "7", "--..." }, { "8", "---.." }, { "9", "----." }, { "0", "-----" } };
         //字母
-        private static readonly Dictionary<string, string> alphabet = new Dictionary<string, string> { { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
+        private static readonly Dictionary<string, string> alphabet = new() { { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
         //符号
-        private static readonly Dictionary<string, string> symbol = new Dictionary<string, string> { { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "@", ".--.-." } };
+        private static readonly Dictionary<string, string> symbol = new() { { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "@", ".--.-." } };
         private static readonly Dictionary<string, string> allCode = new Dictionary<string, string>[] { alphabet, number, symbol }.SelectMany(disc => disc).ToLookup(pair => pair.Value, pair => pair.Key)
             .ToDictionary(
                 group => group.Key,
                 group => group.Last() // 取最后一个值（覆盖冲突键）
             );
         //新闻类型
-        Dictionary<string, string> newsType = new Dictionary<string, string> { { "中国", "https://www.cgtn.com/subscribe/rss/section/china.xml" }, { "世界", "https://www.cgtn.com/subscribe/rss/section/world.xml" }, { "商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" }, { "体育", "https://www.cgtn.com/subscribe/rss/section/sports.xml" }, { "科学", "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" }, { "旅行", "https://www.cgtn.com/subscribe/rss/section/travel.xml" }, { "现场", "https://www.cgtn.com/subscribe/rss/section/live.xml" }, { "文化", "https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
+      private static readonly  Dictionary<string, string>  newsType = new(){ { "中国", "https://www.cgtn.com/subscribe/rss/section/china.xml" }, { "世界", "https://www.cgtn.com/subscribe/rss/section/world.xml" }, { "商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" }, { "体育", "https://www.cgtn.com/subscribe/rss/section/sports.xml" }, { "科学", "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" }, { "旅行", "https://www.cgtn.com/subscribe/rss/section/travel.xml" }, { "现场", "https://www.cgtn.com/subscribe/rss/section/live.xml" }, { "文化", "https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
 
-        private static string ArticlePath = @"./text/";
+        private readonly static string ArticlePath = @"./text/";
         //答案
         string answer = "";
         //上一次播放的音频文件路径
         string lastMusicPath = "";
         //用来装生成的图形
-        private static ConcurrentQueue<Bitmap> bitmapQueue = new ConcurrentQueue<Bitmap>(); // 双缓冲队列
+        private readonly static ConcurrentQueue<Bitmap> bitmapQueue = new(); // 双缓冲队列
         //用来装敲过的字符
-        private static ConcurrentQueue<char> charQueue = new ConcurrentQueue<char>();
+        private readonly static ConcurrentQueue<char> charQueue = new();
         //当前帧
         private static Bitmap? bitmap;
         //是否严格解析
         private static bool isStrict = false;
         //用来显示参考文本的label
-        private static List<Label> answerLableList =new List<Label>(6);
+        private readonly static List<Label> answerLableList =new(6);
         
 
 
@@ -168,7 +165,7 @@ namespace CW
                 return;
             }
 
-            List<string> files = new List<string>(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly));
+            List<string> files = new(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly));
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -214,7 +211,7 @@ namespace CW
 
 
 
-        private string generateAnswer(List<string> words)
+        private string GenerateAnswer(List<string> words)
         {
 
             //随机字符
@@ -225,7 +222,7 @@ namespace CW
             //组数限制
             var groupNum = groupNumBox.Value;
 
-            Random random = new Random();
+            Random random = new();
 
             for (int i = 0; i < groupNum; i++)
             {
@@ -264,7 +261,7 @@ namespace CW
         /// </summary>
         /// <param name="words"></param>
         /// <returns></returns>
-        private string generateWord(List<string> words)
+        private string GenerateWord(List<string> words)
         {
             //组数限制
             var groupNum = groupNumBox.Value;
@@ -276,12 +273,12 @@ namespace CW
             {
                 return answer;
             }
-            Random random = new Random();
+            Random random = new();
             while (groupNum > 0)
             {
                 string word = book[random.Next(1, 12198).ToString()];
                 //允许指定开头字母
-                if (words.Contains(word.Substring(0, 1).ToUpper()))
+                if (words.Contains(word[..1].ToUpper()))
                 {
                     answer += word;
                     groupNum--;
@@ -299,14 +296,14 @@ namespace CW
         /// </summary>
         /// <param name="words"></param>
         /// <returns></returns>
-        private string getArticle(List<string> words)
+        private string GetArticle(List<string> words)
         {
             string answer = "";
             //组数限制
             int groupNum = System.Convert.ToInt32(groupNumBox.Value);
             //是否不要符号
             var flag = symbolsChb.Checked;
-            Random random = new Random();
+            Random random = new();
             var index = random.Next(0, words.Count);
 
             if (!File.Exists(ArticlePath + words[index]))
@@ -321,7 +318,7 @@ namespace CW
                 {
                     article = article.Replace(s, "");
                 }
-                article.Trim();
+                article= article.Trim();
             }
             var list = article.Split(' ').Take(groupNum).ToList();
 
@@ -336,30 +333,34 @@ namespace CW
         /// </summary>
         /// <param name="words"></param>
         /// <returns></returns>
-        private string getNewsPapers(List<string> words)
+        private string GetNewsPapers(List<string> words)
         {
             //组数限制
             int groupNum = System.Convert.ToInt32(groupNumBox.Value);
             //是否不要符号
             var flag = symbolsChb.Checked;
-            Random random = new Random();
+            Random random = new();
             var type = random.Next(0, words.Count);
             var resp = newspapers.HttpRequestUtil.GetWebRequest(newsType[words[type]]);
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new();
             doc.LoadXml(resp);
             var item = doc.SelectNodes("/rss/channel/item");
             var index = random.Next(0, item.Count);
             var newsPaper = item[index];
             var title = newsPaper.SelectSingleNode("title").InnerText;
-            XmlNamespaceManager nsm1 = new XmlNamespaceManager(doc.NameTable);
+            XmlNamespaceManager nsm1 = new(doc.NameTable);
             nsm1.AddNamespace("dc", @"http://purl.org/dc/elements/1.1/");
             var date = newsPaper.SelectSingleNode("//dc:date", nsm1).InnerText;
-            XmlNamespaceManager nsm2 = new XmlNamespaceManager(doc.NameTable);
+            XmlNamespaceManager nsm2 = new(doc.NameTable);
             nsm2.AddNamespace("content", @"http://purl.org/rss/1.0/modules/content/");
             var contentHtml = newsPaper.SelectSingleNode("//content:encoded", nsm2).InnerText;
             //处理超文本
             IDocument document = BrowsingContext.New(Configuration.Default).OpenAsync(req => req.Content(contentHtml)).Result;
-            var content = document.Body.TextContent;
+            string content="";
+            if (document.Body is not null) {
+                 content = document.Body.TextContent;
+            }
+        
             //处理时间
             content = DateTime.Parse(date).ToString("yyyy-MM-dd HH:mm:ss") + " " + content;
             if (!flag)
@@ -368,7 +369,7 @@ namespace CW
                 {
                     content = content.Replace(s, "");
                 }
-                content.Trim();
+                content=content.Trim();
             }
 
 
@@ -379,23 +380,23 @@ namespace CW
         }
 
         //生成报文并播放
-        private async void startBtn_Click(object sender, EventArgs e)
+        private async void StartBtn_Click(object sender, EventArgs e)
         {
             //生成测试数据
-            List<string> words = getWords();
+            List<string> words = GetWords();
             if ((words.Count == 0 || words == null) && mode != WorkingMode.Customize)
             {
                 return;
             }
-            StringBuilder answerBuilder = new StringBuilder();
+            StringBuilder answerBuilder = new ();
             answerBuilder.Append("===\r\n");
             if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol)
             {
-                answerBuilder.Append(generateAnswer(words??[]));
+                answerBuilder.Append(GenerateAnswer(words??[]));
             }
             else if (mode == WorkingMode.Article)
             {
-                answerBuilder.Append(getArticle(words ?? []));
+                answerBuilder.Append(GetArticle(words ?? []));
             }
             else if (mode == WorkingMode.News)
             {
@@ -407,7 +408,7 @@ namespace CW
                 }
                 try
                 {
-                    answerBuilder.Append(getNewsPapers(words ?? []));
+                    answerBuilder.Append(GetNewsPapers(words ?? []));
                 }
                 catch
                 {
@@ -419,7 +420,7 @@ namespace CW
             }
             else if (mode == WorkingMode.Word)
             {
-                answerBuilder.Append(generateWord(words ?? []));
+                answerBuilder.Append(GenerateWord(words ?? []));
 
 
             }
@@ -457,7 +458,7 @@ namespace CW
             });
             task.Start();
             //显示报文
-            showAnswer();
+            ShowAnswer();
 
             //播放音频
             Mp3Player.Stop();
@@ -492,13 +493,16 @@ namespace CW
 
             //生成音频
             param += " -q 1 -o " + "./temp/" + fileName + " -w " + speed + " -f " + toneBox.Value + " " + filePath;
-            ProcessStartInfo startInfo = new ProcessStartInfo("ebook2cw.exe", param);
+            ProcessStartInfo startInfo = new()
+            {
+                FileName = "ebook2cw.exe",
+                Arguments = param,  
+                UseShellExecute = false,   //是否使用操作系统的shell启动
+                RedirectStandardOutput = true,   //由调用程序获取输出信息
+                CreateNoWindow = true
+            };
 
-            startInfo.UseShellExecute = false;    //是否使用操作系统的shell启动
-            //startInfo.RedirectStandardInput = true;      //接受来自调用程序的输入     
-            startInfo.RedirectStandardOutput = true;     //由调用程序获取输出信息
-            startInfo.CreateNoWindow = true;             //不显示调用程序的窗口 
-                                                         //创建进程对象   
+           //创建进程对象   
             try
             {
                 //调用EXE
@@ -516,13 +520,13 @@ namespace CW
                         result = string.Join(Environment.NewLine, lines.Skip(startIndex));
                     }
 
-                    if (result.IndexOf("Error:") >= 0)
+                    if (result.Contains("Error:") )
                     {
                         MessageBox.Show("配置错误，转换失败，请检查！");
                     }
                     else
                     {
-                        var data = lines[lines.Length - 3].Split(":");
+                        var data = lines[^3].Split(":");
                         if (data.Length == 3)
                         {
                             //MessageBox.Show("转换完成，共计用时" + data[2] + "！");
@@ -542,7 +546,7 @@ namespace CW
 
         }
 
-        private void RenameMusic(string oldFileName, string newFileName)
+        private  static void RenameMusic(string oldFileName, string newFileName)
         {
             try
             {
@@ -561,7 +565,7 @@ namespace CW
 
             }
         }
-        private List<string> getWords()
+        private List<string> GetWords()
         {
             //确定字符范围
             List<string> words = [];
@@ -634,7 +638,7 @@ namespace CW
 
 
 
-        private void stopBtn_Click(object sender, EventArgs e)
+        private void StopBtn_Click(object sender, EventArgs e)
         {
             Mp3Player.Stop();
             timer1.Stop();
@@ -644,17 +648,19 @@ namespace CW
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void exportBtn_Click(object sender, EventArgs e)
+        private void ExportBtn_Click(object sender, EventArgs e)
         {
             if (lastMusicPath == "")
             {
                 MessageBox.Show("您还尚未生成过报文哦，请生成后重试！");
                 return;
             }
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "压缩文件(*.zip)|*.*";
-            saveFileDialog.Title = "保存音频文件和报文到目录";
-            saveFileDialog.FileName = "报文" + Path.GetFileName(lastMusicPath).Replace(".mp3", "") + "-" + speetBox.Value + "wpm.zip";
+            SaveFileDialog saveFileDialog = new() {
+                Filter = "压缩文件(*.zip)|*.*",
+                Title = "保存音频文件和报文到目录",
+                FileName = "报文" + Path.GetFileName(lastMusicPath).Replace(".mp3", "") + "-" + speetBox.Value + "wpm.zip",
+            };
+
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 if (File.Exists(saveFileDialog.FileName))
@@ -662,27 +668,27 @@ namespace CW
                     File.Delete(saveFileDialog.FileName);
                 }
                 //打包文件
-                using (FileStream zipToOpen = new FileStream(saveFileDialog.FileName, FileMode.Create))
-                {
-                    // 创建ZIP存档
-                    using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
-                    {
-                        // 添加文件到ZIP存档
-                        //添加音频
-                        string musicFileName = Path.GetFileName(lastMusicPath);
-                        archive.CreateEntryFromFile(lastMusicPath, musicFileName);
-                        //添加报文
-                        string txtFileName = Path.GetFileName(lastMusicPath.Replace(".mp3", ".txt"));
-                        archive.CreateEntryFromFile(lastMusicPath.Replace(".mp3", ".txt"), txtFileName);
-                    }
-                }
+                using FileStream zipToOpen = new (saveFileDialog.FileName, FileMode.Create);
+
+                // 创建ZIP存档
+                using ZipArchive archive = new(zipToOpen, ZipArchiveMode.Create);
+
+                // 添加文件到ZIP存档
+                //添加音频
+                string musicFileName = Path.GetFileName(lastMusicPath);
+                archive.CreateEntryFromFile(lastMusicPath, musicFileName);
+                //添加报文
+                string txtFileName = Path.GetFileName(lastMusicPath.Replace(".mp3", ".txt"));
+                archive.CreateEntryFromFile(lastMusicPath.Replace(".mp3", ".txt"), txtFileName);
+
+
             }
 
         }
 
 
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
 
 
@@ -699,7 +705,7 @@ namespace CW
         }
 
 
-        private void showAnswer() {
+        private void ShowAnswer() {
             if (answer == "") {
                 return;
             }
@@ -708,19 +714,19 @@ namespace CW
         
         }
         //清空答案
-        private void clearAnswer_Click(object sender, EventArgs e)
+        private void ClearAnswer_Click(object sender, EventArgs e)
         {
 
 
         }
 
-        private void pauseBtn_Click(object sender, EventArgs e)
+        private void PauseBtn_Click(object sender, EventArgs e)
         {
             Mp3Player.Pause();
             continuePlayBtn.Enabled = true;
             pauseBtn.Enabled = false;
         }
-        private void continuePlayBtn_Click(object sender, EventArgs e)
+        private void ContinuePlayBtn_Click(object sender, EventArgs e)
         {
             Mp3Player.ContinuePlay();
             continuePlayBtn.Enabled = false;
@@ -728,18 +734,18 @@ namespace CW
 
         }
 
-        private void resumeBtn_Click(object sender, EventArgs e)
+        private void ResumeBtn_Click(object sender, EventArgs e)
         {
             Mp3Player.Play(lastMusicPath);
         }
 
-        private void neRbtn_CheckedChanged(object sender, EventArgs e)
+        private void NeRbtn_CheckedChanged(object sender, EventArgs e)
         {
             neBox.Enabled = true;
             eqBox.Enabled = false;
         }
 
-        private void eqRbtn_CheckedChanged(object sender, EventArgs e)
+        private void EqRbtn_CheckedChanged(object sender, EventArgs e)
         {
             eqBox.Enabled = true;
             neBox.Enabled = false;
@@ -764,7 +770,7 @@ namespace CW
             );
         }
 
-        private void individuationRbtn_CheckedChanged(object sender, EventArgs e)
+        private void IndividuationRbtn_CheckedChanged(object sender, EventArgs e)
         {
             if (individuationRbtn.Checked == true)
             {
@@ -773,10 +779,10 @@ namespace CW
                 eqRbtn.Enabled = false;
                 neRbtn.Enabled = false;
                 //弹出文件选择框
-                OpenFileDialog openImageDialog = new OpenFileDialog();
-
-                openImageDialog.Filter = "报文(*.txt)|*.txt";
-                openImageDialog.Multiselect = false;//关闭多选
+                OpenFileDialog openImageDialog = new() {
+                   Filter = "报文(*.txt)|*.txt",
+                    Multiselect = false
+                };
                 if (openImageDialog.ShowDialog() == DialogResult.OK)
                 {
                     answer = File.ReadAllText(openImageDialog.FileName);
@@ -793,7 +799,7 @@ namespace CW
         }
 
         long start = 0;
-        private void calculateInput(object sender, KeyEventArgs e)
+        private void CalculateInput(object sender, KeyEventArgs e)
         {
             long endTime = DateTime.Now.Ticks;
             var subTime = endTime - start;
@@ -809,7 +815,7 @@ namespace CW
 
         }
 
-        private void richTextBox1_KeyDown(object sender, KeyEventArgs e)
+        private void RichTextBox1_KeyDown(object sender, KeyEventArgs e)
         {
             start = DateTime.Now.Ticks;
         }
@@ -820,13 +826,15 @@ namespace CW
         //定时器分辨率，1ms级别
         private const uint TIMER_RESOLUTION = 1;
         // 获取开始计数值
-        [DllImport("kernel32.dll")]
-        private static extern bool QueryPerformanceCounter(out long lpPerformanceCount);
+        [LibraryImport("kernel32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool QueryPerformanceCounter(out long lpPerformanceCount);
         // 获取性能计数器频率
-        [DllImport("kernel32.dll")]
-        private static extern bool QueryPerformanceFrequency(out long lpFrequency);
-        [DllImport("winmm.dll", SetLastError = true)]
-        private static extern uint timeSetEvent(
+        [LibraryImport("kernel32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool QueryPerformanceFrequency(out long lpFrequency);
+        [LibraryImport("winmm.dll", SetLastError = true)]
+        private static partial uint timeSetEvent(
             uint uDelay,
             uint uResolution,
             TimerCallback lpTimeFunc,
@@ -843,7 +851,7 @@ namespace CW
         //每次绘制的宽度
         private readonly static int drawWidth = 1;
         //可视化用来显示的字体
-        private readonly static Font font = new Font("Arial‌", 8, FontStyle.Regular, GraphicsUnit.Point);
+        private readonly static Font font = new ("Arial‌", 8, FontStyle.Regular, GraphicsUnit.Point);
 
 
         // 回调函数的委托类型
@@ -891,7 +899,7 @@ namespace CW
 
                 }
 
-                Bitmap map = new Bitmap(bitmap.Width, bitmap.Height);
+                Bitmap map = new(bitmap!.Width, bitmap.Height);
                 using (Graphics g = Graphics.FromImage(map))
                 {
                     // 将原图像绘制到新图像中，向左平移指定偏移量
@@ -899,7 +907,7 @@ namespace CW
                     //水平位置
                     var horizontalPosition = (bitmap.Height / 2) - 10;
 
-                    using (Pen pen = new Pen(color, 5)) // 2是线条的宽度
+                    using (Pen pen = new (color, 5)) // 2是线条的宽度
                     {
 
                         // 绘制竖线
@@ -912,7 +920,7 @@ namespace CW
                     {
                         g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
                         // 设置文本要绘制的位置
-                        Point position = new Point(bitmap.Width - 10 - blankWidth, horizontalPosition + 15);
+                        Point position = new(bitmap.Width - 10 - blankWidth, horizontalPosition + 15);
 
                         g.DrawString(str, font, Brushes.Black, position);
 
@@ -928,7 +936,7 @@ namespace CW
         }
         WaveOutEvent? waveOut;
         long startTime;
-        private void sendBtn_MouseDown(object sender, MouseEventArgs e)
+        private void SendBtn_MouseDown(object sender, MouseEventArgs e)
         {
             //开始绘制
             isDraw = true;
@@ -951,12 +959,12 @@ namespace CW
         }
 
 
-        private void sendBtn_MouseUp(object sender, MouseEventArgs e)
+        private void SendBtn_MouseUp(object sender, MouseEventArgs e)
         {
             isDraw = false;
             //停止播放声音
-            waveOut.Stop();
-            waveOut.Dispose();
+            waveOut?.Stop();
+            waveOut?.Dispose();
             //结束计时
 
             QueryPerformanceCounter(out long endTime);
@@ -984,17 +992,14 @@ namespace CW
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void timer2_Tick(object sender, EventArgs e)
+        private void Timer2_Tick(object sender, EventArgs e)
         {
 
             for (int i = 0; i < bitmapQueue.Count; i++)
             {
                 if (bitmapQueue.TryDequeue(out Bitmap? sb))
                 {
-                    if (visualizedBox.Image != null)
-                    {
-                        visualizedBox.Image.Dispose();
-                    }
+                    visualizedBox.Image?.Dispose();
 
                     visualizedBox.Image = sb;
                 }
@@ -1004,7 +1009,7 @@ namespace CW
 
         }
 
-        private void snedSpeedTxb_Leave(object sender, EventArgs e)
+        private void SnedSpeedTxb_Leave(object sender, EventArgs e)
         {
             var speed = 20;
             try
@@ -1028,7 +1033,7 @@ namespace CW
             charInterval.Text = (di * 7).ToString();
         }
 
-        private void numberTxb_KeyPress(object sender, KeyPressEventArgs e)
+        private void NumberTxb_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!Char.IsNumber(e.KeyChar) && e.KeyChar != 8)                       //判断输入的字符是否为十进制数字,是否为退格（输入错误可删除）
             {
@@ -1036,7 +1041,7 @@ namespace CW
             }
         }
 
-        private void charInterval_TextChanged(object sender, EventArgs e)
+        private void CharInterval_TextChanged(object sender, EventArgs e)
         {
 
             try
@@ -1048,7 +1053,7 @@ namespace CW
             }
         }
 
-        private void strictCbx_CheckedChanged(object sender, EventArgs e)
+        private void StrictCbx_CheckedChanged(object sender, EventArgs e)
         {
             isStrict = strictCbx.Checked;
         }
