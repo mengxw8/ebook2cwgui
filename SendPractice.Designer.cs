@@ -605,8 +605,6 @@
             replicationBox1.Size = new Size(1885, 77);
             replicationBox1.TabIndex = 1;
             replicationBox1.Text = "";
-            replicationBox1.KeyDown += RichTextBox1_KeyDown;
-            replicationBox1.KeyUp += CalculateInput;
             // 
             // answerLbl1
             // 

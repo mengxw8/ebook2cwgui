@@ -52,12 +52,12 @@ namespace CW
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
         WorkingMode mode = WorkingMode.None;
         //数字
-        private static readonly Dictionary<string, string> number = new() { { "1", ".----" }, { "2", "..---" }, { "3", "...--" }, { "4", "....-" }, { "5", "....." }, { "6", "-...." }, { "7", "--..." }, { "8", "---.." }, { "9", "----." }, { "0", "-----" } };
+        private static readonly Dictionary<char, string> number = new() { { '1', ".----" }, { '2', "..---" }, { '3', "...--" }, { '4', "....-" }, { '5', "....." }, { '6', "-...." }, { '7', "--..." }, { '8', "---.." }, { '9', "----." }, { '0', "-----" } };
         //字母
-        private static readonly Dictionary<string, string> alphabet = new() { { "A", ".-" }, { "B", "-..." }, { "C", "-.-." }, { "D", "-.." }, { "E", "." }, { "F", "..-." }, { "G", "--." }, { "H", "...." }, { "I", ".." }, { "J", ".---" }, { "K", "-.-" }, { "L", ".-.." }, { "M", "--" }, { "N", "-." }, { "O", "---" }, { "P", ".--." }, { "Q", "--.-" }, { "R", ".-." }, { "S", "..." }, { "T", "-" }, { "U", "..-" }, { "V", "...-" }, { "W", ".--" }, { "X", "-..-" }, { "Y", "-.--" }, { "Z", "--.." } };
+        private static readonly Dictionary<char, string> alphabet = new() { { 'A', ".-" }, { 'B', "-..." }, { 'C', "-.-." }, { 'D', "-.." }, { 'E', "." }, { 'F', "..-." }, { 'G', "--." }, { 'H', "...." }, { 'I', ".." }, { 'J', ".---" }, { 'K', "-.-" }, { 'L', ".-.." }, { 'M', "--" }, { 'N', "-." }, { 'O', "---" }, { 'P', ".--." }, { 'Q', "--.-" }, { 'R', ".-." }, { 'S', "..." }, { 'T', "-" }, { 'U', "..-" }, { 'V', "...-" }, { 'W', ".--" }, { 'X', "-..-" }, { 'Y', "-.--" }, { 'Z', "--.." } };
         //符号
-        private static readonly Dictionary<string, string> symbol = new() { { ".", ".-.-.-" }, { ":", "---..." }, { ",", "--..--" }, { ";", "-.-.-." }, { "?", "..--.." }, { "=", "-...-" }, { "'", ".----." }, { "/", "-..-." }, { "!", "-.-.--" }, { "-", "-....-" }, { "_", "..--.-" }, { "\"", "..-..-." }, { "(", "-.--." }, { ")", "-.--.-" }, { "$", "...-..-" }, { "@", ".--.-." } };
-        private static readonly Dictionary<string, string> allCode = new Dictionary<string, string>[] { alphabet, number, symbol }.SelectMany(disc => disc).ToLookup(pair => pair.Value, pair => pair.Key)
+        private static readonly Dictionary<char, string> symbol = new() { { '.', ".-.-.-" }, { ':', "---..." }, { ',', "--..--" }, { ';', "-.-.-." }, { '?', "..--.." }, { '=', "-...-" }, { '\'', ".----." }, { '/', "-..-." }, { '!', "-.-.--" }, { '-', "-....-" }, { '_', "..--.-" }, { '\\', "..-..-." }, { '(', "-.--." }, { ')', "-.--.-" }, { '$', "...-..-" }, { '@', ".--.-." } };
+        private static readonly Dictionary<string, char> allCode = new Dictionary<char, string>[] { alphabet, number, symbol }.SelectMany(disc => disc).ToLookup(pair => pair.Value, pair => pair.Key)
             .ToDictionary(
                 group => group.Key,
                 group => group.Last() // 取最后一个值（覆盖冲突键）
@@ -72,14 +72,19 @@ namespace CW
         string lastMusicPath = "";
         //用来装生成的图形
         private readonly static ConcurrentQueue<Bitmap> bitmapQueue = new(); // 双缓冲队列
-        //用来装敲过的字符
-        private readonly static ConcurrentQueue<char> charQueue = new();
+        //用来装敲过的莫尔斯电码字符
+        private readonly static ConcurrentQueue<char> codeQueue = new();
+        //用来装解析出来的答案
+        private readonly static ConcurrentQueue<char> inputQueue = new();
+        StringBuilder inputBuilde = new StringBuilder();
+
         //当前帧
         private static Bitmap? bitmap;
         //是否严格解析
         private static bool isStrict = false;
         //用来显示参考文本的label
         private readonly static List<System.Windows.Forms.Label> answerLableList = new(6);
+        private readonly static List<System.Windows.Forms.RichTextBox> inputList = new(6);
 
         // 创建 WaveOutEvent 对象来播放音频
         WaveOutEvent waveOut = new();
@@ -324,9 +329,9 @@ namespace CW
             var article = File.ReadAllText(ArticlePath + words[index]);
             if (!flag)
             {
-                foreach (string s in symbol.Keys)
+                foreach (var s in symbol.Keys)
                 {
-                    article = article.Replace(s, "");
+                    article = article.Remove(s);
                 }
                 article = article.Trim();
             }
@@ -388,9 +393,9 @@ namespace CW
 
             if (!flag)
             {
-                foreach (string s in symbol.Keys)
+                foreach (var s in symbol.Keys)
                 {
-                    content = content.Replace(s, "");
+                    content = content.Remove(s);
                 }
                 content = content.Trim();
             }
@@ -405,6 +410,7 @@ namespace CW
         //生成报文并播放
         private async void StartBtn_Click(object sender, EventArgs e)
         {
+            inputBuilde.Clear();
             //生成测试数据
             List<string> words = GetWords();
             if ((words.Count == 0 || words == null) && mode != WorkingMode.Customize)
@@ -652,13 +658,13 @@ namespace CW
             {
                 switch (mode)
                 {
-                    case WorkingMode.Number: words.AddRange(number.Keys); break;
-                    case WorkingMode.Alphabet: words.AddRange(alphabet.Keys); break;
-                    case WorkingMode.AlphabetAndNumber: words.AddRange(number.Keys); words.AddRange(alphabet.Keys); break;
-                    case WorkingMode.Symbol: words.AddRange(symbol.Keys); break;
+                    case WorkingMode.Number: words.AddRange(number.Keys.Select(item=> item.ToString())); break;
+                    case WorkingMode.Alphabet: words.AddRange(alphabet.Keys.Select(item => item.ToString())); break;
+                    case WorkingMode.AlphabetAndNumber: words.AddRange(number.Keys.Select(item => item.ToString())); words.AddRange(alphabet.Keys.Select(item => item.ToString())); break;
+                    case WorkingMode.Symbol: words.AddRange(symbol.Keys.Select(item => item.ToString())); break;
                     case WorkingMode.Article: words.AddRange(new List<string>(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n => n.Replace(ArticlePath, "")).ToList()); break;
                     case WorkingMode.News: words.AddRange(newsType.Keys); break;
-                    case WorkingMode.Customize: words.AddRange(alphabet.Keys); break;
+                    case WorkingMode.Customize: words.AddRange(alphabet.Keys.Select(item => item.ToString())); break;
 
                 }
             }
@@ -737,7 +743,7 @@ namespace CW
             waveOut?.Dispose();
         }
 
-
+        //把生成的报文展示出来
         private void ShowAnswer()
         {
             if (answer == "")
@@ -775,10 +781,47 @@ namespace CW
 
 
         }
+        //把敲出来的字符展示出来
+        private void ShowInput(string inputStr) {
+            var data = inputStr.Split(" ");
+            var index = 0;
+            var lableIndex = 0;
+            StringBuilder sb = new StringBuilder();
+            while (index < data.Length)
+            {
+                if (lableIndex >= inputList.Count)
+                {
+                    break;
+                }
+                var temp = inputList[lableIndex];
+                var tempLable = answerLableList[lableIndex];
+                // 检查文本是否适合 Label 的宽度和高度
+                if ((sb.Length + data[index].Length) > tempLable.Text.Length)
+                {
+                    //显示不下，需要换行
+                    temp.Text = sb.ToString();
+                    sb.Clear();
+                    lableIndex++;
+                }
+                else {
+                    sb.Append(data[index]);
+                    sb.Append(' ');
+                    temp.Text = sb.ToString();
+                }               
+                
+                index++;
+            }
+
+        }
+
         //清空答案
         private void ClearAnswer_Click(object sender, EventArgs e)
         {
-
+            inputBuilde.Clear();
+            foreach (var item in inputList)
+            {
+                item.Text = "";
+            }
 
         }
 
@@ -828,6 +871,21 @@ namespace CW
             answerLableList.Add(answerLbl4);
             answerLableList.Add(answerLbl5);
             answerLableList.Add(answerLbl6);
+
+            //初始化输入显示标签，就是显示回答内容的那一栏
+            inputList.Add(replicationBox1);
+            inputList.Add(replicationBox2);
+            inputList.Add(replicationBox3);
+            inputList.Add(replicationBox4);
+            inputList.Add(replicationBox5);
+            inputList.Add(replicationBox6);
+            //屏蔽输入
+            replicationBox1.ReadOnly = true;
+            replicationBox2.ReadOnly = true;
+            replicationBox3.ReadOnly = true;
+            replicationBox4.ReadOnly = true;
+            replicationBox5.ReadOnly = true;
+            replicationBox6.ReadOnly = true;
             //初始化声音
             // 创建 SineWaveProvider
             SineWaveProvider sineWaveProvider = new SineWaveProvider(System.Convert.ToDouble(sendToneBox.Text));
@@ -874,27 +932,10 @@ namespace CW
 
         }
 
-        long start = 0;
-        private void CalculateInput(object sender, KeyEventArgs e)
-        {
-            long endTime = DateTime.Now.Ticks;
-            var subTime = endTime - start;
-            if (subTime < 600000)
-            {
-                replicationBox1.Text += ".";
-            }
-            else
-            {
-                replicationBox1.Text += "-";
-            }
 
 
-        }
 
-        private void RichTextBox1_KeyDown(object sender, KeyEventArgs e)
-        {
-            start = DateTime.Now.Ticks;
-        }
+      
 
         // 导入 timeSetEvent, timeKillEvent 和 MMRESULT 枚举
         //private const uint TIME_KILL_EVENT = 0;
@@ -957,13 +998,14 @@ namespace CW
                     wait++;
                     color = SystemColors.Control;
                 }
-                var str = "";
+                char str = ' ';
+                //解析字符
                 if ((wait == keyWidth|| wait > blankWidth) && !isDraw)
                 {
                     Debug.WriteLine(wait);
                     Debug.WriteLine(blankWidth);
                     var sb = new StringBuilder();
-                    while (charQueue.TryDequeue(out char c))
+                    while (codeQueue.TryDequeue(out char c))
                     {
                         sb.Append(c);
                     }
@@ -976,9 +1018,15 @@ namespace CW
                         }
                         sb.Length--;
                     }
-
+                    if (str!=' ') {
+                        inputQueue.Enqueue(str);
+                    }
+                           }
+                //空闲时间够了，输入一个空格
+                if (wait == blankWidth)
+                {
+                    inputQueue.Enqueue(' ');
                 }
-
                 Bitmap map = new(bitmap!.Width, bitmap.Height);
                 using (Graphics g = Graphics.FromImage(map))
                 {
@@ -996,13 +1044,13 @@ namespace CW
 
                     }
                     //写字
-                    if (str != "")
+                    if (str != ' ')
                     {
                         g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
                         // 设置文本要绘制的位置
                         Point position = new(bitmap.Width  - 25, horizontalPosition + 15);
 
-                        g.DrawString(str, font, Brushes.Black, position);
+                        g.DrawString(str.ToString(), font, Brushes.Black, position);
 
 
                     }
@@ -1050,12 +1098,12 @@ namespace CW
 
             if (t >= System.Convert.ToInt16(sendDaLength.Text) || (isStrict && t > System.Convert.ToInt16(sendDiLength.Text)))
             {
-                charQueue.Enqueue('-');
+                codeQueue.Enqueue('-');
                 Debug.WriteLine("-");
             }
             else
             {
-                charQueue.Enqueue('.');
+                codeQueue.Enqueue('.');
                 Debug.WriteLine(".");
             }
 
@@ -1067,7 +1115,7 @@ namespace CW
         /// <param name="e"></param>
         private void Timer2_Tick(object sender, EventArgs e)
         {
-
+            //刷新显示
             for (int i = 0; i < bitmapQueue.Count; i++)
             {
                 if (bitmapQueue.TryDequeue(out Bitmap? sb))
@@ -1077,6 +1125,16 @@ namespace CW
                     visualizedBox.Image = sb;
                 }
             }
+            //填充答案
+            //把缓存的内容全部取出来
+            for (int i = 0; i < inputQueue.Count; i++)
+            {
+                if (inputQueue.TryDequeue(out char inputChar))
+                {
+                    inputBuilde.Append(inputChar);
+                }
+            }
+            ShowInput(inputBuilde.ToString());
 
 
 
