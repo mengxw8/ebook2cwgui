@@ -1134,7 +1134,7 @@ namespace CW
                     inputBuilde.Append(inputChar);
                 }
             }
-            ShowInput(inputBuilde.ToString());
+            ShowInput(inputBuilde.ToString().ToLower());
 
 
 
