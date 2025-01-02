@@ -10,12 +10,12 @@ namespace CW
     /// <summary>
     /// 包含控制屏幕关闭以及系统休眠相关的方法。
     /// </summary>
-    public static class SystemSleep
+    public static partial class SystemSleep
     {
 
 
-        [DllImport("kernel32")]
-        private static extern ExecutionState SetThreadExecutionState(ExecutionState esFlags);
+        [LibraryImport("kernel32")]
+        private static partial ExecutionState SetThreadExecutionState(ExecutionState esFlags);
         [Flags]
         private enum ExecutionState : uint
         {

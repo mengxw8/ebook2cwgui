@@ -37,8 +37,8 @@ namespace CW
         /// <returns>读取的值</returns>
         public string Read(string section, string key, string def, string filePath)
         {
-            StringBuilder sb = new StringBuilder(1024);
-            GetPrivateProfileString(section, key, def, sb, 1024, filePath);
+            StringBuilder sb = new (1024);
+            _ = GetPrivateProfileString(section, key, def, sb, 1024, filePath);
             return sb.ToString();
         }
         /// <summary>
@@ -55,7 +55,7 @@ namespace CW
             return WritePrivateProfileString(section, key, value, filePath);
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
 
             // 当链接文本被点击时触发的事件
@@ -64,12 +64,14 @@ namespace CW
 
         }
 
-        private void inputFilePathBtn_Click(object sender, EventArgs e)
+        private void InputFilePathBtn_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Multiselect = false;//该值确定是否可以选择多个文件
-            dialog.Title = "请选择文件";
-            dialog.Filter = "文本文件(*.txt)|*.txt";
+            OpenFileDialog dialog = new() {
+                Multiselect = false,//该值确定是否可以选择多个文件
+                Title = "请选择文件",
+                Filter = "文本文件(*.txt)|*.txt",
+            };
+
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
 
@@ -78,10 +80,12 @@ namespace CW
             }
         }
 
-        private void outputFilePathBtn_Click(object sender, EventArgs e)
+        private void OutputFilePathBtn_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "请选择输出文件夹";
+            FolderBrowserDialog dialog = new() {
+                Description = "请选择输出文件夹"
+            };
+
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 outputFilePathTxb.Text = dialog.SelectedPath;
@@ -242,23 +246,32 @@ namespace CW
 
             param += inputFile;
             Console.WriteLine(param);
- 
-            ProcessStartInfo startInfo = new ProcessStartInfo("ebook2cw.exe", param);
 
-            startInfo.UseShellExecute = false;    //是否使用操作系统的shell启动
-            //startInfo.RedirectStandardInput = true;      //接受来自调用程序的输入     
-            startInfo.RedirectStandardOutput = true;     //由调用程序获取输出信息
-            startInfo.CreateNoWindow = true;             //不显示调用程序的窗口 
-                                                         //创建进程对象   
+            ProcessStartInfo startInfo = new()
+            {
+                FileName = "ebook2cw.exe",
+                Arguments = param,
+                UseShellExecute = false,    //是否使用操作系统的shell启动
+                //RedirectStandardInput = true;      //接受来自调用程序的输入     
+                RedirectStandardOutput = true,    //由调用程序获取输出信息
+                CreateNoWindow = true,          //不显示调用程序的窗口 
+            };
+
+
+            //创建进程对象   
 
 
             try
             {
                 //调用EXE
-                using var process = Process.Start(startInfo);                
-                using var reader = process.StandardOutput;
-                // 获取exe的输出结果
-                string result = reader.ReadToEnd(); 
+                using var process = Process.Start(startInfo);
+                var result = "";
+                if (process != null) {
+                    using var reader = process.StandardOutput;
+                    // 获取exe的输出结果
+                     result = reader.ReadToEnd();
+                }
+
                 if (result != "")
                 {
                     string[] lines = result.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -268,13 +281,13 @@ namespace CW
                         result = string.Join(Environment.NewLine, lines.Skip(startIndex));
                     }
                     
-                    if (result.IndexOf("Error:") >= 0)
+                    if (result.Contains("Error:") )
                     {
                         MessageBox.Show("配置错误，转换失败，请检查！");
                     }
                     else
                     {
-                        var data = lines[lines.Length - 3].Split(":");
+                        var data = lines[^3].Split(":");
                         if (data.Length == 3)
                         {
                             MessageBox.Show("转换完成，共计用时" + data[2] + "！");
@@ -292,7 +305,7 @@ namespace CW
 
         }
 
-        private void saveConfig(Dictionary<string, string> configs) {
+        private void SaveConfig(Dictionary<string, string> configs) {
             //写配置
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configFileName);
             foreach (var pair in configs)
@@ -329,7 +342,7 @@ namespace CW
 
         }
 
-        private void loadConfig() {
+        private void LoadConfig() {
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configFileName);
             if (File.Exists(filePath))
             {
@@ -337,9 +350,9 @@ namespace CW
 
                 //文件存在则恢复配置
                 if (outPath != "") {
-                    outputFilePathTxb.Text = outPath.Substring(0, outPath.LastIndexOf("\\"));
+                    outputFilePathTxb.Text = outPath[..outPath.LastIndexOf('\\')];
                 }  
-                fileNameTxb.Text = outPath.Substring(outPath.LastIndexOf("\\")+1);
+                fileNameTxb.Text = outPath[(outPath.LastIndexOf('\\') + 1)..];
                 separatorTxb.Text = Read("settings", "c", "", filePath);
 
                 speedTxb.Value = System.Convert.ToInt32( Read("settings", "w", "20", filePath)) ; 
@@ -366,7 +379,7 @@ namespace CW
 
         }
 
-        private void speedTxb_Leave(object sender, EventArgs e)
+        private void SpeedTxb_Leave(object sender, EventArgs e)
         {
             if (speedTxb.Value < 1) {
                 speedTxb.Value = 1;

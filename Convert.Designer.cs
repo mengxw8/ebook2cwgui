@@ -120,7 +120,7 @@
             inputFilePathBtn.TabIndex = 3;
             inputFilePathBtn.Text = "选择";
             inputFilePathBtn.UseVisualStyleBackColor = true;
-            inputFilePathBtn.Click += inputFilePathBtn_Click;
+            inputFilePathBtn.Click += InputFilePathBtn_Click;
             // 
             // outputFilePathTxb
             // 
@@ -139,7 +139,7 @@
             outputFilePathBtn.TabIndex = 5;
             outputFilePathBtn.Text = "选择";
             outputFilePathBtn.UseVisualStyleBackColor = true;
-            outputFilePathBtn.Click += outputFilePathBtn_Click;
+            outputFilePathBtn.Click += OutputFilePathBtn_Click;
             // 
             // label3
             // 
@@ -271,7 +271,7 @@
             speedTxb.Size = new Size(71, 23);
             speedTxb.TabIndex = 1;
             speedTxb.Value = new decimal(new int[] { 20, 0, 0, 0 });
-            speedTxb.Leave += speedTxb_Leave;
+            speedTxb.Leave += SpeedTxb_Leave;
             // 
             // label4
             // 
@@ -508,7 +508,7 @@
             linkLabel1.TabStop = true;
             linkLabel1.Text = "汉化自ebook2cw-gui v0.1.2";
             linkLabel1.TextAlign = ContentAlignment.MiddleCenter;
-            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+            linkLabel1.LinkClicked += LinkLabel1_LinkClicked;
             // 
             // Convert
             // 

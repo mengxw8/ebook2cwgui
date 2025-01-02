@@ -29,17 +29,20 @@ namespace CW
 {
     public partial class CopyingPractice : Form
     {
-        [DllImport("user32.dll")]
-        static extern long LoadKeyboardLayout(string pwszKLID, uint Flags);
+        //[DllImport("user32.dll")]
+        //static extern long LoadKeyboardLayout(string pwszKLID, uint Flags);
+        [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
+        private static partial IntPtr LoadKeyboardLayoutA(string pwszKLID, uint Flags);
+
         public CopyingPractice()
         {
             InitializeComponent();
             //不允许息屏
             SystemSleep.PreventForCurrentThread();
             //输入法切换为英文
-            LoadKeyboardLayout("00000409", 1);
+            LoadKeyboardLayoutA("00000409", 1);
 
-            clearAnswer();
+            ClearAnswer();
 
 
 
@@ -105,7 +108,7 @@ namespace CW
         string lastMusicPath = "";
         string lastCheckMusicPath = "";
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton1_CheckedChanged(object sender, EventArgs e)
         {
             mode = WorkingMode.Number;
             KochList.Enabled = false;
@@ -120,7 +123,7 @@ namespace CW
                 neBox.Items.Add(k);
             }
         }
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton2_CheckedChanged(object sender, EventArgs e)
         {
             mode = WorkingMode.Alphabet;
             KochList.Enabled = false;
@@ -136,7 +139,7 @@ namespace CW
                 neBox.Items.Add(k);
             }
         }
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton3_CheckedChanged(object sender, EventArgs e)
         {
             mode = WorkingMode.AlphabetAndNumber;
             KochList.Enabled = false;
@@ -158,7 +161,7 @@ namespace CW
             }
         }
 
-        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton5_CheckedChanged(object sender, EventArgs e)
         {
             mode = WorkingMode.Symbol;
             KochList.Enabled = false;
@@ -174,7 +177,7 @@ namespace CW
                 neBox.Items.Add(k);
             }
         }
-        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton4_CheckedChanged(object sender, EventArgs e)
         {
             mode = WorkingMode.Article;
             //英文文章
@@ -190,7 +193,7 @@ namespace CW
                 return;
             }
 
-            List<string> files = new List<string>(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly));
+            List<string> files = new(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly));
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
@@ -203,7 +206,7 @@ namespace CW
 
         }
         //新闻
-        private void radioButton6_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton6_CheckedChanged(object sender, EventArgs e)
         {
             mode = WorkingMode.News;
             KochList.Enabled = false;
@@ -220,13 +223,13 @@ namespace CW
 
         }
         //随机单词
-        private void radioButton8_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton8_CheckedChanged(object sender, EventArgs e)
         {
-            radioButton2_CheckedChanged(sender, e);
+            RadioButton2_CheckedChanged(sender, e);
             mode = WorkingMode.Word;
         }
         //Koch训练法
-        private void radioButton7_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton7_CheckedChanged(object sender, EventArgs e)
         {
             mode = WorkingMode.Koch;
             KochList.Enabled = true;
@@ -245,7 +248,7 @@ namespace CW
 
   
 
-        private string generateAnswer(List<string> words)
+        private string GenerateAnswer(List<string> words)
         {
 
             //随机字符
@@ -256,7 +259,7 @@ namespace CW
             //组数限制
             var groupNum = groupNumBox.Value;
 
-            Random random = new Random();
+            Random random = new ();
             StringBuilder answerBuilder = new();
 
             for (int i = 0; i < groupNum; i++)
@@ -285,7 +288,7 @@ namespace CW
 
                 if (i + 1 < groupNum)
                 {
-                    answerBuilder.Append(" ");
+                    answerBuilder.Append(' ');
                 }
 
             }
@@ -297,7 +300,7 @@ namespace CW
         /// </summary>
         /// <param name="words"></param>
         /// <returns></returns>
-        private string generateWord(List<string> words)
+        private string GenerateWord(List<string> words)
         {
             //组数限制
             var groupNum = groupNumBox.Value;
@@ -309,7 +312,7 @@ namespace CW
             {
                 return answer;
             }
-            Random random = new Random();
+            Random random = new ();
             while (groupNum > 0)
             {
                 string word = book[random.Next(1, 12198).ToString()];
@@ -332,14 +335,14 @@ namespace CW
         /// </summary>
         /// <param name="words"></param>
         /// <returns></returns>
-        private string getArticle(List<string> words)
+        private string GetArticle(List<string> words)
         {
             string answer = "";
             //组数限制
             int groupNum = System.Convert.ToInt32(groupNumBox.Value);
             //是否不要符号
             var flag = symbolsChb.Checked;
-            Random random = new Random();
+            Random random = new ();
             var index = random.Next(0, words.Count);
 
             if (!File.Exists(ArticlePath + words[index]))
@@ -354,7 +357,7 @@ namespace CW
                 {
                     article = article.Replace(s, "");
                 }
-                article.Trim();
+                article=article.Trim();
             }
             var list = article.Split(' ').Take(groupNum).ToList();
 
@@ -369,39 +372,53 @@ namespace CW
         /// </summary>
         /// <param name="words"></param>
         /// <returns></returns>
-        private string getNewsPapers(List<string> words)
+        private string GetNewsPapers(List<string> words)
         {
             //组数限制
             int groupNum = System.Convert.ToInt32(groupNumBox.Value);
             //是否不要符号
             var flag = symbolsChb.Checked;
-            Random random = new Random();
+            Random random = new ();
             var type = random.Next(0, words.Count);
             var resp = newspapers.HttpRequestUtil.GetWebRequest(newsType[words[type]]);
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new ();
             doc.LoadXml(resp);
-            var item = doc.SelectNodes("/rss/channel/item");
-            var index = random.Next(0, item.Count);
-            var newsPaper = item[index];
-            var title = newsPaper.SelectSingleNode("title").InnerText;
-            XmlNamespaceManager nsm1 = new XmlNamespaceManager(doc.NameTable);
-            nsm1.AddNamespace("dc", @"http://purl.org/dc/elements/1.1/");
-            var date = newsPaper.SelectSingleNode("//dc:date", nsm1).InnerText;
-            XmlNamespaceManager nsm2 = new XmlNamespaceManager(doc.NameTable);
-            nsm2.AddNamespace("content", @"http://purl.org/rss/1.0/modules/content/");
-            var contentHtml = newsPaper.SelectSingleNode("//content:encoded", nsm2).InnerText;
-            //处理超文本
-            IDocument document = BrowsingContext.New(Configuration.Default).OpenAsync(req => req.Content(contentHtml)).Result;
-             var content = document.Body.TextContent;
-            //处理时间
-            content = DateTime.Parse(date).ToString("yyyy-MM-dd HH:mm:ss") + " " + content;
+            var content = "";
+           var item = doc.SelectNodes("/rss/channel/item");
+            if (item is not null) {
+                var index = random.Next(0, item.Count);
+                var newsPaper = item[index];
+                var titleXml=newsPaper!.SelectSingleNode("title");
+                if (titleXml is not null) {
+                    var title = titleXml.InnerText;
+                }
+                XmlNamespaceManager nsm1 = new (doc.NameTable);
+                nsm1.AddNamespace("dc", @"http://purl.org/dc/elements/1.1/");
+                var date = newsPaper.SelectSingleNode("//dc:date", nsm1)!.InnerText;
+                XmlNamespaceManager nsm2 = new (doc.NameTable);
+                nsm2.AddNamespace("content", @"http://purl.org/rss/1.0/modules/content/");
+                var contentHtml = newsPaper.SelectSingleNode("//content:encoded", nsm2)!.InnerText;
+                //处理超文本
+                IDocument document = BrowsingContext.New(Configuration.Default).OpenAsync(req => req.Content(contentHtml)).Result;
+                if (document.Body is not null) {
+                    content = document.Body.TextContent;
+                }
+
+                //处理时间
+                content = DateTime.Parse(date).ToString("yyyy-MM-dd HH:mm:ss") + " " + content;
+
+            }    
+
+
+
+ 
             if (!flag)
             {
                 foreach (string s in symbol.Keys)
                 {
                     content = content.Replace(s, "");
                 }
-                content.Trim();
+                content=content.Trim();
             }
 
 
@@ -412,7 +429,7 @@ namespace CW
         }
 
         //生成报文并播放
-        private void startBtn_Click(object sender, EventArgs e)
+        private void StartBtn_Click(object sender, EventArgs e)
         {
 
             //生成测试数据
@@ -421,15 +438,15 @@ namespace CW
             {
                 return;
             }
-            StringBuilder answerBuilder = new StringBuilder();
+            StringBuilder answerBuilder = new ();
             answerBuilder.Append("===\r\n");
             if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol || mode == WorkingMode.Koch)
             {
-                answerBuilder.Append(generateAnswer(words ?? []));
+                answerBuilder.Append(GenerateAnswer(words ?? []));
             }
             else if (mode == WorkingMode.Article)
             {
-                answerBuilder.Append(getArticle(words ?? []));
+                answerBuilder.Append(GetArticle(words ?? []));
             }
             else if (mode == WorkingMode.News)
             {
@@ -441,7 +458,7 @@ namespace CW
                 }
                 try
                 {
-                    answerBuilder.Append(getNewsPapers(words ?? []));
+                    answerBuilder.Append(GetNewsPapers(words ?? []));
                 }
                 catch
                 {
@@ -453,7 +470,7 @@ namespace CW
             }
             else if (mode == WorkingMode.Word)
             {
-                answerBuilder.Append(generateWord(words ?? []));
+                answerBuilder.Append(GenerateWord(words ?? []));
 
 
             }
@@ -516,7 +533,7 @@ namespace CW
             //如果是开启了显示答案的按钮，直接显示答案
             if (showAnswerChb.Checked)
             {
-                showAnswer();
+                ShowAnswer();
             }
 
         }
@@ -539,21 +556,28 @@ namespace CW
 
             //生成音频
             param += " -q 1 -o " + "./temp/" + fileName + " -w " + speed + " -f " + toneBox.Value + " -W " + extraWordSpacing.Value + " " + filePath;
-            ProcessStartInfo startInfo = new ProcessStartInfo("ebook2cw.exe", param);
+            ProcessStartInfo startInfo = new() { 
+            FileName= "ebook2cw.exe",
+            Arguments= param,
+            UseShellExecute = false,//是否使用操作系统的shell启动
+                RedirectStandardOutput = true,//由调用程序获取输出信息
+                CreateNoWindow = true//不显示调用程序的窗口 
+            };
 
-            startInfo.UseShellExecute = false;    //是否使用操作系统的shell启动
-            //startInfo.RedirectStandardInput = true;      //接受来自调用程序的输入     
-            startInfo.RedirectStandardOutput = true;     //由调用程序获取输出信息
-            startInfo.CreateNoWindow = true;             //不显示调用程序的窗口 
-                                                         //创建进程对象   
             try
             {
                 //调用EXE
                 using var process = Process.Start(startInfo);
+                string result = "";
+                if (process is not null)
+                {
+                    using var reader = process.StandardOutput;
+                    // 获取exe的输出结果
+                     result = reader.ReadToEnd();
+                }
 
-                using var reader = process.StandardOutput;
-                // 获取exe的输出结果
-                string result = reader.ReadToEnd();
+       
+
                 if (result != "")
                 {
                     string[] lines = result.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -563,13 +587,13 @@ namespace CW
                         result = string.Join(Environment.NewLine, lines.Skip(startIndex));
                     }
 
-                    if (result.IndexOf("Error:") >= 0)
+                    if (result.Contains("Error:") )
                     {
                         MessageBox.Show("配置错误，转换失败，请检查！");
                     }
                     else
                     {
-                        var data = lines[lines.Length - 3].Split(":");
+                        var data = lines[^3].Split(":");
                         if (data.Length == 3)
                         {
                             //MessageBox.Show("转换完成，共计用时" + data[2] + "！");
@@ -589,7 +613,7 @@ namespace CW
 
         }
 
-        private void RenameMusic(string oldFileName, string newFileName)
+        private static void RenameMusic(string oldFileName, string newFileName)
         {
             try
             {
@@ -679,7 +703,7 @@ namespace CW
             return words;
         }
 
-        private void submitAnswerBtn_Click(object sender, EventArgs e)
+        private void SubmitAnswerBtn_Click(object sender, EventArgs e)
         {
             Mp3Player.Stop();
             timer1.Stop();
@@ -687,28 +711,29 @@ namespace CW
                 MessageBox.Show("请先开始抄收！");
                 return;
             }
-            AnswerBoard answerBoard = new AnswerBoard(answer, answerBox.Text);
+            AnswerBoard answerBoard = new (answer, answerBox.Text);
             answerBoard.ShowDialog();
 
         }
 
-        private void stopBtn_Click(object sender, EventArgs e)
+        private void StopBtn_Click(object sender, EventArgs e)
         {
             Mp3Player.Stop();
             timer1.Stop();
         }
 
-        private void exportBtn_Click(object sender, EventArgs e)
+        private void ExportBtn_Click(object sender, EventArgs e)
         {
             if (lastMusicPath == "")
             {
                 MessageBox.Show("您还尚未生成过报文哦，请生成后重试！");
                 return;
             }
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "压缩文件(*.zip)|*.*";
-            saveFileDialog.Title = "保存音频文件和报文到目录";
-            saveFileDialog.FileName = "报文" + Path.GetFileName(lastMusicPath).Replace(".mp3", "") + "-" + speetBox.Value + "wpm.zip";
+            SaveFileDialog saveFileDialog = new() {
+                Filter = "压缩文件(*.zip)|*.*",
+                Title = "保存音频文件和报文到目录",
+                FileName = "报文" + Path.GetFileName(lastMusicPath).Replace(".mp3", "") + "-" + speetBox.Value + "wpm.zip"
+            };
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 if (File.Exists(saveFileDialog.FileName))
@@ -716,33 +741,32 @@ namespace CW
                     File.Delete(saveFileDialog.FileName);
                 }
                 //打包文件
-                using (FileStream zipToOpen = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                using FileStream zipToOpen = new(saveFileDialog.FileName, FileMode.Create);
+
+                // 创建ZIP存档
+                using ZipArchive archive = new(zipToOpen, ZipArchiveMode.Create);
+
+                // 添加文件到ZIP存档
+                //添加音频
+                string musicFileName = Path.GetFileName(lastMusicPath);
+                archive.CreateEntryFromFile(lastMusicPath, musicFileName);
+                //添加报文
+                string txtFileName = Path.GetFileName(lastMusicPath.Replace(".mp3", ".txt"));
+                archive.CreateEntryFromFile(lastMusicPath.Replace(".mp3", ".txt"), txtFileName);
+                //添加校报音频
+                if (checkAnswerChb.Checked)
                 {
-                    // 创建ZIP存档
-                    using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
-                    {
-                        // 添加文件到ZIP存档
-                        //添加音频
-                        string musicFileName = Path.GetFileName(lastMusicPath);
-                        archive.CreateEntryFromFile(lastMusicPath, musicFileName);
-                        //添加报文
-                        string txtFileName = Path.GetFileName(lastMusicPath.Replace(".mp3", ".txt"));
-                        archive.CreateEntryFromFile(lastMusicPath.Replace(".mp3", ".txt"), txtFileName);
-                        //添加校报音频
-                        if (checkAnswerChb.Checked)
-                        {
-                            string checkFileName = Path.GetFileName(lastCheckMusicPath);
-                            archive.CreateEntryFromFile(lastCheckMusicPath, checkFileName);
-                        }
-
-
-                    }
+                    string checkFileName = Path.GetFileName(lastCheckMusicPath);
+                    archive.CreateEntryFromFile(lastCheckMusicPath, checkFileName);
                 }
+
+
+            
             }
 
         }
 
-        private void checkAnswerChb_CheckedChanged(object sender, EventArgs e)
+        private void CheckAnswerChb_CheckedChanged(object sender, EventArgs e)
         {
             if (checkAnswerChb.Checked)
             {
@@ -757,18 +781,18 @@ namespace CW
             }
         }
 
-        private void showAnswerChb_CheckedChanged(object sender, EventArgs e)
+        private void ShowAnswerChb_CheckedChanged(object sender, EventArgs e)
         {
             if (showAnswerChb.Checked && answer != "")
             {
 
-                showAnswer();
+                ShowAnswer();
             }
         }
         /// <summary>
         /// 展示答案
         /// </summary>
-        private void showAnswer()
+        private void ShowAnswer()
         {
 
             if (answer != "")
@@ -781,7 +805,7 @@ namespace CW
 
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
 
             if (Mp3Player.Status() == PlaybackState.Stopped)
@@ -801,30 +825,30 @@ namespace CW
                 Directory.Delete(Path.GetDirectoryName(lastMusicPath)??"", true);
             }
         }
-        private void speetBox_ValueChanged(object sender, EventArgs e)
+        private void SpeetBox_ValueChanged(object sender, EventArgs e)
         {
             checkAnserSpeed.Value = speetBox.Value + 2;
         }
 
-        private void clearAnswer()
+        private void ClearAnswer()
         {
             answerBox.Text = "";
 
         }
         //清空答案
-        private void clearAnswer_Click(object sender, EventArgs e)
+        private void ClearAnswer_Click(object sender, EventArgs e)
         {
-            clearAnswer();
+            ClearAnswer();
             showAnswerChb.Checked = false;
         }
 
-        private void pauseBtn_Click(object sender, EventArgs e)
+        private void PauseBtn_Click(object sender, EventArgs e)
         {
             Mp3Player.Pause();
             continuePlayBtn.Enabled = true;
             pauseBtn.Enabled = false;
         }
-        private void continuePlayBtn_Click(object sender, EventArgs e)
+        private void ContinuePlayBtn_Click(object sender, EventArgs e)
         {
             Mp3Player.ContinuePlay();
             continuePlayBtn.Enabled = false;
@@ -835,18 +859,18 @@ namespace CW
             }
         }
 
-        private void resumeBtn_Click(object sender, EventArgs e)
+        private void ResumeBtn_Click(object sender, EventArgs e)
         {
             Mp3Player.Play(lastMusicPath);
         }
 
-        private void neRbtn_CheckedChanged(object sender, EventArgs e)
+        private void NeRbtn_CheckedChanged(object sender, EventArgs e)
         {
             neBox.Enabled = true;
             eqBox.Enabled = false;
         }
 
-        private void eqRbtn_CheckedChanged(object sender, EventArgs e)
+        private void EqRbtn_CheckedChanged(object sender, EventArgs e)
         {
             eqBox.Enabled = true;
             neBox.Enabled = false;
@@ -860,7 +884,7 @@ namespace CW
             this.Text = this.Text + " V" + version;
         }
 
-        private void individuationRbtn_CheckedChanged(object sender, EventArgs e)
+        private void IndividuationRbtn_CheckedChanged(object sender, EventArgs e)
         {
             if (individuationRbtn.Checked == true)
             {
@@ -870,10 +894,12 @@ namespace CW
                 eqRbtn.Enabled = false;
                 neRbtn.Enabled = false;
                 //弹出文件选择框
-                OpenFileDialog openImageDialog = new OpenFileDialog();
+                OpenFileDialog openImageDialog = new() {
+                    Filter = "报文(*.txt)|*.txt",
+                    Multiselect = false//关闭多选
+                };
 
-                openImageDialog.Filter = "报文(*.txt)|*.txt";
-                openImageDialog.Multiselect = false;//关闭多选
+
                 if (openImageDialog.ShowDialog() == DialogResult.OK)
                 {
                     answer = File.ReadAllText(openImageDialog.FileName);

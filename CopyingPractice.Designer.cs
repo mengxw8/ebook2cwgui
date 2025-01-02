@@ -120,7 +120,7 @@
             radioButton7.TabStop = true;
             radioButton7.Text = "Koch训练法";
             radioButton7.UseVisualStyleBackColor = true;
-            radioButton7.CheckedChanged += radioButton7_CheckedChanged;
+            radioButton7.CheckedChanged += RadioButton7_CheckedChanged;
             // 
             // individuationRbtn
             // 
@@ -132,7 +132,7 @@
             individuationRbtn.TabStop = true;
             individuationRbtn.Text = "自定义";
             individuationRbtn.UseVisualStyleBackColor = true;
-            individuationRbtn.CheckedChanged += individuationRbtn_CheckedChanged;
+            individuationRbtn.CheckedChanged += IndividuationRbtn_CheckedChanged;
             // 
             // radioButton8
             // 
@@ -144,7 +144,7 @@
             radioButton8.TabStop = true;
             radioButton8.Text = "随机单词";
             radioButton8.UseVisualStyleBackColor = true;
-            radioButton8.CheckedChanged += radioButton8_CheckedChanged;
+            radioButton8.CheckedChanged += RadioButton8_CheckedChanged;
             // 
             // radioButton6
             // 
@@ -156,7 +156,7 @@
             radioButton6.TabStop = true;
             radioButton6.Text = "新闻";
             radioButton6.UseVisualStyleBackColor = true;
-            radioButton6.CheckedChanged += radioButton6_CheckedChanged;
+            radioButton6.CheckedChanged += RadioButton6_CheckedChanged;
             // 
             // radioButton5
             // 
@@ -168,7 +168,7 @@
             radioButton5.TabStop = true;
             radioButton5.Text = "符号";
             radioButton5.UseVisualStyleBackColor = true;
-            radioButton5.CheckedChanged += radioButton5_CheckedChanged;
+            radioButton5.CheckedChanged += RadioButton5_CheckedChanged;
             // 
             // radioButton4
             // 
@@ -180,7 +180,7 @@
             radioButton4.TabStop = true;
             radioButton4.Text = "英语文章";
             radioButton4.UseVisualStyleBackColor = true;
-            radioButton4.CheckedChanged += radioButton4_CheckedChanged;
+            radioButton4.CheckedChanged += RadioButton4_CheckedChanged;
             // 
             // radioButton3
             // 
@@ -192,7 +192,7 @@
             radioButton3.TabStop = true;
             radioButton3.Text = "数字+字母分组";
             radioButton3.UseVisualStyleBackColor = true;
-            radioButton3.CheckedChanged += radioButton3_CheckedChanged;
+            radioButton3.CheckedChanged += RadioButton3_CheckedChanged;
             // 
             // radioButton2
             // 
@@ -204,7 +204,7 @@
             radioButton2.TabStop = true;
             radioButton2.Text = "分组字母";
             radioButton2.UseVisualStyleBackColor = true;
-            radioButton2.CheckedChanged += radioButton2_CheckedChanged;
+            radioButton2.CheckedChanged += RadioButton2_CheckedChanged;
             // 
             // radioButton1
             // 
@@ -216,7 +216,7 @@
             radioButton1.TabStop = true;
             radioButton1.Text = "分组数字";
             radioButton1.UseVisualStyleBackColor = true;
-            radioButton1.CheckedChanged += radioButton1_CheckedChanged;
+            radioButton1.CheckedChanged += RadioButton1_CheckedChanged;
             // 
             // groupBox2
             // 
@@ -285,7 +285,7 @@
             eqRbtn.TabStop = true;
             eqRbtn.Text = "仅包含";
             eqRbtn.UseVisualStyleBackColor = true;
-            eqRbtn.CheckedChanged += eqRbtn_CheckedChanged;
+            eqRbtn.CheckedChanged += EqRbtn_CheckedChanged;
             // 
             // neRbtn
             // 
@@ -297,7 +297,7 @@
             neRbtn.TabStop = true;
             neRbtn.Text = "排除";
             neRbtn.UseVisualStyleBackColor = true;
-            neRbtn.CheckedChanged += neRbtn_CheckedChanged;
+            neRbtn.CheckedChanged += NeRbtn_CheckedChanged;
             // 
             // groupBox3
             // 
@@ -394,7 +394,7 @@
             checkAnswerChb.TabIndex = 15;
             checkAnswerChb.Text = "校报";
             checkAnswerChb.UseVisualStyleBackColor = true;
-            checkAnswerChb.CheckedChanged += checkAnswerChb_CheckedChanged;
+            checkAnswerChb.CheckedChanged += CheckAnswerChb_CheckedChanged;
             // 
             // showAnswerChb
             // 
@@ -405,7 +405,7 @@
             showAnswerChb.TabIndex = 14;
             showAnswerChb.Text = "显示答案";
             showAnswerChb.UseVisualStyleBackColor = true;
-            showAnswerChb.CheckedChanged += showAnswerChb_CheckedChanged;
+            showAnswerChb.CheckedChanged += ShowAnswerChb_CheckedChanged;
             // 
             // EachGroup
             // 
@@ -433,7 +433,7 @@
             exportBtn.TabIndex = 10;
             exportBtn.Text = "导出";
             exportBtn.UseVisualStyleBackColor = true;
-            exportBtn.Click += exportBtn_Click;
+            exportBtn.Click += ExportBtn_Click;
             // 
             // repeatRbtn
             // 
@@ -463,7 +463,7 @@
             submitAnswerBtn.TabIndex = 7;
             submitAnswerBtn.Text = "提交答案";
             submitAnswerBtn.UseVisualStyleBackColor = true;
-            submitAnswerBtn.Click += submitAnswerBtn_Click;
+            submitAnswerBtn.Click += SubmitAnswerBtn_Click;
             // 
             // startBtn
             // 
@@ -473,7 +473,7 @@
             startBtn.TabIndex = 6;
             startBtn.Text = "开始抄收";
             startBtn.UseVisualStyleBackColor = true;
-            startBtn.Click += startBtn_Click;
+            startBtn.Click += StartBtn_Click;
             // 
             // speetBox
             // 
@@ -483,7 +483,7 @@
             speetBox.Size = new Size(48, 23);
             speetBox.TabIndex = 5;
             speetBox.Value = new decimal(new int[] { 20, 0, 0, 0 });
-            speetBox.ValueChanged += speetBox_ValueChanged;
+            speetBox.ValueChanged += SpeetBox_ValueChanged;
             // 
             // toneBox
             // 
@@ -539,7 +539,7 @@
             stopBtn.TabIndex = 11;
             stopBtn.Text = "结束抄收";
             stopBtn.UseVisualStyleBackColor = true;
-            stopBtn.Click += stopBtn_Click;
+            stopBtn.Click += StopBtn_Click;
             // 
             // groupBox4
             // 
@@ -565,7 +565,7 @@
             // timer1
             // 
             timer1.Interval = 5000;
-            timer1.Tick += timer1_Tick;
+            timer1.Tick += Timer1_Tick;
             // 
             // groupBox5
             // 
@@ -590,7 +590,7 @@
             rePlayBtn.TabIndex = 3;
             rePlayBtn.Text = "重播";
             rePlayBtn.UseVisualStyleBackColor = true;
-            rePlayBtn.Click += resumeBtn_Click;
+            rePlayBtn.Click += ResumeBtn_Click;
             // 
             // continuePlayBtn
             // 
@@ -601,7 +601,7 @@
             continuePlayBtn.TabIndex = 2;
             continuePlayBtn.Text = "继续播放";
             continuePlayBtn.UseVisualStyleBackColor = true;
-            continuePlayBtn.Click += continuePlayBtn_Click;
+            continuePlayBtn.Click += ContinuePlayBtn_Click;
             // 
             // pauseBtn
             // 
@@ -612,7 +612,7 @@
             pauseBtn.TabIndex = 1;
             pauseBtn.Text = "暂停播放";
             pauseBtn.UseVisualStyleBackColor = true;
-            pauseBtn.Click += pauseBtn_Click;
+            pauseBtn.Click += PauseBtn_Click;
             // 
             // clearAnswerBtn
             // 
@@ -622,7 +622,7 @@
             clearAnswerBtn.TabIndex = 0;
             clearAnswerBtn.Text = "清空答案";
             clearAnswerBtn.UseVisualStyleBackColor = true;
-            clearAnswerBtn.Click += clearAnswer_Click;
+            clearAnswerBtn.Click += ClearAnswer_Click;
             // 
             // CopyingPractice
             // 

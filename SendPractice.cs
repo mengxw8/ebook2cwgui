@@ -32,15 +32,18 @@ namespace CW
 {
     public partial class SendPractice : Form
     {
-        [DllImport("user32.dll")]
-        static extern long LoadKeyboardLayout(string pwszKLID, uint Flags);
+        //[DllImport("user32.dll")]
+        //static extern long LoadKeyboardLayout(string pwszKLID, uint Flags);
+        [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
+        private static partial IntPtr LoadKeyboardLayoutA([MarshalAs(UnmanagedType.LPStr)] string pwszKLID, uint Flags);
+
         public SendPractice()
         {
             InitializeComponent();
             //不允许息屏
             SystemSleep.PreventForCurrentThread();
             //输入法切换为英文
-            LoadKeyboardLayout("00000409", 1);
+            LoadKeyboardLayoutA("00000409", 1);
 
         }
 
@@ -344,25 +347,36 @@ namespace CW
             var resp = newspapers.HttpRequestUtil.GetWebRequest(newsType[words[type]]);
             XmlDocument doc = new();
             doc.LoadXml(resp);
+            string content = "";
             var item = doc.SelectNodes("/rss/channel/item");
-            var index = random.Next(0, item.Count);
-            var newsPaper = item[index];
-            var title = newsPaper.SelectSingleNode("title").InnerText;
-            XmlNamespaceManager nsm1 = new(doc.NameTable);
-            nsm1.AddNamespace("dc", @"http://purl.org/dc/elements/1.1/");
-            var date = newsPaper.SelectSingleNode("//dc:date", nsm1).InnerText;
-            XmlNamespaceManager nsm2 = new(doc.NameTable);
-            nsm2.AddNamespace("content", @"http://purl.org/rss/1.0/modules/content/");
-            var contentHtml = newsPaper.SelectSingleNode("//content:encoded", nsm2).InnerText;
-            //处理超文本
-            IDocument document = BrowsingContext.New(Configuration.Default).OpenAsync(req => req.Content(contentHtml)).Result;
-            string content="";
-            if (document.Body is not null) {
-                 content = document.Body.TextContent;
-            }
-        
-            //处理时间
-            content = DateTime.Parse(date).ToString("yyyy-MM-dd HH:mm:ss") + " " + content;
+            if (item != null) {
+                var index = random.Next(0, item.Count);
+                var newsPaper = item[index];
+                var titleXml = newsPaper!.SelectSingleNode("title");
+                if (titleXml != null) {
+                    var title = titleXml.InnerText;
+                }
+                XmlNamespaceManager nsm1 = new(doc.NameTable);
+                nsm1.AddNamespace("dc", @"http://purl.org/dc/elements/1.1/");
+                var date = newsPaper.SelectSingleNode("//dc:date", nsm1)!.InnerText;
+                XmlNamespaceManager nsm2 = new(doc.NameTable);
+                nsm2.AddNamespace("content", @"http://purl.org/rss/1.0/modules/content/");
+                var contentHtml = newsPaper.SelectSingleNode("//content:encoded", nsm2)!.InnerText;
+                //处理超文本
+                IDocument document = BrowsingContext.New(Configuration.Default).OpenAsync(req => req.Content(contentHtml)).Result;
+                if (document.Body is not null)
+                {
+                    content = document.Body.TextContent;
+                }
+
+                //处理时间
+                content = DateTime.Parse(date).ToString("yyyy-MM-dd HH:mm:ss") + " " + content;
+            }     
+      
+           
+
+
+
             if (!flag)
             {
                 foreach (string s in symbol.Keys)
@@ -507,10 +521,13 @@ namespace CW
             {
                 //调用EXE
                 using var process = Process.Start(startInfo);
+                string result = "";
+                if (process != null) {
+                    using var reader = process.StandardOutput;
+                    // 获取exe的输出结果
+                     result = reader.ReadToEnd();
+                }
 
-                using var reader = process.StandardOutput;
-                // 获取exe的输出结果
-                string result = reader.ReadToEnd();
                 if (result != "")
                 {
                     string[] lines = result.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -759,6 +776,14 @@ namespace CW
             this.Text = this.Text + " V" + version;
             //初始化画布
             bitmap = new Bitmap(visualizedBox.Width, visualizedBox.Height);
+            //初始化显示标签
+            answerLableList.Add(answerLbl1);
+            answerLableList.Add(answerLbl2);
+            answerLableList.Add(answerLbl3);
+            answerLableList.Add(answerLbl4);
+            answerLableList.Add(answerLbl5);
+            answerLableList.Add(answerLbl6);
+            //初始化定时器
             TimerCallback callback = TimerProc;
             UIntPtr user = UIntPtr.Zero;
             uint timerId = timeSetEvent(
@@ -821,7 +846,7 @@ namespace CW
         }
 
         // 导入 timeSetEvent, timeKillEvent 和 MMRESULT 枚举
-        private const uint TIME_KILL_EVENT = 0;
+        //private const uint TIME_KILL_EVENT = 0;
         private const uint TIME_PERIODIC = 1;
         //定时器分辨率，1ms级别
         private const uint TIMER_RESOLUTION = 1;
