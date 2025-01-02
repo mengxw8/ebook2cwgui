@@ -745,7 +745,13 @@ namespace CW
 
         //把生成的报文展示出来
         private void ShowAnswer()
-        {
+                 {
+            //清空所有内容
+            foreach (var item in answerLableList)
+            {
+                item.Text = "";
+            }
+            ClearAnswer_Click(null,null);
             if (answer == "")
             {
                 return;
@@ -771,8 +777,12 @@ namespace CW
                     sb.Clear();
                     lableIndex++;
                 }
-                sb.Append(data[index]);
-                sb.Append(' ');
+                else {
+                    sb.Append(data[index]);
+                    sb.Append(' ');
+                    tempLable.Text = sb.ToString();
+                }
+
                 index++;
             }
 
