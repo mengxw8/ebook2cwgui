@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,26 +18,15 @@ namespace CW.newspapers
         /// <returns></returns>
         public static string GetWebRequest(string getUrl)
         {
-            string responseContent = "";
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(getUrl);
-            request.Method = "GET";
+            string responseContent = ""; 
             try
             {
-
-
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                using var client = new HttpClient();
+                using var response = client.Send(new HttpRequestMessage(HttpMethod.Get, getUrl));
                 //在这里对接收到的页面内容进行处理
-                using (Stream resStream = response.GetResponseStream())
-                {
-                    using (StreamReader reader = new StreamReader(resStream, Encoding.UTF8))
-                    {
-                        responseContent = reader.ReadToEnd().ToString();
-                    }
-                }
+                responseContent = response.Content.ReadAsStringAsync().Result;
             }
-            catch (Exception ex) { 
-            
+            catch (Exception ) {             
             }
             return responseContent;
         }
@@ -52,28 +42,16 @@ namespace CW.newspapers
             string responseContent = string.Empty;
             try
             {
-                byte[] byteArray = dataEncode.GetBytes(paramData); //转化
-                HttpWebRequest webReq = (HttpWebRequest)WebRequest.Create(new Uri(postUrl));
-                webReq.Method = "POST";
-                webReq.ContentType = "application/x-www-form-urlencoded";
-                webReq.ContentLength = byteArray.Length;
-                using (Stream reqStream = webReq.GetRequestStream())
-                {
-                    reqStream.Write(byteArray, 0, byteArray.Length);//写入参数
-                    //reqStream.Close();
-                }
-                using (HttpWebResponse response = (HttpWebResponse)webReq.GetResponse())
-                {
-                    //在这里对接收到的页面内容进行处理
-                    using (StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.Default))
-                    {
-                        responseContent = sr.ReadToEnd().ToString();
-                    }
-                }
+               using var client = new HttpClient();
+                // 创建 HttpContent 对象
+                var content = new StringContent(paramData, Encoding.UTF8, "application/x-www-form-urlencoded");
+                using var response =   client.PostAsync(postUrl, content).Result;
+                responseContent= response.Content.ReadAsStringAsync().Result;   
+                  
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                return ex.Message;
+                
             }
             return responseContent;
         }

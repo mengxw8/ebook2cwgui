@@ -36,7 +36,7 @@ namespace CW
         {
             // 获取当前程序集的版本
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
-            Version version = currentAssembly.GetName().Version;
+            Version version = currentAssembly.GetName().Version??new Version(1,0,0,0);
             this.Text = this.Text + " V" + version;
         }
 

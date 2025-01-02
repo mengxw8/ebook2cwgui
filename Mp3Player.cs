@@ -9,8 +9,8 @@ namespace CW
 {
     internal class Mp3Player
     {
-        private static WaveOut waveOut = null;
-        private static Mp3FileReader mp3 = null;
+        private static WaveOut? waveOut ;
+        private static Mp3FileReader? mp3 ;
         public static void Play(string path) {
             //文件不存在，不播放
             if (!File.Exists(path)) { 

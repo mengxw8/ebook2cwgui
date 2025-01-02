@@ -62,8 +62,8 @@
             label3 = new Label();
             stopBtn = new Button();
             groupBox4 = new GroupBox();
-            richTextBox1 = new RichTextBox();
-            label7 = new Label();
+            replicationBox1 = new RichTextBox();
+            answerLbl1 = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
             groupBox5 = new GroupBox();
             rePlayBtn = new Button();
@@ -95,6 +95,16 @@
             sendSpeedTxb = new TextBox();
             label5 = new Label();
             groupBox8 = new GroupBox();
+            replicationBox2 = new RichTextBox();
+            answerLbl2 = new Label();
+            replicationBox3 = new RichTextBox();
+            answerLbl3 = new Label();
+            replicationBox4 = new RichTextBox();
+            answerLbl4 = new Label();
+            replicationBox5 = new RichTextBox();
+            answerLbl5 = new Label();
+            replicationBox6 = new RichTextBox();
+            answerLbl6 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -149,7 +159,7 @@
             radioButton8.TabStop = true;
             radioButton8.Text = "随机单词";
             radioButton8.UseVisualStyleBackColor = true;
-            radioButton8.CheckedChanged += radioButton8_CheckedChanged;
+            radioButton8.CheckedChanged += RadioButton8_CheckedChanged;
             // 
             // radioButton6
             // 
@@ -161,7 +171,7 @@
             radioButton6.TabStop = true;
             radioButton6.Text = "新闻";
             radioButton6.UseVisualStyleBackColor = true;
-            radioButton6.CheckedChanged += radioButton6_CheckedChanged;
+            radioButton6.CheckedChanged += RadioButton6_CheckedChanged;
             // 
             // radioButton5
             // 
@@ -169,11 +179,11 @@
             radioButton5.Location = new Point(266, 20);
             radioButton5.Name = "radioButton5";
             radioButton5.Size = new Size(50, 21);
-            radioButton5.TabIndex = 4;
+            radioButton5.TabIndex = 3;
             radioButton5.TabStop = true;
             radioButton5.Text = "符号";
             radioButton5.UseVisualStyleBackColor = true;
-            radioButton5.CheckedChanged += radioButton5_CheckedChanged;
+            radioButton5.CheckedChanged += RadioButton5_CheckedChanged;
             // 
             // radioButton4
             // 
@@ -181,11 +191,11 @@
             radioButton4.Location = new Point(320, 20);
             radioButton4.Name = "radioButton4";
             radioButton4.Size = new Size(74, 21);
-            radioButton4.TabIndex = 3;
+            radioButton4.TabIndex = 4;
             radioButton4.TabStop = true;
             radioButton4.Text = "英语文章";
             radioButton4.UseVisualStyleBackColor = true;
-            radioButton4.CheckedChanged += radioButton4_CheckedChanged;
+            radioButton4.CheckedChanged += RadioButton4_CheckedChanged;
             // 
             // radioButton3
             // 
@@ -197,7 +207,7 @@
             radioButton3.TabStop = true;
             radioButton3.Text = "数字+字母分组";
             radioButton3.UseVisualStyleBackColor = true;
-            radioButton3.CheckedChanged += radioButton3_CheckedChanged;
+            radioButton3.CheckedChanged += RadioButton3_CheckedChanged;
             // 
             // radioButton2
             // 
@@ -209,7 +219,7 @@
             radioButton2.TabStop = true;
             radioButton2.Text = "分组字母";
             radioButton2.UseVisualStyleBackColor = true;
-            radioButton2.CheckedChanged += radioButton2_CheckedChanged;
+            radioButton2.CheckedChanged += RadioButton2_CheckedChanged;
             // 
             // radioButton1
             // 
@@ -221,7 +231,7 @@
             radioButton1.TabStop = true;
             radioButton1.Text = "分组数字";
             radioButton1.UseVisualStyleBackColor = true;
-            radioButton1.CheckedChanged += radioButton1_CheckedChanged;
+            radioButton1.CheckedChanged += RadioButton1_CheckedChanged;
             // 
             // groupBox2
             // 
@@ -301,7 +311,7 @@
             bgmCbx.Location = new Point(257, 23);
             bgmCbx.Name = "bgmCbx";
             bgmCbx.Size = new Size(51, 21);
-            bgmCbx.TabIndex = 6;
+            bgmCbx.TabIndex = 2;
             bgmCbx.Text = "开启";
             bgmCbx.UseVisualStyleBackColor = true;
             // 
@@ -311,7 +321,7 @@
             speetBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             speetBox.Name = "speetBox";
             speetBox.Size = new Size(48, 23);
-            speetBox.TabIndex = 5;
+            speetBox.TabIndex = 0;
             speetBox.Value = new decimal(new int[] { 20, 0, 0, 0 });
             // 
             // toneBox
@@ -321,7 +331,7 @@
             toneBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             toneBox.Name = "toneBox";
             toneBox.Size = new Size(48, 23);
-            toneBox.TabIndex = 4;
+            toneBox.TabIndex = 1;
             toneBox.Value = new decimal(new int[] { 600, 0, 0, 0 });
             // 
             // label2
@@ -348,7 +358,7 @@
             symbolsChb.Location = new Point(138, 67);
             symbolsChb.Name = "symbolsChb";
             symbolsChb.Size = new Size(87, 21);
-            symbolsChb.TabIndex = 21;
+            symbolsChb.TabIndex = 4;
             symbolsChb.Text = "文章含符号";
             symbolsChb.UseVisualStyleBackColor = true;
             // 
@@ -358,7 +368,7 @@
             EachGroup.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             EachGroup.Name = "EachGroup";
             EachGroup.Size = new Size(47, 23);
-            EachGroup.TabIndex = 13;
+            EachGroup.TabIndex = 1;
             EachGroup.Value = new decimal(new int[] { 4, 0, 0, 0 });
             // 
             // label4
@@ -375,7 +385,7 @@
             exportBtn.Location = new Point(225, 66);
             exportBtn.Name = "exportBtn";
             exportBtn.Size = new Size(75, 23);
-            exportBtn.TabIndex = 10;
+            exportBtn.TabIndex = 7;
             exportBtn.Text = "导出";
             exportBtn.UseVisualStyleBackColor = true;
             exportBtn.Click += exportBtn_Click;
@@ -386,7 +396,7 @@
             repeatRbtn.Location = new Point(138, 23);
             repeatRbtn.Name = "repeatRbtn";
             repeatRbtn.Size = new Size(87, 21);
-            repeatRbtn.TabIndex = 9;
+            repeatRbtn.TabIndex = 2;
             repeatRbtn.Text = "同组无重复";
             repeatRbtn.UseVisualStyleBackColor = true;
             // 
@@ -396,7 +406,7 @@
             continuousRbtn.Location = new Point(138, 45);
             continuousRbtn.Name = "continuousRbtn";
             continuousRbtn.Size = new Size(87, 21);
-            continuousRbtn.TabIndex = 8;
+            continuousRbtn.TabIndex = 3;
             continuousRbtn.Text = "同组无连续";
             continuousRbtn.UseVisualStyleBackColor = true;
             // 
@@ -405,7 +415,7 @@
             submitAnswerBtn.Location = new Point(225, 42);
             submitAnswerBtn.Name = "submitAnswerBtn";
             submitAnswerBtn.Size = new Size(75, 23);
-            submitAnswerBtn.TabIndex = 7;
+            submitAnswerBtn.TabIndex = 6;
             submitAnswerBtn.Text = "提交答案";
             submitAnswerBtn.UseVisualStyleBackColor = true;
             // 
@@ -414,7 +424,7 @@
             startBtn.Location = new Point(225, 18);
             startBtn.Name = "startBtn";
             startBtn.Size = new Size(75, 23);
-            startBtn.TabIndex = 6;
+            startBtn.TabIndex = 5;
             startBtn.Text = "生成报文";
             startBtn.UseVisualStyleBackColor = true;
             startBtn.Click += startBtn_Click;
@@ -425,7 +435,7 @@
             groupNumBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             groupNumBox.Name = "groupNumBox";
             groupNumBox.Size = new Size(48, 23);
-            groupNumBox.TabIndex = 3;
+            groupNumBox.TabIndex = 0;
             groupNumBox.Value = new decimal(new int[] { 100, 0, 0, 0 });
             // 
             // label3
@@ -442,7 +452,7 @@
             stopBtn.Location = new Point(6, 134);
             stopBtn.Name = "stopBtn";
             stopBtn.Size = new Size(75, 23);
-            stopBtn.TabIndex = 11;
+            stopBtn.TabIndex = 4;
             stopBtn.Text = "停止";
             stopBtn.UseVisualStyleBackColor = true;
             stopBtn.Click += stopBtn_Click;
@@ -450,8 +460,18 @@
             // groupBox4
             // 
             groupBox4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox4.Controls.Add(richTextBox1);
-            groupBox4.Controls.Add(label7);
+            groupBox4.Controls.Add(replicationBox6);
+            groupBox4.Controls.Add(answerLbl6);
+            groupBox4.Controls.Add(replicationBox5);
+            groupBox4.Controls.Add(answerLbl5);
+            groupBox4.Controls.Add(replicationBox4);
+            groupBox4.Controls.Add(answerLbl4);
+            groupBox4.Controls.Add(replicationBox3);
+            groupBox4.Controls.Add(answerLbl3);
+            groupBox4.Controls.Add(replicationBox2);
+            groupBox4.Controls.Add(answerLbl2);
+            groupBox4.Controls.Add(replicationBox1);
+            groupBox4.Controls.Add(answerLbl1);
             groupBox4.Location = new Point(6, 174);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(1895, 864);
@@ -459,29 +479,29 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "拍发";
             // 
-            // richTextBox1
+            // replicationBox1
             // 
-            richTextBox1.BorderStyle = BorderStyle.FixedSingle;
-            richTextBox1.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
-            richTextBox1.Location = new Point(10, 78);
-            richTextBox1.Margin = new Padding(3, 0, 3, 0);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.ScrollBars = RichTextBoxScrollBars.None;
-            richTextBox1.Size = new Size(1885, 77);
-            richTextBox1.TabIndex = 1;
-            richTextBox1.Text = "";
-            richTextBox1.KeyDown += richTextBox1_KeyDown;
-            richTextBox1.KeyUp += calculateInput;
+            replicationBox1.BorderStyle = BorderStyle.FixedSingle;
+            replicationBox1.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox1.Location = new Point(10, 78);
+            replicationBox1.Margin = new Padding(3, 0, 3, 0);
+            replicationBox1.Name = "replicationBox1";
+            replicationBox1.ScrollBars = RichTextBoxScrollBars.None;
+            replicationBox1.Size = new Size(1885, 77);
+            replicationBox1.TabIndex = 1;
+            replicationBox1.Text = "";
+            replicationBox1.KeyDown += richTextBox1_KeyDown;
+            replicationBox1.KeyUp += calculateInput;
             // 
-            // label7
+            // answerLbl1
             // 
-            label7.BorderStyle = BorderStyle.FixedSingle;
-            label7.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
-            label7.Location = new Point(6, 21);
-            label7.Name = "label7";
-            label7.Size = new Size(11052, 54);
-            label7.TabIndex = 0;
-            label7.Text = resources.GetString("label7.Text");
+            answerLbl1.BorderStyle = BorderStyle.FixedSingle;
+            answerLbl1.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            answerLbl1.Location = new Point(6, 21);
+            answerLbl1.Name = "answerLbl1";
+            answerLbl1.Size = new Size(11052, 54);
+            answerLbl1.TabIndex = 0;
+            answerLbl1.Text = resources.GetString("answerLbl1.Text");
             // 
             // timer1
             // 
@@ -551,7 +571,7 @@
             sendBtn.Location = new Point(1795, 108);
             sendBtn.Name = "sendBtn";
             sendBtn.Size = new Size(106, 66);
-            sendBtn.TabIndex = 6;
+            sendBtn.TabIndex = 7;
             sendBtn.Text = "发送";
             sendBtn.UseVisualStyleBackColor = true;
             sendBtn.MouseDown += sendBtn_MouseDown;
@@ -579,7 +599,7 @@
             groupBox6.Location = new Point(1027, 2);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(874, 105);
-            groupBox6.TabIndex = 8;
+            groupBox6.TabIndex = 5;
             groupBox6.TabStop = false;
             groupBox6.Text = "可视化";
             // 
@@ -607,7 +627,7 @@
             groupBox7.Location = new Point(1027, 110);
             groupBox7.Name = "groupBox7";
             groupBox7.Size = new Size(762, 58);
-            groupBox7.TabIndex = 9;
+            groupBox7.TabIndex = 6;
             groupBox7.TabStop = false;
             groupBox7.Text = "CW规则";
             // 
@@ -617,7 +637,7 @@
             strictCbx.Location = new Point(705, 19);
             strictCbx.Name = "strictCbx";
             strictCbx.Size = new Size(51, 21);
-            strictCbx.TabIndex = 18;
+            strictCbx.TabIndex = 6;
             strictCbx.Text = "严格";
             strictCbx.UseVisualStyleBackColor = true;
             strictCbx.CheckedChanged += strictCbx_CheckedChanged;
@@ -637,7 +657,7 @@
             sendToneBox.MaxLength = 5;
             sendToneBox.Name = "sendToneBox";
             sendToneBox.Size = new Size(59, 23);
-            sendToneBox.TabIndex = 16;
+            sendToneBox.TabIndex = 5;
             sendToneBox.Text = "650";
             sendToneBox.KeyPress += numberTxb_KeyPress;
             // 
@@ -665,7 +685,7 @@
             charInterval.MaxLength = 3;
             charInterval.Name = "charInterval";
             charInterval.Size = new Size(29, 23);
-            charInterval.TabIndex = 13;
+            charInterval.TabIndex = 4;
             charInterval.Text = "420";
             charInterval.TextChanged += charInterval_TextChanged;
             charInterval.KeyPress += numberTxb_KeyPress;
@@ -694,7 +714,7 @@
             keyInterval.MaxLength = 3;
             keyInterval.Name = "keyInterval";
             keyInterval.Size = new Size(29, 23);
-            keyInterval.TabIndex = 10;
+            keyInterval.TabIndex = 3;
             keyInterval.Text = "60";
             keyInterval.KeyPress += numberTxb_KeyPress;
             // 
@@ -722,7 +742,7 @@
             sendDaLength.MaxLength = 3;
             sendDaLength.Name = "sendDaLength";
             sendDaLength.Size = new Size(29, 23);
-            sendDaLength.TabIndex = 7;
+            sendDaLength.TabIndex = 2;
             sendDaLength.Text = "180";
             sendDaLength.KeyPress += numberTxb_KeyPress;
             // 
@@ -750,7 +770,7 @@
             sendDiLength.MaxLength = 3;
             sendDiLength.Name = "sendDiLength";
             sendDiLength.Size = new Size(29, 23);
-            sendDiLength.TabIndex = 4;
+            sendDiLength.TabIndex = 1;
             sendDiLength.Text = "60";
             sendDiLength.KeyPress += numberTxb_KeyPress;
             // 
@@ -778,7 +798,7 @@
             sendSpeedTxb.MaxLength = 2;
             sendSpeedTxb.Name = "sendSpeedTxb";
             sendSpeedTxb.Size = new Size(29, 23);
-            sendSpeedTxb.TabIndex = 1;
+            sendSpeedTxb.TabIndex = 0;
             sendSpeedTxb.Text = "20";
             sendSpeedTxb.KeyPress += numberTxb_KeyPress;
             sendSpeedTxb.Leave += snedSpeedTxb_Leave;
@@ -807,9 +827,119 @@
             groupBox8.Location = new Point(617, 68);
             groupBox8.Name = "groupBox8";
             groupBox8.Size = new Size(311, 100);
-            groupBox8.TabIndex = 22;
+            groupBox8.TabIndex = 3;
             groupBox8.TabStop = false;
             groupBox8.Text = "报文控制";
+            // 
+            // replicationBox2
+            // 
+            replicationBox2.BorderStyle = BorderStyle.FixedSingle;
+            replicationBox2.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox2.Location = new Point(10, 212);
+            replicationBox2.Margin = new Padding(3, 0, 3, 0);
+            replicationBox2.Name = "replicationBox2";
+            replicationBox2.ScrollBars = RichTextBoxScrollBars.None;
+            replicationBox2.Size = new Size(1885, 77);
+            replicationBox2.TabIndex = 3;
+            replicationBox2.Text = "";
+            // 
+            // answerLbl2
+            // 
+            answerLbl2.BorderStyle = BorderStyle.FixedSingle;
+            answerLbl2.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            answerLbl2.Location = new Point(6, 155);
+            answerLbl2.Name = "answerLbl2";
+            answerLbl2.Size = new Size(11052, 54);
+            answerLbl2.TabIndex = 2;
+            answerLbl2.Text = resources.GetString("answerLbl2.Text");
+            // 
+            // replicationBox3
+            // 
+            replicationBox3.BorderStyle = BorderStyle.FixedSingle;
+            replicationBox3.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox3.Location = new Point(10, 346);
+            replicationBox3.Margin = new Padding(3, 0, 3, 0);
+            replicationBox3.Name = "replicationBox3";
+            replicationBox3.ScrollBars = RichTextBoxScrollBars.None;
+            replicationBox3.Size = new Size(1885, 77);
+            replicationBox3.TabIndex = 5;
+            replicationBox3.Text = "";
+            // 
+            // answerLbl3
+            // 
+            answerLbl3.BorderStyle = BorderStyle.FixedSingle;
+            answerLbl3.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            answerLbl3.Location = new Point(6, 289);
+            answerLbl3.Name = "answerLbl3";
+            answerLbl3.Size = new Size(11052, 54);
+            answerLbl3.TabIndex = 4;
+            answerLbl3.Text = resources.GetString("answerLbl3.Text");
+            // 
+            // replicationBox4
+            // 
+            replicationBox4.BorderStyle = BorderStyle.FixedSingle;
+            replicationBox4.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox4.Location = new Point(10, 480);
+            replicationBox4.Margin = new Padding(3, 0, 3, 0);
+            replicationBox4.Name = "replicationBox4";
+            replicationBox4.ScrollBars = RichTextBoxScrollBars.None;
+            replicationBox4.Size = new Size(1885, 77);
+            replicationBox4.TabIndex = 7;
+            replicationBox4.Text = "";
+            // 
+            // answerLbl4
+            // 
+            answerLbl4.BorderStyle = BorderStyle.FixedSingle;
+            answerLbl4.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            answerLbl4.Location = new Point(6, 423);
+            answerLbl4.Name = "answerLbl4";
+            answerLbl4.Size = new Size(11052, 54);
+            answerLbl4.TabIndex = 6;
+            answerLbl4.Text = resources.GetString("answerLbl4.Text");
+            // 
+            // replicationBox5
+            // 
+            replicationBox5.BorderStyle = BorderStyle.FixedSingle;
+            replicationBox5.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox5.Location = new Point(10, 614);
+            replicationBox5.Margin = new Padding(3, 0, 3, 0);
+            replicationBox5.Name = "replicationBox5";
+            replicationBox5.ScrollBars = RichTextBoxScrollBars.None;
+            replicationBox5.Size = new Size(1885, 77);
+            replicationBox5.TabIndex = 9;
+            replicationBox5.Text = "";
+            // 
+            // answerLbl5
+            // 
+            answerLbl5.BorderStyle = BorderStyle.FixedSingle;
+            answerLbl5.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            answerLbl5.Location = new Point(6, 557);
+            answerLbl5.Name = "answerLbl5";
+            answerLbl5.Size = new Size(11052, 54);
+            answerLbl5.TabIndex = 8;
+            answerLbl5.Text = resources.GetString("answerLbl5.Text");
+            // 
+            // replicationBox6
+            // 
+            replicationBox6.BorderStyle = BorderStyle.FixedSingle;
+            replicationBox6.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox6.Location = new Point(10, 748);
+            replicationBox6.Margin = new Padding(3, 0, 3, 0);
+            replicationBox6.Name = "replicationBox6";
+            replicationBox6.ScrollBars = RichTextBoxScrollBars.None;
+            replicationBox6.Size = new Size(1885, 77);
+            replicationBox6.TabIndex = 11;
+            replicationBox6.Text = "";
+            // 
+            // answerLbl6
+            // 
+            answerLbl6.BorderStyle = BorderStyle.FixedSingle;
+            answerLbl6.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            answerLbl6.Location = new Point(6, 691);
+            answerLbl6.Name = "answerLbl6";
+            answerLbl6.Size = new Size(11052, 54);
+            answerLbl6.TabIndex = 10;
+            answerLbl6.Text = resources.GetString("answerLbl6.Text");
             // 
             // SendPractice
             // 
@@ -889,8 +1019,8 @@
         private Button pauseBtn;
         private Button clearAnswerBtn;
         private RadioButton individuationRbtn;
-        private Label label7;
-        private RichTextBox richTextBox1;
+        private Label answerLbl1;
+        private RichTextBox replicationBox1;
         private Button sendBtn;
         private PictureBox visualizedBox;
         private System.Windows.Forms.Timer timer2;
@@ -917,5 +1047,15 @@
         private GroupBox groupBox8;
         private CheckBox bgmCbx;
         private CheckBox strictCbx;
+        private RichTextBox replicationBox6;
+        private Label answerLbl6;
+        private RichTextBox replicationBox5;
+        private Label answerLbl5;
+        private RichTextBox replicationBox4;
+        private Label answerLbl4;
+        private RichTextBox replicationBox3;
+        private Label answerLbl3;
+        private RichTextBox replicationBox2;
+        private Label answerLbl2;
     }
 }

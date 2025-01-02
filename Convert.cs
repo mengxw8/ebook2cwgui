@@ -116,10 +116,12 @@ namespace CW
                 }
             }
 
-     
-            var args = new Dictionary<string, string>();
 
-            args.Add("q","1");
+            var args = new Dictionary<string, string>
+            {
+                { "q", "1" },
+                { "q", "1" }
+            };
 
 
             //分隔符
@@ -187,7 +189,7 @@ namespace CW
             //输出文件类型
             var fileFormatType=fileFormat.SelectedIndex;
             if (fileFormatType != 0) {
-                args.Add("O",null);
+                args.Add("O","");
             }
 
 
@@ -204,7 +206,7 @@ namespace CW
             //禁止重新设置速度的时候使用 - Q选项
             if (!resetSpeedCbx.Checked)
             {
-                args.Add("n",null);
+                args.Add("n","");
             }
             else {
                 var qrqValue = QRQ.Value;
@@ -219,12 +221,12 @@ namespace CW
 
             if (disableBtCbx.Checked)
             {
-                args.Add("p",null);
+                args.Add("p","");
             }
             //其余参数
             var parameters= parametersTxb.Text;
             if (parameters != "") {
-                args.Add(parameters,null);
+                args.Add(parameters,"");
             }
 
             //构建命令
@@ -233,7 +235,7 @@ namespace CW
             foreach (var pair in args)
             {
                 param += "-" + pair.Key + " ";
-                if (pair.Value != null) {
+                if (pair.Value != "") {
                     param += pair.Value + " ";
                 }
             }
@@ -253,8 +255,7 @@ namespace CW
             try
             {
                 //调用EXE
-                using var process = Process.Start(startInfo);
-                
+                using var process = Process.Start(startInfo);                
                 using var reader = process.StandardOutput;
                 // 获取exe的输出结果
                 string result = reader.ReadToEnd(); 

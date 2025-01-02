@@ -97,20 +97,16 @@ namespace CW
             { "第39课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H","3","8","B","?","4","2","7","C","1","D","6","X"} },
         };
         private static readonly string ArticlePath = @"./text/";
-        //用来装答案的表格
-        DataTable dataTable = null;
         //答案
         string answer = "";
         //上一次播放的音频文件路径
         string lastMusicPath = "";
         string lastCheckMusicPath = "";
 
-
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             mode = WorkingMode.Number;
             KochList.Enabled = false;
-
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
             //填充值
@@ -306,7 +302,7 @@ namespace CW
 
             string answer = "";
 
-            Dictionary<string, string> book = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(@".\word\Level8.json"));
+            Dictionary<string, string> book = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(@".\word\Level8.json"))??[];
             if (book == null)
             {
                 return answer;
@@ -316,7 +312,7 @@ namespace CW
             {
                 string word = book[random.Next(1, 12198).ToString()];
                 //允许指定开头字母
-                if (words.Contains(word.Substring(0, 1).ToUpper()))
+                if (words.Contains(word[..1].ToUpper()))
                 {
                     answer += word;
                     groupNum--;
@@ -373,7 +369,6 @@ namespace CW
         /// <returns></returns>
         private string getNewsPapers(List<string> words)
         {
-            string answer = "";
             //组数限制
             int groupNum = System.Convert.ToInt32(groupNumBox.Value);
             //是否不要符号
@@ -419,7 +414,7 @@ namespace CW
         {
 
             //生成测试数据
-            List<string> words = getWords();
+            List<string> words = GetWords();
             if ((words.Count == 0 || words == null) && mode != WorkingMode.Customize)
             {
                 return;
@@ -428,11 +423,11 @@ namespace CW
             answerBuilder.Append("===\r\n");
             if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol || mode == WorkingMode.Koch)
             {
-                answerBuilder.Append(generateAnswer(words));
+                answerBuilder.Append(generateAnswer(words ?? []));
             }
             else if (mode == WorkingMode.Article)
             {
-                answerBuilder.Append(getArticle(words));
+                answerBuilder.Append(getArticle(words ?? []));
             }
             else if (mode == WorkingMode.News)
             {
@@ -444,7 +439,7 @@ namespace CW
                 }
                 try
                 {
-                    answerBuilder.Append(getNewsPapers(words));
+                    answerBuilder.Append(getNewsPapers(words ?? []));
                 }
                 catch
                 {
@@ -456,7 +451,7 @@ namespace CW
             }
             else if (mode == WorkingMode.Word)
             {
-                answerBuilder.Append(generateWord(words));
+                answerBuilder.Append(generateWord(words ?? []));
 
 
             }
@@ -474,11 +469,13 @@ namespace CW
 
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
-            var filePath = "./temp/" + fileName + ".txt";
+            string filePath = "./temp/" + fileName + ".txt";
             if (!Path.Exists(Path.GetDirectoryName(filePath)))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath)??"");
             }
+
+
 
             //写入临时文件
             File.WriteAllText(filePath, answer);
@@ -604,12 +601,12 @@ namespace CW
                 File.Move(oldFileName, newFileName);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
         }
-        private List<string> getWords()
+        private List<string> GetWords()
         {
             //确定字符范围
             List<string> words = [];
@@ -799,7 +796,7 @@ namespace CW
             //清除缓存
             if (lastMusicPath != null && Path.Exists(Path.GetDirectoryName(lastMusicPath)))
             {
-                Directory.Delete(Path.GetDirectoryName(lastMusicPath), true);
+                Directory.Delete(Path.GetDirectoryName(lastMusicPath)??"", true);
             }
         }
         private void speetBox_ValueChanged(object sender, EventArgs e)
@@ -857,7 +854,7 @@ namespace CW
         {
             // 获取当前程序集的版本
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
-            Version version = currentAssembly.GetName().Version;
+            Version version = currentAssembly.GetName().Version??new Version(1,0,0,0);
             this.Text = this.Text + " V" + version;
         }
 
@@ -897,9 +894,8 @@ namespace CW
             {
                 return;
             }
-            var list = new List<string>();
             eqBox.Items.Clear();
-            foreach (var data in KochType[item.ToString()])
+            foreach (var data in KochType[item.ToString()?? "第1课"])
             {
                 eqBox.Items.Add(data, true);
 
