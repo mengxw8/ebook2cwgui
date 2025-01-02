@@ -482,7 +482,7 @@
             // 
             replicationBox6.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             replicationBox6.BorderStyle = BorderStyle.FixedSingle;
-            replicationBox6.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox6.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             replicationBox6.Location = new Point(10, 748);
             replicationBox6.Margin = new Padding(3, 0, 3, 0);
             replicationBox6.Name = "replicationBox6";
@@ -494,7 +494,6 @@
             // answerLbl6
             // 
             answerLbl6.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            answerLbl6.BorderStyle = BorderStyle.FixedSingle;
             answerLbl6.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             answerLbl6.Location = new Point(6, 691);
             answerLbl6.Name = "answerLbl6";
@@ -505,7 +504,7 @@
             // 
             replicationBox5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             replicationBox5.BorderStyle = BorderStyle.FixedSingle;
-            replicationBox5.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox5.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             replicationBox5.Location = new Point(10, 614);
             replicationBox5.Margin = new Padding(3, 0, 3, 0);
             replicationBox5.Name = "replicationBox5";
@@ -517,7 +516,6 @@
             // answerLbl5
             // 
             answerLbl5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            answerLbl5.BorderStyle = BorderStyle.FixedSingle;
             answerLbl5.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             answerLbl5.Location = new Point(6, 557);
             answerLbl5.Name = "answerLbl5";
@@ -528,7 +526,7 @@
             // 
             replicationBox4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             replicationBox4.BorderStyle = BorderStyle.FixedSingle;
-            replicationBox4.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox4.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             replicationBox4.Location = new Point(10, 480);
             replicationBox4.Margin = new Padding(3, 0, 3, 0);
             replicationBox4.Name = "replicationBox4";
@@ -540,7 +538,6 @@
             // answerLbl4
             // 
             answerLbl4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            answerLbl4.BorderStyle = BorderStyle.FixedSingle;
             answerLbl4.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             answerLbl4.Location = new Point(6, 423);
             answerLbl4.Name = "answerLbl4";
@@ -551,7 +548,7 @@
             // 
             replicationBox3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             replicationBox3.BorderStyle = BorderStyle.FixedSingle;
-            replicationBox3.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox3.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             replicationBox3.Location = new Point(10, 346);
             replicationBox3.Margin = new Padding(3, 0, 3, 0);
             replicationBox3.Name = "replicationBox3";
@@ -563,7 +560,6 @@
             // answerLbl3
             // 
             answerLbl3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            answerLbl3.BorderStyle = BorderStyle.FixedSingle;
             answerLbl3.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             answerLbl3.Location = new Point(6, 289);
             answerLbl3.Name = "answerLbl3";
@@ -574,7 +570,7 @@
             // 
             replicationBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             replicationBox2.BorderStyle = BorderStyle.FixedSingle;
-            replicationBox2.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox2.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             replicationBox2.Location = new Point(10, 212);
             replicationBox2.Margin = new Padding(3, 0, 3, 0);
             replicationBox2.Name = "replicationBox2";
@@ -586,7 +582,6 @@
             // answerLbl2
             // 
             answerLbl2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            answerLbl2.BorderStyle = BorderStyle.FixedSingle;
             answerLbl2.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             answerLbl2.Location = new Point(6, 155);
             answerLbl2.Name = "answerLbl2";
@@ -597,7 +592,7 @@
             // 
             replicationBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             replicationBox1.BorderStyle = BorderStyle.FixedSingle;
-            replicationBox1.Font = new Font("Microsoft YaHei UI", 30F, FontStyle.Bold);
+            replicationBox1.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             replicationBox1.Location = new Point(10, 78);
             replicationBox1.Margin = new Padding(3, 0, 3, 0);
             replicationBox1.Name = "replicationBox1";
@@ -609,7 +604,6 @@
             // answerLbl1
             // 
             answerLbl1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            answerLbl1.BorderStyle = BorderStyle.FixedSingle;
             answerLbl1.Font = new Font("Microsoft YaHei UI", 25F, FontStyle.Bold);
             answerLbl1.Location = new Point(6, 21);
             answerLbl1.Name = "answerLbl1";
