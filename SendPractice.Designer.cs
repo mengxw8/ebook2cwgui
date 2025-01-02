@@ -960,6 +960,7 @@
             Text = "拍发练习";
             FormClosed += CopyingPractice_FormClosed;
             Load += CopyingPractice_Load;
+            SizeChanged += SendPractice_SizeChanged;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);

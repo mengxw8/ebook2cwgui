@@ -658,7 +658,7 @@ namespace CW
             {
                 switch (mode)
                 {
-                    case WorkingMode.Number: words.AddRange(number.Keys.Select(item=> item.ToString())); break;
+                    case WorkingMode.Number: words.AddRange(number.Keys.Select(item => item.ToString())); break;
                     case WorkingMode.Alphabet: words.AddRange(alphabet.Keys.Select(item => item.ToString())); break;
                     case WorkingMode.AlphabetAndNumber: words.AddRange(number.Keys.Select(item => item.ToString())); words.AddRange(alphabet.Keys.Select(item => item.ToString())); break;
                     case WorkingMode.Symbol: words.AddRange(symbol.Keys.Select(item => item.ToString())); break;
@@ -745,13 +745,13 @@ namespace CW
 
         //把生成的报文展示出来
         private void ShowAnswer()
-                 {
+        {
             //清空所有内容
             foreach (var item in answerLableList)
             {
                 item.Text = "";
             }
-            ClearAnswer_Click(null,null);
+            ClearAnswer_Click(null, null);
             if (answer == "")
             {
                 return;
@@ -777,7 +777,8 @@ namespace CW
                     sb.Clear();
                     lableIndex++;
                 }
-                else {
+                else
+                {
                     sb.Append(data[index]);
                     sb.Append(' ');
                     tempLable.Text = sb.ToString();
@@ -792,7 +793,8 @@ namespace CW
 
         }
         //把敲出来的字符展示出来
-        private void ShowInput(string inputStr) {
+        private void ShowInput(string inputStr)
+        {
             var data = inputStr.Split(" ");
             var index = 0;
             var lableIndex = 0;
@@ -813,12 +815,13 @@ namespace CW
                     sb.Clear();
                     lableIndex++;
                 }
-                else {
+                else
+                {
                     sb.Append(data[index]);
                     sb.Append(' ');
                     temp.Text = sb.ToString();
-                }               
-                
+                }
+
                 index++;
             }
 
@@ -945,7 +948,7 @@ namespace CW
 
 
 
-      
+
 
         // 导入 timeSetEvent, timeKillEvent 和 MMRESULT 枚举
         //private const uint TIME_KILL_EVENT = 0;
@@ -1010,7 +1013,7 @@ namespace CW
                 }
                 char str = ' ';
                 //解析字符
-                if ((wait == keyWidth|| wait > blankWidth) && !isDraw)
+                if ((wait == keyWidth || wait > blankWidth) && !isDraw)
                 {
                     Debug.WriteLine(wait);
                     Debug.WriteLine(blankWidth);
@@ -1028,10 +1031,11 @@ namespace CW
                         }
                         sb.Length--;
                     }
-                    if (str!=' ') {
+                    if (str != ' ')
+                    {
                         inputQueue.Enqueue(str);
                     }
-                           }
+                }
                 //空闲时间够了，输入一个空格
                 if (wait == blankWidth)
                 {
@@ -1058,7 +1062,7 @@ namespace CW
                     {
                         g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
                         // 设置文本要绘制的位置
-                        Point position = new(bitmap.Width  - 25, horizontalPosition + 15);
+                        Point position = new(bitmap.Width - 25, horizontalPosition + 15);
 
                         g.DrawString(str.ToString(), font, Brushes.Black, position);
 
@@ -1220,6 +1224,13 @@ namespace CW
 
         }
 
-    
+        private void SendPractice_SizeChanged(object sender, EventArgs e)
+        {
+            bitmap?.Dispose();
+            if (visualizedBox.Width > 0 && visualizedBox.Height > 0) {
+                bitmap = new Bitmap(visualizedBox.Width, visualizedBox.Height);
+            }
+      
+        }
     }
 }
