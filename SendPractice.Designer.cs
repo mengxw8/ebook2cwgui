@@ -762,6 +762,7 @@
             sendToneBox.Size = new Size(59, 23);
             sendToneBox.TabIndex = 5;
             sendToneBox.Text = "650";
+            sendToneBox.TextChanged += sendToneBox_TextChanged;
             sendToneBox.KeyPress += NumberTxb_KeyPress;
             // 
             // label17

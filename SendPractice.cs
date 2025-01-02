@@ -63,7 +63,7 @@ namespace CW
                 group => group.Last() // 取最后一个值（覆盖冲突键）
             );
         //新闻类型
-      private static readonly  Dictionary<string, string>  newsType = new(){ { "中国", "https://www.cgtn.com/subscribe/rss/section/china.xml" }, { "世界", "https://www.cgtn.com/subscribe/rss/section/world.xml" }, { "商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" }, { "体育", "https://www.cgtn.com/subscribe/rss/section/sports.xml" }, { "科学", "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" }, { "旅行", "https://www.cgtn.com/subscribe/rss/section/travel.xml" }, { "现场", "https://www.cgtn.com/subscribe/rss/section/live.xml" }, { "文化", "https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
+        private static readonly Dictionary<string, string> newsType = new() { { "中国", "https://www.cgtn.com/subscribe/rss/section/china.xml" }, { "世界", "https://www.cgtn.com/subscribe/rss/section/world.xml" }, { "商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" }, { "体育", "https://www.cgtn.com/subscribe/rss/section/sports.xml" }, { "科学", "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" }, { "旅行", "https://www.cgtn.com/subscribe/rss/section/travel.xml" }, { "现场", "https://www.cgtn.com/subscribe/rss/section/live.xml" }, { "文化", "https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
 
         private readonly static string ArticlePath = @"./text/";
         //答案
@@ -79,8 +79,13 @@ namespace CW
         //是否严格解析
         private static bool isStrict = false;
         //用来显示参考文本的label
-        private readonly static List<System.Windows.Forms.Label> answerLableList =new(6);
-        
+        private readonly static List<System.Windows.Forms.Label> answerLableList = new(6);
+
+        // 创建 WaveOutEvent 对象来播放音频
+        WaveOutEvent waveOut = new WaveOutEvent();
+
+
+
 
 
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
@@ -273,7 +278,7 @@ namespace CW
 
             string answer = "";
 
-            Dictionary<string, string> book = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(@".\word\Level8.json"))??[];
+            Dictionary<string, string> book = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(@".\word\Level8.json")) ?? [];
             if (book == null)
             {
                 return answer;
@@ -323,7 +328,7 @@ namespace CW
                 {
                     article = article.Replace(s, "");
                 }
-                article= article.Trim();
+                article = article.Trim();
             }
             var list = article.Split(' ').Take(groupNum).ToList();
 
@@ -351,11 +356,13 @@ namespace CW
             doc.LoadXml(resp);
             string content = "";
             var item = doc.SelectNodes("/rss/channel/item");
-            if (item != null) {
+            if (item != null)
+            {
                 var index = random.Next(0, item.Count);
                 var newsPaper = item[index];
                 var titleXml = newsPaper!.SelectSingleNode("title");
-                if (titleXml != null) {
+                if (titleXml != null)
+                {
                     var title = titleXml.InnerText;
                 }
                 XmlNamespaceManager nsm1 = new(doc.NameTable);
@@ -373,9 +380,9 @@ namespace CW
 
                 //处理时间
                 content = DateTime.Parse(date).ToString("yyyy-MM-dd HH:mm:ss") + " " + content;
-            }     
-      
-           
+            }
+
+
 
 
 
@@ -385,7 +392,7 @@ namespace CW
                 {
                     content = content.Replace(s, "");
                 }
-                content=content.Trim();
+                content = content.Trim();
             }
 
 
@@ -405,11 +412,11 @@ namespace CW
                 return;
             }
             answer = "";
-            StringBuilder answerBuilder = new ();
+            StringBuilder answerBuilder = new();
             answerBuilder.Append("===\r\n");
             if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol)
             {
-                answerBuilder.Append(GenerateAnswer(words??[]));
+                answerBuilder.Append(GenerateAnswer(words ?? []));
             }
             else if (mode == WorkingMode.Article)
             {
@@ -458,16 +465,17 @@ namespace CW
             var filePath = "./temp/" + fileName + ".txt";
             if (!Path.Exists(Path.GetDirectoryName(filePath)))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(filePath)??"");
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath) ?? "");
             }
 
             //写入临时文件
             File.WriteAllText(filePath, answer);
             // 启动一个新任务
-            var audioFileName="";
-            Task task = Task.Run(() => {
+            var audioFileName = "";
+            Task task = Task.Run(() =>
+            {
                 //生成音频
-                 audioFileName = GenerateAudio(fileName.ToString(), filePath, speetBox.Value.ToString());
+                audioFileName = GenerateAudio(fileName.ToString(), filePath, speetBox.Value.ToString());
                 //重命名音频文件名称
                 RenameMusic("./temp/" + audioFileName, filePath.Replace("txt", "mp3"));
                 audioFileName = filePath.Replace("txt", "mp3");
@@ -481,7 +489,8 @@ namespace CW
             Mp3Player.Stop();
             // 等待任务完成
             await task;
-            if (bgmCbx.Checked) {  
+            if (bgmCbx.Checked)
+            {
                 lastMusicPath = audioFileName;
                 Mp3Player.Play(audioFileName);
             }
@@ -513,22 +522,23 @@ namespace CW
             ProcessStartInfo startInfo = new()
             {
                 FileName = "ebook2cw.exe",
-                Arguments = param,  
+                Arguments = param,
                 UseShellExecute = false,   //是否使用操作系统的shell启动
                 RedirectStandardOutput = true,   //由调用程序获取输出信息
                 CreateNoWindow = true
             };
 
-           //创建进程对象   
+            //创建进程对象   
             try
             {
                 //调用EXE
                 using var process = Process.Start(startInfo);
                 string result = "";
-                if (process != null) {
+                if (process != null)
+                {
                     using var reader = process.StandardOutput;
                     // 获取exe的输出结果
-                     result = reader.ReadToEnd();
+                    result = reader.ReadToEnd();
                 }
 
                 if (result != "")
@@ -540,7 +550,7 @@ namespace CW
                         result = string.Join(Environment.NewLine, lines.Skip(startIndex));
                     }
 
-                    if (result.Contains("Error:") )
+                    if (result.Contains("Error:"))
                     {
                         MessageBox.Show("配置错误，转换失败，请检查！");
                     }
@@ -566,7 +576,7 @@ namespace CW
 
         }
 
-        private  static void RenameMusic(string oldFileName, string newFileName)
+        private static void RenameMusic(string oldFileName, string newFileName)
         {
             try
             {
@@ -580,7 +590,7 @@ namespace CW
                 File.Move(oldFileName, newFileName);
 
             }
-            catch (Exception )
+            catch (Exception)
             {
 
             }
@@ -675,7 +685,8 @@ namespace CW
                 MessageBox.Show("您还尚未生成过报文哦，请生成后重试！");
                 return;
             }
-            SaveFileDialog saveFileDialog = new() {
+            SaveFileDialog saveFileDialog = new()
+            {
                 Filter = "压缩文件(*.zip)|*.*",
                 Title = "保存音频文件和报文到目录",
                 FileName = "报文" + Path.GetFileName(lastMusicPath).Replace(".mp3", "") + "-" + speetBox.Value + "wpm.zip",
@@ -688,7 +699,7 @@ namespace CW
                     File.Delete(saveFileDialog.FileName);
                 }
                 //打包文件
-                using FileStream zipToOpen = new (saveFileDialog.FileName, FileMode.Create);
+                using FileStream zipToOpen = new(saveFileDialog.FileName, FileMode.Create);
 
                 // 创建ZIP存档
                 using ZipArchive archive = new(zipToOpen, ZipArchiveMode.Create);
@@ -720,12 +731,13 @@ namespace CW
             //清除缓存
             if (lastMusicPath != null && Path.Exists(Path.GetDirectoryName(lastMusicPath)))
             {
-                Directory.Delete(Path.GetDirectoryName(lastMusicPath)??"", true);
+                Directory.Delete(Path.GetDirectoryName(lastMusicPath) ?? "", true);
             }
         }
 
 
-        private void ShowAnswer() {
+        private void ShowAnswer()
+        {
             if (answer == "")
             {
                 return;
@@ -734,10 +746,11 @@ namespace CW
             var data = answer.Split(" ");
             var index = 0;
             var lableIndex = 0;
-             StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             while (index < data.Length)
             {
-                if (lableIndex >= answerLableList.Count) {
+                if (lableIndex >= answerLableList.Count)
+                {
                     break;
                 }
                 var tempLable = answerLableList[lableIndex];
@@ -801,8 +814,8 @@ namespace CW
         private void CopyingPractice_Load(object sender, EventArgs e)
         {
             // 获取当前程序集的版本
-            Assembly currentAssembly = Assembly.GetExecutingAssembly();            
-            Version version = currentAssembly.GetName().Version??new Version(1,0,0,0);
+            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+            Version version = currentAssembly.GetName().Version ?? new Version(1, 0, 0, 0);
             this.Text = this.Text + " V" + version;
             //初始化画布
             bitmap = new Bitmap(visualizedBox.Width, visualizedBox.Height);
@@ -813,6 +826,11 @@ namespace CW
             answerLableList.Add(answerLbl4);
             answerLableList.Add(answerLbl5);
             answerLableList.Add(answerLbl6);
+            //初始化声音
+            // 创建 SineWaveProvider
+            SineWaveProvider sineWaveProvider = new SineWaveProvider(System.Convert.ToDouble(sendToneBox.Text));
+            // 将 SineWaveProvider 连接到 WaveOutEvent
+            waveOut.Init(sineWaveProvider);
             //初始化定时器
             TimerCallback callback = TimerProc;
             UIntPtr user = UIntPtr.Zero;
@@ -834,8 +852,9 @@ namespace CW
                 eqRbtn.Enabled = false;
                 neRbtn.Enabled = false;
                 //弹出文件选择框
-                OpenFileDialog openImageDialog = new() {
-                   Filter = "报文(*.txt)|*.txt",
+                OpenFileDialog openImageDialog = new()
+                {
+                    Filter = "报文(*.txt)|*.txt",
                     Multiselect = false
                 };
                 if (openImageDialog.ShowDialog() == DialogResult.OK)
@@ -906,7 +925,7 @@ namespace CW
         //每次绘制的宽度
         private readonly static int drawWidth = 1;
         //可视化用来显示的字体
-        private readonly static System.Drawing.Font font = new ("Arial‌", 8, FontStyle.Regular, GraphicsUnit.Point);
+        private readonly static System.Drawing.Font font = new("Arial‌", 8, FontStyle.Regular, GraphicsUnit.Point);
 
 
         // 回调函数的委托类型
@@ -962,7 +981,7 @@ namespace CW
                     //水平位置
                     var horizontalPosition = (bitmap.Height / 2) - 10;
 
-                    using (Pen pen = new (color, 5)) // 2是线条的宽度
+                    using (Pen pen = new(color, 5)) // 2是线条的宽度
                     {
 
                         // 绘制竖线
@@ -989,22 +1008,15 @@ namespace CW
 
             }
         }
-        WaveOutEvent? waveOut;
+
+
+
         long startTime;
         private void SendBtn_MouseDown(object sender, MouseEventArgs e)
         {
             //开始绘制
             isDraw = true;
-            //播放声音
 
-            // 创建 SineWaveProvider
-            var sineWaveProvider = new SineWaveProvider(System.Convert.ToDouble(sendToneBox.Text));
-
-            // 创建 WaveOutEvent 对象来播放音频
-            waveOut = new WaveOutEvent();
-
-            // 将 SineWaveProvider 连接到 WaveOutEvent
-            waveOut.Init(sineWaveProvider);
 
             // 开始播放音频
             waveOut.Play();
@@ -1018,8 +1030,8 @@ namespace CW
         {
             isDraw = false;
             //停止播放声音
-            waveOut?.Stop();
-            waveOut?.Dispose();
+            waveOut.Stop();
+
             //结束计时
 
             QueryPerformanceCounter(out long endTime);
@@ -1030,7 +1042,7 @@ namespace CW
             //暂且认为，比Da短的就是Di
             //严格被勾选则比Di长的都为Da
 
-            if (t >= System.Convert.ToInt16(sendDaLength.Text)||(isStrict&& t > System.Convert.ToInt16(sendDiLength.Text)))
+            if (t >= System.Convert.ToInt16(sendDaLength.Text) || (isStrict && t > System.Convert.ToInt16(sendDiLength.Text)))
             {
                 charQueue.Enqueue('-');
                 Debug.WriteLine("-");
@@ -1111,6 +1123,18 @@ namespace CW
         private void StrictCbx_CheckedChanged(object sender, EventArgs e)
         {
             isStrict = strictCbx.Checked;
+        }
+
+        private void sendToneBox_TextChanged(object sender, EventArgs e)
+        {
+            //改变发报声音频率
+            SineWaveProvider sineWaveProvider = new SineWaveProvider(System.Convert.ToDouble(sendToneBox.Text));
+            waveOut?.Stop();
+            waveOut?.Dispose();
+            waveOut = new WaveOutEvent();
+            // 将 SineWaveProvider 连接到 WaveOutEvent
+            waveOut.Init(sineWaveProvider);
+
         }
     }
 }
