@@ -388,7 +388,7 @@ namespace CW
                 return;
             }
             StringBuilder answerBuilder = new ();
-            answerBuilder.Append("===\r\n");
+            answerBuilder.Append(Constant.StartString);
             if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol || mode == WorkingMode.Koch)
             {
                 answerBuilder.Append(GenerateAnswer(words ?? []));
@@ -428,7 +428,7 @@ namespace CW
 
             }
 
-            answerBuilder.Append("\r\niii\r\n");
+            answerBuilder.Append(Constant.EndString);
             if (mode != WorkingMode.Customize)
             {
                 answer = answerBuilder.ToString();
@@ -437,7 +437,7 @@ namespace CW
 
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
-            string filePath = "./temp/" + fileName + ".txt";
+            string filePath =Constant.TempPath + fileName + ".txt";
             if (!Path.Exists(Path.GetDirectoryName(filePath)))
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(filePath)??"");
@@ -450,7 +450,7 @@ namespace CW
             //生成音频
             var audioFileName = GenerateAudio(fileName.ToString(), filePath, speetBox.Value.ToString());
             //重命名音频文件名称
-            RenameMusic("./temp/" + audioFileName, filePath.Replace("txt", "mp3"));
+            RenameMusic(Constant.TempPath + audioFileName, filePath.Replace("txt", "mp3"));
             audioFileName = filePath.Replace("txt", "mp3");
 
 
@@ -470,7 +470,7 @@ namespace CW
                 //生成音频
                 var checkAudioFileName = GenerateAudio(fileName.ToString(), filePath, checkAnserSpeed.Value.ToString());
                 //重命名音频文件名称
-                RenameMusic("./temp/" + checkAudioFileName, lastCheckMusicPath);
+                RenameMusic(Constant.TempPath + checkAudioFileName, lastCheckMusicPath);
                 //开启定时器
                 timer1.Start();
             }
@@ -504,7 +504,7 @@ namespace CW
             }
 
             //生成音频
-            param += " -q 1 -o " + "./temp/" + fileName + " -w " + speed + " -f " + toneBox.Value + " -W " + extraWordSpacing.Value + " " + filePath;
+            param += " -q 1 -o " + Constant.TempPath + fileName + " -w " + speed + " -f " + toneBox.Value + " -W " + extraWordSpacing.Value + " " + filePath;
             ProcessStartInfo startInfo = new() { 
             FileName= "ebook2cw.exe",
             Arguments= param,
@@ -743,7 +743,7 @@ namespace CW
             {
                 //把小写的q换成大写的Q，符合抄写习惯
                 answer = answer.Replace("q", "Q");
-                answerBox.Text = answer.Replace("===\r\n", "").Replace("iii\r\n", "");
+                answerBox.Text = answer.Replace(Constant.StartString, "").Replace(Constant.EndString, "");
             }
         }
 

@@ -48,10 +48,44 @@ namespace CW
             LoadKeyboardLayoutA(Constant.EnglishKeyboardLayout, 1);
 
         }
+        // 导入 timeSetEvent, timeKillEvent 和 MMRESULT 枚举
+        //private const uint TIME_KILL_EVENT = 0;
+        private const uint TIME_PERIODIC = 1;
+        //定时器分辨率，1ms级别
+        private const uint TIMER_RESOLUTION = 1;
+        // 获取开始计数值
+        [LibraryImport("kernel32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool QueryPerformanceCounter(out long lpPerformanceCount);
+        // 获取性能计数器频率
+        [LibraryImport("kernel32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool QueryPerformanceFrequency(out long lpFrequency);
+        [LibraryImport("winmm.dll", SetLastError = true)]
+        private static partial uint timeSetEvent(
+            uint uDelay,
+            uint uResolution,
+            TimerCallback lpTimeFunc,
+            UIntPtr dwUser,
+            uint fuEvent);
 
+
+        //是否在绘制中
+        private static bool isDraw = false;
+        //空闲绘制的长度,词间隔
+        private static int blankWidth = 42;
+        //字间隔
+        private static int keyWidth = 18;
+        //是否空闲
+        private static int wait = blankWidth + 1;
+        //每次绘制的宽度
+        private readonly static int drawWidth = 1;
+        //可视化用来显示的字体
+        private readonly static System.Drawing.Font font = new("Arial‌", 8, FontStyle.Regular, GraphicsUnit.Point);
+        // 回调函数的委托类型
+        private delegate void TimerCallback(UIntPtr uTimerID, UIntPtr uMsg, UIntPtr dwUser, UIntPtr dw1, UIntPtr dw2);
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
-        WorkingMode mode = WorkingMode.None;
-
+        private static WorkingMode mode = WorkingMode.None;
         //答案
         string answer = "";
         //上一次播放的音频文件路径
@@ -63,7 +97,6 @@ namespace CW
         //用来装解析出来的答案
         private readonly static ConcurrentQueue<char> inputQueue = new();
         private readonly static StringBuilder inputBuilde = new ();
-
         //当前帧
         private static Bitmap? bitmap;
         //是否严格解析
@@ -71,15 +104,10 @@ namespace CW
         //用来显示参考文本的label
         private readonly static List<System.Windows.Forms.Label> answerLableList = new(6);
         private readonly static List<System.Windows.Forms.RichTextBox> inputList = new(6);
-
         // 创建 WaveOutEvent 对象来播放音频
         WaveOutEvent waveOut = new();
         //用来标记高精度定时器是否执行过
         private static volatile bool isThrob = false;
-
-
-
-
 
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
         {
@@ -407,7 +435,7 @@ namespace CW
             }
             answer = "";
             StringBuilder answerBuilder = new();
-            answerBuilder.Append("===\r\n");
+            answerBuilder.Append(Constant.StartString);
             if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol)
             {
                 answerBuilder.Append(GenerateAnswer(words ?? []));
@@ -447,7 +475,7 @@ namespace CW
 
             }
 
-            answerBuilder.Append("\r\niii\r\n");
+            answerBuilder.Append(Constant.EndString);
             if (mode != WorkingMode.Customize)
             {
                 answer = answerBuilder.ToString();
@@ -456,7 +484,7 @@ namespace CW
 
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
-            var filePath = "./temp/" + fileName + ".txt";
+            var filePath = Constant.TempPath + fileName + ".txt";
             if (!Path.Exists(Path.GetDirectoryName(filePath)))
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(filePath) ?? "");
@@ -471,11 +499,11 @@ namespace CW
                 //生成音频
                 audioFileName = GenerateAudio(fileName.ToString(), filePath, speetBox.Value.ToString());
                 //重命名音频文件名称
-                RenameMusic("./temp/" + audioFileName, filePath.Replace("txt", "mp3"));
+                RenameMusic(Constant.TempPath + audioFileName, filePath.Replace("txt", "mp3"));
                 audioFileName = filePath.Replace("txt", "mp3");
 
             });
-            //task.Start();
+            task.Start();
             //显示报文
             ShowAnswer();
 
@@ -512,7 +540,7 @@ namespace CW
 
 
             //生成音频
-            param += " -q 1 -o " + "./temp/" + fileName + " -w " + speed + " -f " + toneBox.Value + " " + filePath;
+            param += " -q 1 -o " + Constant.TempPath + fileName + " -w " + speed + " -f " + toneBox.Value + " " + filePath;
             ProcessStartInfo startInfo = new()
             {
                 FileName = "ebook2cw.exe",
@@ -744,7 +772,7 @@ namespace CW
             {
                 return;
             }
-            answer = answer.Replace("===\r\n", "").Replace("\r\niii\r\n", "");
+            answer = answer.Replace(Constant.StartString, "").Replace(Constant.EndString, "");
             var data = answer.Split(" ");
             var index = 0;
             var lableIndex = 0;
@@ -938,51 +966,6 @@ namespace CW
             }
 
         }
-
-
-
-
-
-
-        // 导入 timeSetEvent, timeKillEvent 和 MMRESULT 枚举
-        //private const uint TIME_KILL_EVENT = 0;
-        private const uint TIME_PERIODIC = 1;
-        //定时器分辨率，1ms级别
-        private const uint TIMER_RESOLUTION = 1;
-        // 获取开始计数值
-        [LibraryImport("kernel32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static partial bool QueryPerformanceCounter(out long lpPerformanceCount);
-        // 获取性能计数器频率
-        [LibraryImport("kernel32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static partial bool QueryPerformanceFrequency(out long lpFrequency);
-        [LibraryImport("winmm.dll", SetLastError = true)]
-        private static partial uint timeSetEvent(
-            uint uDelay,
-            uint uResolution,
-            TimerCallback lpTimeFunc,
-            UIntPtr dwUser,
-            uint fuEvent);
-
-
-        //是否在绘制中
-        private static bool isDraw = false;
-        //空闲绘制的长度,词间隔
-        private static int blankWidth = 42;
-        //字间隔
-        private static int keyWidth = 18;
-        //是否空闲
-        private static int wait = blankWidth + 1;
-        //每次绘制的宽度
-        private readonly static int drawWidth = 1;
-        //可视化用来显示的字体
-        private readonly static System.Drawing.Font font = new("Arial‌", 8, FontStyle.Regular, GraphicsUnit.Point);
-
-
-        // 回调函数的委托类型
-        private delegate void TimerCallback(UIntPtr uTimerID, UIntPtr uMsg, UIntPtr dwUser, UIntPtr dw1, UIntPtr dw2);
-
         /// <summary>
         /// 高精度定时器，主要处理按键按下后的图像绘制
         /// </summary>

@@ -76,6 +76,7 @@
     <Folder Include="doc\img\" />
     <Folder Include="Properties\" />
     <Folder Include="text\" />
+    <Folder Include="db\" />
   </ItemGroup>
 
   <ItemGroup>

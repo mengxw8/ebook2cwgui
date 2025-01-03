@@ -21,7 +21,7 @@ namespace CW
                 group => group.Last() // 取最后一个值（覆盖冲突键）
             );
         //新闻类型
-        public static readonly Dictionary<string, string> newsType = new() { { "中国", "https://www.cgtn.com/subscribe/rss/section/china.xml" }, { "世界", "https://www.cgtn.com/subscribe/rss/section/world.xml" }, { "商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" }, { "体育", "https://www.cgtn.com/subscribe/rss/section/sports.xml" }, { "科学", "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" }, { "旅行", "https://www.cgtn.com/subscribe/rss/section/travel.xml" }, { "现场", "https://www.cgtn.com/subscribe/rss/section/live.xml" }, { "文化", "https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
+        public static readonly Dictionary<string, string> newsType = new() { { "中国", @"https://www.cgtn.com/subscribe/rss/section/china.xml" }, { "世界", @"https://www.cgtn.com/subscribe/rss/section/world.xml" }, { "商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" }, { "体育", @"https://www.cgtn.com/subscribe/rss/section/sports.xml" }, { "科学", @"https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" }, { "旅行", @"https://www.cgtn.com/subscribe/rss/section/travel.xml" }, { "现场", @"https://www.cgtn.com/subscribe/rss/section/live.xml" }, { "文化", @"https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
         //力大砖飞,所有的Koch教程
         public static readonly Dictionary<string, string[]> KochType = new() {
             { "第1课", new string[] { "K", "M" } },
@@ -66,6 +66,13 @@ namespace CW
         };
         //内置的文章存放路径
         public readonly static string ArticlePath = @"./text/";
-        public readonly static string EnglishKeyboardLayout = "00000409";
+        public readonly static string TempPath = @"./temp/";
+        public readonly static string DbPath = @"./db/";
+        //开始提示符
+        public readonly static string StartString = "===\r\n";
+        //结束提示符
+        public readonly static string EndString = "\r\niii\r\n";
+        //英文键盘布局
+        public readonly static string EnglishKeyboardLayout = @"00000409";
     }
 }
