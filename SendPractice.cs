@@ -233,64 +233,6 @@ namespace CW
         }
 
 
-
-
-
-
-
-
-
-
-
-        private string GenerateAnswer(List<string> words)
-        {
-
-            //随机字符
-            //同组无连续
-            var isRepeat = repeatRbtn.Checked;
-            //同组无重复
-            var isContinuous = continuousRbtn.Checked;
-            //组数限制
-            var groupNum = groupNumBox.Value;
-
-            Random random = new();
-
-            for (int i = 0; i < groupNum; i++)
-            {
-                var key = "";
-                for (int j = 0; j < EachGroup.Value; j++)
-                {
-                    //注意：Random.Next(minValue, maxValue)方法生成的随机数范围是从minValue（包括）到maxValue（不包括）之间的随机整数。
-                    var s = words[random.Next(0, words.Count)];
-                    if (isContinuous && key.Contains(s))
-                    {
-                        //重新生成
-                        j--;
-                        continue;
-                    }
-
-                    if (isRepeat && key.Length > 0 && key.Contains(s))
-                    {
-                        j--;
-                        continue;
-                    }
-                    key += s;
-
-                }
-                answer += key;
-                if (i + 1 < groupNum)
-                {
-                    answer += " ";
-                }
-
-            }
-            return answer;
-
-        }
-
-
-
-
         //生成报文并播放
         private async void StartBtn_Click(object sender, EventArgs e)
         {
@@ -306,7 +248,8 @@ namespace CW
             answerBuilder.Append(Constant.StartString);
             if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol)
             {
-                answerBuilder.Append(GenerateAnswer(words ?? []));
+                answerBuilder.Append(AnswerTools.GenerateAnswer(words ?? [], repeatRbtn.Checked, continuousRbtn.Checked, System.Convert.ToInt32(groupNumBox.Value), System.Convert.ToInt32(EachGroup.Value)));
+
             }
             else if (mode == WorkingMode.Article)
             {
