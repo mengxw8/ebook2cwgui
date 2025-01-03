@@ -1171,7 +1171,9 @@ namespace CW
         {
             try
             {
-                blankWidth = (System.Convert.ToInt16(charInterval.Text) / 10);
+                var value = (System.Convert.ToInt16(charInterval.Text) / 10);
+                wait = value + 1;
+                blankWidth = value;
             }
             catch (Exception)
             {
