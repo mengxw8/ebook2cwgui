@@ -48,6 +48,8 @@
             eqRbtn = new RadioButton();
             neRbtn = new RadioButton();
             groupBox3 = new GroupBox();
+            label8 = new Label();
+            noiseLevel = new NumericUpDown();
             symbolsChb = new CheckBox();
             extraWordSpacing = new NumericUpDown();
             label6 = new Label();
@@ -81,6 +83,7 @@
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)noiseLevel).BeginInit();
             ((System.ComponentModel.ISupportInitialize)extraWordSpacing).BeginInit();
             ((System.ComponentModel.ISupportInitialize)effectiveSpeed).BeginInit();
             ((System.ComponentModel.ISupportInitialize)checkAnserSpeed).BeginInit();
@@ -301,6 +304,8 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(label8);
+            groupBox3.Controls.Add(noiseLevel);
             groupBox3.Controls.Add(symbolsChb);
             groupBox3.Controls.Add(extraWordSpacing);
             groupBox3.Controls.Add(label6);
@@ -328,6 +333,24 @@
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "CW配置";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(167, 87);
+            label8.Name = "label8";
+            label8.Size = new Size(59, 17);
+            label8.TabIndex = 23;
+            label8.Text = "背景噪声:";
+            // 
+            // noiseLevel
+            // 
+            noiseLevel.Location = new Point(253, 86);
+            noiseLevel.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            noiseLevel.Minimum = new decimal(new int[] { 10, 0, 0, int.MinValue });
+            noiseLevel.Name = "noiseLevel";
+            noiseLevel.Size = new Size(40, 23);
+            noiseLevel.TabIndex = 22;
             // 
             // symbolsChb
             // 
@@ -645,6 +668,7 @@
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)noiseLevel).EndInit();
             ((System.ComponentModel.ISupportInitialize)extraWordSpacing).EndInit();
             ((System.ComponentModel.ISupportInitialize)effectiveSpeed).EndInit();
             ((System.ComponentModel.ISupportInitialize)checkAnserSpeed).EndInit();
@@ -707,5 +731,7 @@
         private Label label7;
         private ComboBox KochList;
         private RichTextBox answerBox;
+        private Label label8;
+        private NumericUpDown noiseLevel;
     }
 }

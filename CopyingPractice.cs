@@ -1,5 +1,6 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
+using Microsoft.VisualBasic.Devices;
 using NAudio.SoundFont;
 using NAudio.Wave;
 using Newtonsoft.Json;
@@ -270,9 +271,9 @@ namespace CW
             //写入临时文件
             File.WriteAllText(filePath, answer);
             //生成音频
-            var audioFileName = GenerateAudio(fileName.ToString(), filePath, speetBox.Value.ToString());
+            var audioFileName = GenerateAudio(fileName.ToString(), filePath, speetBox.Value.ToString(), Convert.ToInt32(noiseLevel.Value));
             //重命名音频文件名称
-            RenameMusic(Constant.TempPath + audioFileName, filePath.Replace("txt", "mp3"));
+            //RenameMusic(Constant.TempPath + audioFileName, filePath.Replace("txt", "mp3"));
             audioFileName = filePath.Replace("txt", "mp3");
 
 
@@ -290,7 +291,7 @@ namespace CW
                 //生成校验报文音频
                 lastCheckMusicPath = filePath.Replace(".txt", "") + "-校报.mp3";
                 //生成音频
-                var checkAudioFileName = GenerateAudio(fileName.ToString(), filePath, checkAnserSpeed.Value.ToString());
+                var checkAudioFileName = GenerateAudio(fileName.ToString(), filePath, checkAnserSpeed.Value.ToString(), Convert.ToInt32(noiseLevel.Value));
                 //重命名音频文件名称
                 RenameMusic(Constant.TempPath + checkAudioFileName, lastCheckMusicPath);
                 //开启定时器
@@ -316,7 +317,7 @@ namespace CW
         /// <param name="speed"></param>
         /// <returns></returns>
 
-        private string GenerateAudio(string fileName, string filePath, string speed)
+        private string GenerateAudio(string fileName, string filePath, string speed,int noiseLevel)
         {
             var param = "";
             if (effectiveSpeed.Value > 0)
@@ -324,9 +325,14 @@ namespace CW
                 param += " -e ";
                 param += effectiveSpeed.Value;
             }
+            if (noiseLevel != 0) {
+                param += " -N \"";
+                param += noiseLevel;
+                param+="\" ";
+            }
 
             //生成音频
-            param += " -q 1 -o " + Constant.TempPath + fileName + " -w " + speed + " -f " + toneBox.Value + " -W " + extraWordSpacing.Value + " " + filePath;
+            param += " -q 1 -c - -o  " + Constant.TempPath + fileName + " -w " + speed + " -f " + toneBox.Value + " -W " + extraWordSpacing.Value + " " + filePath;
             ProcessStartInfo startInfo = new() { 
             FileName= "ebook2cw.exe",
             Arguments= param,
@@ -370,7 +376,7 @@ namespace CW
                             //MessageBox.Show("转换完成，共计用时" + data[2] + "！");
 
                         }
-                        return fileName + "0000.mp3";
+                        return fileName;
                     }
 
                 }
