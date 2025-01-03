@@ -15,6 +15,11 @@ namespace CW
         public static readonly Dictionary<char, string> alphabet = new() { { 'A', ".-" }, { 'B', "-..." }, { 'C', "-.-." }, { 'D', "-.." }, { 'E', "." }, { 'F', "..-." }, { 'G', "--." }, { 'H', "...." }, { 'I', ".." }, { 'J', ".---" }, { 'K', "-.-" }, { 'L', ".-.." }, { 'M', "--" }, { 'N', "-." }, { 'O', "---" }, { 'P', ".--." }, { 'Q', "--.-" }, { 'R', ".-." }, { 'S', "..." }, { 'T', "-" }, { 'U', "..-" }, { 'V', "...-" }, { 'W', ".--" }, { 'X', "-..-" }, { 'Y', "-.--" }, { 'Z', "--.." } };
         //符号
         public static readonly Dictionary<char, string> symbol = new() { { '.', ".-.-.-" }, { ':', "---..." }, { ',', "--..--" }, { ';', "-.-.-." }, { '?', "..--.." }, { '=', "-...-" }, { '\'', ".----." }, { '/', "-..-." }, { '!', "-.-.--" }, { '-', "-....-" }, { '_', "..--.-" }, { '\\', "..-..-." }, { '(', "-.--." }, { ')', "-.--.-" }, { '$', "...-..-" }, { '@', ".--.-." } };
+       //数字和字母
+        public static readonly Dictionary<char, string> numberAndAlphabet = new Dictionary<char, string>[] { alphabet, number }.SelectMany(disc => disc).ToDictionary(
+                group => group.Key,
+                group => group.Value // 取最后一个值（覆盖冲突键）
+            );
         public static readonly Dictionary<string, char> allCode = new Dictionary<char, string>[] { alphabet, number, symbol }.SelectMany(disc => disc).ToLookup(pair => pair.Value, pair => pair.Key)
             .ToDictionary(
                 group => group.Key,

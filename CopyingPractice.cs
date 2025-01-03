@@ -244,138 +244,8 @@ namespace CW
             return answerBuilder.ToString();
 
         }
-        /// <summary>
-        /// 生成单词串
-        /// </summary>
-        /// <param name="words"></param>
-        /// <returns></returns>
-        private string GenerateWord(List<string> words)
-        {
-            //组数限制
-            var groupNum = groupNumBox.Value;
-
-            string answer = "";
-
-            Dictionary<string, string> book = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(@".\word\Level8.json"))??[];
-            if (book == null)
-            {
-                return answer;
-            }
-            Random random = new ();
-            while (groupNum > 0)
-            {
-                string word = book[random.Next(1, 12198).ToString()];
-                //允许指定开头字母
-                if (words.Contains(word[..1].ToUpper()))
-                {
-                    answer += word;
-                    groupNum--;
-                    if (groupNum > 0)
-                    {
-                        answer += " ";
-                    }
-                }
-            }
-            return answer;
-        }
-
-        /// <summary>
-        /// 随机一篇文章
-        /// </summary>
-        /// <param name="words"></param>
-        /// <returns></returns>
-        private string GetArticle(List<string> words)
-        {
-            string answer = "";
-            //组数限制
-            int groupNum = System.Convert.ToInt32(groupNumBox.Value);
-            //是否不要符号
-            var flag = symbolsChb.Checked;
-            Random random = new ();
-            var index = random.Next(0, words.Count);
-
-            if (!File.Exists(Constant.ArticlePath + words[index]))
-            {
-                return answer;
-            }
-
-            var article = File.ReadAllText(Constant.ArticlePath + words[index]);
-            if (!flag)
-            {
-                foreach (var s in Constant.symbol.Keys)
-                {
-                    article = article.Replace(s.ToString(),"");
-                }
-                article=article.Trim();
-            }
-            var list = article.Split(' ').Take(groupNum).ToList();
 
 
-
-
-            return System.String.Join(" ", list);
-
-        }
-        /// <summary>
-        /// 取网上下载一篇新闻
-        /// </summary>
-        /// <param name="words"></param>
-        /// <returns></returns>
-        private string GetNewsPapers(List<string> words)
-        {
-            //组数限制
-            int groupNum = System.Convert.ToInt32(groupNumBox.Value);
-            //是否不要符号
-            var flag = symbolsChb.Checked;
-            Random random = new ();
-            var type = random.Next(0, words.Count);
-            var resp = newspapers.HttpRequestUtil.GetWebRequest(Constant.newsType[words[type]]);
-            XmlDocument doc = new ();
-            doc.LoadXml(resp);
-            var content = "";
-           var item = doc.SelectNodes("/rss/channel/item");
-            if (item is not null) {
-                var index = random.Next(0, item.Count);
-                var newsPaper = item[index];
-                var titleXml=newsPaper!.SelectSingleNode("title");
-                if (titleXml is not null) {
-                    var title = titleXml.InnerText;
-                }
-                XmlNamespaceManager nsm1 = new (doc.NameTable);
-                nsm1.AddNamespace("dc", @"http://purl.org/dc/elements/1.1/");
-                var date = newsPaper.SelectSingleNode("//dc:date", nsm1)!.InnerText;
-                XmlNamespaceManager nsm2 = new (doc.NameTable);
-                nsm2.AddNamespace("content", @"http://purl.org/rss/1.0/modules/content/");
-                var contentHtml = newsPaper.SelectSingleNode("//content:encoded", nsm2)!.InnerText;
-                //处理超文本
-                IDocument document = BrowsingContext.New(Configuration.Default).OpenAsync(req => req.Content(contentHtml)).Result;
-                if (document.Body is not null) {
-                    content = document.Body.TextContent;
-                }
-
-                //处理时间
-                content = DateTime.Parse(date).ToString("yyyy-MM-dd HH:mm:ss") + " " + content;
-
-            }    
-
-
-
- 
-            if (!flag)
-            {
-                foreach (var s in Constant.symbol.Keys)
-                {
-                    content = content.Replace(s.ToString(),"");
-                }
-                content=content.Trim();
-            }
-
-
-            var list = content.Split(' ').Take(groupNum).ToList();
-
-
-            return System.String.Join(" ", list);
-        }
 
         //生成报文并播放
         private void StartBtn_Click(object sender, EventArgs e)
@@ -395,7 +265,8 @@ namespace CW
             }
             else if (mode == WorkingMode.Article)
             {
-                answerBuilder.Append(GetArticle(words ?? []));
+                answerBuilder.Append(ArticleTools.GetArticle(words ?? [],symbolsChb.Checked,System.Convert.ToInt32(groupNumBox.Value)));
+
             }
             else if (mode == WorkingMode.News)
             {
@@ -407,7 +278,7 @@ namespace CW
                 }
                 try
                 {
-                    answerBuilder.Append(GetNewsPapers(words ?? []));
+                    answerBuilder.Append(NewsPapersTools.GetNewsPapers(words ?? [],System.Convert.ToInt32(groupNumBox.Value),symbolsChb.Checked));
                 }
                 catch
                 {
@@ -419,9 +290,7 @@ namespace CW
             }
             else if (mode == WorkingMode.Word)
             {
-                answerBuilder.Append(GenerateWord(words ?? []));
-
-
+                answerBuilder.Append(WordsTools.GenerateWord(words ?? [],System.Convert.ToInt32(groupNumBox.Value)));
             }
             else if (mode == WorkingMode.Customize)
             {
@@ -640,7 +509,7 @@ namespace CW
                 {
                     case WorkingMode.Number: words.AddRange(Constant.number.Keys.Select(item=>item.ToString())); break;
                     case WorkingMode.Alphabet: words.AddRange(Constant.alphabet.Keys.Select(item => item.ToString())); break;
-                    case WorkingMode.AlphabetAndNumber: words.AddRange(Constant.number.Keys.Select(item => item.ToString())); words.AddRange(Constant.alphabet.Keys.Select(item => item.ToString())); break;
+                    case WorkingMode.AlphabetAndNumber: words.AddRange(Constant.numberAndAlphabet.Keys.Select(item => item.ToString()));  break;
                     case WorkingMode.Symbol: words.AddRange(Constant.symbol.Keys.Select(item => item.ToString())); break;
                     case WorkingMode.Article: words.AddRange(new List<string>(Directory.GetFiles(Constant.ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n => n.Replace(Constant.ArticlePath, "")).ToList()); break;
                     case WorkingMode.News: words.AddRange(Constant.newsType.Keys); break;
