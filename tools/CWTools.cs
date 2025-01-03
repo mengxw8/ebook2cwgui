@@ -17,7 +17,7 @@ namespace CW
         /// <param name="param"> 调用参数</param>
         /// <returns></returns>
 
-        public static async Task<string> GenerateAudio(string fileName, string param)
+        public static string GenerateAudio(string fileName, string param)
         {
 
             ProcessStartInfo startInfo = new()

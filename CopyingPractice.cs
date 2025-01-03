@@ -286,7 +286,7 @@ namespace CW
             //写入临时文件
             File.WriteAllText(filePath, answer);
             //生成音频
-            var task=CWTools.GenerateAudio(fileName.ToString(),param);
+            var task = Task.Run(() => { CWTools.GenerateAudio(fileName.ToString(), param); });
             var audioFileName = filePath.Replace("txt", "mp3");
             //解除封禁
             pauseBtn.Enabled = true;
@@ -304,6 +304,7 @@ namespace CW
             await task;
             Mp3Player.Play(audioFileName);
             //处理校报逻辑
+
             if (checkAnswerChb.Checked)
             {
                  param = "";
@@ -324,33 +325,18 @@ namespace CW
                 //生成校验报文音频
                 lastCheckMusicPath = filePath.Replace(".txt", "") + "-校报.mp3";
                 //生成音频
-                var task2= CWTools.GenerateAudio(lastCheckMusicPath, param);
+               var  task2=Task.Run( () => { 
+                 CWTools.GenerateAudio(lastCheckMusicPath, param);
+
+                });
+                await task2;
                 //开启定时器
                 timer1.Start();
-            }
+            }      
 
 
         }
 
-        private static void RenameMusic(string oldFileName, string newFileName)
-        {
-            try
-            {
-                // 确保目标文件名不存在，因为Move会替换目标文件
-                if (File.Exists(newFileName))
-                {
-                    File.Delete(newFileName);
-                }
-
-                // 重命名文件
-                File.Move(oldFileName, newFileName);
-
-            }
-            catch (Exception)
-            {
-
-            }
-        }
         private List<string> GetWords()
         {
             //确定字符范围

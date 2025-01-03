@@ -307,7 +307,7 @@ namespace CW
             //生成音频
             var param = " -q 1 -c - -o " + Constant.TempPath + fileName + " -w " + speetBox.Value + " -f " + toneBox.Value + " " + filePath;
             // 启动一个新任务
-            Task task = CWTools.GenerateAudio(fileName.ToString(), param);
+            Task task = Task.Run(() => { CWTools.GenerateAudio(fileName.ToString(), param); });
             var audioFileName =Constant.TempPath+ fileName + ".mp3";            
             //显示报文
             ShowAnswer();
@@ -330,7 +330,7 @@ namespace CW
 
 
 
-
+            await task;
         }
 
 
