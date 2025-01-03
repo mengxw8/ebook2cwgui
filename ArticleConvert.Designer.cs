@@ -1,6 +1,6 @@
 ﻿namespace CW
 {
-    partial class Convert
+    partial class ArticleConvert
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Convert));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArticleConvert));
             label1 = new Label();
             label2 = new Label();
             inputFilePathTxb = new TextBox();

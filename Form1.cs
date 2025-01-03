@@ -18,7 +18,7 @@ namespace CW
         private void button1_Click(object sender, EventArgs e)
         {
             //去音频转换小工具
-            Convert convert = new Convert();
+            ArticleConvert convert = new ArticleConvert();
             this.Visible = false;
             convert.ShowDialog();
             this.Close();

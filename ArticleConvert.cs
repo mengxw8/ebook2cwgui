@@ -15,11 +15,11 @@ using System.Windows.Forms;
 
 namespace CW
 {
-    public partial class Convert : Form
+    public partial class ArticleConvert : Form
     {
 
         private const string configFileName= "cwConfig.ini"; 
-        public Convert()
+        public ArticleConvert()
         {
             InitializeComponent();
         }
