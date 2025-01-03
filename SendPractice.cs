@@ -88,6 +88,8 @@ namespace CW
 
         // 创建 WaveOutEvent 对象来播放音频
         WaveOutEvent waveOut = new();
+        //用来标记高精度定时器是否执行过
+        private static volatile bool isThrob = false;
 
 
 
@@ -1004,6 +1006,7 @@ namespace CW
                 var color = Color.Black;
                 if (isDraw)
                 {
+                    isThrob = true;
                     wait = 0;
                 }
                 else if (wait <= blankWidth && !isDraw)
@@ -1082,6 +1085,7 @@ namespace CW
         {
             //开始绘制
             isDraw = true;
+            isThrob = false;
 
 
             // 开始播放音频
@@ -1105,8 +1109,12 @@ namespace CW
 
             var t = ((endTime - startTime) / (double)lpFrequency) * 1000;
             Debug.WriteLine(t);
+            //有可能出现按下时间非常短的情况，短于10ms,定时器都还来不及触发,所以画面上还没有展示出来
+            if (!isThrob) {
+                return;            
+            }
             //暂且认为，比Da短的就是Di
-            //严格被勾选则比Di长的都为Da
+            //严格被勾选则比Di长的都为Da         
 
             if (t >= System.Convert.ToInt16(sendDaLength.Text) || (isStrict && t > System.Convert.ToInt16(sendDiLength.Text)))
             {
