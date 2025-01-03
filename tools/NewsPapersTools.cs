@@ -58,12 +58,13 @@ namespace CW
             HashSet<char> charSet;
             if (needSymbols)
             {
-                charSet = [.. Constant.allCode.Values];
+                charSet = [.. Constant.allCode.Values.Select(item => char.ToLower(item))];
             }
             else
             {
-                charSet = [.. Constant.numberAndAlphabet.Keys];
+                charSet = [.. Constant.numberAndAlphabet.Keys.Select(item => char.ToLower(item))];
             }
+            charSet.Add(' ');
 
             foreach (var c in content.Trim())
             {

@@ -34,12 +34,13 @@ namespace CW
             HashSet<char> charSet;
             if (needSymbols)
             {
-                charSet = [.. Constant.allCode.Values];
+                charSet = [.. Constant.allCode.Values.Select(item => char.ToLower(item))];
             }
             else
             {
-                charSet = [.. Constant.numberAndAlphabet.Keys];
+                charSet = [.. Constant.numberAndAlphabet.Keys.Select(item=>char.ToLower(item))];
             }
+            charSet.Add(' ');
             //除去多余字符
             foreach (var item in article.Trim())
             {
