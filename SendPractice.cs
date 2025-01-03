@@ -303,29 +303,23 @@ namespace CW
             }
 
             //写入临时文件
-            File.WriteAllText(filePath, answer);
+            File.WriteAllText(filePath, answer);          
+            //生成音频
+            var param = " -q 1 -c - -o " + Constant.TempPath + fileName + " -w " + speetBox.Value + " -f " + toneBox.Value + " " + filePath;
             // 启动一个新任务
-            var audioFileName = "";
-            Task task = Task.Run(() =>
-            {
-                //生成音频
-                audioFileName = GenerateAudio(fileName.ToString(), filePath, speetBox.Value.ToString());
-                //重命名音频文件名称
-                RenameMusic(Constant.TempPath + audioFileName, filePath.Replace("txt", "mp3"));
-                audioFileName = filePath.Replace("txt", "mp3");
-
-            });
-            //task.Start();
+            Task task = CWTools.GenerateAudio(fileName.ToString(), param);
+            var audioFileName =Constant.TempPath+ fileName + ".mp3";            
             //显示报文
             ShowAnswer();
 
             //播放音频
             Mp3Player.Stop();
-            // 等待任务完成
-            await task;
+
             if (bgmCbx.Checked)
             {
                 lastMusicPath = audioFileName;
+                // 等待任务完成
+                await task;
                 Mp3Player.Play(audioFileName);
             }
 
@@ -338,97 +332,10 @@ namespace CW
 
 
         }
-        /// <summary>
-        /// 生成音频文件
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="filePath"></param>
-        /// <param name="speed"></param>
-        /// <returns></returns>
-
-        private string GenerateAudio(string fileName, string filePath, string speed)
-        {
-            var param = "";
 
 
-            //生成音频
-            param += " -q 1 -o " + Constant.TempPath + fileName + " -w " + speed + " -f " + toneBox.Value + " " + filePath;
-            ProcessStartInfo startInfo = new()
-            {
-                FileName = "ebook2cw.exe",
-                Arguments = param,
-                UseShellExecute = false,   //是否使用操作系统的shell启动
-                RedirectStandardOutput = true,   //由调用程序获取输出信息
-                CreateNoWindow = true
-            };
 
-            //创建进程对象   
-            try
-            {
-                //调用EXE
-                using var process = Process.Start(startInfo);
-                string result = "";
-                if (process != null)
-                {
-                    using var reader = process.StandardOutput;
-                    // 获取exe的输出结果
-                    result = reader.ReadToEnd();
-                }
 
-                if (result != "")
-                {
-                    string[] lines = result.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                    if (lines.Length >= 2)
-                    {
-                        int startIndex = lines.Length - 3;
-                        result = string.Join(Environment.NewLine, lines.Skip(startIndex));
-                    }
-
-                    if (result.Contains("Error:"))
-                    {
-                        MessageBox.Show("配置错误，转换失败，请检查！");
-                    }
-                    else
-                    {
-                        var data = lines[^3].Split(":");
-                        if (data.Length == 3)
-                        {
-                            //MessageBox.Show("转换完成，共计用时" + data[2] + "！");
-
-                        }
-                        return fileName + "0000.mp3";
-                    }
-
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("程序错误，请重新下载！");
-            }
-
-            return "";
-
-        }
-
-        private static void RenameMusic(string oldFileName, string newFileName)
-        {
-            try
-            {
-                // 确保目标文件名不存在，因为Move会替换目标文件
-                if (File.Exists(newFileName))
-                {
-                    File.Delete(newFileName);
-                }
-
-                // 重命名文件
-                File.Move(oldFileName, newFileName);
-
-            }
-            catch (Exception)
-            {
-
-            }
-        }
         private List<string> GetWords()
         {
             //确定字符范围

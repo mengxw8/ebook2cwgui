@@ -202,7 +202,7 @@ namespace CW
 
 
         //生成报文并播放
-        private void StartBtn_Click(object sender, EventArgs e)
+        private async void StartBtn_Click(object sender, EventArgs e)
         {
 
             //生成测试数据
@@ -267,36 +267,27 @@ namespace CW
             }
 
 
+            var param = "";
+            if (effectiveSpeed.Value > 0)
+            {
+                param += " -e ";
+                param += effectiveSpeed.Value;
+            }
+            //噪声
+            if (noiseLevel.Value != 0)
+            {
+                param += " -N \"";
+                param += noiseLevel;
+                param += "\" ";
+            }
 
+            //生成音频
+            param += " -q 1 -c - -o  " + Constant.TempPath + fileName + " -w " + speetBox.Value + " -f " + toneBox.Value + " -W " + extraWordSpacing.Value + " " + filePath;
             //写入临时文件
             File.WriteAllText(filePath, answer);
             //生成音频
-            var audioFileName = GenerateAudio(fileName.ToString(), filePath, speetBox.Value.ToString(), Convert.ToInt32(noiseLevel.Value));
-            //重命名音频文件名称
-            //RenameMusic(Constant.TempPath + audioFileName, filePath.Replace("txt", "mp3"));
-            audioFileName = filePath.Replace("txt", "mp3");
-
-
-            Mp3Player.Stop();
-
-
-
-
-            //播放音频
-            lastMusicPath = audioFileName;
-            Mp3Player.Play(audioFileName);
-            //处理校报逻辑
-            if (checkAnswerChb.Checked)
-            {
-                //生成校验报文音频
-                lastCheckMusicPath = filePath.Replace(".txt", "") + "-校报.mp3";
-                //生成音频
-                var checkAudioFileName = GenerateAudio(fileName.ToString(), filePath, checkAnserSpeed.Value.ToString(), Convert.ToInt32(noiseLevel.Value));
-                //重命名音频文件名称
-                RenameMusic(Constant.TempPath + checkAudioFileName, lastCheckMusicPath);
-                //开启定时器
-                timer1.Start();
-            }
+            var task=CWTools.GenerateAudio(fileName.ToString(),param);
+            var audioFileName = filePath.Replace("txt", "mp3");
             //解除封禁
             pauseBtn.Enabled = true;
             rePlayBtn.Enabled = true;
@@ -307,86 +298,37 @@ namespace CW
             {
                 ShowAnswer();
             }
-
-        }
-        /// <summary>
-        /// 生成音频文件
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="filePath"></param>
-        /// <param name="speed"></param>
-        /// <returns></returns>
-
-        private string GenerateAudio(string fileName, string filePath, string speed,int noiseLevel)
-        {
-            var param = "";
-            if (effectiveSpeed.Value > 0)
+            Mp3Player.Stop();
+            //播放音频
+            lastMusicPath = audioFileName;
+            await task;
+            Mp3Player.Play(audioFileName);
+            //处理校报逻辑
+            if (checkAnswerChb.Checked)
             {
-                param += " -e ";
-                param += effectiveSpeed.Value;
-            }
-            if (noiseLevel != 0) {
-                param += " -N \"";
-                param += noiseLevel;
-                param+="\" ";
-            }
-
-            //生成音频
-            param += " -q 1 -c - -o  " + Constant.TempPath + fileName + " -w " + speed + " -f " + toneBox.Value + " -W " + extraWordSpacing.Value + " " + filePath;
-            ProcessStartInfo startInfo = new() { 
-            FileName= "ebook2cw.exe",
-            Arguments= param,
-            UseShellExecute = false,//是否使用操作系统的shell启动
-                RedirectStandardOutput = true,//由调用程序获取输出信息
-                CreateNoWindow = true//不显示调用程序的窗口 
-            };
-
-            try
-            {
-                //调用EXE
-                using var process = Process.Start(startInfo);
-                string result = "";
-                if (process is not null)
+                 param = "";
+                if (effectiveSpeed.Value > 0)
                 {
-                    using var reader = process.StandardOutput;
-                    // 获取exe的输出结果
-                     result = reader.ReadToEnd();
+                    param += " -e ";
+                    param += effectiveSpeed.Value;
                 }
-
-       
-
-                if (result != "")
+                //噪声
+                if (noiseLevel.Value != 0)
                 {
-                    string[] lines = result.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                    if (lines.Length >= 2)
-                    {
-                        int startIndex = lines.Length - 3;
-                        result = string.Join(Environment.NewLine, lines.Skip(startIndex));
-                    }
-
-                    if (result.Contains("Error:") )
-                    {
-                        MessageBox.Show("配置错误，转换失败，请检查！");
-                    }
-                    else
-                    {
-                        var data = lines[^3].Split(":");
-                        if (data.Length == 3)
-                        {
-                            //MessageBox.Show("转换完成，共计用时" + data[2] + "！");
-
-                        }
-                        return fileName;
-                    }
-
+                    param += " -N \"";
+                    param += noiseLevel;
+                    param += "\" ";
                 }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("程序错误，请重新下载！");
+                //生成音频
+                param += " -q 1 -c - -o  " + Constant.TempPath + fileName.ToString() + "-校报" + " -w " + checkAnserSpeed.Value + " -f " + toneBox.Value + " -W " + extraWordSpacing.Value + " " + filePath;
+                //生成校验报文音频
+                lastCheckMusicPath = filePath.Replace(".txt", "") + "-校报.mp3";
+                //生成音频
+                var task2= CWTools.GenerateAudio(lastCheckMusicPath, param);
+                //开启定时器
+                timer1.Start();
             }
 
-            return "";
 
         }
 
