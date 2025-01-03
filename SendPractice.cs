@@ -652,7 +652,7 @@ namespace CW
                     case WorkingMode.Symbol: words.AddRange(Constant.symbol.Keys.Select(item => item.ToString())); break;
                     case WorkingMode.Article: words.AddRange(new List<string>(Directory.GetFiles(Constant.ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n => n.Replace(Constant.ArticlePath, "")).ToList()); break;
                     case WorkingMode.News: words.AddRange(Constant.newsType.Keys); break;
-                    case WorkingMode.Customize: words.AddRange(Constant.alphabet.Keys.Select(item => item.ToString())); break;
+                    case WorkingMode.Word: words.AddRange(Constant.alphabet.Keys.Select(item => item.ToString())); break;
 
                 }
             }
