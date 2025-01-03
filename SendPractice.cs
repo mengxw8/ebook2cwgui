@@ -45,27 +45,13 @@ namespace CW
             //不允许息屏
             SystemSleep.PreventForCurrentThread();
             //输入法切换为英文
-            LoadKeyboardLayoutA("00000409", 1);
+            LoadKeyboardLayoutA(Constant.EnglishKeyboardLayout, 1);
 
         }
 
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
         WorkingMode mode = WorkingMode.None;
-        //数字
-        private static readonly Dictionary<char, string> number = new() { { '1', ".----" }, { '2', "..---" }, { '3', "...--" }, { '4', "....-" }, { '5', "....." }, { '6', "-...." }, { '7', "--..." }, { '8', "---.." }, { '9', "----." }, { '0', "-----" } };
-        //字母
-        private static readonly Dictionary<char, string> alphabet = new() { { 'A', ".-" }, { 'B', "-..." }, { 'C', "-.-." }, { 'D', "-.." }, { 'E', "." }, { 'F', "..-." }, { 'G', "--." }, { 'H', "...." }, { 'I', ".." }, { 'J', ".---" }, { 'K', "-.-" }, { 'L', ".-.." }, { 'M', "--" }, { 'N', "-." }, { 'O', "---" }, { 'P', ".--." }, { 'Q', "--.-" }, { 'R', ".-." }, { 'S', "..." }, { 'T', "-" }, { 'U', "..-" }, { 'V', "...-" }, { 'W', ".--" }, { 'X', "-..-" }, { 'Y', "-.--" }, { 'Z', "--.." } };
-        //符号
-        private static readonly Dictionary<char, string> symbol = new() { { '.', ".-.-.-" }, { ':', "---..." }, { ',', "--..--" }, { ';', "-.-.-." }, { '?', "..--.." }, { '=', "-...-" }, { '\'', ".----." }, { '/', "-..-." }, { '!', "-.-.--" }, { '-', "-....-" }, { '_', "..--.-" }, { '\\', "..-..-." }, { '(', "-.--." }, { ')', "-.--.-" }, { '$', "...-..-" }, { '@', ".--.-." } };
-        private static readonly Dictionary<string, char> allCode = new Dictionary<char, string>[] { alphabet, number, symbol }.SelectMany(disc => disc).ToLookup(pair => pair.Value, pair => pair.Key)
-            .ToDictionary(
-                group => group.Key,
-                group => group.Last() // 取最后一个值（覆盖冲突键）
-            );
-        //新闻类型
-        private static readonly Dictionary<string, string> newsType = new() { { "中国", "https://www.cgtn.com/subscribe/rss/section/china.xml" }, { "世界", "https://www.cgtn.com/subscribe/rss/section/world.xml" }, { "商业", "https://www.cgtn.com/subscribe/rss/section/business.xml" }, { "体育", "https://www.cgtn.com/subscribe/rss/section/sports.xml" }, { "科学", "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml" }, { "旅行", "https://www.cgtn.com/subscribe/rss/section/travel.xml" }, { "现场", "https://www.cgtn.com/subscribe/rss/section/live.xml" }, { "文化", "https://www.cgtn.com/subscribe/rss/section/culture.xml" } };
 
-        private readonly static string ArticlePath = @"./text/";
         //答案
         string answer = "";
         //上一次播放的音频文件路径
@@ -76,7 +62,7 @@ namespace CW
         private readonly static ConcurrentQueue<char> codeQueue = new();
         //用来装解析出来的答案
         private readonly static ConcurrentQueue<char> inputQueue = new();
-        StringBuilder inputBuilde = new StringBuilder();
+        private readonly static StringBuilder inputBuilde = new ();
 
         //当前帧
         private static Bitmap? bitmap;
@@ -105,7 +91,7 @@ namespace CW
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
-            foreach (var k in number.Keys)
+            foreach (var k in Constant.number.Keys)
             {
                 eqBox.Items.Add(k);
                 neBox.Items.Add(k);
@@ -121,7 +107,7 @@ namespace CW
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
-            foreach (var k in alphabet.Keys)
+            foreach (var k in Constant.alphabet.Keys)
             {
                 eqBox.Items.Add(k);
                 neBox.Items.Add(k);
@@ -138,12 +124,12 @@ namespace CW
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
-            foreach (var k in number.Keys)
+            foreach (var k in Constant.number.Keys)
             {
                 eqBox.Items.Add(k);
                 neBox.Items.Add(k);
             }
-            foreach (var k in alphabet.Keys)
+            foreach (var k in Constant.alphabet.Keys)
             {
                 eqBox.Items.Add(k);
                 neBox.Items.Add(k);
@@ -160,7 +146,7 @@ namespace CW
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
-            foreach (var k in symbol.Keys)
+            foreach (var k in Constant.symbol.Keys)
             {
                 eqBox.Items.Add(k);
                 neBox.Items.Add(k);
@@ -176,19 +162,19 @@ namespace CW
 
             //加载文章列表
             // 确保路径是目录并且存在
-            if (!Directory.Exists(ArticlePath))
+            if (!Directory.Exists(Constant.ArticlePath))
             {
                 MessageBox.Show("没有可供的选择文章!");
                 return;
             }
 
-            List<string> files = new(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly));
+            List<string> files = new(Directory.GetFiles(Constant.ArticlePath, "*.txt", SearchOption.TopDirectoryOnly));
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
             foreach (string file in files)
             {
-                string fileNmae = file.Replace(ArticlePath, "");
+                string fileNmae = file.Replace(Constant.ArticlePath, "");
                 eqBox.Items.Add(fileNmae);
                 neBox.Items.Add(fileNmae);
             }
@@ -204,7 +190,7 @@ namespace CW
             //填充值
             eqBox.Items.Clear();
             neBox.Items.Clear();
-            foreach (string type in newsType.Keys)
+            foreach (string type in Constant.newsType.Keys)
             {
                 eqBox.Items.Add(type);
                 neBox.Items.Add(type);
@@ -323,17 +309,17 @@ namespace CW
             Random random = new();
             var index = random.Next(0, words.Count);
 
-            if (!File.Exists(ArticlePath + words[index]))
+            if (!File.Exists(Constant.ArticlePath + words[index]))
             {
                 return answer;
             }
 
-            var article = File.ReadAllText(ArticlePath + words[index]);
+            var article = File.ReadAllText(Constant.ArticlePath + words[index]);
             if (!flag)
             {
-                foreach (var s in symbol.Keys)
+                foreach (var s in Constant.symbol.Keys)
                 {
-                    article = article.Remove(s);
+                    article = article.Replace(s.ToString(),"");
                 }
                 article = article.Trim();
             }
@@ -358,7 +344,7 @@ namespace CW
             var flag = symbolsChb.Checked;
             Random random = new();
             var type = random.Next(0, words.Count);
-            var resp = newspapers.HttpRequestUtil.GetWebRequest(newsType[words[type]]);
+            var resp = newspapers.HttpRequestUtil.GetWebRequest(Constant.newsType[words[type]]);
             XmlDocument doc = new();
             doc.LoadXml(resp);
             string content = "";
@@ -395,9 +381,9 @@ namespace CW
 
             if (!flag)
             {
-                foreach (var s in symbol.Keys)
+                foreach (var s in Constant.symbol.Keys)
                 {
-                    content = content.Remove(s);
+                    content = content.Replace(s.ToString(),"");
                 }
                 content = content.Trim();
             }
@@ -660,13 +646,13 @@ namespace CW
             {
                 switch (mode)
                 {
-                    case WorkingMode.Number: words.AddRange(number.Keys.Select(item => item.ToString())); break;
-                    case WorkingMode.Alphabet: words.AddRange(alphabet.Keys.Select(item => item.ToString())); break;
-                    case WorkingMode.AlphabetAndNumber: words.AddRange(number.Keys.Select(item => item.ToString())); words.AddRange(alphabet.Keys.Select(item => item.ToString())); break;
-                    case WorkingMode.Symbol: words.AddRange(symbol.Keys.Select(item => item.ToString())); break;
-                    case WorkingMode.Article: words.AddRange(new List<string>(Directory.GetFiles(ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n => n.Replace(ArticlePath, "")).ToList()); break;
-                    case WorkingMode.News: words.AddRange(newsType.Keys); break;
-                    case WorkingMode.Customize: words.AddRange(alphabet.Keys.Select(item => item.ToString())); break;
+                    case WorkingMode.Number: words.AddRange(Constant.number.Keys.Select(item => item.ToString())); break;
+                    case WorkingMode.Alphabet: words.AddRange(Constant.alphabet.Keys.Select(item => item.ToString())); break;
+                    case WorkingMode.AlphabetAndNumber: words.AddRange(Constant.number.Keys.Select(item => item.ToString())); words.AddRange(Constant.alphabet.Keys.Select(item => item.ToString())); break;
+                    case WorkingMode.Symbol: words.AddRange(Constant.symbol.Keys.Select(item => item.ToString())); break;
+                    case WorkingMode.Article: words.AddRange(new List<string>(Directory.GetFiles(Constant.ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n => n.Replace(Constant.ArticlePath, "")).ToList()); break;
+                    case WorkingMode.News: words.AddRange(Constant.newsType.Keys); break;
+                    case WorkingMode.Customize: words.AddRange(Constant.alphabet.Keys.Select(item => item.ToString())); break;
 
                 }
             }
@@ -753,7 +739,7 @@ namespace CW
             {
                 item.Text = "";
             }
-            ClearAnswer_Click(null, null);
+            CleanInput();
             if (answer == "")
             {
                 return;
@@ -762,7 +748,7 @@ namespace CW
             var data = answer.Split(" ");
             var index = 0;
             var lableIndex = 0;
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new ();
             while (index < data.Length)
             {
                 if (lableIndex >= answerLableList.Count)
@@ -795,12 +781,12 @@ namespace CW
 
         }
         //把敲出来的字符展示出来
-        private void ShowInput(string inputStr)
+        private static void ShowInput(string inputStr)
         {
             var data = inputStr.Split(" ");
             var index = 0;
             var lableIndex = 0;
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new ();
             while (index < data.Length)
             {
                 if (lableIndex >= inputList.Count)
@@ -828,16 +814,22 @@ namespace CW
             }
 
         }
-
-        //清空答案
-        private void ClearAnswer_Click(object sender, EventArgs e)
-        {
+        /// <summary>
+        /// 清除输入框中的内容
+        /// </summary>
+        private static void CleanInput() {
             inputBuilde.Clear();
             foreach (var item in inputList)
             {
                 item.Text = "";
             }
 
+        }
+
+        //清空答案
+        private void ClearAnswer_Click(object sender, EventArgs e)
+        {
+            CleanInput();
         }
 
         private void PauseBtn_Click(object sender, EventArgs e)
@@ -903,7 +895,7 @@ namespace CW
             replicationBox6.ReadOnly = true;
             //初始化声音
             // 创建 SineWaveProvider
-            SineWaveProvider sineWaveProvider = new SineWaveProvider(System.Convert.ToDouble(sendToneBox.Text));
+            SineWaveProvider sineWaveProvider = new (System.Convert.ToDouble(sendToneBox.Text));
             // 将 SineWaveProvider 连接到 WaveOutEvent
             waveOut.Init(sineWaveProvider);
             //初始化定时器
@@ -1026,7 +1018,7 @@ namespace CW
 
                     while (sb.Length != 0)
                     {
-                        if (allCode.TryGetValue(sb.ToString(), out str))
+                        if (Constant.allCode.TryGetValue(sb.ToString(), out str))
                         {
                             break;
                         }
@@ -1221,7 +1213,7 @@ namespace CW
         private void SendToneBox_TextChanged(object sender, EventArgs e)
         {
             //改变发报声音频率
-            SineWaveProvider sineWaveProvider = new SineWaveProvider(System.Convert.ToDouble(sendToneBox.Text));
+            SineWaveProvider sineWaveProvider = new (System.Convert.ToDouble(sendToneBox.Text));
             waveOut?.Stop();
             waveOut?.Dispose();
             waveOut = new();
