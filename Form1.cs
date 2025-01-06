@@ -15,7 +15,7 @@ namespace CW
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             //去音频转换小工具
             ArticleConvert convert = new ArticleConvert();
@@ -24,7 +24,7 @@ namespace CW
             this.Close();
         }
 
-        private void copyBtn_Click(object sender, EventArgs e)
+        private void CopyBtn_Click(object sender, EventArgs e)
         {
             CopyingPractice copyingPractice = new CopyingPractice();
             this.Visible = false;
@@ -36,18 +36,18 @@ namespace CW
         {
             // 获取当前程序集的版本
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
-            Version version = currentAssembly.GetName().Version??new Version(1,0,0,0);
+            Version version = currentAssembly.GetName().Version ?? new Version(1, 0, 0, 0);
             this.Text = this.Text + " V" + version;
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // 当链接文本被点击时触发的事件
             // 在这里执行你希望的操作，比如打开一个链接或执行一些特定的任务
             System.Diagnostics.Process.Start(new ProcessStartInfo("https://github.com/mengxw8/ebook2cwgui/issues") { UseShellExecute = true });
         }
 
-        private void sendBtn_Click(object sender, EventArgs e)
+        private void SendBtn_Click(object sender, EventArgs e)
         {
             SendPractice sendPractice = new SendPractice();
             this.Visible = false;
@@ -55,7 +55,12 @@ namespace CW
             this.Close();
         }
 
-
-
+        private void ShortNumberBtn_Click(object sender, EventArgs e)
+        {
+            NumberCopyingPractice number = new NumberCopyingPractice();
+            this.Visible = false;
+            number.ShowDialog();
+            this.Close();
+        }
     }
 }

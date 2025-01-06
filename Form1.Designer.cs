@@ -35,27 +35,28 @@
             label2 = new Label();
             linkLabel1 = new LinkLabel();
             sendBtn = new Button();
+            shortNumberBtn = new Button();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(91, 29);
+            button1.Location = new Point(94, 31);
             button1.Name = "button1";
             button1.Size = new Size(100, 23);
             button1.TabIndex = 0;
             button1.Text = "字符转音频";
             button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            button1.Click += Button1_Click;
             // 
             // copyBtn
             // 
-            copyBtn.Location = new Point(91, 75);
+            copyBtn.Location = new Point(94, 72);
             copyBtn.Name = "copyBtn";
             copyBtn.Size = new Size(100, 23);
             copyBtn.TabIndex = 1;
             copyBtn.Text = "CW抄收练习";
             copyBtn.UseVisualStyleBackColor = true;
-            copyBtn.Click += copyBtn_Click;
+            copyBtn.Click += CopyBtn_Click;
             // 
             // label1
             // 
@@ -84,23 +85,34 @@
             linkLabel1.TabIndex = 4;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "反馈问题";
-            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+            linkLabel1.LinkClicked += LinkLabel1_LinkClicked;
             // 
             // sendBtn
             // 
-            sendBtn.Location = new Point(91, 125);
+            sendBtn.Location = new Point(94, 113);
             sendBtn.Name = "sendBtn";
             sendBtn.Size = new Size(100, 23);
             sendBtn.TabIndex = 5;
             sendBtn.Text = "CW发报练习";
             sendBtn.UseVisualStyleBackColor = true;
-            sendBtn.Click += sendBtn_Click;
+            sendBtn.Click += SendBtn_Click;
+            // 
+            // shortNumberBtn
+            // 
+            shortNumberBtn.Location = new Point(94, 154);
+            shortNumberBtn.Name = "shortNumberBtn";
+            shortNumberBtn.Size = new Size(100, 23);
+            shortNumberBtn.TabIndex = 6;
+            shortNumberBtn.Text = "数字短码练习";
+            shortNumberBtn.UseVisualStyleBackColor = true;
+            shortNumberBtn.Click += ShortNumberBtn_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(282, 463);
+            Controls.Add(shortNumberBtn);
             Controls.Add(sendBtn);
             Controls.Add(linkLabel1);
             Controls.Add(label2);
@@ -125,5 +137,6 @@
         private Label label2;
         private LinkLabel linkLabel1;
         private Button sendBtn;
+        private Button shortNumberBtn;
     }
 }

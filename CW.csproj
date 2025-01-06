@@ -79,6 +79,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="NumberCopyingPractice.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="SendPractice.cs">
       <SubType>Form</SubType>
     </Compile>
