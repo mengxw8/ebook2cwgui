@@ -39,7 +39,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(75, 29);
+            button1.Location = new Point(91, 29);
             button1.Name = "button1";
             button1.Size = new Size(100, 23);
             button1.TabIndex = 0;
@@ -49,7 +49,7 @@
             // 
             // copyBtn
             // 
-            copyBtn.Location = new Point(75, 75);
+            copyBtn.Location = new Point(91, 75);
             copyBtn.Name = "copyBtn";
             copyBtn.Size = new Size(100, 23);
             copyBtn.TabIndex = 1;
@@ -88,7 +88,7 @@
             // 
             // sendBtn
             // 
-            sendBtn.Location = new Point(75, 125);
+            sendBtn.Location = new Point(91, 125);
             sendBtn.Name = "sendBtn";
             sendBtn.Size = new Size(100, 23);
             sendBtn.TabIndex = 5;
@@ -100,7 +100,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(263, 463);
+            ClientSize = new Size(282, 463);
             Controls.Add(sendBtn);
             Controls.Add(linkLabel1);
             Controls.Add(label2);
@@ -108,6 +108,8 @@
             Controls.Add(copyBtn);
             Controls.Add(button1);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Form1";
             Text = "CW工具箱";
             Load += Form1_Load;
