@@ -69,8 +69,8 @@ namespace CW
             neBox.Items.Clear();
             foreach (var k in Constant.number.Keys)
             {
-                eqBox.Items.Add(k);
-                neBox.Items.Add(k);
+                eqBox.Items.Add(k.ToString());
+                neBox.Items.Add(k.ToString());
             }
         }
         private void RadioButton2_CheckedChanged(object sender, EventArgs e)
@@ -85,8 +85,8 @@ namespace CW
             neBox.Items.Clear();
             foreach (var k in Constant.alphabet.Keys)
             {
-                eqBox.Items.Add(k);
-                neBox.Items.Add(k);
+                eqBox.Items.Add(k.ToString());
+                neBox.Items.Add(k.ToString());
             }
         }
         private void RadioButton3_CheckedChanged(object sender, EventArgs e)
@@ -101,13 +101,13 @@ namespace CW
             neBox.Items.Clear();
             foreach (var k in Constant.number.Keys)
             {
-                eqBox.Items.Add(k);
-                neBox.Items.Add(k);
+                eqBox.Items.Add(k.ToString());
+                neBox.Items.Add(k.ToString());
             }
             foreach (var k in Constant.alphabet.Keys)
             {
-                eqBox.Items.Add(k);
-                neBox.Items.Add(k);
+                eqBox.Items.Add(k.ToString());
+                neBox.Items.Add(k.ToString());
             }
         }
 
@@ -123,8 +123,8 @@ namespace CW
             neBox.Items.Clear();
             foreach (var k in Constant.symbol.Keys)
             {
-                eqBox.Items.Add(k);
-                neBox.Items.Add(k);
+                eqBox.Items.Add(k.ToString());
+                neBox.Items.Add(k.ToString());
             }
         }
         private void RadioButton4_CheckedChanged(object sender, EventArgs e)
