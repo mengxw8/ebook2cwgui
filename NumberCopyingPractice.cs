@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
@@ -44,6 +45,14 @@ namespace CW
             LoadKeyboardLayoutA(Constant.EnglishKeyboardLayout, 1);
 
             ClearAnswer();
+            //使用自定义字体
+            byte[] fontData = Properties.Resources.consola;
+            IntPtr fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
+            Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
+            PrivateFontCollection pfc = new PrivateFontCollection();
+            pfc.AddMemoryFont(fontPtr, fontData.Length);
+            var myCustomFont = new Font(pfc.Families[0], 25, FontStyle.Bold);
+            answerBox.Font = myCustomFont;
 
 
 
@@ -467,6 +476,7 @@ namespace CW
         /// </summary>
         private void ShowAnswer()
         {
+      
             if (answer != "")
             {
                 //把小写的q换成大写的Q，符合抄写习惯
