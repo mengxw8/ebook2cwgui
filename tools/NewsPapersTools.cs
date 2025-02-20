@@ -54,26 +54,8 @@ namespace CW
                 content = DateTime.Parse(date).ToString("yyyy-MM-dd HH:mm:ss") + " " + content;
 
             }
-            StringBuilder stringBuilder = new();
-            HashSet<char> charSet;
-            if (needSymbols)
-            {
-                charSet = [.. Constant.allCode.Values.Select(item => char.ToLower(item))];
-            }
-            else
-            {
-                charSet = [.. Constant.numberAndAlphabet.Keys.Select(item => char.ToLower(item))];
-            }
-            charSet.Add(' ');
-
-            foreach (var c in content.Trim())
-            {
-                if (charSet.Contains(c))
-                {
-                    stringBuilder.Append(c);
-                }
-            }
-            var list = stringBuilder.ToString().Split(' ').Take(groupNum).ToList();
+                 
+            var list = StringTools.CleanCharacters(content, needSymbols).Split(' ').Take(groupNum).ToList();
             return System.String.Join(" ", list);
         }
     }

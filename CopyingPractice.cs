@@ -54,9 +54,6 @@ namespace CW
             var myCustomFont = new Font(pfc.Families[0], 25, FontStyle.Bold);
             answerBox.Font = myCustomFont;
 
-
-
-
         }
 
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
@@ -611,7 +608,8 @@ namespace CW
                 if (openImageDialog.ShowDialog() == DialogResult.OK)
                 {
                     answer = File.ReadAllText(openImageDialog.FileName);
-
+                    //滤除其余字符
+                    answer = StringTools.CleanCharacters(answer.ToLower(), symbolsChb.Checked);
                 }
                 else
                 {
