@@ -38,8 +38,10 @@ namespace CW
             if (waveOut != null && waveOut.PlaybackState == PlaybackState.Playing)
             {
                 waveOut.Stop();
-                waveOut.Dispose();
+                
             }
+            waveOut?.Dispose();
+            mp3?.Dispose();
             mp3?.Close();
 
         }
