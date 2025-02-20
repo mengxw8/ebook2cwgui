@@ -205,11 +205,12 @@ namespace CW
         //生成报文并播放
         private async void StartBtn_Click(object sender, EventArgs e)
         {
-
+            startBtn.Enabled = false;
             //生成测试数据
             List<string> words = GetWords();
             if ((words.Count == 0 || words == null) && mode != WorkingMode.Customize)
             {
+                startBtn.Enabled = true;
                 return;
             }
             StringBuilder answerBuilder = new();
@@ -281,6 +282,7 @@ namespace CW
             lastMusicPath = audioFileName;
             await task;
             Mp3Player.Play(audioFileName);
+            startBtn.Enabled = true;
             //处理校报逻辑
 
             if (checkAnswerChb.Checked)

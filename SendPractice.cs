@@ -236,11 +236,13 @@ namespace CW
         //生成报文并播放
         private async void StartBtn_Click(object sender, EventArgs e)
         {
+            startBtn.Enabled = false;
             inputBuilde.Clear();
             //生成测试数据
             List<string> words = GetWords();
             if ((words.Count == 0 || words == null) && mode != WorkingMode.Customize)
             {
+                startBtn.Enabled = true;
                 return;
             }
             answer = "";
@@ -261,6 +263,7 @@ namespace CW
                 if (newspapers.HttpRequestUtil.GetWebRequest("https://www.cgtn.com/subscribe/rss/section/china.xml") == "")
                 {
                     MessageBox.Show("当前网络不通畅，请试试其他模式吧！");
+                    startBtn.Enabled = true;
                     return;
                 }
                 try
@@ -270,6 +273,7 @@ namespace CW
                 catch
                 {
                     MessageBox.Show("当前网络不通畅，请试试其他模式吧！");
+                    startBtn.Enabled = true;
                     return;
                 }
 
@@ -327,10 +331,11 @@ namespace CW
             //解除封禁
             pauseBtn.Enabled = true;
             rePlayBtn.Enabled = true;
-
+            
 
 
             await task;
+            startBtn.Enabled = true;
         }
 
 
