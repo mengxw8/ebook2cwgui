@@ -521,6 +521,7 @@
             // groupNumBox
             // 
             groupNumBox.Location = new Point(92, 82);
+            groupNumBox.Maximum = new decimal(new int[] { 500, 0, 0, 0 });
             groupNumBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             groupNumBox.Name = "groupNumBox";
             groupNumBox.Size = new Size(48, 23);
