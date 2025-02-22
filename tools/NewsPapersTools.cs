@@ -27,6 +27,7 @@ namespace CW
             XmlDocument doc = new();
             doc.LoadXml(resp);
             var content = "";
+            var title = "";
             var item = doc.SelectNodes("/rss/channel/item");
             if (item is not null)
             {
@@ -35,7 +36,7 @@ namespace CW
                 var titleXml = newsPaper!.SelectSingleNode("title");
                 if (titleXml is not null)
                 {
-                    var title = titleXml.InnerText;
+                     title = titleXml.InnerText;
                 }
                 XmlNamespaceManager nsm1 = new(doc.NameTable);
                 nsm1.AddNamespace("dc", @"http://purl.org/dc/elements/1.1/");
@@ -51,11 +52,11 @@ namespace CW
                 }
 
                 //处理时间
-                content = DateTime.Parse(date).ToString("yyyy-MM-dd HH:mm:ss") + " " + content;
+                content = DateTime.Parse(date).ToString("yyyy-MM-dd HH:mm:ss") + " "+title+" " + content;
 
             }
                  
-            var list = StringTools.CleanCharacters(content, needSymbols).Split(' ').Take(groupNum).ToList();
+            var list = StringTools.CleanCharacters(content.ToLower(), needSymbols).Split(' ').Take(groupNum).ToList();
             return System.String.Join(" ", list);
         }
     }
