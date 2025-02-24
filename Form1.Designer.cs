@@ -64,7 +64,7 @@
             label1.Location = new Point(43, 357);
             label1.Name = "label1";
             label1.Size = new Size(179, 17);
-            label1.TabIndex = 2;
+            label1.TabIndex = 4;
             label1.Text = "本软件基于GPL-2.0 license开源";
             // 
             // label2
@@ -73,7 +73,7 @@
             label2.Location = new Point(49, 374);
             label2.Name = "label2";
             label2.Size = new Size(164, 17);
-            label2.TabIndex = 3;
+            label2.TabIndex = 5;
             label2.Text = "使用该软件代表同意相关协议";
             // 
             // linkLabel1
@@ -82,7 +82,7 @@
             linkLabel1.Location = new Point(94, 391);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(56, 17);
-            linkLabel1.TabIndex = 4;
+            linkLabel1.TabIndex = 6;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "反馈问题";
             linkLabel1.LinkClicked += LinkLabel1_LinkClicked;
@@ -92,7 +92,7 @@
             sendBtn.Location = new Point(94, 113);
             sendBtn.Name = "sendBtn";
             sendBtn.Size = new Size(100, 23);
-            sendBtn.TabIndex = 5;
+            sendBtn.TabIndex = 2;
             sendBtn.Text = "CW发报练习";
             sendBtn.UseVisualStyleBackColor = true;
             sendBtn.Click += SendBtn_Click;
@@ -102,7 +102,7 @@
             shortNumberBtn.Location = new Point(94, 154);
             shortNumberBtn.Name = "shortNumberBtn";
             shortNumberBtn.Size = new Size(100, 23);
-            shortNumberBtn.TabIndex = 6;
+            shortNumberBtn.TabIndex = 3;
             shortNumberBtn.Text = "数字短码练习";
             shortNumberBtn.UseVisualStyleBackColor = true;
             shortNumberBtn.Click += ShortNumberBtn_Click;
