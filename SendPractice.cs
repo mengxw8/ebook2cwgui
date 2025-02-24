@@ -96,7 +96,7 @@ namespace CW
         private readonly static ConcurrentQueue<char> codeQueue = new();
         //用来装解析出来的答案
         private readonly static ConcurrentQueue<char> inputQueue = new();
-        private readonly static StringBuilder inputBuilde = new ();
+        private readonly static StringBuilder inputBuilde = new();
         //当前帧
         private static Bitmap? bitmap;
         //是否严格解析
@@ -307,12 +307,12 @@ namespace CW
             }
 
             //写入临时文件
-            File.WriteAllText(filePath, answer);          
+            File.WriteAllText(filePath, answer);
             //生成音频
             var param = " -q 1 -c - -o " + Constant.TempPath + fileName + " -w " + speetBox.Value + " -f " + toneBox.Value + " " + filePath;
             // 启动一个新任务
             Task task = Task.Run(() => { CWTools.GenerateAudio(fileName.ToString(), param); });
-            var audioFileName =Constant.TempPath+ fileName + ".mp3";            
+            var audioFileName = Constant.TempPath + fileName + ".mp3";
             //显示报文
             ShowAnswer();
 
@@ -331,7 +331,7 @@ namespace CW
             //解除封禁
             pauseBtn.Enabled = true;
             rePlayBtn.Enabled = true;
-            
+
 
 
             await task;
@@ -400,7 +400,7 @@ namespace CW
                 {
                     case WorkingMode.Number: words.AddRange(Constant.number.Keys.Select(item => item.ToString())); break;
                     case WorkingMode.Alphabet: words.AddRange(Constant.alphabet.Keys.Select(item => item.ToString())); break;
-                    case WorkingMode.AlphabetAndNumber: words.AddRange(Constant.numberAndAlphabet.Keys.Select(item => item.ToString()));  break;
+                    case WorkingMode.AlphabetAndNumber: words.AddRange(Constant.numberAndAlphabet.Keys.Select(item => item.ToString())); break;
                     case WorkingMode.Symbol: words.AddRange(Constant.symbol.Keys.Select(item => item.ToString())); break;
                     case WorkingMode.Article: words.AddRange(new List<string>(Directory.GetFiles(Constant.ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n => n.Replace(Constant.ArticlePath, "")).ToList()); break;
                     case WorkingMode.News: words.AddRange(Constant.newsType.Keys); break;
@@ -500,7 +500,7 @@ namespace CW
             var data = answer.Split(" ");
             var index = 0;
             var lableIndex = 0;
-            StringBuilder sb = new ();
+            StringBuilder sb = new();
             while (index < data.Length)
             {
                 if (lableIndex >= answerLableList.Count)
@@ -538,7 +538,7 @@ namespace CW
             var data = inputStr.Split(" ");
             var index = 0;
             var lableIndex = 0;
-            StringBuilder sb = new ();
+            StringBuilder sb = new();
             while (index < data.Length)
             {
                 if (lableIndex >= inputList.Count)
@@ -569,7 +569,8 @@ namespace CW
         /// <summary>
         /// 清除输入框中的内容
         /// </summary>
-        private static void CleanInput() {
+        private static void CleanInput()
+        {
             inputBuilde.Clear();
             foreach (var item in inputList)
             {
@@ -647,7 +648,7 @@ namespace CW
             replicationBox6.ReadOnly = true;
             //初始化声音
             // 创建 SineWaveProvider
-            SineWaveProvider sineWaveProvider = new (System.Convert.ToDouble(sendToneBox.Text));
+            SineWaveProvider sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
             // 将 SineWaveProvider 连接到 WaveOutEvent
             waveOut.Init(sineWaveProvider);
             //初始化定时器
@@ -809,8 +810,9 @@ namespace CW
             var t = ((endTime - startTime) / (double)lpFrequency) * 1000;
             Debug.WriteLine(t);
             //有可能出现按下时间非常短的情况，短于10ms,定时器都还来不及触发,所以画面上还没有展示出来
-            if (!isThrob) {
-                return;            
+            if (!isThrob)
+            {
+                return;
             }
             //暂且认为，比Da短的就是Di
             //严格被勾选则比Di长的都为Da         
@@ -876,11 +878,12 @@ namespace CW
                 speed = 20;
             }
             //计算剩下的值以Paris计
+            var config = MorseConfig.Speed(speed);
             var di = 60000 / (speed * 50);
-            sendDiLength.Text = di.ToString();
-            sendDaLength.Text = (di * 3).ToString();
-            keyInterval.Text = di.ToString();
-            charInterval.Text = (di * 7).ToString();
+            sendDiLength.Text = config.Di.ToString();
+            sendDaLength.Text = config.Da.ToString();
+            keyInterval.Text = config.KeystrokeInterval.ToString();
+            charInterval.Text = config.CharInterval.ToString();
         }
 
         private void NumberTxb_KeyPress(object sender, KeyPressEventArgs e)
@@ -922,7 +925,7 @@ namespace CW
         private void SendToneBox_TextChanged(object sender, EventArgs e)
         {
             //改变发报声音频率
-            SineWaveProvider sineWaveProvider = new (System.Convert.ToDouble(sendToneBox.Text));
+            SineWaveProvider sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
             waveOut?.Stop();
             waveOut?.Dispose();
             waveOut = new();
@@ -934,10 +937,11 @@ namespace CW
         private void SendPractice_SizeChanged(object sender, EventArgs e)
         {
             bitmap?.Dispose();
-            if (visualizedBox.Width > 0 && visualizedBox.Height > 0) {
+            if (visualizedBox.Width > 0 && visualizedBox.Height > 0)
+            {
                 bitmap = new Bitmap(visualizedBox.Width, visualizedBox.Height);
             }
-      
+
         }
     }
 }
