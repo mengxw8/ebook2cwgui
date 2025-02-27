@@ -157,12 +157,16 @@ namespace CW
         public void Clean() {
             audioQueue.Clear();
         }
-
+        public void AddMorseCode(string morseCode, Dictionary<char, string> keys) {
+            AddMorseCode( morseCode,  keys, config.Speed);
+        }
         /// <summary>
         /// 添加莫尔斯电码到播放队列
         /// </summary>
-        public void AddMorseCode(string morseCode, Dictionary<char, string> keys)
+        public void AddMorseCode(string morseCode, Dictionary<char, string> keys,int speed)
         {
+            config.Speed = speed;
+            UpdateConfig(config);
 
             //分割成每一组
             string[] chars = morseCode.Split(' ');

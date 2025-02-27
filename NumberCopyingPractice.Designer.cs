@@ -463,8 +463,7 @@
             // 
             // timer1
             // 
-            timer1.Interval = 5000;
-            timer1.Tick += Timer1_Tick;
+
             // 
             // groupBox5
             // 

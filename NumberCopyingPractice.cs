@@ -161,7 +161,7 @@ namespace CW
                 var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
                 keys.TryAdd('=', "-...-");
                 keys.TryAdd('i', "..");
-                morsePlayer.AddMorseCode(answer, keys);
+                morsePlayer.AddMorseCode(answer, keys,Convert.ToInt32(speetBox.Value));
             });
         
             //解除封禁
@@ -179,10 +179,22 @@ namespace CW
       
             waveOut.Play();
             //Mp3Player.Play(audioFileName);
-            await task;
+           
             startBtn.Enabled = true;
 
             //处理校报逻辑
+            if (showAnswerChb.Checked) {
+                await task;
+                
+                var task2 = Task.Run(() =>
+                {
+                    var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
+                    keys.TryAdd('=', "-...-");
+                    keys.TryAdd('i', "..");
+                    morsePlayer.AddMorseCode(answer, keys,Convert.ToInt32(checkAnserSpeed.Value));
+                });
+                await task2;
+            }
 
 
      
@@ -360,16 +372,7 @@ namespace CW
             }
         }
 
-        private void Timer1_Tick(object sender, EventArgs e)
-        {
 
-            if (Mp3Player.Status() == PlaybackState.Stopped)
-            {
-                //结束了，需要进行校报
-                Mp3Player.Play(lastCheckMusicPath);
-                timer1.Stop();
-            }
-        }
 
         private void NumberCopyingPractice_FormClosed(object sender, FormClosedEventArgs e)
         {
