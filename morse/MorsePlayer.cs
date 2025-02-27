@@ -11,7 +11,7 @@ namespace CW
 {
     internal class MorsePlayer : WaveProvider16
     {
-        private readonly Queue<short> audioQueue = new Queue<short>();
+        private readonly ConcurrentQueue<short> audioQueue = new ConcurrentQueue<short>();
         private readonly int sampleRate;
         private int frequency;
         private readonly  float amplitude;

@@ -163,7 +163,7 @@ namespace CW
                 keys.TryAdd('i', "..");
                 morsePlayer.AddMorseCode(answer, keys);
             });
-            //var audioFileName = filePath.Replace("txt", "mp3");
+        
             //解除封禁
             pauseBtn.Enabled = true;
             rePlayBtn.Enabled = true;
@@ -174,17 +174,18 @@ namespace CW
             {
                 ShowAnswer();
             }
-      
 
-            await task;
+            //var audioFileName = filePath.Replace("txt", "mp3");
+      
             waveOut.Play();
             //Mp3Player.Play(audioFileName);
+            await task;
             startBtn.Enabled = true;
 
             //处理校报逻辑
 
 
-
+     
 
         }
 
