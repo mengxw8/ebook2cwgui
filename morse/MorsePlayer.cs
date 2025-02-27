@@ -35,7 +35,7 @@ namespace CW
         /// <param name="frequency">频率</param>
         /// <param name="amplitude">音量</param>
         /// <param name="config">速度配置</param>
-        public MorsePlayer(int frequency, MorseConfig config, int sampleRate = 44100, float amplitude = 0.9f):base(sampleRate,1)
+        public MorsePlayer(int frequency, MorseConfig config, int sampleRate = 44100, float amplitude = 0.8f):base(sampleRate,1)
         {
             this.sampleRate = sampleRate;
             this.frequency = frequency;
@@ -52,41 +52,102 @@ namespace CW
         {
             this.config = newConfig;
             int wpm = Math.Max(1, config.Speed); // 确保 WPM 不为 0
-            int tInSeconds = 1200 / wpm;       // 单位时间 T（秒）
 
+            this.dotDuration = (50* sampleRate) /(60 * config.Speed) ; // 转换为样本数
+            this.riseTime = Math.Min(50, dotDuration / 2);
+            this.fallTime = Math.Min(50, dotDuration / 2);
 
-            this.dotDuration = (tInSeconds * sampleRate) / 1000; // 转换为样本数
             //this.dotDuration -= riseTimeDuration;
             //this.dotDuration -= fallTimeDuration;
             //计算波形
             dit_buff = new short[dotDuration];
             dah_buff = new short[dotDuration*3];
 
-            for (int i = 0; i < dotDuration * 3; i++){
-               
 
-                var sample =(Math.Sin(2 * Math.PI * frequency * i / sampleRate));
+            GenerateDitBuffer();
+            GenerateDahBuffer();
 
-               
-                if (i < riseTime) {
-                    sample *=  Math.Pow(Math.Sin(i * Math.PI / (2.0 * riseTime)), 2);
-                  
-                }
-                var dit = sample;
-                var dah = sample;
-                if (i < dotDuration) {
-                    if (i >( dotDuration - fallTime)) {
-                        dit *= Math.Pow(Math.Sin(2* Math.PI*(i-(dotDuration-fallTime)+fallTime / (4 * fallTime))), 2);
-                    }
+            //for (int i = 0; i < dotDuration * 3; i++){
 
-                    dit_buff[i] = (short)(dit * short.MaxValue* amplitude);
+
+            //    var sample =(Math.Sin(2 * Math.PI * frequency * i / sampleRate));
+
+
+            //    if (i < riseTime) {
+            //        sample *=  Math.Pow(Math.Sin(i * Math.PI / (2.0 * riseTime)), 2);
+
+            //    }
+            //    var dit = sample;
+            //    var dah = sample;
+            //    if (i < dotDuration) {
+            //        if (i >( dotDuration - fallTime)) {
+            //            dit *= Math.Pow(Math.Sin(2* Math.PI*(i-(dotDuration-fallTime)+fallTime / (4 * fallTime))), 2);
+            //        }
+
+            //        dit_buff[i] = (short)(dit * short.MaxValue* amplitude);
+            //    }
+            //    if (i > (3 * dotDuration - fallTime)) {
+            //        dah*= Math.Pow(Math.Sin(2  * Math.PI * (i - (3*dotDuration - fallTime) + fallTime / (4 * fallTime))), 2);
+            //    }
+            //    dah_buff[i] = (short)(dah * short.MaxValue* amplitude);
+            //}
+        }
+        private void GenerateDitBuffer()
+        {
+            dit_buff = new short[dotDuration];
+            for (int i = 0; i < dotDuration; i++)
+            {
+                double phase = 2 * Math.PI * frequency * i / sampleRate;
+                double sample = Math.Sin(phase);
+
+                // 淡入处理
+                if (i < riseTime)
+                {
+                    double t = i / (double)riseTime;
+                    sample *= Math.Pow(Math.Sin(t * Math.PI / 2), 2);
                 }
-                if (i > (3 * dotDuration - fallTime)) {
-                    dah*= Math.Pow(Math.Sin(2  * Math.PI * (i - (3*dotDuration - fallTime) + fallTime / (4 * fallTime))), 2);
+
+                // 淡出处理
+                if (i >= dotDuration - fallTime)
+                {
+                    int fallIndex = i - (dotDuration - fallTime);
+                    double t = fallIndex / (double)(fallTime - 1);
+                    sample *= Math.Pow(Math.Cos(t * Math.PI / 2), 2);
                 }
-                dah_buff[i] = (short)(dah * short.MaxValue* amplitude);
+
+                dit_buff[i] = (short)(sample * short.MaxValue * amplitude);
             }
         }
+
+        private void GenerateDahBuffer()
+        {
+            int dahDuration = 3 * dotDuration;
+            dah_buff = new short[dahDuration];
+            for (int i = 0; i < dahDuration; i++)
+            {
+                double phase = 2 * Math.PI * frequency * i / sampleRate;
+                double sample = Math.Sin(phase);
+
+                // 淡入处理
+                if (i < riseTime)
+                {
+                    double t = i / (double)riseTime;
+                    sample *= Math.Pow(Math.Sin(t * Math.PI / 2), 2);
+                }
+
+                // 淡出处理
+                if (i >= dahDuration - fallTime)
+                {
+                    int fallIndex = i - (dahDuration - fallTime);
+                    double t = fallIndex / (double)(fallTime - 1);
+                    sample *= Math.Pow(Math.Cos(t * Math.PI / 2), 2);
+                }
+
+                dah_buff[i] = (short)(sample * short.MaxValue * amplitude);
+            }
+        }
+
+
         public void UpdateFrequency(int frequency)
         {
             this.frequency = frequency;
@@ -148,7 +209,7 @@ namespace CW
         /// <summary>
         /// 将静音信号加入队列
         /// </summary>
-        private void EnqueueSilence(float duration)
+        private void EnqueueSilence(int duration)
         {
             for (int i = 0; i < duration ; i++)
             {
