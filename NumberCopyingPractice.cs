@@ -417,7 +417,17 @@ namespace CW
 
         private void ResumeBtn_Click(object sender, EventArgs e)
         {
-            
+            //重播，直接情况重新生成
+            waveOut.Stop();
+            morsePlayer.Clean();
+            var task = Task.Run(() =>
+            {
+                var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
+                keys.TryAdd('=', "-...-");
+                keys.TryAdd('i', "..");
+                morsePlayer.AddMorseCode(answer, keys);
+            });
+            waveOut.Play();
         }
 
         private void NeRbtn_CheckedChanged(object sender, EventArgs e)

@@ -11,10 +11,10 @@ namespace CW
 {
     internal class MorsePlayer : WaveProvider16
     {
-        private readonly ConcurrentQueue<short> audioQueue = new ConcurrentQueue<short>();
+        private readonly Queue<short> audioQueue = new Queue<short>();
         private readonly int sampleRate;
         private int frequency;
-        private  float amplitude;
+        private readonly  float amplitude;
 
         private MorseConfig config;
         //上升沿的采样数
@@ -53,7 +53,7 @@ namespace CW
             this.config = newConfig;
             int wpm = Math.Max(1, config.Speed); // 确保 WPM 不为 0
 
-            this.dotDuration = (50* sampleRate) /(60 * config.Speed) ; // 转换为样本数
+            this.dotDuration = (50* sampleRate) /(60 * wpm) ; // 转换为样本数
             this.riseTime = Math.Min(50, dotDuration / 2);
             this.fallTime = Math.Min(50, dotDuration / 2);
 
