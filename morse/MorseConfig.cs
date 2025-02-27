@@ -12,20 +12,25 @@ namespace CW
         public int Da { get; set; }
         public int KeystrokeInterval { get; set; }
         public int CharInterval { get; set; }
+        public int WordInterval { get; set; }
 
-        public int Wpm { get; set; }
+        public int Speed { get; set; }
 
 
-        public static MorseConfig Speed(int speed) {
-           var config= new MorseConfig();
+        public static MorseConfig Create(int speed)
+        {
+            var config = new MorseConfig()
+            {
+                Speed = speed,
+            };
 
-            config.Wpm= speed;
-           // 以Paris计
-             var di = 60000 / (speed * 50);
+            // 以Paris计
+            var di = 1200 / speed ;
             config.Di = di;
             config.Da = di * 3;
             config.KeystrokeInterval = di;
-            config.CharInterval = di * 7;
+            config.CharInterval = di * 3;
+            config.WordInterval = di * 7;
             return config;
         }
     }

@@ -878,7 +878,7 @@ namespace CW
                 speed = 20;
             }
             //计算剩下的值以Paris计
-            var config = MorseConfig.Speed(speed);
+            var config = MorseConfig.Create(speed);
             var di = 60000 / (speed * 50);
             sendDiLength.Text = config.Di.ToString();
             sendDaLength.Text = config.Da.ToString();

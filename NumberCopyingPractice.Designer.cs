@@ -390,10 +390,12 @@
             toneBox.Size = new Size(48, 28);
             toneBox.TabIndex = 4;
             toneBox.Value = new decimal(new int[] { 600, 0, 0, 0 });
+            toneBox.ValueChanged += toneBox_ValueChanged;
             // 
             // groupNumBox
             // 
             groupNumBox.Location = new Point(111, 93);
+            groupNumBox.Maximum = new decimal(new int[] { 500, 0, 0, 0 });
             groupNumBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             groupNumBox.Name = "groupNumBox";
             groupNumBox.Size = new Size(48, 28);

@@ -18,5 +18,9 @@ namespace CW
         Word=6,
         Customize=7,
         Koch=8,
+        //短5
+        ShortNumber5=9,
+        //短10
+        ShortNumber10 = 10,
     }
 }

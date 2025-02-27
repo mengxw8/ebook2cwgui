@@ -36,6 +36,10 @@ namespace CW
         [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
         private static partial IntPtr LoadKeyboardLayoutA(string pwszKLID, uint Flags);
 
+
+        MorsePlayer morsePlayer;
+        WaveOutEvent waveOut = new WaveOutEvent();
+        MorseConfig morseConfig = new MorseConfig();
         public NumberCopyingPractice()
         {
             InitializeComponent();
@@ -53,6 +57,10 @@ namespace CW
             pfc.AddMemoryFont(fontPtr, fontData.Length);
             var myCustomFont = new Font(pfc.Families[0], 25, FontStyle.Bold);
             answerBox.Font = myCustomFont;
+            //初始化播放器
+            morseConfig.Speed = Convert.ToInt32(speetBox.Value);
+            morsePlayer = new MorsePlayer(Convert.ToInt32(toneBox.Value), morseConfig);
+            waveOut.Init(morsePlayer);
 
 
 
@@ -67,9 +75,11 @@ namespace CW
         string lastMusicPath = "";
         string lastCheckMusicPath = "";
 
+
+
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            mode = WorkingMode.Number;
+            mode = WorkingMode.ShortNumber5;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
             //填充值
@@ -83,22 +93,7 @@ namespace CW
         }
         private void RadioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            mode = WorkingMode.Alphabet;
-            eqRbtn.Enabled = true;
-            neRbtn.Enabled = true;
-
-            //填充值
-            eqBox.Items.Clear();
-            neBox.Items.Clear();
-            foreach (var k in Constant.alphabet.Keys)
-            {
-                eqBox.Items.Add(k);
-                neBox.Items.Add(k);
-            }
-        }
-        private void RadioButton3_CheckedChanged(object sender, EventArgs e)
-        {
-            mode = WorkingMode.AlphabetAndNumber;
+            mode = WorkingMode.ShortNumber10;
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
 
@@ -110,93 +105,7 @@ namespace CW
                 eqBox.Items.Add(k);
                 neBox.Items.Add(k);
             }
-            foreach (var k in Constant.alphabet.Keys)
-            {
-                eqBox.Items.Add(k);
-                neBox.Items.Add(k);
-            }
         }
-
-        private void RadioButton5_CheckedChanged(object sender, EventArgs e)
-        {
-            mode = WorkingMode.Symbol;
-            eqRbtn.Enabled = true;
-            neRbtn.Enabled = true;
-
-            //填充值
-            eqBox.Items.Clear();
-            neBox.Items.Clear();
-            foreach (var k in Constant.symbol.Keys)
-            {
-                eqBox.Items.Add(k);
-                neBox.Items.Add(k);
-            }
-        }
-        private void RadioButton4_CheckedChanged(object sender, EventArgs e)
-        {
-            mode = WorkingMode.Article;
-            //英文文章
-            eqRbtn.Enabled = true;
-            neRbtn.Enabled = true;
-
-            //加载文章列表
-            // 确保路径是目录并且存在
-            if (!Directory.Exists(Constant.ArticlePath))
-            {
-                MessageBox.Show("没有可供的选择文章!");
-                return;
-            }
-
-            List<string> files = new(Directory.GetFiles(Constant.ArticlePath, "*.txt", SearchOption.TopDirectoryOnly));
-            //填充值
-            eqBox.Items.Clear();
-            neBox.Items.Clear();
-            foreach (string file in files)
-            {
-                string fileNmae = file.Replace(Constant.ArticlePath, "");
-                eqBox.Items.Add(fileNmae);
-                neBox.Items.Add(fileNmae);
-            }
-
-        }
-        //新闻
-        private void RadioButton6_CheckedChanged(object sender, EventArgs e)
-        {
-            mode = WorkingMode.News;
-            eqRbtn.Enabled = true;
-            neRbtn.Enabled = true;
-            //填充值
-            eqBox.Items.Clear();
-            neBox.Items.Clear();
-            foreach (string type in Constant.newsType.Keys)
-            {
-                eqBox.Items.Add(type);
-                neBox.Items.Add(type);
-            }
-
-        }
-        //随机单词
-        private void RadioButton8_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton2_CheckedChanged(sender, e);
-            mode = WorkingMode.Word;
-        }
-        //Koch训练法
-        private void RadioButton7_CheckedChanged(object sender, EventArgs e)
-        {
-            mode = WorkingMode.Koch;
-            eqRbtn.Enabled = true;
-            neRbtn.Enabled = false;
-            eqRbtn.Checked = true;
-        }
-
-
-
-
-
-
-
-
 
 
 
@@ -215,20 +124,12 @@ namespace CW
             }
             StringBuilder answerBuilder = new();
             answerBuilder.Append(Constant.StartString);
-            if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol || mode == WorkingMode.Koch)
+            if (mode == WorkingMode.ShortNumber5 || mode == WorkingMode.ShortNumber10)
             {
                 answerBuilder.Append(AnswerTools.GenerateAnswer(words ?? [], repeatRbtn.Checked, continuousRbtn.Checked, System.Convert.ToInt32(groupNumBox.Value), System.Convert.ToInt32(EachGroup.Value)));
             }
 
-        
-            else if (mode == WorkingMode.Word)
-            {
-                answerBuilder.Append(WordsTools.GenerateWord(words ?? [], System.Convert.ToInt32(groupNumBox.Value)));
-            }
-            else if (mode == WorkingMode.Customize)
-            {
 
-            }
 
             answerBuilder.Append(Constant.EndString);
             if (mode != WorkingMode.Customize)
@@ -246,27 +147,23 @@ namespace CW
             }
 
 
-            var param = "";
-            if (effectiveSpeed.Value > 0)
-            {
-                param += " -e ";
-                param += effectiveSpeed.Value;
-            }
-            //噪声
-            if (noiseLevel.Value != 0)
-            {
-                param += " -N \"";
-                param += noiseLevel;
-                param += "\" ";
-            }
 
-            //生成音频
-            param += " -q 1 -c - -o  " + Constant.TempPath + fileName + " -w " + speetBox.Value + " -f " + toneBox.Value + " -W " + extraWordSpacing.Value + " " + filePath;
+
+
             //写入临时文件
             File.WriteAllText(filePath, answer);
             //生成音频
-            var task = Task.Run(() => { CWTools.GenerateAudio(fileName.ToString(), param); });
-            var audioFileName = filePath.Replace("txt", "mp3");
+            //var task = Task.Run(() => { CWTools.GenerateAudio(fileName.ToString(), param); });
+            waveOut.Stop();
+           morsePlayer.Clean();
+            var task = Task.Run(() =>
+            {
+                var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
+                keys.TryAdd('=', "-...-");
+                keys.TryAdd('i', "..");
+                morsePlayer.AddMorseCode(answer, keys);
+            });
+            //var audioFileName = filePath.Replace("txt", "mp3");
             //解除封禁
             pauseBtn.Enabled = true;
             rePlayBtn.Enabled = true;
@@ -277,43 +174,16 @@ namespace CW
             {
                 ShowAnswer();
             }
-            Mp3Player.Stop();
-            //播放音频
-            lastMusicPath = audioFileName;
+      
+
             await task;
-            Mp3Player.Play(audioFileName);
+            waveOut.Play();
+            //Mp3Player.Play(audioFileName);
             startBtn.Enabled = true;
+
             //处理校报逻辑
 
-            if (checkAnswerChb.Checked)
-            {
-                param = "";
-                if (effectiveSpeed.Value > 0)
-                {
-                    param += " -e ";
-                    param += effectiveSpeed.Value;
-                }
-                //噪声
-                if (noiseLevel.Value != 0)
-                {
-                    param += " -N \"";
-                    param += noiseLevel;
-                    param += "\" ";
-                }
-                //生成音频
-                param += " -q 1 -c - -o  " + Constant.TempPath + fileName.ToString() + "-校报" + " -w " + checkAnserSpeed.Value + " -f " + toneBox.Value + " -W " + extraWordSpacing.Value + " " + filePath;
-                //生成校验报文音频
-                lastCheckMusicPath = filePath.Replace(".txt", "") + "-校报.mp3";
-                //生成音频
-                var task2 = Task.Run(() =>
-                {
-                    CWTools.GenerateAudio(lastCheckMusicPath, param);
 
-                });
-                await task2;
-                //开启定时器
-                timer1.Start();
-            }
 
 
         }
@@ -382,6 +252,8 @@ namespace CW
                     case WorkingMode.Article: words.AddRange(new List<string>(Directory.GetFiles(Constant.ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n => n.Replace(Constant.ArticlePath, "")).ToList()); break;
                     case WorkingMode.News: words.AddRange(Constant.newsType.Keys); break;
                     case WorkingMode.Word: words.AddRange(Constant.alphabet.Keys.Select(item => item.ToString())); break;
+                    case WorkingMode.ShortNumber5: words.AddRange(Constant.number.Keys.Select(item => item.ToString())); break;
+                    case WorkingMode.ShortNumber10: words.AddRange(Constant.number.Keys.Select(item => item.ToString())); break;
 
                 }
             }
@@ -405,8 +277,8 @@ namespace CW
 
         private void StopBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.Stop();
-            timer1.Stop();
+            waveOut.Stop();
+
         }
 
         private void ExportBtn_Click(object sender, EventArgs e)
@@ -478,7 +350,7 @@ namespace CW
         /// </summary>
         private void ShowAnswer()
         {
-      
+
             if (answer != "")
             {
                 //把小写的q换成大写的Q，符合抄写习惯
@@ -510,6 +382,8 @@ namespace CW
         private void SpeetBox_ValueChanged(object sender, EventArgs e)
         {
             checkAnserSpeed.Value = speetBox.Value + 2;
+            morseConfig.Speed = Convert.ToInt32(speetBox.Value);
+            morsePlayer.UpdateConfig(morseConfig);
         }
 
         private void ClearAnswer()
@@ -526,13 +400,13 @@ namespace CW
 
         private void PauseBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.Pause();
+            waveOut?.Pause();
             continuePlayBtn.Enabled = true;
             pauseBtn.Enabled = false;
         }
         private void ContinuePlayBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.ContinuePlay();
+            waveOut?.Play();
             continuePlayBtn.Enabled = false;
             pauseBtn.Enabled = true;
             if (checkAnswerChb.Checked)
@@ -543,7 +417,7 @@ namespace CW
 
         private void ResumeBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.Play(lastMusicPath);
+            
         }
 
         private void NeRbtn_CheckedChanged(object sender, EventArgs e)
@@ -568,11 +442,16 @@ namespace CW
 
 
 
-      
+
 
         private void repeatRbtn_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void toneBox_ValueChanged(object sender, EventArgs e)
+        {
+            morsePlayer.UpdateFrequency(Convert.ToInt32(toneBox.Value));
         }
     }
 }
