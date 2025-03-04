@@ -36,6 +36,7 @@
             linkLabel1 = new LinkLabel();
             sendBtn = new Button();
             shortNumberBtn = new Button();
+            chineseCodeQuickQueryBtn = new Button();
             SuspendLayout();
             // 
             // button1
@@ -107,11 +108,22 @@
             shortNumberBtn.UseVisualStyleBackColor = true;
             shortNumberBtn.Click += ShortNumberBtn_Click;
             // 
+            // chineseCodeQuickQueryBtn
+            // 
+            chineseCodeQuickQueryBtn.Location = new Point(94, 196);
+            chineseCodeQuickQueryBtn.Name = "chineseCodeQuickQueryBtn";
+            chineseCodeQuickQueryBtn.Size = new Size(100, 23);
+            chineseCodeQuickQueryBtn.TabIndex = 7;
+            chineseCodeQuickQueryBtn.Text = "中文电码本快查";
+            chineseCodeQuickQueryBtn.UseVisualStyleBackColor = true;
+            chineseCodeQuickQueryBtn.Click += chineseCodeQuickQueryBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(282, 463);
+            Controls.Add(chineseCodeQuickQueryBtn);
             Controls.Add(shortNumberBtn);
             Controls.Add(sendBtn);
             Controls.Add(linkLabel1);
@@ -138,5 +150,6 @@
         private LinkLabel linkLabel1;
         private Button sendBtn;
         private Button shortNumberBtn;
+        private Button chineseCodeQuickQueryBtn;
     }
 }

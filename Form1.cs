@@ -62,5 +62,15 @@ namespace CW
             number.ShowDialog();
             this.Close();
         }
+
+        //跳转到中文快查界面
+        private void chineseCodeQuickQueryBtn_Click(object sender, EventArgs e)
+        {
+            ChineseCodeQuickQuery chineseCodeQuickQuery=new  ChineseCodeQuickQuery();
+                this.Visible = false;
+            chineseCodeQuickQuery.ShowDialog();
+            this.Close();
+
+        }
     }
 }

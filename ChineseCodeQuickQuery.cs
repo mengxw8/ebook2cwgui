@@ -1,0 +1,79 @@
+﻿
+using SqlSugar;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
+namespace CW
+{
+    public partial class ChineseCodeQuickQuery : Form
+    {
+
+        private HashSet<string> suggestions = new(); // 存放候选项的列表
+        private SqlSugarClient db = SqliteUtil.CreateClient();
+        public ChineseCodeQuickQuery()
+        {
+            InitializeComponent();
+            //查询条件的自动补全
+            // 添加一些候选项到suggestions列表中
+
+
+            queryBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend; // 设置为自动追加模式
+            queryBox.AutoCompleteSource = AutoCompleteSource.CustomSource; // 设置为自定义源
+            queryBox.AutoCompleteCustomSource.AddRange(suggestions.ToArray()); // 设置自定义源为suggestions列表
+
+
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 判断是否为数字键或小键盘数字键
+            bool isNumber = (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9) ||
+                            (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9);
+            // 使用正则表达式匹配汉字
+            bool isChinese = ((char)e.KeyCode >= '\u4e00' && (char)e.KeyCode <= '\u9fa5');
+            //回车的时候判断有没有合适的字，有的话就直接显示
+            if (e.KeyCode == Keys.Enter)
+            {
+                var queryStr = queryBox.Text;
+
+                var exp = Expressionable.Create<ChineseCode>();
+                exp.Or( it => it.Code==queryStr);//拼接OR
+                exp.OrIF(queryBox.Text.Length == 1 , it => it.Chinese == queryStr);//拼接OR
+              var list=  db.Queryable<ChineseCode>().Where(exp.ToExpression()).ToList();
+                if (list.Count !=1) {
+                    return;
+                }
+               var chinese= list[0];
+               ChineseLab.Text = chinese.Chinese;
+                codeLab.Text = chinese.Code;
+                queryBox.Text = "";
+                queryBox.Focus();
+                //
+
+
+            }
+            else {
+                //处理候选
+
+                //var exp = Expressionable.Create<ChineseCode>();
+                //exp.OrIF(isNumber, it => it.Code.Contains((char)(e.KeyCode)));//拼接OR
+                //exp.OrIF(queryBox.Text.Length==0 && isChinese, it => it.Chinese == Convert.ToString((char)(e.KeyCode)));//拼接OR
+
+                //suggestions.Clear();
+                //db.Queryable<ChineseCode>().Where(exp.ToExpression()).Take(10).ToList().ForEach(c => { suggestions.Add(c.Chinese);suggestions.Add(c.Code); });
+                //queryBox.AutoCompleteCustomSource.AddRange([.. suggestions]);
+
+            }
+
+        }
+    }
+}
