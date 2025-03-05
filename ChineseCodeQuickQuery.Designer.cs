@@ -122,6 +122,9 @@
             // 
             historyTable.AllowUserToAddRows = false;
             historyTable.AllowUserToDeleteRows = false;
+            historyTable.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            historyTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            historyTable.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
             dataGridViewCellStyle1.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Bold);
@@ -139,7 +142,6 @@
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             historyTable.DefaultCellStyle = dataGridViewCellStyle2;
-            historyTable.Dock = DockStyle.Fill;
             historyTable.Location = new Point(3, 19);
             historyTable.Name = "historyTable";
             historyTable.ReadOnly = true;
