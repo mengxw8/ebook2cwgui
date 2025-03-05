@@ -19,9 +19,9 @@ namespace CW
 
         private HashSet<string> suggestions = new(); // 存放候选项的列表
         private SqlSugarClient db = SqliteUtil.CreateClient();
-        private DataTable dataTable = new ();
-        private readonly static int maxColumn=12;
-        private readonly static int maxRow=2* maxColumn;
+        private DataTable dataTable = new();
+        private readonly static int maxColumn = 12;
+        private readonly static int maxRow = 2 * maxColumn;
         private int startIndex = 0;
         public ChineseCodeQuickQuery()
         {
@@ -45,15 +45,16 @@ namespace CW
 
             historyTable.DefaultCellStyle.SelectionForeColor = Color.Black;
             //单元格内容居中
-            historyTable.DefaultCellStyle.Alignment= DataGridViewContentAlignment.MiddleCenter;
+            historyTable.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             //绘制空表格
-            for (int i = 0; i < maxColumn; i++) {
+            for (int i = 0; i < maxColumn; i++)
+            {
                 dataTable.Columns.Add(i.ToString(), typeof(string));
                 dataTable.Rows.Add(dataTable.NewRow());
                 dataTable.Rows.Add(dataTable.NewRow());
-      
-            }      
+
+            }
             historyTable.DataSource = dataTable;
             //不显示表格线
             historyTable.CellBorderStyle = DataGridViewCellBorderStyle.None;
@@ -73,15 +74,16 @@ namespace CW
                 var queryStr = queryBox.Text;
 
                 var exp = Expressionable.Create<ChineseCode>();
-                exp.Or( it => it.Code==queryStr);//拼接OR
-                exp.OrIF(queryBox.Text.Length == 1 , it => it.Chinese == queryStr);//拼接OR
-              var list=  db.Queryable<ChineseCode>().Where(exp.ToExpression()).ToList();
-                if (list.Count !=1) {
+                exp.Or(it => it.Code == queryStr);//拼接OR
+                exp.OrIF(queryBox.Text.Length == 1, it => it.Chinese == queryStr);//拼接OR
+                var list = db.Queryable<ChineseCode>().Where(exp.ToExpression()).ToList();
+                if (list.Count != 1)
+                {
                     return;
                 }
-               var chinese= list[0];
+                var chinese = list[0];
                 //显示当前查询的字
-               ChineseLab.Text = chinese.Chinese;
+                ChineseLab.Text = chinese.Chinese;
                 codeLab.Text = chinese.Code;
                 //记录进历史记录
                 addHistory(chinese);
@@ -92,8 +94,9 @@ namespace CW
 
 
             }
-            else {
-                //处理候选
+            else
+            {
+                //智能提示
 
                 //var exp = Expressionable.Create<ChineseCode>();
                 //exp.OrIF(isNumber, it => it.Code.Contains((char)(e.KeyCode)));//拼接OR
@@ -107,13 +110,28 @@ namespace CW
 
         }
         //添加进历史记录
-        private void addHistory(ChineseCode chinese) {
-            int rowIndex = (startIndex / maxColumn)*2;
+        private void addHistory(ChineseCode chinese)
+        {
+            int rowIndex = (startIndex / maxColumn) * 2;
             int columnIndex = startIndex % maxColumn;
             historyTable.Rows[rowIndex].Cells[columnIndex].Value = chinese.Chinese;
-            historyTable.Rows[rowIndex+1].Cells[columnIndex].Value = chinese.Code;
+            historyTable.Rows[rowIndex + 1].Cells[columnIndex].Value = chinese.Code;
             ++startIndex;
 
+
+        }
+
+        private void cleanBtn_Click(object sender, EventArgs e)
+        {
+            dataTable.Clear();
+            startIndex= 0;
+            for (int i = 0; i < maxColumn; i++)
+            {
+
+                dataTable.Rows.Add(dataTable.NewRow());
+                dataTable.Rows.Add(dataTable.NewRow());
+
+            }
 
         }
     }

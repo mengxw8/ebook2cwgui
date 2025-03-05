@@ -68,6 +68,7 @@
             cleanBtn.TabIndex = 4;
             cleanBtn.Text = "清空历史";
             cleanBtn.UseVisualStyleBackColor = true;
+            cleanBtn.Click += cleanBtn_Click;
             // 
             // codeLab
             // 
