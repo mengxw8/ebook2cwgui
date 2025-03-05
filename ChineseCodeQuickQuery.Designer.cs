@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChineseCodeQuickQuery));
             groupBox1 = new GroupBox();
             codeLab = new Label();
             ChineseLab = new Label();
@@ -105,6 +106,7 @@
             ClientSize = new Size(1264, 681);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ChineseCodeQuickQuery";
             Text = "中文标准电码速查 (基于1998年12月人民邮电出版的《标准电码本》)";
             groupBox1.ResumeLayout(false);
