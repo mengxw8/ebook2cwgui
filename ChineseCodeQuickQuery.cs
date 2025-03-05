@@ -19,6 +19,10 @@ namespace CW
 
         private HashSet<string> suggestions = new(); // 存放候选项的列表
         private SqlSugarClient db = SqliteUtil.CreateClient();
+        private DataTable dataTable = new ();
+        private readonly static int maxColumn=12;
+        private readonly static int maxRow=2* maxColumn;
+        private int startIndex = 0;
         public ChineseCodeQuickQuery()
         {
             InitializeComponent();
@@ -30,6 +34,29 @@ namespace CW
             queryBox.AutoCompleteSource = AutoCompleteSource.CustomSource; // 设置为自定义源
             queryBox.AutoCompleteCustomSource.AddRange(suggestions.ToArray()); // 设置自定义源为suggestions列表
 
+            //隐藏表头
+            historyTable.ColumnHeadersVisible = false;
+            historyTable.RowHeadersVisible = false;
+            //不允许拖动边界更改大小
+            historyTable.AllowUserToResizeColumns = false;
+            historyTable.AllowUserToResizeRows = false;
+            //不要选中的单元格颜色
+            historyTable.DefaultCellStyle.SelectionBackColor = Color.White;
+
+            historyTable.DefaultCellStyle.SelectionForeColor = Color.Black;
+            //单元格内容居中
+            historyTable.DefaultCellStyle.Alignment= DataGridViewContentAlignment.MiddleCenter;
+
+            //绘制空表格
+            for (int i = 0; i < maxColumn; i++) {
+                dataTable.Columns.Add(i.ToString(), typeof(string));
+                dataTable.Rows.Add(dataTable.NewRow());
+                dataTable.Rows.Add(dataTable.NewRow());
+      
+            }      
+            historyTable.DataSource = dataTable;
+            //不显示表格线
+            historyTable.CellBorderStyle = DataGridViewCellBorderStyle.None;
 
         }
 
@@ -53,8 +80,12 @@ namespace CW
                     return;
                 }
                var chinese= list[0];
+                //显示当前查询的字
                ChineseLab.Text = chinese.Chinese;
                 codeLab.Text = chinese.Code;
+                //记录进历史记录
+                addHistory(chinese);
+                //移除输入
                 queryBox.Text = "";
                 queryBox.Focus();
                 //
@@ -73,6 +104,16 @@ namespace CW
                 //queryBox.AutoCompleteCustomSource.AddRange([.. suggestions]);
 
             }
+
+        }
+        //添加进历史记录
+        private void addHistory(ChineseCode chinese) {
+            int rowIndex = (startIndex / maxColumn)*2;
+            int columnIndex = startIndex % maxColumn;
+            historyTable.Rows[rowIndex].Cells[columnIndex].Value = chinese.Chinese;
+            historyTable.Rows[rowIndex+1].Cells[columnIndex].Value = chinese.Code;
+            ++startIndex;
+
 
         }
     }
