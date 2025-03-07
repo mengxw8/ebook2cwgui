@@ -41,12 +41,14 @@ namespace CW
         [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
         private static partial IntPtr LoadKeyboardLayoutA([MarshalAs(UnmanagedType.LPStr)] string pwszKLID, uint Flags);
         // 创建 WaveOutEvent 对象来播放音频
-        WaveOutEvent playerWave = new();
-        MorsePlayer player;
+        private WaveOutEvent playerWave = new();
+        private MorsePlayer player;
+        //当前键类型
+        private static KeyType keyType;
 
         //发报声音
         SineWaveProvider sineWaveProvider;
-        WaveOutEvent transmitWave = new();
+        private static WaveOutEvent transmitWave = new();
 
 
         public SendPractice()
@@ -57,8 +59,7 @@ namespace CW
             //输入法切换为英文
             LoadKeyboardLayoutA(Constant.EnglishKeyboardLayout, 1);
 
-           player= new MorsePlayer(Convert.ToInt32(toneBox.Value), new MorseConfig { Speed = Convert.ToInt32(speetBox.Value) });
-            playerWave.Init(player);
+
         }
         // 导入 timeSetEvent, timeKillEvent 和 MMRESULT 枚举
         //private const uint TIME_KILL_EVENT = 0;
@@ -84,8 +85,13 @@ namespace CW
 
         //是否在绘制中
         private static bool isDraw = false;
+        //当前按下的是哪个
+        private static MouseButtons pressMouseButton = MouseButtons.Left;
+        private static int drawCount = 0;
         //空闲绘制的长度,词间隔
         private static int blankWidth = 42;
+        private static int DiLength = 0;
+        private static int DaLength = 0;
         //字间隔
         private static int keyWidth = 18;
         //是否空闲
@@ -119,7 +125,7 @@ namespace CW
 
         //用来标记高精度定时器是否执行过
         private static volatile bool isThrob = false;
-  
+
 
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
         {
@@ -474,7 +480,7 @@ namespace CW
 
         private void CopyingPractice_FormClosed(object sender, FormClosedEventArgs e)
         {
-  
+
             //清除缓存
             if (lastMusicPath != null && Path.Exists(Path.GetDirectoryName(lastMusicPath)))
             {
@@ -499,7 +505,7 @@ namespace CW
             {
                 return;
             }
-           var  showAnswer = answer.Replace(Constant.StartString, "").Replace(Constant.EndString, "");
+            var showAnswer = answer.Replace(Constant.StartString, "").Replace(Constant.EndString, "");
             var data = showAnswer.Split(" ");
             var index = 0;
             var lableIndex = 0;
@@ -609,7 +615,7 @@ namespace CW
         {
             playerWave.Stop();
             player.Clean();
-            player.AddMorseCode(answer,Constant.allCharCode);
+            player.AddMorseCode(answer, Constant.allCharCode);
             playerWave.Play();
         }
 
@@ -656,10 +662,16 @@ namespace CW
             replicationBox5.ReadOnly = true;
             replicationBox6.ReadOnly = true;
             //初始化声音
+            //初始化播放器
+            player = new MorsePlayer(Convert.ToInt32(toneBox.Value), new MorseConfig { Speed = Convert.ToInt32(speetBox.Value) });
+            playerWave.Init(player);
             // 创建 SineWaveProvider
-             sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
+            sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
             // 将 SineWaveProvider 连接到 WaveOutEvent
             transmitWave.Init(sineWaveProvider);
+            //默认选中手键
+            ordinaryKey.Checked = true;
+            keyType = KeyType.Ordinary;
             //初始化定时器
             TimerCallback callback = TimerProc;
             UIntPtr user = UIntPtr.Zero;
@@ -670,6 +682,7 @@ namespace CW
                 user,
                 TIME_PERIODIC // 周期性定时器
             );
+
         }
 
         private void IndividuationRbtn_CheckedChanged(object sender, EventArgs e)
@@ -717,12 +730,25 @@ namespace CW
                 {
                     isThrob = true;
                     wait = 0;
+                    drawCount++;
+                    //如果是自动键，时间到了要自己停
+                    if (keyType == KeyType.Auto && pressMouseButton == MouseButtons.Left && drawCount == DiLength)
+                    {
+                        isDraw = false;
+                        transmitWave.Stop();
+                    }
+                    else if (keyType == KeyType.Auto && pressMouseButton == MouseButtons.Right && drawCount == DaLength)
+                    {
+                        isDraw = false;
+                        transmitWave.Stop();
+                    }
                 }
                 else if (wait <= blankWidth && !isDraw)
                 {
                     wait++;
                     color = SystemColors.Control;
                 }
+
                 char str = ' ';
                 //解析字符
                 if ((wait == keyWidth || wait > blankWidth) && !isDraw)
@@ -795,6 +821,8 @@ namespace CW
             //开始绘制
             isDraw = true;
             isThrob = false;
+            pressMouseButton = e.Button;
+            drawCount = 0;
             // 开始播放音频
             transmitWave.Play();
 
@@ -808,32 +836,39 @@ namespace CW
         {
             isDraw = false;
             //停止播放声音
-
             transmitWave.Stop();
             //结束计时
 
             QueryPerformanceCounter(out long endTime);
             QueryPerformanceFrequency(out long lpFrequency);
-
-            var t = ((endTime - startTime) / (double)lpFrequency) * 1000;
-    
-            //有可能出现按下时间非常短的情况，短于10ms,定时器都还来不及触发,所以画面上还没有展示出来
-            if (!isThrob)
+            if (keyType == KeyType.Ordinary)
             {
-                return;
-            }
-            //暂且认为，比Da短的就是Di
-            //严格被勾选则比Di长的都为Da         
+                var t = ((endTime - startTime) / (double)lpFrequency) * 1000;
 
-            if (t >= System.Convert.ToInt16(sendDaLength.Text) || (isStrict && t > System.Convert.ToInt16(sendDiLength.Text)))
-            {
-                codeQueue.Enqueue('-');
+                //有可能出现按下时间非常短的情况，短于10ms,定时器都还来不及触发,所以画面上还没有展示出来
+                if (!isThrob)
+                {
+                    return;
+                }
+                //暂且认为，比Da短的就是Di
+                //严格被勾选则比Di长的都为Da         
+
+                if (t >= System.Convert.ToInt16(sendDaLength.Text) || (isStrict && t > System.Convert.ToInt16(sendDiLength.Text)))
+                {
+                    codeQueue.Enqueue('-');
+                }
+                else
+                {
+                    codeQueue.Enqueue('.');
+                }
             }
             else
             {
-                codeQueue.Enqueue('.');
+                if (e.Button == MouseButtons.Left)
+                {
+                }
+                codeQueue.Enqueue(e.Button == MouseButtons.Left ? '.' : '-');
             }
-
         }
         /// <summary>
         /// 这个定时器的作用就是把队列中的图像刷新到页面上显示
@@ -931,7 +966,7 @@ namespace CW
         private void SendToneBox_TextChanged(object sender, EventArgs e)
         {
             //改变发报声音频率
-             sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
+            sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
             transmitWave?.Stop();
             transmitWave?.Dispose();
             transmitWave = new();
@@ -951,8 +986,31 @@ namespace CW
         }
 
         private void volumeTrackBar_ValueChanged(object sender, EventArgs e)
-        {           
-                 player.Volume=volumeTrackBar.Value * 0.1f;
+        {
+            player.Volume = volumeTrackBar.Value * 0.1f;
+        }
+
+        private void ordinaryKey_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ordinaryKey.Checked)
+            {
+                keyType = KeyType.Ordinary;
+            }
+            else
+            {
+
+                keyType = KeyType.Auto;
+            }
+        }
+
+        private void sendDaLength_TextChanged(object sender, EventArgs e)
+        {
+            DaLength = Convert.ToInt32(sendDaLength.Text.Trim())/10;
+        }
+
+        private void sendDiLength_TextChanged(object sender, EventArgs e)
+        {
+            DiLength = Convert.ToInt32(sendDiLength.Text.Trim())/10;
         }
     }
 }

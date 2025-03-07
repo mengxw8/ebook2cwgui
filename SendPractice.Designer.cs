@@ -86,6 +86,10 @@
             timer2 = new System.Windows.Forms.Timer(components);
             groupBox6 = new GroupBox();
             groupBox7 = new GroupBox();
+            keyTypeLbl = new Label();
+            panel1 = new Panel();
+            autoKey = new RadioButton();
+            ordinaryKey = new RadioButton();
             strictCbx = new CheckBox();
             label16 = new Label();
             sendToneBox = new TextBox();
@@ -119,6 +123,7 @@
             ((System.ComponentModel.ISupportInitialize)visualizedBox).BeginInit();
             groupBox6.SuspendLayout();
             groupBox7.SuspendLayout();
+            panel1.SuspendLayout();
             groupBox8.SuspendLayout();
             SuspendLayout();
             // 
@@ -738,6 +743,8 @@
             // 
             // groupBox7
             // 
+            groupBox7.Controls.Add(keyTypeLbl);
+            groupBox7.Controls.Add(panel1);
             groupBox7.Controls.Add(strictCbx);
             groupBox7.Controls.Add(label16);
             groupBox7.Controls.Add(sendToneBox);
@@ -763,6 +770,48 @@
             groupBox7.TabIndex = 6;
             groupBox7.TabStop = false;
             groupBox7.Text = "CW规则";
+            // 
+            // keyTypeLbl
+            // 
+            keyTypeLbl.AutoSize = true;
+            keyTypeLbl.Location = new Point(10, 50);
+            keyTypeLbl.Name = "keyTypeLbl";
+            keyTypeLbl.Size = new Size(47, 17);
+            keyTypeLbl.TabIndex = 19;
+            keyTypeLbl.Text = "键类型:";
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(autoKey);
+            panel1.Controls.Add(ordinaryKey);
+            panel1.Location = new Point(58, 42);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(130, 31);
+            panel1.TabIndex = 18;
+            // 
+            // autoKey
+            // 
+            autoKey.AutoSize = true;
+            autoKey.Location = new Point(60, 5);
+            autoKey.Name = "autoKey";
+            autoKey.Size = new Size(62, 21);
+            autoKey.TabIndex = 1;
+            autoKey.TabStop = true;
+            autoKey.Text = "自动键";
+            autoKey.UseVisualStyleBackColor = true;
+            autoKey.CheckedChanged += ordinaryKey_CheckedChanged;
+            // 
+            // ordinaryKey
+            // 
+            ordinaryKey.AutoSize = true;
+            ordinaryKey.Location = new Point(3, 5);
+            ordinaryKey.Name = "ordinaryKey";
+            ordinaryKey.Size = new Size(50, 21);
+            ordinaryKey.TabIndex = 0;
+            ordinaryKey.TabStop = true;
+            ordinaryKey.Text = "手键";
+            ordinaryKey.UseVisualStyleBackColor = true;
+            ordinaryKey.CheckedChanged += ordinaryKey_CheckedChanged;
             // 
             // strictCbx
             // 
@@ -879,6 +928,7 @@
             sendDaLength.Size = new Size(29, 23);
             sendDaLength.TabIndex = 2;
             sendDaLength.Text = "180";
+            sendDaLength.TextChanged += sendDaLength_TextChanged;
             sendDaLength.KeyPress += NumberTxb_KeyPress;
             // 
             // label11
@@ -907,6 +957,7 @@
             sendDiLength.Size = new Size(29, 23);
             sendDiLength.TabIndex = 1;
             sendDiLength.Text = "60";
+            sendDiLength.TextChanged += sendDiLength_TextChanged;
             sendDiLength.KeyPress += NumberTxb_KeyPress;
             // 
             // label9
@@ -1002,6 +1053,8 @@
             groupBox6.ResumeLayout(false);
             groupBox7.ResumeLayout(false);
             groupBox7.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             groupBox8.ResumeLayout(false);
             groupBox8.PerformLayout();
             ResumeLayout(false);
@@ -1086,5 +1139,9 @@
         private Label answerLbl2;
         private Label label7;
         private TrackBar volumeTrackBar;
+        private Panel panel1;
+        private RadioButton autoKey;
+        private RadioButton ordinaryKey;
+        private Label keyTypeLbl;
     }
 }
