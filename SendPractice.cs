@@ -499,8 +499,8 @@ namespace CW
             {
                 return;
             }
-            answer = answer.Replace(Constant.StartString, "").Replace(Constant.EndString, "");
-            var data = answer.Split(" ");
+           var  showAnswer = answer.Replace(Constant.StartString, "").Replace(Constant.EndString, "");
+            var data = showAnswer.Split(" ");
             var index = 0;
             var lableIndex = 0;
             StringBuilder sb = new();
