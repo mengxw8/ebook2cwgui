@@ -796,7 +796,6 @@ namespace CW
             isDraw = true;
             isThrob = false;
             // 开始播放音频
-            sineWaveProvider.Mute = false;
             transmitWave.Play();
 
             //开始计时            
@@ -811,7 +810,6 @@ namespace CW
             //停止播放声音
 
             transmitWave.Stop();
-            sineWaveProvider.Mute = true;
             //结束计时
 
             QueryPerformanceCounter(out long endTime);
