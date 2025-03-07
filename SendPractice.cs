@@ -30,6 +30,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Net.Mime.MediaTypeNames;
 using System.Reflection.Emit;
 using NAudio.Wave.SampleProviders;
+using System.Numerics;
 
 namespace CW
 {
@@ -321,7 +322,9 @@ namespace CW
             File.WriteAllText(filePath, answer);
 
             //显示报文
-            ShowAnswer();        
+            ShowAnswer();
+            player.UpdateFrequency(Convert.ToInt32(toneBox.Value));
+            //停止播放并清空播放内容
             playerWave.Stop();
             player.Clean();
             if (bgmCbx.Checked)
