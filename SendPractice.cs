@@ -29,6 +29,7 @@ using System.Xml;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Net.Mime.MediaTypeNames;
 using System.Reflection.Emit;
+using NAudio.Wave.SampleProviders;
 
 namespace CW
 {
@@ -38,6 +39,14 @@ namespace CW
         //static extern long LoadKeyboardLayout(string pwszKLID, uint Flags);
         [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
         private static partial IntPtr LoadKeyboardLayoutA([MarshalAs(UnmanagedType.LPStr)] string pwszKLID, uint Flags);
+        // 创建 WaveOutEvent 对象来播放音频
+        WaveOutEvent playerWave = new();
+        MorsePlayer player;
+
+        //发报声音
+        SineWaveProvider sineWaveProvider;
+        WaveOutEvent transmitWave = new();
+
 
         public SendPractice()
         {
@@ -47,6 +56,8 @@ namespace CW
             //输入法切换为英文
             LoadKeyboardLayoutA(Constant.EnglishKeyboardLayout, 1);
 
+           player= new MorsePlayer(Convert.ToInt32(toneBox.Value), new MorseConfig { Speed = Convert.ToInt32(speetBox.Value) });
+            playerWave.Init(player);
         }
         // 导入 timeSetEvent, timeKillEvent 和 MMRESULT 枚举
         //private const uint TIME_KILL_EVENT = 0;
@@ -104,10 +115,10 @@ namespace CW
         //用来显示参考文本的label
         private readonly static List<System.Windows.Forms.Label> answerLableList = new(6);
         private readonly static List<System.Windows.Forms.RichTextBox> inputList = new(6);
-        // 创建 WaveOutEvent 对象来播放音频
-        WaveOutEvent waveOut = new();
+
         //用来标记高精度定时器是否执行过
         private static volatile bool isThrob = false;
+  
 
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
         {
@@ -308,33 +319,20 @@ namespace CW
 
             //写入临时文件
             File.WriteAllText(filePath, answer);
-            //生成音频
-            var param = " -q 1 -c - -o " + Constant.TempPath + fileName + " -w " + speetBox.Value + " -f " + toneBox.Value + " " + filePath;
-            // 启动一个新任务
-            Task task = Task.Run(() => { CWTools.GenerateAudio(fileName.ToString(), param); });
-            var audioFileName = Constant.TempPath + fileName + ".mp3";
+
             //显示报文
-            ShowAnswer();
-
-            //播放音频
-            Mp3Player.Stop();
-
+            ShowAnswer();        
+            playerWave.Stop();
+            player.Clean();
             if (bgmCbx.Checked)
             {
-                lastMusicPath = audioFileName;
-                // 等待任务完成
-                await task;
-                Mp3Player.Play(audioFileName);
+                //开始混音
+                player.AddMorseCode(answer, Constant.allCharCode);
+                playerWave.Play();
             }
-
-
             //解除封禁
             pauseBtn.Enabled = true;
             rePlayBtn.Enabled = true;
-
-
-
-            await task;
             startBtn.Enabled = true;
         }
 
@@ -479,8 +477,10 @@ namespace CW
             {
                 Directory.Delete(Path.GetDirectoryName(lastMusicPath) ?? "", true);
             }
-            waveOut?.Stop();
-            waveOut?.Dispose();
+            playerWave?.Stop();
+            playerWave?.Dispose();
+            transmitWave?.Stop();
+            transmitWave?.Dispose();
         }
 
         //把生成的报文展示出来
@@ -648,9 +648,9 @@ namespace CW
             replicationBox6.ReadOnly = true;
             //初始化声音
             // 创建 SineWaveProvider
-            SineWaveProvider sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
+             sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
             // 将 SineWaveProvider 连接到 WaveOutEvent
-            waveOut.Init(sineWaveProvider);
+            transmitWave.Init(sineWaveProvider);
             //初始化定时器
             TimerCallback callback = TimerProc;
             UIntPtr user = UIntPtr.Zero;
@@ -786,10 +786,10 @@ namespace CW
             //开始绘制
             isDraw = true;
             isThrob = false;
-
-
             // 开始播放音频
-            waveOut.Play();
+            sineWaveProvider.Mute = false;
+            transmitWave.Play();
+
             //开始计时            
             QueryPerformanceCounter(out startTime);
 
@@ -800,15 +800,16 @@ namespace CW
         {
             isDraw = false;
             //停止播放声音
-            waveOut.Stop();
 
+            transmitWave.Stop();
+            sineWaveProvider.Mute = true;
             //结束计时
 
             QueryPerformanceCounter(out long endTime);
             QueryPerformanceFrequency(out long lpFrequency);
 
             var t = ((endTime - startTime) / (double)lpFrequency) * 1000;
-            Debug.WriteLine(t);
+    
             //有可能出现按下时间非常短的情况，短于10ms,定时器都还来不及触发,所以画面上还没有展示出来
             if (!isThrob)
             {
@@ -820,12 +821,10 @@ namespace CW
             if (t >= System.Convert.ToInt16(sendDaLength.Text) || (isStrict && t > System.Convert.ToInt16(sendDiLength.Text)))
             {
                 codeQueue.Enqueue('-');
-                Debug.WriteLine("-");
             }
             else
             {
                 codeQueue.Enqueue('.');
-                Debug.WriteLine(".");
             }
 
         }
@@ -925,12 +924,12 @@ namespace CW
         private void SendToneBox_TextChanged(object sender, EventArgs e)
         {
             //改变发报声音频率
-            SineWaveProvider sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
-            waveOut?.Stop();
-            waveOut?.Dispose();
-            waveOut = new();
+             sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
+            transmitWave?.Stop();
+            transmitWave?.Dispose();
+            transmitWave = new();
             // 将 SineWaveProvider 连接到 WaveOutEvent
-            waveOut.Init(sineWaveProvider);
+            transmitWave.Init(sineWaveProvider);
 
         }
 
@@ -942,6 +941,11 @@ namespace CW
                 bitmap = new Bitmap(visualizedBox.Width, visualizedBox.Height);
             }
 
+        }
+
+        private void volumeTrackBar_ValueChanged(object sender, EventArgs e)
+        {           
+                 player.Volume=volumeTrackBar.Value * 0.1f;
         }
     }
 }

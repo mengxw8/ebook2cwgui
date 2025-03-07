@@ -14,7 +14,8 @@ namespace CW
         private readonly ConcurrentQueue<short> audioQueue = new ConcurrentQueue<short>();
         private readonly int sampleRate;
         private int frequency;
-        private readonly  float amplitude;
+        public float Volume{ get; set; }
+
 
         private MorseConfig config;
         //上升沿的采样数
@@ -39,7 +40,7 @@ namespace CW
         {
             this.sampleRate = sampleRate;
             this.frequency = frequency;
-            this.amplitude = amplitude;
+            this.Volume = amplitude;
             UpdateConfig(config);
             //this.waveFormat = new WaveFormat(sampleRate, 16, 2);  // 双声道格式
         }
@@ -115,7 +116,7 @@ namespace CW
                     sample *= Math.Pow(Math.Cos(t * Math.PI / 2), 2);
                 }
 
-                dit_buff[i] = (short)(sample * short.MaxValue * amplitude);
+                dit_buff[i] = (short)(sample * short.MaxValue );
             }
         }
 
@@ -143,7 +144,7 @@ namespace CW
                     sample *= Math.Pow(Math.Cos(t * Math.PI / 2), 2);
                 }
 
-                dah_buff[i] = (short)(sample * short.MaxValue * amplitude);
+                dah_buff[i] = (short)(sample * short.MaxValue );
             }
         }
 
@@ -231,7 +232,8 @@ namespace CW
             {
                 if (audioQueue.Count > 0)
                 {
-                     audioQueue.TryDequeue(out short sample);
+                    audioQueue.TryDequeue(out short sample);
+                        sample =(short) (Volume* sample);
                     // 直接转换为 short 并限制范围
                     buffer[offset + samplesRead] = sample;
                     samplesRead++;

@@ -25,6 +25,11 @@ namespace CW
                 group => group.Key,
                 group => group.Value // 取最后一个值（覆盖冲突键）
             );
+
+        public static readonly Dictionary<char, string> allCharCode = new Dictionary<char, string>[] { alphabet, number, symbol }.SelectMany(disc => disc)    .ToDictionary(
+        group => group.Key,
+        group => group.Value // 取最后一个值（覆盖冲突键）
+    );
         public static readonly Dictionary<string, char> allCode = new Dictionary<char, string>[] { alphabet, number, symbol }.SelectMany(disc => disc).ToLookup(pair => pair.Value, pair => pair.Key)
             .ToDictionary(
                 group => group.Key,

@@ -44,11 +44,13 @@
             eqRbtn = new RadioButton();
             neRbtn = new RadioButton();
             groupBox3 = new GroupBox();
+            label7 = new Label();
             bgmCbx = new CheckBox();
             speetBox = new NumericUpDown();
             toneBox = new NumericUpDown();
             label2 = new Label();
             label1 = new Label();
+            volumeTrackBar = new TrackBar();
             symbolsChb = new CheckBox();
             EachGroup = new NumericUpDown();
             label4 = new Label();
@@ -109,6 +111,7 @@
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)speetBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)toneBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)volumeTrackBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)EachGroup).BeginInit();
             ((System.ComponentModel.ISupportInitialize)groupNumBox).BeginInit();
             groupBox4.SuspendLayout();
@@ -292,22 +295,33 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(label7);
             groupBox3.Controls.Add(bgmCbx);
             groupBox3.Controls.Add(speetBox);
             groupBox3.Controls.Add(toneBox);
             groupBox3.Controls.Add(label2);
             groupBox3.Controls.Add(label1);
+            groupBox3.Controls.Add(volumeTrackBar);
             groupBox3.Location = new Point(617, 2);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(311, 60);
+            groupBox3.Size = new Size(292, 78);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "背景音配置";
             // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(9, 47);
+            label7.Name = "label7";
+            label7.Size = new Size(59, 17);
+            label7.TabIndex = 3;
+            label7.Text = "背景音量:";
+            // 
             // bgmCbx
             // 
             bgmCbx.AutoSize = true;
-            bgmCbx.Location = new Point(257, 23);
+            bgmCbx.Location = new Point(233, 20);
             bgmCbx.Name = "bgmCbx";
             bgmCbx.Size = new Size(51, 21);
             bgmCbx.TabIndex = 2;
@@ -316,7 +330,7 @@
             // 
             // speetBox
             // 
-            speetBox.Location = new Point(86, 23);
+            speetBox.Location = new Point(81, 17);
             speetBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             speetBox.Name = "speetBox";
             speetBox.Size = new Size(48, 23);
@@ -325,18 +339,18 @@
             // 
             // toneBox
             // 
-            toneBox.Location = new Point(204, 22);
+            toneBox.Location = new Point(186, 19);
             toneBox.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             toneBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             toneBox.Name = "toneBox";
-            toneBox.Size = new Size(48, 23);
+            toneBox.Size = new Size(46, 23);
             toneBox.TabIndex = 1;
             toneBox.Value = new decimal(new int[] { 600, 0, 0, 0 });
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(142, 24);
+            label2.Location = new Point(129, 21);
             label2.Name = "label2";
             label2.Size = new Size(58, 17);
             label2.TabIndex = 1;
@@ -345,16 +359,26 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(7, 24);
+            label1.Location = new Point(5, 19);
             label1.Name = "label1";
             label1.Size = new Size(74, 17);
             label1.TabIndex = 0;
             label1.Text = "速度(WPM):";
             // 
+            // volumeTrackBar
+            // 
+            volumeTrackBar.AutoSize = false;
+            volumeTrackBar.Location = new Point(67, 43);
+            volumeTrackBar.Name = "volumeTrackBar";
+            volumeTrackBar.Size = new Size(213, 29);
+            volumeTrackBar.TabIndex = 4;
+            volumeTrackBar.Value = 8;
+            volumeTrackBar.ValueChanged += volumeTrackBar_ValueChanged;
+            // 
             // symbolsChb
             // 
             symbolsChb.AutoSize = true;
-            symbolsChb.Location = new Point(138, 67);
+            symbolsChb.Location = new Point(125, 57);
             symbolsChb.Name = "symbolsChb";
             symbolsChb.Size = new Size(87, 21);
             symbolsChb.TabIndex = 4;
@@ -363,7 +387,7 @@
             // 
             // EachGroup
             // 
-            EachGroup.Location = new Point(83, 59);
+            EachGroup.Location = new Point(75, 51);
             EachGroup.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             EachGroup.Name = "EachGroup";
             EachGroup.Size = new Size(47, 23);
@@ -373,7 +397,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(8, 61);
+            label4.Location = new Point(1, 53);
             label4.Name = "label4";
             label4.Size = new Size(81, 17);
             label4.TabIndex = 12;
@@ -381,7 +405,7 @@
             // 
             // exportBtn
             // 
-            exportBtn.Location = new Point(225, 66);
+            exportBtn.Location = new Point(212, 58);
             exportBtn.Name = "exportBtn";
             exportBtn.Size = new Size(75, 23);
             exportBtn.TabIndex = 7;
@@ -392,7 +416,7 @@
             // repeatRbtn
             // 
             repeatRbtn.AutoSize = true;
-            repeatRbtn.Location = new Point(138, 23);
+            repeatRbtn.Location = new Point(125, 13);
             repeatRbtn.Name = "repeatRbtn";
             repeatRbtn.Size = new Size(87, 21);
             repeatRbtn.TabIndex = 2;
@@ -402,7 +426,7 @@
             // continuousRbtn
             // 
             continuousRbtn.AutoSize = true;
-            continuousRbtn.Location = new Point(138, 45);
+            continuousRbtn.Location = new Point(125, 35);
             continuousRbtn.Name = "continuousRbtn";
             continuousRbtn.Size = new Size(87, 21);
             continuousRbtn.TabIndex = 3;
@@ -411,7 +435,7 @@
             // 
             // submitAnswerBtn
             // 
-            submitAnswerBtn.Location = new Point(225, 42);
+            submitAnswerBtn.Location = new Point(212, 34);
             submitAnswerBtn.Name = "submitAnswerBtn";
             submitAnswerBtn.Size = new Size(75, 23);
             submitAnswerBtn.TabIndex = 6;
@@ -420,7 +444,7 @@
             // 
             // startBtn
             // 
-            startBtn.Location = new Point(225, 18);
+            startBtn.Location = new Point(212, 10);
             startBtn.Name = "startBtn";
             startBtn.Size = new Size(75, 23);
             startBtn.TabIndex = 5;
@@ -430,7 +454,7 @@
             // 
             // groupNumBox
             // 
-            groupNumBox.Location = new Point(82, 28);
+            groupNumBox.Location = new Point(74, 20);
             groupNumBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             groupNumBox.Name = "groupNumBox";
             groupNumBox.Size = new Size(48, 23);
@@ -440,7 +464,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(8, 30);
+            label3.Location = new Point(3, 22);
             label3.Name = "label3";
             label3.Size = new Size(64, 17);
             label3.TabIndex = 2;
@@ -622,7 +646,7 @@
             groupBox5.Controls.Add(pauseBtn);
             groupBox5.Controls.Add(clearAnswerBtn);
             groupBox5.Controls.Add(stopBtn);
-            groupBox5.Location = new Point(934, 2);
+            groupBox5.Location = new Point(914, 2);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(88, 166);
             groupBox5.TabIndex = 4;
@@ -676,9 +700,9 @@
             // 
             sendBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             sendBtn.Font = new Font("Microsoft YaHei UI", 15F, FontStyle.Bold);
-            sendBtn.Location = new Point(1795, 108);
+            sendBtn.Location = new Point(1795, 96);
             sendBtn.Name = "sendBtn";
-            sendBtn.Size = new Size(106, 66);
+            sendBtn.Size = new Size(106, 70);
             sendBtn.TabIndex = 7;
             sendBtn.Text = "发送";
             sendBtn.UseVisualStyleBackColor = true;
@@ -690,7 +714,7 @@
             visualizedBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             visualizedBox.Location = new Point(3, 19);
             visualizedBox.Name = "visualizedBox";
-            visualizedBox.Size = new Size(868, 83);
+            visualizedBox.Size = new Size(887, 53);
             visualizedBox.SizeMode = PictureBoxSizeMode.StretchImage;
             visualizedBox.TabIndex = 7;
             visualizedBox.TabStop = false;
@@ -705,9 +729,9 @@
             // 
             groupBox6.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox6.Controls.Add(visualizedBox);
-            groupBox6.Location = new Point(1027, 2);
+            groupBox6.Location = new Point(1008, 2);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(874, 105);
+            groupBox6.Size = new Size(893, 78);
             groupBox6.TabIndex = 5;
             groupBox6.TabStop = false;
             groupBox6.Text = "可视化";
@@ -733,9 +757,9 @@
             groupBox7.Controls.Add(label6);
             groupBox7.Controls.Add(sendSpeedTxb);
             groupBox7.Controls.Add(label5);
-            groupBox7.Location = new Point(1027, 110);
+            groupBox7.Location = new Point(1011, 86);
             groupBox7.Name = "groupBox7";
-            groupBox7.Size = new Size(762, 58);
+            groupBox7.Size = new Size(778, 82);
             groupBox7.TabIndex = 6;
             groupBox7.TabStop = false;
             groupBox7.Text = "CW规则";
@@ -743,7 +767,7 @@
             // strictCbx
             // 
             strictCbx.AutoSize = true;
-            strictCbx.Location = new Point(705, 19);
+            strictCbx.Location = new Point(705, 17);
             strictCbx.Name = "strictCbx";
             strictCbx.Size = new Size(51, 21);
             strictCbx.TabIndex = 6;
@@ -754,7 +778,7 @@
             // label16
             // 
             label16.AutoSize = true;
-            label16.Location = new Point(677, 19);
+            label16.Location = new Point(676, 18);
             label16.Name = "label16";
             label16.Size = new Size(31, 17);
             label16.TabIndex = 17;
@@ -762,7 +786,7 @@
             // 
             // sendToneBox
             // 
-            sendToneBox.Location = new Point(615, 16);
+            sendToneBox.Location = new Point(615, 15);
             sendToneBox.MaxLength = 5;
             sendToneBox.Name = "sendToneBox";
             sendToneBox.Size = new Size(59, 23);
@@ -774,7 +798,7 @@
             // label17
             // 
             label17.AutoSize = true;
-            label17.Location = new Point(580, 19);
+            label17.Location = new Point(580, 18);
             label17.Name = "label17";
             label17.Size = new Size(35, 17);
             label17.TabIndex = 15;
@@ -783,7 +807,7 @@
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(549, 19);
+            label14.Location = new Point(549, 18);
             label14.Name = "label14";
             label14.Size = new Size(33, 17);
             label14.TabIndex = 14;
@@ -791,7 +815,7 @@
             // 
             // charInterval
             // 
-            charInterval.Location = new Point(519, 16);
+            charInterval.Location = new Point(519, 15);
             charInterval.MaxLength = 3;
             charInterval.Name = "charInterval";
             charInterval.Size = new Size(29, 23);
@@ -803,7 +827,7 @@
             // label15
             // 
             label15.AutoSize = true;
-            label15.Location = new Point(464, 19);
+            label15.Location = new Point(464, 18);
             label15.Name = "label15";
             label15.Size = new Size(59, 17);
             label15.TabIndex = 12;
@@ -812,7 +836,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(433, 19);
+            label12.Location = new Point(433, 18);
             label12.Name = "label12";
             label12.Size = new Size(33, 17);
             label12.TabIndex = 11;
@@ -820,7 +844,7 @@
             // 
             // keyInterval
             // 
-            keyInterval.Location = new Point(403, 16);
+            keyInterval.Location = new Point(403, 15);
             keyInterval.MaxLength = 3;
             keyInterval.Name = "keyInterval";
             keyInterval.Size = new Size(29, 23);
@@ -832,7 +856,7 @@
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(348, 19);
+            label13.Location = new Point(348, 18);
             label13.Name = "label13";
             label13.Size = new Size(59, 17);
             label13.TabIndex = 9;
@@ -841,7 +865,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(317, 21);
+            label10.Location = new Point(316, 18);
             label10.Name = "label10";
             label10.Size = new Size(33, 17);
             label10.TabIndex = 8;
@@ -849,7 +873,7 @@
             // 
             // sendDaLength
             // 
-            sendDaLength.Location = new Point(287, 18);
+            sendDaLength.Location = new Point(287, 15);
             sendDaLength.MaxLength = 3;
             sendDaLength.Name = "sendDaLength";
             sendDaLength.Size = new Size(29, 23);
@@ -860,7 +884,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(232, 21);
+            label11.Location = new Point(232, 18);
             label11.Name = "label11";
             label11.Size = new Size(57, 17);
             label11.TabIndex = 6;
@@ -869,7 +893,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(203, 19);
+            label8.Location = new Point(203, 18);
             label8.Name = "label8";
             label8.Size = new Size(33, 17);
             label8.TabIndex = 5;
@@ -877,7 +901,7 @@
             // 
             // sendDiLength
             // 
-            sendDiLength.Location = new Point(173, 16);
+            sendDiLength.Location = new Point(173, 15);
             sendDiLength.MaxLength = 3;
             sendDiLength.Name = "sendDiLength";
             sendDiLength.Size = new Size(29, 23);
@@ -888,7 +912,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(118, 19);
+            label9.Location = new Point(118, 18);
             label9.Name = "label9";
             label9.Size = new Size(57, 17);
             label9.TabIndex = 3;
@@ -935,9 +959,9 @@
             groupBox8.Controls.Add(label3);
             groupBox8.Controls.Add(exportBtn);
             groupBox8.Controls.Add(repeatRbtn);
-            groupBox8.Location = new Point(617, 68);
+            groupBox8.Location = new Point(617, 86);
             groupBox8.Name = "groupBox8";
-            groupBox8.Size = new Size(311, 100);
+            groupBox8.Size = new Size(292, 82);
             groupBox8.TabIndex = 3;
             groupBox8.TabStop = false;
             groupBox8.Text = "报文控制";
@@ -947,13 +971,13 @@
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(groupBox3);
             Controls.Add(groupBox7);
             Controls.Add(groupBox6);
             Controls.Add(groupBox8);
             Controls.Add(sendBtn);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
-            Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "SendPractice";
@@ -969,6 +993,7 @@
             groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)speetBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)toneBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)volumeTrackBar).EndInit();
             ((System.ComponentModel.ISupportInitialize)EachGroup).EndInit();
             ((System.ComponentModel.ISupportInitialize)groupNumBox).EndInit();
             groupBox4.ResumeLayout(false);
@@ -1059,5 +1084,7 @@
         private Label answerLbl3;
         private RichTextBox replicationBox2;
         private Label answerLbl2;
+        private Label label7;
+        private TrackBar volumeTrackBar;
     }
 }

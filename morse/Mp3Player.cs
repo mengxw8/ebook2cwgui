@@ -1,6 +1,7 @@
 ﻿using NAudio.Wave;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,10 +10,9 @@ namespace CW
 {
     internal class Mp3Player
     {
-        private static WaveOut? waveOut;
+        private static WaveOutEvent? waveOut;
         private static Mp3FileReader? mp3;
-        public static void Play(string path)
-        {
+        public static void Play(string path ) {
             //文件不存在，不播放
             if (!File.Exists(path))
             {
@@ -20,11 +20,24 @@ namespace CW
             }
             Stop();
             mp3 = new Mp3FileReader(path);
-            waveOut = new WaveOut();
+            waveOut = new ();
+
+            Debug.WriteLine(waveOut.GetHashCode());
             waveOut.Init(mp3);
             waveOut.Play();
-
         }
+        public static Mp3FileReader CreateMp3FileReader(string path)
+        {
+            //文件不存在，不播放
+            if (!File.Exists(path))
+            {
+                return null;
+            }
+            Stop();
+            mp3 = new Mp3FileReader(path); 
+           return mp3;
+        }
+
         public static void Pause()
         {
             if (waveOut != null && waveOut.PlaybackState == PlaybackState.Playing)
@@ -55,11 +68,19 @@ namespace CW
         public static void RePlay()
         {
             waveOut?.Dispose();
-            waveOut = new WaveOut();
+            waveOut = new WaveOutEvent();
             waveOut.Init(mp3);
             waveOut.Play();
 
 
+        }
+
+
+        public static void setVolume(float volume) {
+            if (waveOut != null)
+            {
+                waveOut.Volume = volume;
+            }         
         }
 
 
