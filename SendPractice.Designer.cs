@@ -110,6 +110,7 @@
             sendSpeedTxb = new TextBox();
             label5 = new Label();
             groupBox8 = new GroupBox();
+            checkBox1 = new CheckBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -410,7 +411,7 @@
             // 
             // exportBtn
             // 
-            exportBtn.Location = new Point(212, 58);
+            exportBtn.Location = new Point(212, 56);
             exportBtn.Name = "exportBtn";
             exportBtn.Size = new Size(75, 23);
             exportBtn.TabIndex = 7;
@@ -440,7 +441,7 @@
             // 
             // submitAnswerBtn
             // 
-            submitAnswerBtn.Location = new Point(212, 34);
+            submitAnswerBtn.Location = new Point(212, 33);
             submitAnswerBtn.Name = "submitAnswerBtn";
             submitAnswerBtn.Size = new Size(75, 23);
             submitAnswerBtn.TabIndex = 6;
@@ -743,6 +744,7 @@
             // 
             // groupBox7
             // 
+            groupBox7.Controls.Add(checkBox1);
             groupBox7.Controls.Add(keyTypeLbl);
             groupBox7.Controls.Add(panel1);
             groupBox7.Controls.Add(strictCbx);
@@ -1017,6 +1019,16 @@
             groupBox8.TabStop = false;
             groupBox8.Text = "报文控制";
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(203, 49);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(75, 21);
+            checkBox1.TabIndex = 20;
+            checkBox1.Text = "记录发报";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
             // SendPractice
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -1143,5 +1155,6 @@
         private RadioButton autoKey;
         private RadioButton ordinaryKey;
         private Label keyTypeLbl;
+        private CheckBox checkBox1;
     }
 }
