@@ -417,7 +417,7 @@ namespace CW
 
         private void StopBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.Stop();
+            player.Clean();
             timer1.Stop();
         }
         /// <summary>
@@ -474,7 +474,7 @@ namespace CW
 
         private void CopyingPractice_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Mp3Player.Stop();
+  
             //清除缓存
             if (lastMusicPath != null && Path.Exists(Path.GetDirectoryName(lastMusicPath)))
             {
@@ -590,13 +590,16 @@ namespace CW
 
         private void PauseBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.Pause();
+            playerWave.Pause();
             continuePlayBtn.Enabled = true;
             pauseBtn.Enabled = false;
         }
         private void ContinuePlayBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.ContinuePlay();
+            if (playerWave != null && playerWave.PlaybackState == PlaybackState.Paused)
+            {
+                playerWave.Play();
+            }
             continuePlayBtn.Enabled = false;
             pauseBtn.Enabled = true;
 
@@ -604,7 +607,10 @@ namespace CW
 
         private void ResumeBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.Play(lastMusicPath);
+            playerWave.Stop();
+            player.Clean();
+            player.AddMorseCode(answer,Constant.allCharCode);
+            playerWave.Play();
         }
 
         private void NeRbtn_CheckedChanged(object sender, EventArgs e)
