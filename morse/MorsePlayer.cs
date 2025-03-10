@@ -26,8 +26,8 @@ namespace CW
         private int dotDuration;
 
         //把计算好的结果缓存起来，不用重复计算
-        private short[] dit_buff;
-        private short[] dah_buff;
+        public short[] dit_buff { get; set; }
+        public short[] dah_buff { get; set; }
         /// <summary>
         /// 
         /// 
@@ -68,30 +68,6 @@ namespace CW
             GenerateDitBuffer();
             GenerateDahBuffer();
 
-            //for (int i = 0; i < dotDuration * 3; i++){
-
-
-            //    var sample =(Math.Sin(2 * Math.PI * frequency * i / sampleRate));
-
-
-            //    if (i < riseTime) {
-            //        sample *=  Math.Pow(Math.Sin(i * Math.PI / (2.0 * riseTime)), 2);
-
-            //    }
-            //    var dit = sample;
-            //    var dah = sample;
-            //    if (i < dotDuration) {
-            //        if (i >( dotDuration - fallTime)) {
-            //            dit *= Math.Pow(Math.Sin(2* Math.PI*(i-(dotDuration-fallTime)+fallTime / (4 * fallTime))), 2);
-            //        }
-
-            //        dit_buff[i] = (short)(dit * short.MaxValue* amplitude);
-            //    }
-            //    if (i > (3 * dotDuration - fallTime)) {
-            //        dah*= Math.Pow(Math.Sin(2  * Math.PI * (i - (3*dotDuration - fallTime) + fallTime / (4 * fallTime))), 2);
-            //    }
-            //    dah_buff[i] = (short)(dah * short.MaxValue* amplitude);
-            //}
         }
         private void GenerateDitBuffer()
         {

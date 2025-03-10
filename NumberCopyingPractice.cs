@@ -1,5 +1,6 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
+using CW.morse;
 using Microsoft.VisualBasic.Devices;
 using NAudio.SoundFont;
 using NAudio.Wave;
@@ -61,21 +62,16 @@ namespace CW
             morseConfig.Speed = Convert.ToInt32(speetBox.Value);
             morsePlayer = new MorsePlayer(Convert.ToInt32(toneBox.Value), morseConfig);
             waveOut.Init(morsePlayer);
-
-
-
-
-        }
+             }
 
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
         WorkingMode mode = WorkingMode.None;
         //答案
         string answer = "";
         //上一次播放的音频文件路径
-        string lastMusicPath = "";
-        string lastCheckMusicPath = "";
+        string lastPath = "";
 
-
+         
 
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
         {
@@ -140,10 +136,10 @@ namespace CW
 
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
-            string filePath = Constant.TempPath + fileName + ".txt";
-            if (!Path.Exists(Path.GetDirectoryName(filePath)))
+             lastPath = Constant.TempPath + fileName + ".txt";
+            if (!Path.Exists(Path.GetDirectoryName(lastPath)))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(filePath) ?? "");
+                Directory.CreateDirectory(Path.GetDirectoryName(lastPath) ?? "");
             }
 
 
@@ -151,19 +147,19 @@ namespace CW
 
 
             //写入临时文件
-            File.WriteAllText(filePath, answer);
+            File.WriteAllText(lastPath, answer);
             //生成音频
             //var task = Task.Run(() => { CWTools.GenerateAudio(fileName.ToString(), param); });
             waveOut.Stop();
-           morsePlayer.Clean();
+            morsePlayer.Clean();
             var task = Task.Run(() =>
             {
                 var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
                 keys.TryAdd('=', "-...-");
                 keys.TryAdd('i', "..");
-                morsePlayer.AddMorseCode(answer, keys,Convert.ToInt32(speetBox.Value));
+                morsePlayer.AddMorseCode(answer, keys, Convert.ToInt32(speetBox.Value));
             });
-        
+
             //解除封禁
             pauseBtn.Enabled = true;
             rePlayBtn.Enabled = true;
@@ -176,28 +172,29 @@ namespace CW
             }
 
             //var audioFileName = filePath.Replace("txt", "mp3");
-      
+
             waveOut.Play();
             //Mp3Player.Play(audioFileName);
-           
+
             startBtn.Enabled = true;
 
             //处理校报逻辑
-            if (showAnswerChb.Checked) {
+            if (showAnswerChb.Checked)
+            {
                 await task;
-                
+
                 var task2 = Task.Run(() =>
                 {
                     var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
                     keys.TryAdd('=', "-...-");
                     keys.TryAdd('i', "..");
-                    morsePlayer.AddMorseCode(answer, keys,Convert.ToInt32(checkAnserSpeed.Value));
+                    morsePlayer.AddMorseCode(answer, keys, Convert.ToInt32(checkAnserSpeed.Value));
                 });
                 await task2;
             }
 
 
-     
+
 
         }
 
@@ -296,7 +293,7 @@ namespace CW
 
         private void ExportBtn_Click(object sender, EventArgs e)
         {
-            if (lastMusicPath == "")
+            if (lastPath == "")
             {
                 MessageBox.Show("您还尚未生成过报文哦，请生成后重试！");
                 return;
@@ -305,7 +302,7 @@ namespace CW
             {
                 Filter = "压缩文件(*.zip)|*.*",
                 Title = "保存音频文件和报文到目录",
-                FileName = "报文" + Path.GetFileName(lastMusicPath).Replace(".mp3", "") + "-" + speetBox.Value + "wpm.zip"
+                FileName = "报文" + Path.GetFileName(lastPath).Replace(".txt", "") + "-" + speetBox.Value + "WPM.zip"
             };
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -318,17 +315,26 @@ namespace CW
 
                 // 创建ZIP存档
                 using ZipArchive archive = new(zipToOpen, ZipArchiveMode.Create);
-
+                //生成mp3
+                var lastMusicPath = lastPath.Replace(".txt", "-"+speetBox.Value+"WMP.mp3");
+                var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
+                keys.TryAdd('=', "-...-");
+                keys.TryAdd('i', "..");
+                MorseToMp3.toMp3(answer, keys,new MorseConfig { Speed=Convert.ToInt32(speetBox.Value) }, lastMusicPath,morsePlayer.WaveFormat,morsePlayer.dit_buff,morsePlayer.dah_buff);
                 // 添加文件到ZIP存档
                 //添加音频
                 string musicFileName = Path.GetFileName(lastMusicPath);
                 archive.CreateEntryFromFile(lastMusicPath, musicFileName);
                 //添加报文
-                string txtFileName = Path.GetFileName(lastMusicPath.Replace(".mp3", ".txt"));
-                archive.CreateEntryFromFile(lastMusicPath.Replace(".mp3", ".txt"), txtFileName);
+                string txtFileName = Path.GetFileName(lastPath);
+                archive.CreateEntryFromFile(lastPath.Replace(".mp3", ".txt"), txtFileName);
                 //添加校报音频
                 if (checkAnswerChb.Checked)
                 {
+                    var lastCheckMusicPath = lastPath.Replace(".txt", "-"+checkAnserSpeed.Value+"WPM-check.mp3");
+                   var config= new MorseConfig { Speed = Convert.ToInt32(checkAnserSpeed.Value) };
+                    morsePlayer.UpdateConfig(config);
+                    MorseToMp3.toMp3(answer, keys, config, lastCheckMusicPath, morsePlayer.WaveFormat, morsePlayer.dit_buff, morsePlayer.dah_buff);
                     string checkFileName = Path.GetFileName(lastCheckMusicPath);
                     archive.CreateEntryFromFile(lastCheckMusicPath, checkFileName);
                 }
@@ -378,9 +384,9 @@ namespace CW
         {
             Mp3Player.Stop();
             //清除缓存
-            if (lastMusicPath != null && Path.Exists(Path.GetDirectoryName(lastMusicPath)))
+            if ( Path.Exists(Path.GetDirectoryName(Constant.TempPath)))
             {
-                Directory.Delete(Path.GetDirectoryName(lastMusicPath) ?? "", true);
+                Directory.Delete(Path.GetDirectoryName(Constant.TempPath) ?? "", true);
             }
         }
         private void SpeetBox_ValueChanged(object sender, EventArgs e)
