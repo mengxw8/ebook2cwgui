@@ -14,6 +14,16 @@ namespace CW.morse
 {
     internal class MorseToMp3
     {
+    /// <summary>
+    ///  生成mp3文件
+    /// </summary>
+    /// <param name="content">要生成的文本内容</param>
+    /// <param name="keys">文本和嘀嗒对应关系</param>
+    /// <param name="config">速度</param>
+    /// <param name="outPath">输出文件路径</param>
+    /// <param name="waveFormat">音频信息</param>
+    /// <param name="dit_buff">嘀的波形数据</param>
+    /// <param name="dah_buff">嗒的波形数据</param>
         public static void toMp3(String content, Dictionary<char, string> keys, MorseConfig config, string outPath, WaveFormat waveFormat, short[] dit_buff, short[] dah_buff)
         {
 
@@ -56,14 +66,12 @@ namespace CW.morse
                             // 符号间隔1T
                             writer.Write(bytes, 0, bytes.Length);
                         }
-
                         // 字符间隔3T
                         writer.Write(bytes, 0, bytes.Length);
                         writer.Write(bytes, 0, bytes.Length);
                         writer.Write(bytes, 0, bytes.Length);
                     }
                     // 单词间隔补足到7T
-
                     writer.Write(bytes, 0, bytes.Length);
                     writer.Write(bytes, 0, bytes.Length);
                     writer.Write(bytes, 0, bytes.Length);
