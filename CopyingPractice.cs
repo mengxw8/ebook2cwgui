@@ -447,7 +447,7 @@ namespace CW
             SaveFileDialog saveFileDialog = new() {
                 Filter = "压缩文件(*.zip)|*.*",
                 Title = "保存音频文件和报文到目录",
-                FileName = "报文" + Path.GetFileName(lastMusicPath).Replace(".mp3", "") + "-" + speetBox.Value + "wpm.zip"
+                FileName = "抄收报文" + Path.GetFileName(lastMusicPath).Replace(".mp3", "") + "-" + speetBox.Value + "wpm.zip"
             };
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {

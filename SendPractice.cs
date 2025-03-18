@@ -449,7 +449,7 @@ namespace CW
             {
                 Filter = "压缩文件(*.zip)|*.*",
                 Title = "保存音频文件和报文到目录",
-                FileName = "报文" + Path.GetFileName(lastBookPath).Replace(".txt", "") + "-" + speetBox.Value + "wpm.zip",
+                FileName = "拍发报文" + Path.GetFileName(lastBookPath).Replace(".txt", "") + "-" + speetBox.Value + "wpm.zip",
             };
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
