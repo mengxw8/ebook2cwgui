@@ -31,6 +31,8 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Reflection.Emit;
 using NAudio.Wave.SampleProviders;
 using System.Numerics;
+using CW.morse;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CW
 {
@@ -49,6 +51,8 @@ namespace CW
         //发报声音
         SineWaveProvider sineWaveProvider;
         private static WaveOutEvent transmitWave = new();
+        //用来记录发报的时长
+        private readonly Queue<double> audioRecordQueue = new ();
 
 
         public SendPractice()
@@ -107,7 +111,7 @@ namespace CW
         //答案
         string answer = "";
         //上一次播放的音频文件路径
-        string lastMusicPath = "";
+        string lastBookPath = "";
         //用来装生成的图形
         private readonly static ConcurrentQueue<Bitmap> bitmapQueue = new(); // 双缓冲队列
         //用来装敲过的莫尔斯电码字符
@@ -256,6 +260,8 @@ namespace CW
         {
             startBtn.Enabled = false;
             inputBuilde.Clear();
+            //清空录音
+            audioRecordQueue.Clear();
             //生成测试数据
             List<string> words = GetWords();
             if ((words.Count == 0 || words == null) && mode != WorkingMode.Customize)
@@ -326,6 +332,7 @@ namespace CW
 
             //写入临时文件
             File.WriteAllText(filePath, answer);
+            lastBookPath = filePath;
 
             //显示报文
             ShowAnswer();
@@ -433,7 +440,7 @@ namespace CW
         /// <param name="e"></param>
         private void ExportBtn_Click(object sender, EventArgs e)
         {
-            if (lastMusicPath == "")
+            if (lastBookPath == "")
             {
                 MessageBox.Show("您还尚未生成过报文哦，请生成后重试！");
                 return;
@@ -442,7 +449,7 @@ namespace CW
             {
                 Filter = "压缩文件(*.zip)|*.*",
                 Title = "保存音频文件和报文到目录",
-                FileName = "报文" + Path.GetFileName(lastMusicPath).Replace(".mp3", "") + "-" + speetBox.Value + "wpm.zip",
+                FileName = "报文" + Path.GetFileName(lastBookPath).Replace(".txt", "") + "-" + speetBox.Value + "wpm.zip",
             };
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -459,11 +466,21 @@ namespace CW
 
                 // 添加文件到ZIP存档
                 //添加音频
-                string musicFileName = Path.GetFileName(lastMusicPath);
-                archive.CreateEntryFromFile(lastMusicPath, musicFileName);
+                string musicFileName = lastBookPath.Replace(".txt", ".mp3");                
+                MorseToMp3.toMp3(answer, Constant.allCharCode, new MorseConfig { Speed = Convert.ToInt32(speetBox.Value) }, musicFileName, player.WaveFormat, player.dit_buff, player.dah_buff);
+                archive.CreateEntryFromFile( musicFileName, Path.GetFileName(lastBookPath).Replace(".txt", ".mp3"));
                 //添加报文
-                string txtFileName = Path.GetFileName(lastMusicPath.Replace(".mp3", ".txt"));
-                archive.CreateEntryFromFile(lastMusicPath.Replace(".mp3", ".txt"), txtFileName);
+                string txtFileName = Path.GetFileName(lastBookPath);
+                archive.CreateEntryFromFile(lastBookPath, txtFileName);
+                //如果是选择了录音的，则生成自己刚刚拍发的这段内容
+                if (recordingChb.Checked&&audioRecordQueue.Count>0) {
+                    //生成拍发音频文件名
+                    var outFileName = lastBookPath.Replace(".txt", "") + "-" + sendSpeedTxb.Text + "wpm拍发.mp3";
+                    MorseToMp3.toMp3(audioRecordQueue.ToList(),  outFileName, player.WaveFormat, Convert.ToInt32(sendToneBox.Text));
+                    audioRecordQueue.Clear();
+                    archive.CreateEntryFromFile( outFileName, Path.GetFileName(lastBookPath).Replace(".txt", "") + "-" + sendSpeedTxb.Text + "wpm拍发.mp3");
+
+                }
 
 
             }
@@ -482,9 +499,9 @@ namespace CW
         {
 
             //清除缓存
-            if (lastMusicPath != null && Path.Exists(Path.GetDirectoryName(lastMusicPath)))
+            if (lastBookPath != null && Path.Exists(Path.GetDirectoryName(lastBookPath)))
             {
-                Directory.Delete(Path.GetDirectoryName(lastMusicPath) ?? "", true);
+                Directory.Delete(Path.GetDirectoryName(lastBookPath) ?? "", true);
             }
             playerWave?.Stop();
             playerWave?.Dispose();
@@ -815,7 +832,8 @@ namespace CW
 
 
 
-        long startTime;
+        long startTime=0;
+        //按下
         private void SendBtn_MouseDown(object sender, MouseEventArgs e)
         {
             //开始绘制
@@ -825,12 +843,24 @@ namespace CW
             drawCount = 0;
             // 开始播放音频
             transmitWave.Play();
+    
+                //记录空白时间
+                if (startTime > 0&& recordingChb.Checked)
+                {
+                    //结束计时
+                    QueryPerformanceCounter(out long endTime);
+                    QueryPerformanceFrequency(out long lpFrequency);
+                    var t = ((endTime - startTime) /(double)lpFrequency) * 1000;
+                    audioRecordQueue.Enqueue(t);
+                }
+            
 
-            //开始计时            
-            QueryPerformanceCounter(out startTime);
+                //开始计时            
+                QueryPerformanceCounter(out startTime);
+           
 
         }
-
+        //抬起
 
         private void SendBtn_MouseUp(object sender, MouseEventArgs e)
         {
@@ -838,12 +868,23 @@ namespace CW
             //停止播放声音
             transmitWave.Stop();
             //结束计时
-
             QueryPerformanceCounter(out long endTime);
             QueryPerformanceFrequency(out long lpFrequency);
+
+      
             if (keyType == KeyType.Ordinary)
             {
                 var t = ((endTime - startTime) / (double)lpFrequency) * 1000;
+                //记录发报时长
+                if (recordingChb.Checked)
+                {
+                    audioRecordQueue.Enqueue(t);
+                    //重新开始记录空白时间
+                    QueryPerformanceCounter(out startTime);
+                }
+                else {
+                    startTime = 0;
+                }
 
                 //有可能出现按下时间非常短的情况，短于10ms,定时器都还来不及触发,所以画面上还没有展示出来
                 if (!isThrob)
@@ -965,6 +1006,9 @@ namespace CW
 
         private void SendToneBox_TextChanged(object sender, EventArgs e)
         {
+            if (sendToneBox.Text == "") {
+                sendToneBox.Text = "1";
+            }
             //改变发报声音频率
             sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
             transmitWave?.Stop();

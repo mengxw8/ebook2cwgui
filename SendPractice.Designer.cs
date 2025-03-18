@@ -86,6 +86,7 @@
             timer2 = new System.Windows.Forms.Timer(components);
             groupBox6 = new GroupBox();
             groupBox7 = new GroupBox();
+            recordingChb = new CheckBox();
             keyTypeLbl = new Label();
             panel1 = new Panel();
             autoKey = new RadioButton();
@@ -110,7 +111,6 @@
             sendSpeedTxb = new TextBox();
             label5 = new Label();
             groupBox8 = new GroupBox();
-            checkBox1 = new CheckBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -744,7 +744,7 @@
             // 
             // groupBox7
             // 
-            groupBox7.Controls.Add(checkBox1);
+            groupBox7.Controls.Add(recordingChb);
             groupBox7.Controls.Add(keyTypeLbl);
             groupBox7.Controls.Add(panel1);
             groupBox7.Controls.Add(strictCbx);
@@ -772,6 +772,16 @@
             groupBox7.TabIndex = 6;
             groupBox7.TabStop = false;
             groupBox7.Text = "CW规则";
+            // 
+            // recordingChb
+            // 
+            recordingChb.AutoSize = true;
+            recordingChb.Location = new Point(203, 49);
+            recordingChb.Name = "recordingChb";
+            recordingChb.Size = new Size(75, 21);
+            recordingChb.TabIndex = 20;
+            recordingChb.Text = "记录发报";
+            recordingChb.UseVisualStyleBackColor = true;
             // 
             // keyTypeLbl
             // 
@@ -1019,16 +1029,6 @@
             groupBox8.TabStop = false;
             groupBox8.Text = "报文控制";
             // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(203, 49);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(75, 21);
-            checkBox1.TabIndex = 20;
-            checkBox1.Text = "记录发报";
-            checkBox1.UseVisualStyleBackColor = true;
-            // 
             // SendPractice
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -1155,6 +1155,6 @@
         private RadioButton autoKey;
         private RadioButton ordinaryKey;
         private Label keyTypeLbl;
-        private CheckBox checkBox1;
+        private CheckBox recordingChb;
     }
 }

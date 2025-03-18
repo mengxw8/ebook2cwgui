@@ -83,7 +83,63 @@ namespace CW.morse
             }
 
         }
+        /// <summary>
+        /// 
+        /// 通过时长序列生成音频文件
+        /// </summary>
+        /// <param name="durationSequence"> 时长序列，奇数位为发声，偶数位为不发声,单位ms</param>
+        /// <param name="outPath">输出文件路径</param>
+        /// <param name="waveFormat">音频信息</param>
+        /// <param name="frequency">频率</param>
+        public static void toMp3(List<double> durationSequence, string outPath, WaveFormat waveFormat,int frequency) {
+            using (var writer = new LameMP3FileWriter(outPath, waveFormat, LAMEPreset.VBR_90))
+            {
 
+                for (int i = 0; i < durationSequence.Count; i++)
+                {
+                    //采样率*持续时间=总样本数
+                    var dotDuration = ((int)Math.Round(durationSequence[i] * waveFormat.SampleRate))/1000;  // 样本数
+                    //10%的时间用来淡入
+                    var riseTime = dotDuration / 10;
+                    //10%的时间用来淡出
+                    var fallTime = dotDuration / 10;
+                    if (i % 2 == 0)
+                    {
+                        //生成正弦波
+                        for (int j = 0; j < dotDuration;j++)
+                        {
+                            double phase = 2 * Math.PI * frequency * j / waveFormat.SampleRate;
+                            double sample = Math.Sin(phase);
+
+                            // 淡入处理
+                            if (j < riseTime)
+                            {
+                                double t = j / (double)riseTime;
+                                sample *= Math.Pow(Math.Sin(t * Math.PI / 2), 2);
+                            }
+
+                            // 淡出处理
+                            if (i >= dotDuration - fallTime)
+                            {
+                                int fallIndex = j - (dotDuration - fallTime);
+                                double t = fallIndex / (double)(fallTime - 1);
+                                sample *= Math.Pow(Math.Cos(t * Math.PI / 2), 2);
+                            }
+
+                            var buff = BitConverter.GetBytes((short)(sample * short.MaxValue));
+                            writer.Write(buff, 0, buff.Length);
+                        }
+                    }
+                    else
+                    {
+                        //填充静音
+                        writer.Write(new byte[dotDuration * sizeof(short)],0, dotDuration * sizeof(short));
+
+                    }
+
+                }
+            }
+        }
 
     }
 }
