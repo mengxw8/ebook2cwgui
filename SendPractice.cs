@@ -342,6 +342,9 @@ namespace CW
             player.Clean();
             if (bgmCbx.Checked)
             {
+                //使用新的速度和频率
+                player.UpdateFrequency(Convert.ToInt32(toneBox.Value));
+                player.UpdateConfig(new MorseConfig { Speed=Convert.ToInt32(speetBox.Value) });
                 //开始混音
                 player.AddMorseCode(answer, Constant.allCharCode);
                 playerWave.Play();
@@ -632,6 +635,8 @@ namespace CW
         {
             playerWave.Stop();
             player.Clean();
+            player.UpdateConfig(new MorseConfig { Speed = Convert.ToInt32(speetBox.Value) });
+            player.UpdateFrequency(Convert.ToInt32(toneBox.Value));
             player.AddMorseCode(answer, Constant.allCharCode);
             playerWave.Play();
         }
