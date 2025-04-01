@@ -46,7 +46,7 @@
             groupBox3 = new GroupBox();
             label7 = new Label();
             bgmCbx = new CheckBox();
-            speetBox = new NumericUpDown();
+            speedBox = new NumericUpDown();
             toneBox = new NumericUpDown();
             label2 = new Label();
             label1 = new Label();
@@ -114,7 +114,7 @@
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)speetBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)speedBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)toneBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)volumeTrackBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)EachGroup).BeginInit();
@@ -303,7 +303,7 @@
             // 
             groupBox3.Controls.Add(label7);
             groupBox3.Controls.Add(bgmCbx);
-            groupBox3.Controls.Add(speetBox);
+            groupBox3.Controls.Add(speedBox);
             groupBox3.Controls.Add(toneBox);
             groupBox3.Controls.Add(label2);
             groupBox3.Controls.Add(label1);
@@ -334,14 +334,14 @@
             bgmCbx.Text = "开启";
             bgmCbx.UseVisualStyleBackColor = true;
             // 
-            // speetBox
+            // speedBox
             // 
-            speetBox.Location = new Point(81, 17);
-            speetBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            speetBox.Name = "speetBox";
-            speetBox.Size = new Size(48, 23);
-            speetBox.TabIndex = 0;
-            speetBox.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            speedBox.Location = new Point(81, 17);
+            speedBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            speedBox.Name = "speedBox";
+            speedBox.Size = new Size(48, 23);
+            speedBox.TabIndex = 0;
+            speedBox.Value = new decimal(new int[] { 20, 0, 0, 0 });
             // 
             // toneBox
             // 
@@ -1054,7 +1054,7 @@
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)speetBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)speedBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)toneBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)volumeTrackBar).EndInit();
             ((System.ComponentModel.ISupportInitialize)EachGroup).EndInit();
@@ -1090,7 +1090,7 @@
         private Label label2;
         private Label label1;
         private GroupBox groupBox4;
-        private NumericUpDown speetBox;
+        private NumericUpDown speedBox;
         private NumericUpDown toneBox;
         private NumericUpDown groupNumBox;
         private Button submitAnswerBtn;

@@ -344,7 +344,7 @@ namespace CW
             {
                 //使用新的速度和频率
                 player.UpdateFrequency(Convert.ToInt32(toneBox.Value));
-                player.UpdateConfig(new MorseConfig { Speed=Convert.ToInt32(speetBox.Value) });
+                player.UpdateConfig(new MorseConfig { Speed=Convert.ToInt32(speedBox.Value) });
                 //开始混音
                 player.AddMorseCode(answer, Constant.allCharCode);
                 playerWave.Play();
@@ -452,7 +452,7 @@ namespace CW
             {
                 Filter = "压缩文件(*.zip)|*.*",
                 Title = "保存音频文件和报文到目录",
-                FileName = "拍发报文" + Path.GetFileName(lastBookPath).Replace(".txt", "") + "-" + speetBox.Value + "wpm.zip",
+                FileName = "拍发报文" + Path.GetFileName(lastBookPath).Replace(".txt", "") + "-" + speedBox.Value + "wpm.zip",
             };
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -470,7 +470,7 @@ namespace CW
                 // 添加文件到ZIP存档
                 //添加音频
                 string musicFileName = lastBookPath.Replace(".txt", ".mp3");                
-                MorseToMp3.toMp3(answer, Constant.allCharCode, new MorseConfig { Speed = Convert.ToInt32(speetBox.Value) }, musicFileName, player.WaveFormat, player.dit_buff, player.dah_buff);
+                MorseToMp3.toMp3(answer, Constant.allCharCode, new MorseConfig { Speed = Convert.ToInt32(speedBox.Value) }, musicFileName, player.WaveFormat, player.dit_buff, player.dah_buff);
                 archive.CreateEntryFromFile( musicFileName, Path.GetFileName(lastBookPath).Replace(".txt", ".mp3"));
                 //添加报文
                 string txtFileName = Path.GetFileName(lastBookPath);
@@ -635,7 +635,7 @@ namespace CW
         {
             playerWave.Stop();
             player.Clean();
-            player.UpdateConfig(new MorseConfig { Speed = Convert.ToInt32(speetBox.Value) });
+            player.UpdateConfig(new MorseConfig { Speed = Convert.ToInt32(speedBox.Value) });
             player.UpdateFrequency(Convert.ToInt32(toneBox.Value));
             player.AddMorseCode(answer, Constant.allCharCode);
             playerWave.Play();
@@ -685,7 +685,7 @@ namespace CW
             replicationBox6.ReadOnly = true;
             //初始化声音
             //初始化播放器
-            player = new MorsePlayer(Convert.ToInt32(toneBox.Value), new MorseConfig { Speed = Convert.ToInt32(speetBox.Value) });
+            player = new MorsePlayer(Convert.ToInt32(toneBox.Value), new MorseConfig { Speed = Convert.ToInt32(speedBox.Value) });
             playerWave.Init(player);
             // 创建 SineWaveProvider
             sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
@@ -964,6 +964,8 @@ namespace CW
                 sendSpeedTxb.Text = "20";
                 speed = 20;
             }
+            //让背景音量速率保持同步
+            speedBox.Text = sendSpeedTxb.Text;
             //计算剩下的值以Paris计
             var config = MorseConfig.Create(speed);
             var di = 60000 / (speed * 50);
