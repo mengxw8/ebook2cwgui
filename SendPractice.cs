@@ -841,13 +841,14 @@ namespace CW
         //按下
         private void SendBtn_MouseDown(object sender, MouseEventArgs e)
         {
+            // 开始播放音频
+            transmitWave.Play();
             //开始绘制
             isDraw = true;
             isThrob = false;
             pressMouseButton = e.Button;
             drawCount = 0;
-            // 开始播放音频
-            transmitWave.Play();
+       
     
                 //记录空白时间
                 if (startTime > 0&& recordingChb.Checked)
@@ -972,7 +973,7 @@ namespace CW
             sendDiLength.Text = config.Di.ToString();
             sendDaLength.Text = config.Da.ToString();
             keyInterval.Text = config.KeystrokeInterval.ToString();
-            charInterval.Text = config.CharInterval.ToString();
+            charInterval.Text = config.WordInterval.ToString();
         }
 
         private void NumberTxb_KeyPress(object sender, KeyPressEventArgs e)

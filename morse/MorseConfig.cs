@@ -8,12 +8,30 @@ namespace CW
 {
     public class MorseConfig
     {
+        /// <summary>
+        /// Di的长度 ms
+        /// </summary>
         public int Di { get; set; }
+        /// <summary>
+        /// Da的长度 ms
+        /// </summary>
         public int Da { get; set; }
+        /// <summary>
+        /// 键击间隔 ms = Di 
+        /// </summary>
         public int KeystrokeInterval { get; set; }
+        /// <summary>
+        /// 字符间隔 ms =3*Di
+        /// 
+        /// </summary>
         public int CharInterval { get; set; }
+        /// <summary>
+        /// 词间隔 ms =7*Di
+        /// </summary>
         public int WordInterval { get; set; }
-
+        /// <summary>
+        /// 速度WPM
+        /// </summary>
         public int Speed { get; set; }
 
 
