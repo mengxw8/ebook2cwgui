@@ -44,12 +44,12 @@ namespace CW
         private static partial IntPtr LoadKeyboardLayoutA([MarshalAs(UnmanagedType.LPStr)] string pwszKLID, uint Flags);
         // 创建 WaveOutEvent 对象来播放音频
         private WaveOutEvent playerWave = new();
-        private MorsePlayer player;
+        private MorsePlayer? player;
         //当前键类型
         private static KeyType keyType;
 
         //发报声音
-        private SineWaveProvider sineWaveProvider;
+        private SineWaveProvider? sineWaveProvider;
         private static WaveOutEvent transmitWave = new();
         //用来记录发报的时长
         private readonly Queue<double> audioRecordQueue = new();
@@ -256,7 +256,7 @@ namespace CW
 
 
         //生成报文并播放
-        private async void StartBtn_Click(object sender, EventArgs e)
+        private  void StartBtn_Click(object sender, EventArgs e)
         {
             startBtn.Enabled = false;
             inputBuilde.Clear();
@@ -336,14 +336,14 @@ namespace CW
 
             //显示报文
             ShowAnswer();
-            player.UpdateFrequency(Convert.ToInt32(toneBox.Value));
+            player?.UpdateFrequency(Convert.ToInt32(toneBox.Value));
             //停止播放并清空播放内容
             playerWave.Stop();
-            player.Clean();
+            player?.Clean();
             if (bgmCbx.Checked)
             {
                 //开始混音
-                player.AddMorseCode(answer, Constant.allCharCode);
+                player?.AddMorseCode(answer, Constant.allCharCode);
                 playerWave.Play();
             }
             //解除封禁
@@ -430,7 +430,7 @@ namespace CW
 
         private void StopBtn_Click(object sender, EventArgs e)
         {
-            player.Clean();
+            player?.Clean();
             timer1.Stop();
         }
         /// <summary>
@@ -467,7 +467,7 @@ namespace CW
                 // 添加文件到ZIP存档
                 //添加音频
                 string musicFileName = lastBookPath.Replace(".txt", ".mp3");
-                MorseToMp3.toMp3(answer, Constant.allCharCode, new MorseConfig { Speed = Convert.ToInt32(speedBox.Value) }, musicFileName, player.WaveFormat, player.dit_buff, player.dah_buff);
+                MorseToMp3.toMp3(answer, Constant.allCharCode, new MorseConfig { Speed = Convert.ToInt32(speedBox.Value) }, musicFileName, player!.WaveFormat, player!.dit_buff!, player!.dah_buff!);
                 archive.CreateEntryFromFile(musicFileName, Path.GetFileName(lastBookPath).Replace(".txt", ".mp3"));
                 //添加报文
                 string txtFileName = Path.GetFileName(lastBookPath);
@@ -632,8 +632,8 @@ namespace CW
         private void ResumeBtn_Click(object sender, EventArgs e)
         {
             playerWave.Stop();
-            player.Clean();
-            player.AddMorseCode(answer, Constant.allCharCode);
+            player?.Clean();
+            player?.AddMorseCode(answer, Constant.allCharCode);
             playerWave.Play();
         }
 
@@ -1034,7 +1034,7 @@ namespace CW
 
         private void volumeTrackBar_ValueChanged(object sender, EventArgs e)
         {
-            player.Volume = volumeTrackBar.Value * 0.1f;
+            player!.Volume = volumeTrackBar.Value * 0.1f;
         }
 
         private void ordinaryKey_CheckedChanged(object sender, EventArgs e)
@@ -1064,12 +1064,12 @@ namespace CW
 
         private void speedBox_ValueChanged(object sender, EventArgs e)
         {
-            player.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speedBox.Value)));
+            player?.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speedBox.Value)));
         }
 
         private void toneBox_ValueChanged(object sender, EventArgs e)
         {
-            player.UpdateFrequency(Convert.ToInt32(toneBox.Value));
+            player?.UpdateFrequency(Convert.ToInt32(toneBox.Value));
         }
     }
 }

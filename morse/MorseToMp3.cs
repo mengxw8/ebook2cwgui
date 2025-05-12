@@ -35,10 +35,6 @@ namespace CW.morse
             // 创建LameMP3FileWriter，设置比特率（如128kbps）
             using (var writer = new LameMP3FileWriter(outPath, waveFormat, LAMEPreset.VBR_90))
             {
-
-
-                int offset = 0;
-
                 byte[] bytes = new byte[dotDuration * sizeof(short)];
                 byte[] di = new byte[dit_buff.Length * sizeof(short)];
                 Buffer.BlockCopy(dit_buff, 0, di, 0, di.Length);

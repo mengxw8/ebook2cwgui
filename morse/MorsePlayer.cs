@@ -28,11 +28,11 @@ namespace CW
         // 单位时间 T 的样本数
         private int dotDuration;
         //点划对应关系
-        private Dictionary<char, string> keys;
+        private Dictionary<char, string>? keys;
 
         //把计算好的结果缓存起来，不用重复计算
-        public short[] dit_buff { get; set; }
-        public short[] dah_buff { get; set; }
+        public short[]? dit_buff { get; set; }
+        public short[]? dah_buff { get; set; }
         /// <summary>
         /// 
         /// 
@@ -46,6 +46,7 @@ namespace CW
             this.sampleRate = sampleRate;
             this.frequency = frequency;
             this.Volume = amplitude;
+            this.config = config;
             UpdateConfig(config);
             //this.waveFormat = new WaveFormat(sampleRate, 16, 2);  // 双声道格式
         }
@@ -162,7 +163,7 @@ namespace CW
         }
         private void ParseMusic()
         {
-            var flag = charQueue.TryDequeue(out string ch);
+            var flag = charQueue.TryDequeue(out string? ch);
             if (flag && ch != null)
             {
 
@@ -170,7 +171,7 @@ namespace CW
                 foreach (char c in ch)
                 {
                     //每个莫尔斯
-                    if (!keys.ContainsKey(c))
+                    if (!keys!.ContainsKey(c))
                     {
                         continue;
                     }
@@ -179,8 +180,8 @@ namespace CW
                     {
                         switch (m)
                         {
-                            case '.': EnqueueTone(dit_buff); break;
-                            case '-': EnqueueTone(dah_buff); break;
+                            case '.': EnqueueTone(dit_buff!); break;
+                            case '-': EnqueueTone(dah_buff!); break;
                         }
                         EnqueueSilence(dotDuration); // 符号间隔1T
                     }
@@ -218,7 +219,7 @@ namespace CW
         /// </summary>
         public override int Read(short[] buffer, int offset, int count)
         {
-            Task task = null;
+            Task? task = null;
             if (audioQueue.Count < count * sizeof(short)) {
                task= Task.Run(() => ParseMusic());
             }
