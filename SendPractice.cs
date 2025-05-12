@@ -49,10 +49,10 @@ namespace CW
         private static KeyType keyType;
 
         //发报声音
-        SineWaveProvider sineWaveProvider;
+        private SineWaveProvider sineWaveProvider;
         private static WaveOutEvent transmitWave = new();
         //用来记录发报的时长
-        private readonly Queue<double> audioRecordQueue = new ();
+        private readonly Queue<double> audioRecordQueue = new();
 
 
         public SendPractice()
@@ -449,7 +449,7 @@ namespace CW
             {
                 Filter = "压缩文件(*.zip)|*.*",
                 Title = "保存音频文件和报文到目录",
-                FileName = "拍发报文" + Path.GetFileName(lastBookPath).Replace(".txt", "") + "-" + speetBox.Value + "wpm.zip",
+                FileName = "拍发报文" + Path.GetFileName(lastBookPath).Replace(".txt", "") + "-" + speedBox.Value + "wpm.zip",
             };
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -466,19 +466,20 @@ namespace CW
 
                 // 添加文件到ZIP存档
                 //添加音频
-                string musicFileName = lastBookPath.Replace(".txt", ".mp3");                
-                MorseToMp3.toMp3(answer, Constant.allCharCode, new MorseConfig { Speed = Convert.ToInt32(speetBox.Value) }, musicFileName, player.WaveFormat, player.dit_buff, player.dah_buff);
-                archive.CreateEntryFromFile( musicFileName, Path.GetFileName(lastBookPath).Replace(".txt", ".mp3"));
+                string musicFileName = lastBookPath.Replace(".txt", ".mp3");
+                MorseToMp3.toMp3(answer, Constant.allCharCode, new MorseConfig { Speed = Convert.ToInt32(speedBox.Value) }, musicFileName, player.WaveFormat, player.dit_buff, player.dah_buff);
+                archive.CreateEntryFromFile(musicFileName, Path.GetFileName(lastBookPath).Replace(".txt", ".mp3"));
                 //添加报文
                 string txtFileName = Path.GetFileName(lastBookPath);
                 archive.CreateEntryFromFile(lastBookPath, txtFileName);
                 //如果是选择了录音的，则生成自己刚刚拍发的这段内容
-                if (recordingChb.Checked&&audioRecordQueue.Count>0) {
+                if (recordingChb.Checked && audioRecordQueue.Count > 0)
+                {
                     //生成拍发音频文件名
                     var outFileName = lastBookPath.Replace(".txt", "") + "-" + sendSpeedTxb.Text + "wpm拍发.mp3";
-                    MorseToMp3.toMp3(audioRecordQueue.ToList(),  outFileName, player.WaveFormat, Convert.ToInt32(sendToneBox.Text));
+                    MorseToMp3.toMp3(audioRecordQueue.ToList(), outFileName, player.WaveFormat, Convert.ToInt32(sendToneBox.Text));
                     audioRecordQueue.Clear();
-                    archive.CreateEntryFromFile( outFileName, Path.GetFileName(lastBookPath).Replace(".txt", "") + "-" + sendSpeedTxb.Text + "wpm拍发.mp3");
+                    archive.CreateEntryFromFile(outFileName, Path.GetFileName(lastBookPath).Replace(".txt", "") + "-" + sendSpeedTxb.Text + "wpm拍发.mp3");
 
                 }
 
@@ -680,7 +681,7 @@ namespace CW
             replicationBox6.ReadOnly = true;
             //初始化声音
             //初始化播放器
-            player = new MorsePlayer(Convert.ToInt32(toneBox.Value), new MorseConfig { Speed = Convert.ToInt32(speetBox.Value) });
+            player = new MorsePlayer(Convert.ToInt32(toneBox.Value), MorseConfig.Create(Convert.ToInt32(speedBox.Value)));
             playerWave.Init(player);
             // 创建 SineWaveProvider
             sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
@@ -832,7 +833,7 @@ namespace CW
 
 
 
-        long startTime=0;
+        long startTime = 0;
         //按下
         private void SendBtn_MouseDown(object sender, MouseEventArgs e)
         {
@@ -843,21 +844,21 @@ namespace CW
             drawCount = 0;
             // 开始播放音频
             transmitWave.Play();
-    
-                //记录空白时间
-                if (startTime > 0&& recordingChb.Checked)
-                {
-                    //结束计时
-                    QueryPerformanceCounter(out long endTime);
-                    QueryPerformanceFrequency(out long lpFrequency);
-                    var t = ((endTime - startTime) /(double)lpFrequency) * 1000;
-                    audioRecordQueue.Enqueue(t);
-                }
-            
 
-                //开始计时            
-                QueryPerformanceCounter(out startTime);
-           
+            //记录空白时间
+            if (startTime > 0 && recordingChb.Checked)
+            {
+                //结束计时
+                QueryPerformanceCounter(out long endTime);
+                QueryPerformanceFrequency(out long lpFrequency);
+                var t = ((endTime - startTime) / (double)lpFrequency) * 1000;
+                audioRecordQueue.Enqueue(t);
+            }
+
+
+            //开始计时            
+            QueryPerformanceCounter(out startTime);
+
 
         }
         //抬起
@@ -871,7 +872,7 @@ namespace CW
             QueryPerformanceCounter(out long endTime);
             QueryPerformanceFrequency(out long lpFrequency);
 
-      
+
             if (keyType == KeyType.Ordinary)
             {
                 var t = ((endTime - startTime) / (double)lpFrequency) * 1000;
@@ -882,7 +883,8 @@ namespace CW
                     //重新开始记录空白时间
                     QueryPerformanceCounter(out startTime);
                 }
-                else {
+                else
+                {
                     startTime = 0;
                 }
 
@@ -1006,7 +1008,8 @@ namespace CW
 
         private void SendToneBox_TextChanged(object sender, EventArgs e)
         {
-            if (sendToneBox.Text == "") {
+            if (sendToneBox.Text == "")
+            {
                 sendToneBox.Text = "1";
             }
             //改变发报声音频率
@@ -1049,12 +1052,24 @@ namespace CW
 
         private void sendDaLength_TextChanged(object sender, EventArgs e)
         {
-            DaLength = Convert.ToInt32(sendDaLength.Text.Trim())/10;
+            DaLength = Convert.ToInt32(sendDaLength.Text.Trim()) / 10;
         }
 
         private void sendDiLength_TextChanged(object sender, EventArgs e)
         {
-            DiLength = Convert.ToInt32(sendDiLength.Text.Trim())/10;
+            DiLength = Convert.ToInt32(sendDiLength.Text.Trim()) / 10;
+        }
+
+
+
+        private void speedBox_ValueChanged(object sender, EventArgs e)
+        {
+            player.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speedBox.Value)));
+        }
+
+        private void toneBox_ValueChanged(object sender, EventArgs e)
+        {
+            player.UpdateFrequency(Convert.ToInt32(toneBox.Value));
         }
     }
 }

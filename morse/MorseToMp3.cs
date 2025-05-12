@@ -5,6 +5,7 @@ using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -45,8 +46,18 @@ namespace CW.morse
                 Buffer.BlockCopy( dah_buff, 0, da, 0, da.Length);
                 //分割成每一组
                 string[] chars = content.Split(' ');
+                //时间码
+                int startTime = 0;
+                int endTime = 0;
+                long lineNo = 1;
+                
+                  using (var srtWriter = new StreamWriter(outPath.Replace(".mp3",".srt")))
+                { 
+               
+
                 foreach (var ch in chars)
                 {
+
                     //每个字母
                     foreach (char c in ch)
                     {
@@ -60,22 +71,39 @@ namespace CW.morse
                         {
                             switch (m)
                             {
-                                case '.': writer.Write(di,0, di.Length); break;
-                                case '-': writer.Write(da,0, da.Length); break;
+                                case '.': writer.Write(di, 0, di.Length); endTime += config.Di; break;
+                                case '-': writer.Write(da, 0, da.Length); endTime += config.Da; break;
                             }
-                            // 符号间隔1T
-                            writer.Write(bytes, 0, bytes.Length);
+                                // 符号间隔1T
+                                writer.Write(bytes, 0, bytes.Length);
+                                endTime += config.Di;
                         }
-                        // 字符间隔3T
-                        writer.Write(bytes, 0, bytes.Length);
-                        writer.Write(bytes, 0, bytes.Length);
-                        writer.Write(bytes, 0, bytes.Length);
+                            // 字符间隔3T
+                            writer.Write(bytes, 0, bytes.Length);
+                            writer.Write(bytes, 0, bytes.Length);
+                            writer.Write(bytes, 0, bytes.Length);
+                            endTime += config.Di * 3;
                     }
-                    // 单词间隔补足到7T
-                    writer.Write(bytes, 0, bytes.Length);
-                    writer.Write(bytes, 0, bytes.Length);
-                    writer.Write(bytes, 0, bytes.Length);
-                    writer.Write(bytes, 0, bytes.Length);
+                        TimeSpan startTimeSpan = TimeSpan.FromMilliseconds(startTime);
+                        TimeSpan endTimeSpan = TimeSpan.FromMilliseconds(endTime);
+                        srtWriter.WriteLine(lineNo++);
+                        srtWriter.WriteLine(startTimeSpan.ToString(@"hh\:mm\:ss\.fff") + " --> " + endTimeSpan.ToString(@"hh\:mm\:ss\.fff"));
+                        srtWriter.WriteLine(ch);
+                        srtWriter.WriteLine();
+                        startTime = endTime;
+                        // 单词间隔补足到7T
+                        writer.Write(bytes, 0, bytes.Length);
+                        writer.Write(bytes, 0, bytes.Length);
+                        writer.Write(bytes, 0, bytes.Length);
+                        writer.Write(bytes, 0, bytes.Length);
+                        endTime += config.Di * 4;
+
+
+
+
+
+                    }    
+                
                 }
 
 
@@ -141,5 +169,13 @@ namespace CW.morse
             }
         }
 
+        public static void toAAC(MorsePlayer player,string outPath)
+        {
+
+            MediaFoundationEncoder.EncodeToAac(player, outPath);
+
+
+        }
     }
+
 }

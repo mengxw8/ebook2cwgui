@@ -4,14 +4,17 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CW
 {
     internal class MorsePlayer : WaveProvider16
     {
-        private readonly ConcurrentQueue<short> audioQueue = new ConcurrentQueue<short>();
+        private readonly ConcurrentQueue<short> audioQueue = new ();
+        private readonly ConcurrentQueue<string> charQueue = new ();
         private readonly int sampleRate;
         private int frequency;
         public float Volume{ get; set; }
@@ -24,6 +27,8 @@ namespace CW
         private int fallTime = 50;
         // 单位时间 T 的样本数
         private int dotDuration;
+        //点划对应关系
+        private Dictionary<char, string> keys;
 
         //把计算好的结果缓存起来，不用重复计算
         public short[] dit_buff { get; set; }
@@ -135,6 +140,7 @@ namespace CW
             audioQueue.Clear();
         }
         public void AddMorseCode(string morseCode, Dictionary<char, string> keys) {
+            this.keys = keys;
             AddMorseCode( morseCode,  keys, config.Speed);
         }
         /// <summary>
@@ -144,11 +150,21 @@ namespace CW
         {
             config.Speed = speed;
             UpdateConfig(config);
+            this.keys = keys;
 
             //分割成每一组
             string[] chars = morseCode.Split(' ');
-            foreach (var ch in chars)
+            foreach (string c in chars) { 
+            charQueue.Enqueue(c);
+            }
+
+        }
+        private void ParseMusic()
+        {
+            var flag = charQueue.TryDequeue(out string ch);
+            if (flag && ch != null)
             {
+
                 //每个字母
                 foreach (char c in ch)
                 {
@@ -157,7 +173,7 @@ namespace CW
                     {
                         continue;
                     }
-                  var  code= keys[c];
+                    var code = keys[c];
                     foreach (char m in code)
                     {
                         switch (m)
@@ -172,8 +188,6 @@ namespace CW
                 }
                 EnqueueSilence(4 * dotDuration); // 单词间隔补足到7T
             }
-
-
         }
 
         /// <summary>
@@ -203,13 +217,18 @@ namespace CW
         /// </summary>
         public override int Read(short[] buffer, int offset, int count)
         {
+            Task task = null;
+            if (audioQueue.Count < count * sizeof(short)) {
+               task= Task.Run(() => ParseMusic());
+            }
+            
             int samplesRead = 0;
-            while (samplesRead < count ) // 每个 float 样本占 4 字节
+            while (samplesRead < count) // 每个 float 样本占 4 字节
             {
                 if (audioQueue.Count > 0)
                 {
                     audioQueue.TryDequeue(out short sample);
-                        sample =(short) (Volume* sample);
+                    sample = (short)(Volume * sample);
                     // 直接转换为 short 并限制范围
                     buffer[offset + samplesRead] = sample;
                     samplesRead++;
@@ -221,6 +240,9 @@ namespace CW
                     samplesRead++;
                 }
             }
+                task?.Wait();
+   
+     
             return samplesRead * sizeof(short);
         }
     }
