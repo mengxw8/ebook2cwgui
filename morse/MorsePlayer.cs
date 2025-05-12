@@ -137,6 +137,7 @@ namespace CW
 
         }
         public void Clean() {
+            charQueue.Clear();
             audioQueue.Clear();
         }
         public void AddMorseCode(string morseCode, Dictionary<char, string> keys) {
