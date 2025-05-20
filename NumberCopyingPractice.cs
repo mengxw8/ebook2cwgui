@@ -179,7 +179,7 @@ namespace CW
             startBtn.Enabled = true;
             await task;
             //处理校报逻辑
-            if (showAnswerChb.Checked)
+            if (checkAnswerChb.Checked)
             {
   
 
