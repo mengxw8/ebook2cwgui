@@ -320,7 +320,7 @@ namespace CW
                 var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
                 keys.TryAdd('=', "-...-");
                 keys.TryAdd('i', "..");
-                MorseToMp3.toMp3(answer, keys,new MorseConfig { Speed=Convert.ToInt32(speetBox.Value) }, lastMusicPath,morsePlayer.WaveFormat,morsePlayer.dit_buff,morsePlayer.dah_buff);
+                MorseToMp3.toMp3(answer, keys, MorseConfig.Create(Convert.ToInt32(speetBox.Value)), lastMusicPath,morsePlayer.dit_buff,morsePlayer.dah_buff);
                 // 添加文件到ZIP存档
                 //添加音频
                 string musicFileName = Path.GetFileName(lastMusicPath);
@@ -334,7 +334,7 @@ namespace CW
                     var lastCheckMusicPath = lastPath.Replace(".txt", "-"+checkAnserSpeed.Value+"WPM-check.mp3");
                    var config= new MorseConfig { Speed = Convert.ToInt32(checkAnserSpeed.Value) };
                     morsePlayer.UpdateConfig(config);
-                    MorseToMp3.toMp3(answer, keys, config, lastCheckMusicPath, morsePlayer.WaveFormat, morsePlayer.dit_buff, morsePlayer.dah_buff);
+                    MorseToMp3.toMp3(answer, keys, config, lastCheckMusicPath,morsePlayer.dit_buff, morsePlayer.dah_buff);
                     string checkFileName = Path.GetFileName(lastCheckMusicPath);
                     archive.CreateEntryFromFile(lastCheckMusicPath, checkFileName);
                 }
