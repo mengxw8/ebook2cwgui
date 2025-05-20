@@ -20,7 +20,7 @@ namespace CW
         private void Button1_Click(object sender, EventArgs e)
         {
             //去音频转换小工具
-            ArticleConvert convert = new ArticleConvert();
+            ArticleConvert convert = new ();
             this.Visible = false;
             convert.ShowDialog();
             this.Close();
@@ -28,7 +28,7 @@ namespace CW
 
         private void CopyBtn_Click(object sender, EventArgs e)
         {
-            CopyingPractice copyingPractice = new CopyingPractice();
+            CopyingPractice copyingPractice = new ();
             this.Visible = false;
             copyingPractice.ShowDialog();
             this.Close();
@@ -51,7 +51,7 @@ namespace CW
 
         private void SendBtn_Click(object sender, EventArgs e)
         {
-            SendPractice sendPractice = new SendPractice();
+            SendPractice sendPractice = new ();
             this.Visible = false;
             sendPractice.ShowDialog();
             this.Close();
@@ -59,7 +59,7 @@ namespace CW
 
         private void ShortNumberBtn_Click(object sender, EventArgs e)
         {
-            NumberCopyingPractice number = new NumberCopyingPractice();
+            NumberCopyingPractice number = new ();
             this.Visible = false;
             number.ShowDialog();
             this.Close();
@@ -68,25 +68,19 @@ namespace CW
         //跳转到中文快查界面
         private void chineseCodeQuickQueryBtn_Click(object sender, EventArgs e)
         {
-            ChineseCodeQuickQuery chineseCodeQuickQuery = new ChineseCodeQuickQuery();
+            ChineseCodeQuickQuery chineseCodeQuickQuery = new ();
             this.Visible = false;
             chineseCodeQuickQuery.ShowDialog();
             this.Close();
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void abbreviationQuickSearchBtn_Click(object sender, EventArgs e)
         {
-            int speed = 10;
-            int tone = 610;
-            string inputFilePath = "F:\\Բ<D6><DC><C2><CA>\\y-cruncher v0.8.6.9545\\test.txt";  // <CA><E4><C8><EB><CE>ļ<FE>·<BE><B6>
-            string outputFilePath = "F:\\Բ<D6><DC><C2><CA>\\y-cruncher v0.8.6.9545\\Piһ<D2><DA>" + speed + "WPM.mp3"; // <CA><E4><B3><F6><CE>ļ<FE>·<BE><B6>
-                        MorsePlayer player = new MorsePlayer(frequency: tone, config: MorseConfig.Create(speed), infiniteLength: false);
-            string answer = File.ReadAllText(inputFilePath);
-                       //player.AddMorseCode(answer, Constant.allCharCode);
-                       //MorseToMp3.toAAC(player, outputFilePath);
-           MorseToMp3.toMp3(answer.Replace("\r", "").Replace("\n", ""), Constant.allCharCode, MorseConfig.Create(speed), outputFilePath, player.dit_buff, player.dah_buff);
-
+            AbbreviationQuickSearch abbreviationQuickSearch = new ();
+            this.Visible = false;
+            abbreviationQuickSearch.ShowDialog();
+            this.Close();
         }
     }
 }
