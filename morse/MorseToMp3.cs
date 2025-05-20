@@ -22,7 +22,6 @@ namespace CW.morse
     /// <param name="keys">文本和嘀嗒对应关系</param>
     /// <param name="config">速度</param>
     /// <param name="outPath">输出文件路径</param>
-    /// <param name="waveFormat">音频信息</param>
     /// <param name="dit_buff">嘀的波形数据</param>
     /// <param name="dah_buff">嗒的波形数据</param>
         public static void toMp3(String content, Dictionary<char, string> keys, MorseConfig config, string outPath,  short[] dit_buff, short[] dah_buff)
