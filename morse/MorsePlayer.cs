@@ -154,9 +154,10 @@ namespace CW
         /// </summary>
         public void AddMorseCode(string morseCode, Dictionary<char, string> keys, int speed)
         {
-            config.Speed = speed;
+            config = MorseConfig.Create(speed);
             UpdateConfig(config);
             this.keys = keys;
+            morseCode= morseCode.Replace("\r\n"," ").ToUpper();
 
             //分割成每一组
             string[] chars = morseCode.Split(' ');

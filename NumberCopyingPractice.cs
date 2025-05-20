@@ -177,11 +177,11 @@ namespace CW
             //Mp3Player.Play(audioFileName);
 
             startBtn.Enabled = true;
-
+            await task;
             //处理校报逻辑
             if (showAnswerChb.Checked)
             {
-                await task;
+  
 
                 var task2 = Task.Run(() =>
                 {
@@ -392,7 +392,7 @@ namespace CW
         private void SpeetBox_ValueChanged(object sender, EventArgs e)
         {
             checkAnserSpeed.Value = speetBox.Value + 2;
-            morseConfig.Speed = Convert.ToInt32(speetBox.Value);
+            morseConfig = MorseConfig.Create(Convert.ToInt32(speetBox.Value));
             morsePlayer.UpdateConfig(morseConfig);
         }
 
