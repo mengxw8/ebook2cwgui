@@ -70,6 +70,9 @@
             continuePlayBtn = new Button();
             pauseBtn = new Button();
             clearAnswerBtn = new Button();
+            groupBox6 = new GroupBox();
+            radioButton4 = new RadioButton();
+            radioButton3 = new RadioButton();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -83,6 +86,7 @@
             ((System.ComponentModel.ISupportInitialize)groupNumBox).BeginInit();
             groupBox4.SuspendLayout();
             groupBox5.SuspendLayout();
+            groupBox6.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -92,7 +96,7 @@
             groupBox1.Font = new Font("Microsoft YaHei UI", 12F);
             groupBox1.Location = new Point(6, 2);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(634, 60);
+            groupBox1.Size = new Size(318, 60);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "练习模式";
@@ -461,10 +465,6 @@
             answerBox.TabIndex = 0;
             answerBox.Text = " ";
             // 
-            // timer1
-            // 
-
-            // 
             // groupBox5
             // 
             groupBox5.Controls.Add(rePlayBtn);
@@ -523,11 +523,48 @@
             clearAnswerBtn.UseVisualStyleBackColor = true;
             clearAnswerBtn.Click += ClearAnswer_Click;
             // 
+            // groupBox6
+            // 
+            groupBox6.Controls.Add(radioButton4);
+            groupBox6.Controls.Add(radioButton3);
+            groupBox6.Font = new Font("Microsoft YaHei UI", 12F);
+            groupBox6.Location = new Point(330, 2);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Size = new Size(310, 60);
+            groupBox6.TabIndex = 5;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "报文来源";
+            // 
+            // radioButton4
+            // 
+            radioButton4.AutoSize = true;
+            radioButton4.Location = new Point(174, 24);
+            radioButton4.Name = "radioButton4";
+            radioButton4.Size = new Size(108, 25);
+            radioButton4.TabIndex = 1;
+            radioButton4.TabStop = true;
+            radioButton4.Text = "自定义报文";
+            radioButton4.UseVisualStyleBackColor = true;
+            radioButton4.Click += radioButton4_CheckedChanged;
+            // 
+            // radioButton3
+            // 
+            radioButton3.AutoSize = true;
+            radioButton3.Location = new Point(26, 22);
+            radioButton3.Name = "radioButton3";
+            radioButton3.Size = new Size(92, 25);
+            radioButton3.TabIndex = 0;
+            radioButton3.TabStop = true;
+            radioButton3.Text = "随机生成";
+            radioButton3.UseVisualStyleBackColor = true;
+            radioButton3.CheckedChanged += radioButton3_CheckedChanged;
+            // 
             // NumberCopyingPractice
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(groupBox6);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
@@ -554,6 +591,8 @@
             ((System.ComponentModel.ISupportInitialize)groupNumBox).EndInit();
             groupBox4.ResumeLayout(false);
             groupBox5.ResumeLayout(false);
+            groupBox6.ResumeLayout(false);
+            groupBox6.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -599,5 +638,8 @@
         private Label label8;
         private NumericUpDown noiseLevel;
         private NumericUpDown extraWordSpacing;
+        private GroupBox groupBox6;
+        private RadioButton radioButton4;
+        private RadioButton radioButton3;
     }
 }

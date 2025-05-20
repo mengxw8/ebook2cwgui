@@ -27,6 +27,7 @@ using System.Web;
 using System.Windows.Forms;
 using System.Xml;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace CW
 {
@@ -62,7 +63,7 @@ namespace CW
             morseConfig.Speed = Convert.ToInt32(speetBox.Value);
             morsePlayer = new MorsePlayer(Convert.ToInt32(toneBox.Value), morseConfig);
             waveOut.Init(morsePlayer);
-             }
+        }
 
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
         WorkingMode mode = WorkingMode.None;
@@ -71,11 +72,15 @@ namespace CW
         //上一次播放的音频文件路径
         string lastPath = "";
 
-         
+
 
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            mode = WorkingMode.ShortNumber5;
+            if (mode != WorkingMode.Customize)
+            {
+                mode = WorkingMode.ShortNumber5;
+            }
+
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
             //填充值
@@ -89,7 +94,10 @@ namespace CW
         }
         private void RadioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            mode = WorkingMode.ShortNumber10;
+            if (mode != WorkingMode.Customize)
+            {
+                mode = WorkingMode.ShortNumber10;
+            }
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
 
@@ -136,27 +144,20 @@ namespace CW
 
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
-             lastPath = Constant.TempPath + fileName + ".txt";
+            lastPath = Constant.TempPath + fileName + ".txt";
             if (!Path.Exists(Path.GetDirectoryName(lastPath)))
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(lastPath) ?? "");
             }
-
-
-
-
-
             //写入临时文件
             File.WriteAllText(lastPath, answer);
-            //生成音频
-            //var task = Task.Run(() => { CWTools.GenerateAudio(fileName.ToString(), param); });
             waveOut.Stop();
             morsePlayer.Clean();
             var task = Task.Run(() =>
             {
                 var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
                 keys.TryAdd('=', "-...-");
-                keys.TryAdd('i', "..");
+                keys.TryAdd('I', "..");
                 morsePlayer.AddMorseCode(answer, keys, Convert.ToInt32(speetBox.Value));
             });
 
@@ -181,7 +182,7 @@ namespace CW
             //处理校报逻辑
             if (checkAnswerChb.Checked)
             {
-  
+
 
                 var task2 = Task.Run(() =>
                 {
@@ -316,11 +317,11 @@ namespace CW
                 // 创建ZIP存档
                 using ZipArchive archive = new(zipToOpen, ZipArchiveMode.Create);
                 //生成mp3
-                var lastMusicPath = lastPath.Replace(".txt", "-"+speetBox.Value+"WMP.mp3");
+                var lastMusicPath = lastPath.Replace(".txt", "-" + speetBox.Value + "WMP.mp3");
                 var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
                 keys.TryAdd('=', "-...-");
                 keys.TryAdd('i', "..");
-                MorseToMp3.toMp3(answer, keys, MorseConfig.Create(Convert.ToInt32(speetBox.Value)), lastMusicPath,morsePlayer.dit_buff!,morsePlayer.dah_buff!);
+                MorseToMp3.toMp3(answer, keys, MorseConfig.Create(Convert.ToInt32(speetBox.Value)), lastMusicPath, morsePlayer.dit_buff!, morsePlayer.dah_buff!);
                 // 添加文件到ZIP存档
                 //添加音频
                 string musicFileName = Path.GetFileName(lastMusicPath);
@@ -331,10 +332,10 @@ namespace CW
                 //添加校报音频
                 if (checkAnswerChb.Checked)
                 {
-                    var lastCheckMusicPath = lastPath.Replace(".txt", "-"+checkAnserSpeed.Value+"WPM-check.mp3");
-                   var config=  MorseConfig.Create(Convert.ToInt32(checkAnserSpeed.Value) );
+                    var lastCheckMusicPath = lastPath.Replace(".txt", "-" + checkAnserSpeed.Value + "WPM-check.mp3");
+                    var config = MorseConfig.Create(Convert.ToInt32(checkAnserSpeed.Value));
                     morsePlayer.UpdateConfig(config);
-                    MorseToMp3.toMp3(answer, keys, config, lastCheckMusicPath,morsePlayer.dit_buff!, morsePlayer.dah_buff!);
+                    MorseToMp3.toMp3(answer, keys, config, lastCheckMusicPath, morsePlayer.dit_buff!, morsePlayer.dah_buff!);
                     string checkFileName = Path.GetFileName(lastCheckMusicPath);
                     archive.CreateEntryFromFile(lastCheckMusicPath, checkFileName);
                 }
@@ -372,8 +373,6 @@ namespace CW
 
             if (answer != "")
             {
-                //把小写的q换成大写的Q，符合抄写习惯
-                answer = answer.Replace("q", "Q");
                 answerBox.Text = answer.Replace(Constant.StartString, "").Replace(Constant.EndString, "");
             }
         }
@@ -384,7 +383,7 @@ namespace CW
         {
             Mp3Player.Stop();
             //清除缓存
-            if ( Path.Exists(Path.GetDirectoryName(Constant.TempPath)))
+            if (Path.Exists(Path.GetDirectoryName(Constant.TempPath)))
             {
                 Directory.Delete(Path.GetDirectoryName(Constant.TempPath) ?? "", true);
             }
@@ -472,6 +471,52 @@ namespace CW
         private void toneBox_ValueChanged(object sender, EventArgs e)
         {
             morsePlayer.UpdateFrequency(Convert.ToInt32(toneBox.Value));
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            //加载本地文件内容
+            if (radioButton4.Checked)
+            {
+                //弹出文件选择框
+                OpenFileDialog openImageDialog = new()
+                {
+                    Filter = "报文文本(*.txt)|*.txt",
+                    Multiselect = false//关闭多选
+                };
+
+
+                if (openImageDialog.ShowDialog() == DialogResult.OK)
+                {
+                    answer = File.ReadAllText(openImageDialog.FileName);
+                    mode = WorkingMode.Customize;
+                    if (showAnswerChb.Checked) {
+                        ShowAnswer();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("未选择任何文件,试试其他模式吧!");
+                    //没有选择文件就自动生成
+                    radioButton3.Checked = true;
+                    answer = "";
+
+                }
+            }
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton3.Checked) {
+                if (radioButton1.Checked)
+                {
+                    mode = WorkingMode.ShortNumber5;
+                }
+                else {
+                    mode = WorkingMode.ShortNumber10;
+                }
+            
+            }
         }
     }
 }
