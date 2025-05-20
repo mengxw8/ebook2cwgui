@@ -132,6 +132,10 @@ namespace CW
                 dataTable.Rows.Add(dataTable.NewRow());
 
             }
+            ChineseLab.Text = "";
+            codeLab.Text = "";
+            queryBox.Text = "";
+            queryBox.Focus();
 
         }
     }
