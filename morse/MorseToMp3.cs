@@ -25,17 +25,15 @@ namespace CW.morse
     /// <param name="waveFormat">音频信息</param>
     /// <param name="dit_buff">嘀的波形数据</param>
     /// <param name="dah_buff">嗒的波形数据</param>
-        public static void toMp3(String content, Dictionary<char, string> keys, MorseConfig config, string outPath, WaveFormat waveFormat, short[] dit_buff, short[] dah_buff)
+        public static void toMp3(String content, Dictionary<char, string> keys, MorseConfig config, string outPath,  short[] dit_buff, short[] dah_buff)
         {
 
-            int wpm = Math.Max(1, config.Speed); // 确保 WPM 不为 0
 
-            var dotDuration = (50 * waveFormat.SampleRate) / (60 * wpm); // 转换为样本数
 
             // 创建LameMP3FileWriter，设置比特率（如128kbps）
-            using (var writer = new LameMP3FileWriter(outPath, waveFormat, LAMEPreset.VBR_90))
+            using (var writer = new LameMP3FileWriter(outPath, new WaveFormat(44100,1), LAMEPreset.VBR_90))
             {
-                byte[] bytes = new byte[dotDuration * sizeof(short)];
+                byte[] bytes = new byte[dit_buff.Length * sizeof(short)];
                 byte[] di = new byte[dit_buff.Length * sizeof(short)];
                 Buffer.BlockCopy(dit_buff, 0, di, 0, di.Length);
                 byte[] da = new byte[dah_buff.Length * sizeof(short)];

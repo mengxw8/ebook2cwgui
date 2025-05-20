@@ -343,7 +343,7 @@ namespace CW
             if (bgmCbx.Checked)
             {
                 //使用新的速度和频率
-                player.UpdateFrequency(Convert.ToInt32(toneBox.Value));
+                player!.UpdateFrequency(Convert.ToInt32(toneBox.Value));
                 player.UpdateConfig(new MorseConfig { Speed=Convert.ToInt32(speedBox.Value) });
                 //开始混音
                 player?.AddMorseCode(answer, Constant.allCharCode);
@@ -470,7 +470,7 @@ namespace CW
                 // 添加文件到ZIP存档
                 //添加音频
                 string musicFileName = lastBookPath.Replace(".txt", ".mp3");                
-                MorseToMp3.toMp3(answer, Constant.allCharCode, new MorseConfig { Speed = Convert.ToInt32(speetBox.Value) }, musicFileName, player.WaveFormat, player.dit_buff, player.dah_buff);
+                MorseToMp3.toMp3(answer, Constant.allCharCode,  MorseConfig.Create( Convert.ToInt32(speedBox.Value) ), musicFileName,  player!.dit_buff!, player.dah_buff!);
                 archive.CreateEntryFromFile( musicFileName, Path.GetFileName(lastBookPath).Replace(".txt", ".mp3"));
                 //添加报文
                 string txtFileName = Path.GetFileName(lastBookPath);
@@ -635,8 +635,8 @@ namespace CW
         private void ResumeBtn_Click(object sender, EventArgs e)
         {
             playerWave.Stop();
-            player.Clean();
-            player.AddMorseCode(answer, Constant.allCharCode);
+            player?.Clean();
+            player?.AddMorseCode(answer, Constant.allCharCode);
             playerWave.Play();
         }
 
@@ -684,7 +684,7 @@ namespace CW
             replicationBox6.ReadOnly = true;
             //初始化声音
             //初始化播放器
-            player = new MorsePlayer(Convert.ToInt32(toneBox.Value), new MorseConfig { Speed = Convert.ToInt32(speetBox.Value) });
+            player = new MorsePlayer(Convert.ToInt32(toneBox.Value), new MorseConfig { Speed = Convert.ToInt32(speedBox.Value) });
             playerWave.Init(player);
             // 创建 SineWaveProvider
             sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
