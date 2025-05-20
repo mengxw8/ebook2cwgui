@@ -344,7 +344,7 @@ namespace CW
             {
                 //使用新的速度和频率
                 player!.UpdateFrequency(Convert.ToInt32(toneBox.Value));
-                player.UpdateConfig(new MorseConfig { Speed=Convert.ToInt32(speedBox.Value) });
+                player.UpdateConfig( MorseConfig.Create(Convert.ToInt32(speedBox.Value)));
                 //开始混音
                 player?.AddMorseCode(answer, Constant.allCharCode);
                 playerWave.Play();
