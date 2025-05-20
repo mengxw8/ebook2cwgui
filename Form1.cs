@@ -1,6 +1,8 @@
+ï»¿using CW.morse;
 using NAudio.Wave;
 using System;
 using System.Diagnostics;
+using System.Numerics;
 using System.Reflection;
 
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -17,7 +19,7 @@ namespace CW
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            //È¥ÒôÆµ×ª»»Ğ¡¹¤¾ß
+            //å»éŸ³é¢‘è½¬æ¢å°å·¥å…·
             ArticleConvert convert = new ArticleConvert();
             this.Visible = false;
             convert.ShowDialog();
@@ -34,7 +36,7 @@ namespace CW
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // »ñÈ¡µ±Ç°³ÌĞò¼¯µÄ°æ±¾
+            // è·å–å½“å‰ç¨‹åºé›†çš„ç‰ˆæœ¬
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
             Version version = currentAssembly.GetName().Version ?? new Version(1, 0, 0, 0);
             this.Text = this.Text + " V" + version;
@@ -42,8 +44,8 @@ namespace CW
 
         private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // µ±Á´½ÓÎÄ±¾±»µã»÷Ê±´¥·¢µÄÊÂ¼ş
-            // ÔÚÕâÀïÖ´ĞĞÄãÏ£ÍûµÄ²Ù×÷£¬±ÈÈç´ò¿ªÒ»¸öÁ´½Ó»òÖ´ĞĞÒ»Ğ©ÌØ¶¨µÄÈÎÎñ
+            // å½“é“¾æ¥æ–‡æœ¬è¢«ç‚¹å‡»æ—¶è§¦å‘çš„äº‹ä»¶
+            // åœ¨è¿™é‡Œæ‰§è¡Œä½ å¸Œæœ›çš„æ“ä½œï¼Œæ¯”å¦‚æ‰“å¼€ä¸€ä¸ªé“¾æ¥æˆ–æ‰§è¡Œä¸€äº›ç‰¹å®šçš„ä»»åŠ¡
             System.Diagnostics.Process.Start(new ProcessStartInfo("https://github.com/mengxw8/ebook2cwgui/issues") { UseShellExecute = true });
         }
 
@@ -63,13 +65,27 @@ namespace CW
             this.Close();
         }
 
-        //Ìø×ªµ½ÖĞÎÄ¿ì²é½çÃæ
+        //è·³è½¬åˆ°ä¸­æ–‡å¿«æŸ¥ç•Œé¢
         private void chineseCodeQuickQueryBtn_Click(object sender, EventArgs e)
         {
-            ChineseCodeQuickQuery chineseCodeQuickQuery=new  ChineseCodeQuickQuery();
-                this.Visible = false;
+            ChineseCodeQuickQuery chineseCodeQuickQuery = new ChineseCodeQuickQuery();
+            this.Visible = false;
             chineseCodeQuickQuery.ShowDialog();
             this.Close();
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int speed = 10;
+            int tone = 610;
+            string inputFilePath = "F:\\Ô²<D6><DC><C2><CA>\\y-cruncher v0.8.6.9545\\test.txt";  // <CA><E4><C8><EB><CE>Ä¼<FE>Â·<BE><B6>
+            string outputFilePath = "F:\\Ô²<D6><DC><C2><CA>\\y-cruncher v0.8.6.9545\\PiÒ»<D2><DA>" + speed + "WPM.mp3"; // <CA><E4><B3><F6><CE>Ä¼<FE>Â·<BE><B6>
+                        MorsePlayer player = new MorsePlayer(frequency: tone, config: MorseConfig.Create(speed), infiniteLength: false);
+            string answer = File.ReadAllText(inputFilePath);
+                       //player.AddMorseCode(answer, Constant.allCharCode);
+                       //MorseToMp3.toAAC(player, outputFilePath);
+           MorseToMp3.toMp3(answer.Replace("\r", "").Replace("\n", ""), Constant.allCharCode, MorseConfig.Create(speed), outputFilePath, player.dit_buff, player.dah_buff);
 
         }
     }

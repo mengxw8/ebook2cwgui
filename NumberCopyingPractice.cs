@@ -332,7 +332,7 @@ namespace CW
                 if (checkAnswerChb.Checked)
                 {
                     var lastCheckMusicPath = lastPath.Replace(".txt", "-"+checkAnserSpeed.Value+"WPM-check.mp3");
-                   var config= new MorseConfig { Speed = Convert.ToInt32(checkAnserSpeed.Value) };
+                   var config=  MorseConfig.Create(Convert.ToInt32(checkAnserSpeed.Value) );
                     morsePlayer.UpdateConfig(config);
                     MorseToMp3.toMp3(answer, keys, config, lastCheckMusicPath,morsePlayer.dit_buff!, morsePlayer.dah_buff!);
                     string checkFileName = Path.GetFileName(lastCheckMusicPath);

@@ -37,6 +37,7 @@
             sendBtn = new Button();
             shortNumberBtn = new Button();
             chineseCodeQuickQueryBtn = new Button();
+            button2 = new Button();
             SuspendLayout();
             // 
             // button1
@@ -118,11 +119,22 @@
             chineseCodeQuickQueryBtn.UseVisualStyleBackColor = true;
             chineseCodeQuickQueryBtn.Click += chineseCodeQuickQueryBtn_Click;
             // 
+            // button2
+            // 
+            button2.Location = new Point(105, 269);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 8;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(282, 463);
+            Controls.Add(button2);
             Controls.Add(chineseCodeQuickQueryBtn);
             Controls.Add(shortNumberBtn);
             Controls.Add(sendBtn);
@@ -151,5 +163,6 @@
         private Button sendBtn;
         private Button shortNumberBtn;
         private Button chineseCodeQuickQueryBtn;
+        private Button button2;
     }
 }
