@@ -467,7 +467,7 @@ namespace CW
                 // 添加文件到ZIP存档
                 //添加音频
                 string musicFileName = lastBookPath.Replace(".txt", ".mp3");
-                MorseToMp3.toMp3(answer, Constant.allCharCode, new MorseConfig { Speed = Convert.ToInt32(speedBox.Value) }, musicFileName, player!.WaveFormat, player!.dit_buff!, player!.dah_buff!);
+                MorseToMp3.toMp3(answer, Constant.allCharCode, new MorseConfig { Speed = Convert.ToInt32(speedBox.Value) }, musicFileName,  player!.dit_buff!, player!.dah_buff!);
                 archive.CreateEntryFromFile(musicFileName, Path.GetFileName(lastBookPath).Replace(".txt", ".mp3"));
                 //添加报文
                 string txtFileName = Path.GetFileName(lastBookPath);
