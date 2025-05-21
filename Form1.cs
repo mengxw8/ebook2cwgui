@@ -20,7 +20,7 @@ namespace CW
         private void Button1_Click(object sender, EventArgs e)
         {
             //去音频转换小工具
-            ArticleConvert convert = new ();
+            ArticleConvert convert = new();
             this.Visible = false;
             convert.ShowDialog();
             this.Close();
@@ -28,7 +28,7 @@ namespace CW
 
         private void CopyBtn_Click(object sender, EventArgs e)
         {
-            CopyingPractice copyingPractice = new ();
+            CopyingPractice copyingPractice = new();
             this.Visible = false;
             copyingPractice.ShowDialog();
             this.Close();
@@ -51,7 +51,7 @@ namespace CW
 
         private void SendBtn_Click(object sender, EventArgs e)
         {
-            SendPractice sendPractice = new ();
+            SendPractice sendPractice = new();
             this.Visible = false;
             sendPractice.ShowDialog();
             this.Close();
@@ -59,7 +59,7 @@ namespace CW
 
         private void ShortNumberBtn_Click(object sender, EventArgs e)
         {
-            NumberCopyingPractice number = new ();
+            NumberCopyingPractice number = new();
             this.Visible = false;
             number.ShowDialog();
             this.Close();
@@ -68,7 +68,7 @@ namespace CW
         //跳转到中文快查界面
         private void ChineseCodeQuickQueryBtn_Click(object sender, EventArgs e)
         {
-            ChineseCodeQuickQuery chineseCodeQuickQuery = new ();
+            ChineseCodeQuickQuery chineseCodeQuickQuery = new();
             this.Visible = false;
             chineseCodeQuickQuery.ShowDialog();
             this.Close();
@@ -77,9 +77,17 @@ namespace CW
 
         private void AbbreviationQuickSearchBtn_Click(object sender, EventArgs e)
         {
-            AbbreviationQuickSearch abbreviationQuickSearch = new ();
+            AbbreviationQuickSearch abbreviationQuickSearch = new();
             this.Visible = false;
             abbreviationQuickSearch.ShowDialog();
+            this.Close();
+        }
+
+        private void ToPlayerBtn_Click(object sender, EventArgs e)
+        {
+            Player player = new();
+            this.Visible = false;
+            player.ShowDialog();
             this.Close();
         }
     }

@@ -29,6 +29,8 @@ namespace CW
         private int dotDuration;
         //点划对应关系
         private Dictionary<char, string>? keys;
+        //文件迭代器
+        private IEnumerable<string>? strings;
 
         //把计算好的结果缓存起来，不用重复计算
         public short[]? Dit_buff { get; set; }
@@ -138,6 +140,15 @@ namespace CW
             UpdateConfig(config);
 
         }
+        public void UpdateEncoding(Dictionary<char, string> encoding)
+        {
+            if (encoding != null) {
+                this.keys = encoding;
+            }
+            
+
+
+        }
         public void Clean()
         {
             charQueue.Clear();
@@ -148,6 +159,7 @@ namespace CW
             this.keys = keys;
             AddMorseCode(morseCode, keys, config.Speed);
         }
+
         /// <summary>
         /// 添加莫尔斯电码到播放队列
         /// </summary>

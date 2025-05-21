@@ -38,6 +38,7 @@
             shortNumberBtn = new Button();
             chineseCodeQuickQueryBtn = new Button();
             abbreviationQuickSearchBtn = new Button();
+            ToPlayerBtn = new Button();
             SuspendLayout();
             // 
             // button1
@@ -129,11 +130,22 @@
             abbreviationQuickSearchBtn.UseVisualStyleBackColor = true;
             abbreviationQuickSearchBtn.Click += AbbreviationQuickSearchBtn_Click;
             // 
+            // ToPlayerBtn
+            // 
+            ToPlayerBtn.Location = new Point(94, 284);
+            ToPlayerBtn.Name = "ToPlayerBtn";
+            ToPlayerBtn.Size = new Size(100, 23);
+            ToPlayerBtn.TabIndex = 9;
+            ToPlayerBtn.Text = "莫尔斯播放器";
+            ToPlayerBtn.UseVisualStyleBackColor = true;
+            ToPlayerBtn.Click += ToPlayerBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(282, 463);
+            Controls.Add(ToPlayerBtn);
             Controls.Add(abbreviationQuickSearchBtn);
             Controls.Add(chineseCodeQuickQueryBtn);
             Controls.Add(shortNumberBtn);
@@ -164,5 +176,6 @@
         private Button shortNumberBtn;
         private Button chineseCodeQuickQueryBtn;
         private Button abbreviationQuickSearchBtn;
+        private Button ToPlayerBtn;
     }
 }
