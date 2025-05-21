@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -78,6 +79,7 @@ namespace CW
         private void StopBtn_Click(object sender, EventArgs e)
         {
             playerWave.Stop();
+            player.Clean();
         }
 
         private void ReplayBtn_Click(object sender, EventArgs e)
@@ -106,6 +108,8 @@ namespace CW
                 MessageBox.Show("文本文件不存在，无法播放！", "文件错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            playerWave.Stop();
+            player.Clean();
             player.AddMorseCode(File.ReadAllText(FilePathLbl.Text), code);
             //ContentTxb.Text = File.ReadAllText(FilePathLbl.Text);
             playerWave.Play();

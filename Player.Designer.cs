@@ -268,7 +268,7 @@
             groupBox6.Controls.Add(ContentTxb);
             groupBox6.Location = new Point(1, 118);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(1320, 3780);
+            groupBox6.Size = new Size(1320, 3892);
             groupBox6.TabIndex = 5;
             groupBox6.TabStop = false;
             groupBox6.Text = "内容";
@@ -279,7 +279,7 @@
             ContentTxb.Font = new Font("Microsoft YaHei UI", 50F);
             ContentTxb.Location = new Point(3, 19);
             ContentTxb.Name = "ContentTxb";
-            ContentTxb.Size = new Size(1314, 3758);
+            ContentTxb.Size = new Size(1314, 3870);
             ContentTxb.TabIndex = 0;
             ContentTxb.Text = "";
             // 

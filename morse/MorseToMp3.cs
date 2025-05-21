@@ -15,79 +15,77 @@ namespace CW.morse
 {
     internal class MorseToMp3
     {
-    /// <summary>
-    ///  生成mp3文件
-    /// </summary>
-    /// <param name="content">要生成的文本内容</param>
-    /// <param name="keys">文本和嘀嗒对应关系</param>
-    /// <param name="config">速度</param>
-    /// <param name="outPath">输出文件路径</param>
-    /// <param name="dit_buff">嘀的波形数据</param>
-    /// <param name="dah_buff">嗒的波形数据</param>
-        public static void ToMp3(String content, Dictionary<char, string> keys, MorseConfig config, string outPath,  short[] dit_buff, short[] dah_buff)
+        /// <summary>
+        ///  生成mp3文件
+        /// </summary>
+        /// <param name="content">要生成的文本内容</param>
+        /// <param name="keys">文本和嘀嗒对应关系</param>
+        /// <param name="config">速度</param>
+        /// <param name="outPath">输出文件路径</param>
+        /// <param name="dit_buff">嘀的波形数据</param>
+        /// <param name="dah_buff">嗒的波形数据</param>
+        public static void ToMp3(String content, Dictionary<char, string> keys, MorseConfig config, string outPath, short[] dit_buff, short[] dah_buff)
         {
 
 
 
             // 创建LameMP3FileWriter，设置比特率（如128kbps）
-            using var writer = new LameMP3FileWriter(outPath, new WaveFormat(44100, 1), LAMEPreset.VBR_90) ;
-            
-                byte[] bytes = new byte[dit_buff.Length * sizeof(short)];
-                byte[] di = new byte[dit_buff.Length * sizeof(short)];
-                Buffer.BlockCopy(dit_buff, 0, di, 0, di.Length);
-                byte[] da = new byte[dah_buff.Length * sizeof(short)];
-                Buffer.BlockCopy( dah_buff, 0, da, 0, da.Length);
-                //分割成每一组
-                string[] chars = content.Split(' ');
-                //时间码
-                int startTime = 0;
-                int endTime = 0;
-                long lineNo = 1;
+            using var writer = new LameMP3FileWriter(outPath, new WaveFormat(44100, 1), LAMEPreset.VBR_90);
 
+            byte[] bytes = new byte[dit_buff.Length * sizeof(short)];
+            byte[] di = new byte[dit_buff.Length * sizeof(short)];
+            Buffer.BlockCopy(dit_buff, 0, di, 0, di.Length);
+            byte[] da = new byte[dah_buff.Length * sizeof(short)];
+            Buffer.BlockCopy(dah_buff, 0, da, 0, da.Length);
+            //分割成每一组
+            string[] chars = content.Replace("\r\n", " ").Split(' ');
+            //时间码
+            int startTime = 0;
+            int endTime = 0;
+            long lineNo = 1;
             using var srtWriter = new StreamWriter(outPath.Replace(".mp3", ".srt"));
-                 foreach (var ch in chars)
+            foreach (var ch in chars)
+            {
+                //每个字母
+                foreach (char c in ch)
                 {
-
-                    //每个字母
-                    foreach (char c in ch)
+                    //每个莫尔斯
+                    if (!keys.ContainsKey(c))
                     {
-                        //每个莫尔斯
-                        if (!keys.ContainsKey(c))
-                        {
-                            continue;
-                        }
-                        var code = keys[c];
-                        foreach (char m in code)
-                        {
-                            switch (m)
-                            {
-                                case '.': writer.Write(di, 0, di.Length); endTime += config.Di; break;
-                                case '-': writer.Write(da, 0, da.Length); endTime += config.Da; break;
-                            }
-                                // 符号间隔1T
-                                writer.Write(bytes, 0, bytes.Length);
-                                endTime += config.Di;
-                        }
-                            // 字符间隔3T
-                            writer.Write(bytes, 0, bytes.Length);
-                            writer.Write(bytes, 0, bytes.Length);
-                            writer.Write(bytes, 0, bytes.Length);
-                            endTime += config.Di * 3;
+                        continue;
                     }
-                        TimeSpan startTimeSpan = TimeSpan.FromMilliseconds(startTime);
-                        TimeSpan endTimeSpan = TimeSpan.FromMilliseconds(endTime);
-                        srtWriter.WriteLine(lineNo++);
-                        srtWriter.WriteLine(startTimeSpan.ToString(@"hh\:mm\:ss\.fff") + " --> " + endTimeSpan.ToString(@"hh\:mm\:ss\.fff"));
-                        srtWriter.WriteLine(ch);
-                        srtWriter.WriteLine();
-                        startTime = endTime;
-                        // 单词间隔补足到7T
+                    var code = keys[c];
+                    foreach (char m in code)
+                    {
+                        switch (m)
+                        {
+                            case '.': writer.Write(di, 0, di.Length); endTime += config.Di; break;
+                            case '-': writer.Write(da, 0, da.Length); endTime += config.Da; break;
+                        }
+                        // 符号间隔1T
                         writer.Write(bytes, 0, bytes.Length);
-                        writer.Write(bytes, 0, bytes.Length);
-                        writer.Write(bytes, 0, bytes.Length);
-                        writer.Write(bytes, 0, bytes.Length);
-                        endTime += config.Di * 4;                
+                        endTime += config.Di;
+                    }
+                    // 字符间隔3T
+                    writer.Write(bytes, 0, bytes.Length);
+                    writer.Write(bytes, 0, bytes.Length);
+                    writer.Write(bytes, 0, bytes.Length);
+                    endTime += config.Di * 3;
                 }
+                TimeSpan startTimeSpan = TimeSpan.FromMilliseconds(startTime);
+                TimeSpan endTimeSpan = TimeSpan.FromMilliseconds(endTime);
+                srtWriter.WriteLine(lineNo++);
+                srtWriter.WriteLine(startTimeSpan.ToString(@"hh\:mm\:ss\.fff") + " --> " + endTimeSpan.ToString(@"hh\:mm\:ss\.fff"));
+                srtWriter.WriteLine(ch);
+                srtWriter.WriteLine();
+                startTime = endTime;
+                // 单词间隔补足到7T
+                writer.Write(bytes, 0, bytes.Length);
+                writer.Write(bytes, 0, bytes.Length);
+                writer.Write(bytes, 0, bytes.Length);
+                writer.Write(bytes, 0, bytes.Length);
+                endTime += config.Di * 4;
+            }
         }
         /// <summary>
         /// 
@@ -97,55 +95,56 @@ namespace CW.morse
         /// <param name="outPath">输出文件路径</param>
         /// <param name="waveFormat">音频信息</param>
         /// <param name="frequency">频率</param>
-        public static void ToMp3(List<double> durationSequence, string outPath, WaveFormat waveFormat,int frequency) {
-            using var writer = new LameMP3FileWriter(outPath, waveFormat, LAMEPreset.VBR_90);            
-                for (int i = 0; i < durationSequence.Count; i++)
+        public static void ToMp3(List<double> durationSequence, string outPath, WaveFormat waveFormat, int frequency)
+        {
+            using var writer = new LameMP3FileWriter(outPath, waveFormat, LAMEPreset.VBR_90);
+            for (int i = 0; i < durationSequence.Count; i++)
+            {
+                //采样率*持续时间=总样本数
+                var dotDuration = ((int)Math.Round(durationSequence[i] * waveFormat.SampleRate)) / 1000;  // 样本数
+                                                                                                          //10%的时间用来淡入
+                var riseTime = dotDuration / 10;
+                //10%的时间用来淡出
+                var fallTime = dotDuration / 10;
+                if (i % 2 == 0)
                 {
-                    //采样率*持续时间=总样本数
-                    var dotDuration = ((int)Math.Round(durationSequence[i] * waveFormat.SampleRate))/1000;  // 样本数
-                    //10%的时间用来淡入
-                    var riseTime = dotDuration / 10;
-                    //10%的时间用来淡出
-                    var fallTime = dotDuration / 10;
-                    if (i % 2 == 0)
+                    //生成正弦波
+                    for (int j = 0; j < dotDuration; j++)
                     {
-                        //生成正弦波
-                        for (int j = 0; j < dotDuration;j++)
+                        double phase = 2 * Math.PI * frequency * j / waveFormat.SampleRate;
+                        double sample = Math.Sin(phase);
+
+                        // 淡入处理
+                        if (j < riseTime)
                         {
-                            double phase = 2 * Math.PI * frequency * j / waveFormat.SampleRate;
-                            double sample = Math.Sin(phase);
-
-                            // 淡入处理
-                            if (j < riseTime)
-                            {
-                                double t = j / (double)riseTime;
-                                sample *= Math.Pow(Math.Sin(t * Math.PI / 2), 2);
-                            }
-
-                            // 淡出处理
-                            if (i >= dotDuration - fallTime)
-                            {
-                                int fallIndex = j - (dotDuration - fallTime);
-                                double t = fallIndex / (double)(fallTime - 1);
-                                sample *= Math.Pow(Math.Cos(t * Math.PI / 2), 2);
-                            }
-
-                            var buff = BitConverter.GetBytes((short)(sample * short.MaxValue));
-                            writer.Write(buff, 0, buff.Length);
+                            double t = j / (double)riseTime;
+                            sample *= Math.Pow(Math.Sin(t * Math.PI / 2), 2);
                         }
-                    }
-                    else
-                    {
-                        //填充静音
-                        writer.Write(new byte[dotDuration * sizeof(short)],0, dotDuration * sizeof(short));
 
+                        // 淡出处理
+                        if (i >= dotDuration - fallTime)
+                        {
+                            int fallIndex = j - (dotDuration - fallTime);
+                            double t = fallIndex / (double)(fallTime - 1);
+                            sample *= Math.Pow(Math.Cos(t * Math.PI / 2), 2);
+                        }
+
+                        var buff = BitConverter.GetBytes((short)(sample * short.MaxValue));
+                        writer.Write(buff, 0, buff.Length);
                     }
+                }
+                else
+                {
+                    //填充静音
+                    writer.Write(new byte[dotDuration * sizeof(short)], 0, dotDuration * sizeof(short));
 
                 }
-            }
-        
 
-        public static void ToAAC(MorsePlayer player,string outPath)
+            }
+        }
+
+
+        public static void ToAAC(MorsePlayer player, string outPath)
         {
 
             MediaFoundationEncoder.EncodeToAac(player, outPath);
