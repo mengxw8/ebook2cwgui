@@ -38,9 +38,9 @@ namespace CW.db.entity
         /// <summary>
         /// 是否常用，0不常用
         /// </summary>
-        [DisplayName("是否常用，1常用")]
+        [DisplayName("是否常用")]
         [SugarColumn(ColumnName = "usual")]
-        public int? Usual { get; set; }
+        public bool? Usual { get; set; }
 
     }
 }

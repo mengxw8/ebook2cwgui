@@ -15,8 +15,10 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CW
 {
+    
     public partial class AbbreviationQuickSearch : Form
     {
+        private List<Abbreviations> historyList = [];
 
         private HashSet<string> suggestions = new(); // 存放候选项的列表
         private readonly SqlSugarClient db = SqliteUtil.CreateClient();
@@ -56,20 +58,18 @@ namespace CW
             //回车的时候判断有没有合适的字，有的话就直接显示
             if (e.KeyCode == Keys.Enter)
             {
-                var queryStr = queryBox.Text;
-
-
-                var list = db.Queryable<Abbreviations>().Where(it => it.Word == queryStr.ToUpper()).ToList();
+                var queryStr = queryBox.Text.Trim();
+                ChineseLab.Text = queryStr;
+                //移除输入
+                queryBox.Text = "";
+                queryBox.Focus();
+                var list = db.Queryable<Abbreviations>().Where(it => string.Equals(it.Word, queryStr.ToUpper())).ToList();
       
                 //显示当前查询的字
                 //ChineseLab.Text = chinese.Chinese;
                 //codeLab.Text = chinese.Code;
                 //记录进历史记录
                 addHistory(list);
-                //移除输入
-                queryBox.Text = "";
-                queryBox.Focus();
-                //
 
 
             }
@@ -91,13 +91,17 @@ namespace CW
         //添加进历史记录
         private void addHistory(List<Abbreviations> abbreviationsList)
         {
-            historyTable.DataSource = abbreviationsList;
+            historyList.InsertRange(0, abbreviationsList);
+            historyTable.DataSource=null;
+            historyTable.DataSource = historyList;
+            historyTable.Refresh();
             historyTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
         }
 
         private void cleanBtn_Click(object sender, EventArgs e)
         {
             historyTable.DataSource = null;
+            historyList.Clear();
             ChineseLab.Text = "";
             codeLab.Text = "";
             queryBox.Text = "";
