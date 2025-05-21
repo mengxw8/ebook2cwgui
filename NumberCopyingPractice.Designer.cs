@@ -343,7 +343,7 @@
             repeatRbtn.TabIndex = 9;
             repeatRbtn.Text = "同组无重复";
             repeatRbtn.UseVisualStyleBackColor = true;
-            repeatRbtn.CheckedChanged += repeatRbtn_CheckedChanged;
+            repeatRbtn.CheckedChanged += RepeatRbtn_CheckedChanged;
             // 
             // continuousRbtn
             // 
@@ -394,7 +394,7 @@
             toneBox.Size = new Size(48, 28);
             toneBox.TabIndex = 4;
             toneBox.Value = new decimal(new int[] { 600, 0, 0, 0 });
-            toneBox.ValueChanged += toneBox_ValueChanged;
+            toneBox.ValueChanged += ToneBox_ValueChanged;
             // 
             // groupNumBox
             // 
@@ -545,7 +545,7 @@
             radioButton4.TabStop = true;
             radioButton4.Text = "自定义报文";
             radioButton4.UseVisualStyleBackColor = true;
-            radioButton4.Click += radioButton4_CheckedChanged;
+            radioButton4.Click += RadioButton4_CheckedChanged;
             // 
             // radioButton3
             // 
@@ -557,7 +557,7 @@
             radioButton3.TabStop = true;
             radioButton3.Text = "随机生成";
             radioButton3.UseVisualStyleBackColor = true;
-            radioButton3.CheckedChanged += radioButton3_CheckedChanged;
+            radioButton3.CheckedChanged += RadioButton3_CheckedChanged;
             // 
             // NumberCopyingPractice
             // 

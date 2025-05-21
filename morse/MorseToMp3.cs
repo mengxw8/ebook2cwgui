@@ -24,14 +24,14 @@ namespace CW.morse
     /// <param name="outPath">输出文件路径</param>
     /// <param name="dit_buff">嘀的波形数据</param>
     /// <param name="dah_buff">嗒的波形数据</param>
-        public static void toMp3(String content, Dictionary<char, string> keys, MorseConfig config, string outPath,  short[] dit_buff, short[] dah_buff)
+        public static void ToMp3(String content, Dictionary<char, string> keys, MorseConfig config, string outPath,  short[] dit_buff, short[] dah_buff)
         {
 
 
 
             // 创建LameMP3FileWriter，设置比特率（如128kbps）
-            using (var writer = new LameMP3FileWriter(outPath, new WaveFormat(44100,1), LAMEPreset.VBR_90))
-            {
+            using var writer = new LameMP3FileWriter(outPath, new WaveFormat(44100, 1), LAMEPreset.VBR_90) ;
+            
                 byte[] bytes = new byte[dit_buff.Length * sizeof(short)];
                 byte[] di = new byte[dit_buff.Length * sizeof(short)];
                 Buffer.BlockCopy(dit_buff, 0, di, 0, di.Length);
@@ -43,12 +43,9 @@ namespace CW.morse
                 int startTime = 0;
                 int endTime = 0;
                 long lineNo = 1;
-                
-                  using (var srtWriter = new StreamWriter(outPath.Replace(".mp3",".srt")))
-                { 
-               
 
-                foreach (var ch in chars)
+            using var srtWriter = new StreamWriter(outPath.Replace(".mp3", ".srt"));
+                 foreach (var ch in chars)
                 {
 
                     //每个字母
@@ -89,20 +86,8 @@ namespace CW.morse
                         writer.Write(bytes, 0, bytes.Length);
                         writer.Write(bytes, 0, bytes.Length);
                         writer.Write(bytes, 0, bytes.Length);
-                        endTime += config.Di * 4;
-
-
-
-
-
-                    }    
-                
+                        endTime += config.Di * 4;                
                 }
-
-
-
-            }
-
         }
         /// <summary>
         /// 
@@ -112,10 +97,8 @@ namespace CW.morse
         /// <param name="outPath">输出文件路径</param>
         /// <param name="waveFormat">音频信息</param>
         /// <param name="frequency">频率</param>
-        public static void toMp3(List<double> durationSequence, string outPath, WaveFormat waveFormat,int frequency) {
-            using (var writer = new LameMP3FileWriter(outPath, waveFormat, LAMEPreset.VBR_90))
-            {
-
+        public static void ToMp3(List<double> durationSequence, string outPath, WaveFormat waveFormat,int frequency) {
+            using var writer = new LameMP3FileWriter(outPath, waveFormat, LAMEPreset.VBR_90);            
                 for (int i = 0; i < durationSequence.Count; i++)
                 {
                     //采样率*持续时间=总样本数
@@ -160,9 +143,9 @@ namespace CW.morse
 
                 }
             }
-        }
+        
 
-        public static void toAAC(MorsePlayer player,string outPath)
+        public static void ToAAC(MorsePlayer player,string outPath)
         {
 
             MediaFoundationEncoder.EncodeToAac(player, outPath);

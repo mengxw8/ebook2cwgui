@@ -39,9 +39,9 @@ namespace CW
         private static partial IntPtr LoadKeyboardLayoutA(string pwszKLID, uint Flags);
 
 
-        MorsePlayer morsePlayer;
-        WaveOutEvent waveOut = new WaveOutEvent();
-        MorseConfig morseConfig = new MorseConfig();
+       private readonly MorsePlayer morsePlayer;
+       private readonly WaveOutEvent waveOut = new ();
+        MorseConfig morseConfig = MorseConfig.Create(20);
         public NumberCopyingPractice()
         {
             InitializeComponent();
@@ -55,7 +55,7 @@ namespace CW
             byte[] fontData = Properties.Resources.consola;
             IntPtr fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
             Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
-            PrivateFontCollection pfc = new PrivateFontCollection();
+            PrivateFontCollection pfc = new ();
             pfc.AddMemoryFont(fontPtr, fontData.Length);
             var myCustomFont = new Font(pfc.Families[0], 25, FontStyle.Bold);
             answerBox.Font = myCustomFont;
@@ -321,7 +321,7 @@ namespace CW
                 var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
                 keys.TryAdd('=', "-...-");
                 keys.TryAdd('i', "..");
-                MorseToMp3.toMp3(answer, keys, MorseConfig.Create(Convert.ToInt32(speetBox.Value)), lastMusicPath, morsePlayer.dit_buff!, morsePlayer.dah_buff!);
+                MorseToMp3.ToMp3(answer, keys, MorseConfig.Create(Convert.ToInt32(speetBox.Value)), lastMusicPath, morsePlayer.Dit_buff!, morsePlayer.Dah_buff!);
                 // 添加文件到ZIP存档
                 //添加音频
                 string musicFileName = Path.GetFileName(lastMusicPath);
@@ -335,7 +335,7 @@ namespace CW
                     var lastCheckMusicPath = lastPath.Replace(".txt", "-" + checkAnserSpeed.Value + "WPM-check.mp3");
                     var config = MorseConfig.Create(Convert.ToInt32(checkAnserSpeed.Value));
                     morsePlayer.UpdateConfig(config);
-                    MorseToMp3.toMp3(answer, keys, config, lastCheckMusicPath, morsePlayer.dit_buff!, morsePlayer.dah_buff!);
+                    MorseToMp3.ToMp3(answer, keys, config, lastCheckMusicPath, morsePlayer.Dit_buff!, morsePlayer.Dah_buff!);
                     string checkFileName = Path.GetFileName(lastCheckMusicPath);
                     archive.CreateEntryFromFile(lastCheckMusicPath, checkFileName);
                 }
@@ -463,17 +463,17 @@ namespace CW
 
 
 
-        private void repeatRbtn_CheckedChanged(object sender, EventArgs e)
+        private void RepeatRbtn_CheckedChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void toneBox_ValueChanged(object sender, EventArgs e)
+        private void ToneBox_ValueChanged(object sender, EventArgs e)
         {
             morsePlayer.UpdateFrequency(Convert.ToInt32(toneBox.Value));
         }
 
-        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton4_CheckedChanged(object sender, EventArgs e)
         {
             //加载本地文件内容
             if (radioButton4.Checked)
@@ -505,7 +505,7 @@ namespace CW
             }
         }
 
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton3_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton3.Checked) {
                 if (radioButton1.Checked)

@@ -66,7 +66,7 @@ namespace CW
         }
 
         //跳转到中文快查界面
-        private void chineseCodeQuickQueryBtn_Click(object sender, EventArgs e)
+        private void ChineseCodeQuickQueryBtn_Click(object sender, EventArgs e)
         {
             ChineseCodeQuickQuery chineseCodeQuickQuery = new ();
             this.Visible = false;
@@ -75,7 +75,7 @@ namespace CW
 
         }
 
-        private void abbreviationQuickSearchBtn_Click(object sender, EventArgs e)
+        private void AbbreviationQuickSearchBtn_Click(object sender, EventArgs e)
         {
             AbbreviationQuickSearch abbreviationQuickSearch = new ();
             this.Visible = false;

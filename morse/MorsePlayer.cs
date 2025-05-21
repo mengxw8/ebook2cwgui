@@ -31,11 +31,10 @@ namespace CW
         private Dictionary<char, string>? keys;
 
         //把计算好的结果缓存起来，不用重复计算
-        public short[]? dit_buff { get; set; }
-        public short[]? dah_buff { get; set; }
-        private bool infiniteLength;
-        //字符串数量
-        private long countString = 0;
+        public short[]? Dit_buff { get; set; }
+        public short[]? Dah_buff { get; set; }
+        private readonly bool InfiniteLength;
+
         /// <summary>
         /// 
         /// 
@@ -50,7 +49,7 @@ namespace CW
             this.frequency = frequency;
             this.Volume = amplitude;
             this.config = config;
-            this.infiniteLength = infiniteLength;
+            this.InfiniteLength = infiniteLength;
             UpdateConfig(config);
             //this.waveFormat = new WaveFormat(sampleRate, 16, 2);  // 双声道格式
         }
@@ -69,8 +68,8 @@ namespace CW
             //this.dotDuration -= riseTimeDuration;
             //this.dotDuration -= fallTimeDuration;
             //计算波形
-            dit_buff = new short[dotDuration];
-            dah_buff = new short[dotDuration * 3];
+            Dit_buff = new short[dotDuration];
+            Dah_buff = new short[dotDuration * 3];
 
 
             GenerateDitBuffer();
@@ -79,7 +78,7 @@ namespace CW
         }
         private void GenerateDitBuffer()
         {
-            dit_buff = new short[dotDuration];
+            Dit_buff = new short[dotDuration];
             for (int i = 0; i < dotDuration; i++)
             {
                 double phase = 2 * Math.PI * frequency * i / sampleRate;
@@ -100,14 +99,14 @@ namespace CW
                     sample *= Math.Pow(Math.Cos(t * Math.PI / 2), 2);
                 }
 
-                dit_buff[i] = (short)(sample * short.MaxValue);
+                Dit_buff[i] = (short)(sample * short.MaxValue);
             }
         }
 
         private void GenerateDahBuffer()
         {
             int dahDuration = 3 * dotDuration;
-            dah_buff = new short[dahDuration];
+            Dah_buff = new short[dahDuration];
             for (int i = 0; i < dahDuration; i++)
             {
                 double phase = 2 * Math.PI * frequency * i / sampleRate;
@@ -128,7 +127,7 @@ namespace CW
                     sample *= Math.Pow(Math.Cos(t * Math.PI / 2), 2);
                 }
 
-                dah_buff[i] = (short)(sample * short.MaxValue);
+                Dah_buff[i] = (short)(sample * short.MaxValue);
             }
         }
 
@@ -165,7 +164,6 @@ namespace CW
             {
                 charQueue.Enqueue(c);
             }
-            countString += chars.LongLength;
         }
         private void ParseMusic()
         {
@@ -186,8 +184,8 @@ namespace CW
                     {
                         switch (m)
                         {
-                            case '.': EnqueueTone(dit_buff!); break;
-                            case '-': EnqueueTone(dah_buff!); break;
+                            case '.': EnqueueTone(Dit_buff!); break;
+                            case '-': EnqueueTone(Dah_buff!); break;
                         }
                         EnqueueSilence(dotDuration); // 符号间隔1T
                     }
@@ -271,7 +269,7 @@ namespace CW
                 else
                 {
 
-                    if (!infiniteLength)
+                    if (!InfiniteLength)
                     {
                         return 0;
                     }

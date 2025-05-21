@@ -43,7 +43,7 @@ namespace CW
         [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
         private static partial IntPtr LoadKeyboardLayoutA([MarshalAs(UnmanagedType.LPStr)] string pwszKLID, uint Flags);
         // 创建 WaveOutEvent 对象来播放音频
-        private WaveOutEvent playerWave = new();
+        private readonly WaveOutEvent playerWave = new();
         private MorsePlayer? player;
         //当前键类型
         private static KeyType keyType;
@@ -470,7 +470,7 @@ namespace CW
                 // 添加文件到ZIP存档
                 //添加音频
                 string musicFileName = lastBookPath.Replace(".txt", ".mp3");                
-                MorseToMp3.toMp3(answer, Constant.allCharCode,  MorseConfig.Create( Convert.ToInt32(speedBox.Value) ), musicFileName,  player!.dit_buff!, player.dah_buff!);
+                MorseToMp3.ToMp3(answer, Constant.allCharCode,  MorseConfig.Create( Convert.ToInt32(speedBox.Value) ), musicFileName,  player!.Dit_buff!, player.Dah_buff!);
                 archive.CreateEntryFromFile( musicFileName, Path.GetFileName(lastBookPath).Replace(".txt", ".mp3"));
                 //添加报文
                 string txtFileName = Path.GetFileName(lastBookPath);
@@ -480,7 +480,7 @@ namespace CW
                 {
                     //生成拍发音频文件名
                     var outFileName = lastBookPath.Replace(".txt", "") + "-" + sendSpeedTxb.Text + "wpm拍发.mp3";
-                    MorseToMp3.toMp3(audioRecordQueue.ToList(), outFileName, player.WaveFormat, Convert.ToInt32(sendToneBox.Text));
+                    MorseToMp3.ToMp3([.. audioRecordQueue], outFileName, player.WaveFormat, Convert.ToInt32(sendToneBox.Text));
                     audioRecordQueue.Clear();
                     archive.CreateEntryFromFile(outFileName, Path.GetFileName(lastBookPath).Replace(".txt", "") + "-" + sendSpeedTxb.Text + "wpm拍发.mp3");
 
@@ -970,7 +970,6 @@ namespace CW
             speedBox.Text = sendSpeedTxb.Text;
             //计算剩下的值以Paris计
             var config = MorseConfig.Create(speed);
-            var di = 60000 / (speed * 50);
             sendDiLength.Text = config.Di.ToString();
             sendDaLength.Text = config.Da.ToString();
             keyInterval.Text = config.KeystrokeInterval.ToString();
@@ -1039,12 +1038,12 @@ namespace CW
 
         }
 
-        private void volumeTrackBar_ValueChanged(object sender, EventArgs e)
+        private void VolumeTrackBar_ValueChanged(object sender, EventArgs e)
         {
             player!.Volume = volumeTrackBar.Value * 0.1f;
         }
 
-        private void ordinaryKey_CheckedChanged(object sender, EventArgs e)
+        private void OrdinaryKey_CheckedChanged(object sender, EventArgs e)
         {
             if (ordinaryKey.Checked)
             {
@@ -1057,24 +1056,24 @@ namespace CW
             }
         }
 
-        private void sendDaLength_TextChanged(object sender, EventArgs e)
+        private void SendDaLength_TextChanged(object sender, EventArgs e)
         {
             DaLength = Convert.ToInt32(sendDaLength.Text.Trim()) / 10;
         }
 
-        private void sendDiLength_TextChanged(object sender, EventArgs e)
+        private void SendDiLength_TextChanged(object sender, EventArgs e)
         {
             DiLength = Convert.ToInt32(sendDiLength.Text.Trim()) / 10;
         }
 
 
 
-        private void speedBox_ValueChanged(object sender, EventArgs e)
+        private void SpeedBox_ValueChanged(object sender, EventArgs e)
         {
             player?.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speedBox.Value)));
         }
 
-        private void toneBox_ValueChanged(object sender, EventArgs e)
+        private void ToneBox_ValueChanged(object sender, EventArgs e)
         {
             player?.UpdateFrequency(Convert.ToInt32(toneBox.Value));
         }

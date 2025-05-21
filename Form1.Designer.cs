@@ -117,7 +117,7 @@
             chineseCodeQuickQueryBtn.TabIndex = 7;
             chineseCodeQuickQueryBtn.Text = "中文电码本快查";
             chineseCodeQuickQueryBtn.UseVisualStyleBackColor = true;
-            chineseCodeQuickQueryBtn.Click += chineseCodeQuickQueryBtn_Click;
+            chineseCodeQuickQueryBtn.Click += ChineseCodeQuickQueryBtn_Click;
             // 
             // abbreviationQuickSearchBtn
             // 
@@ -127,7 +127,7 @@
             abbreviationQuickSearchBtn.TabIndex = 8;
             abbreviationQuickSearchBtn.Text = "简语速查";
             abbreviationQuickSearchBtn.UseVisualStyleBackColor = true;
-            abbreviationQuickSearchBtn.Click += abbreviationQuickSearchBtn_Click;
+            abbreviationQuickSearchBtn.Click += AbbreviationQuickSearchBtn_Click;
             // 
             // Form1
             // 

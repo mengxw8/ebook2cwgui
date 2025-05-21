@@ -18,9 +18,9 @@ namespace CW
     
     public partial class AbbreviationQuickSearch : Form
     {
-        private List<Abbreviations> historyList = [];
+        private readonly List<Abbreviations> historyList = [];
 
-        private HashSet<string> suggestions = new(); // 存放候选项的列表
+        private readonly HashSet<string> suggestions = []; // 存放候选项的列表
         private readonly SqlSugarClient db = SqliteUtil.CreateClient();
         public AbbreviationQuickSearch()
         {
@@ -31,7 +31,7 @@ namespace CW
 
             queryBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend; // 设置为自动追加模式
             queryBox.AutoCompleteSource = AutoCompleteSource.CustomSource; // 设置为自定义源
-            queryBox.AutoCompleteCustomSource.AddRange(suggestions.ToArray()); // 设置自定义源为suggestions列表
+            queryBox.AutoCompleteCustomSource.AddRange([.. suggestions]); // 设置自定义源为suggestions列表
 
             //隐藏表头
             //historyTable.ColumnHeadersVisible = false;
@@ -52,7 +52,7 @@ namespace CW
 
         }
 
-        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        private void TextBox1_KeyDown(object sender, KeyEventArgs e)
         {
 
             //回车的时候判断有没有合适的字，有的话就直接显示
@@ -69,7 +69,7 @@ namespace CW
                 //ChineseLab.Text = chinese.Chinese;
                 //codeLab.Text = chinese.Code;
                 //记录进历史记录
-                addHistory(list);
+                AddHistory(list);
 
 
             }
@@ -89,7 +89,7 @@ namespace CW
 
         }
         //添加进历史记录
-        private void addHistory(List<Abbreviations> abbreviationsList)
+        private void AddHistory(List<Abbreviations> abbreviationsList)
         {
             historyList.InsertRange(0, abbreviationsList);
             historyTable.DataSource=null;
@@ -98,7 +98,7 @@ namespace CW
             historyTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
         }
 
-        private void cleanBtn_Click(object sender, EventArgs e)
+        private void CleanBtn_Click(object sender, EventArgs e)
         {
             historyTable.DataSource = null;
             historyList.Clear();

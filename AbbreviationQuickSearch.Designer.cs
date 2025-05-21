@@ -68,7 +68,7 @@
             cleanBtn.TabIndex = 4;
             cleanBtn.Text = "清空历史";
             cleanBtn.UseVisualStyleBackColor = true;
-            cleanBtn.Click += cleanBtn_Click;
+            cleanBtn.Click +=CleanBtn_Click;
             // 
             // codeLab
             // 
@@ -95,7 +95,7 @@
             queryBox.Name = "queryBox";
             queryBox.Size = new Size(150, 33);
             queryBox.TabIndex = 1;
-            queryBox.KeyDown += textBox1_KeyDown;
+            queryBox.KeyDown += TextBox1_KeyDown;
             // 
             // label1
             // 

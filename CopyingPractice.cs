@@ -49,7 +49,7 @@ namespace CW
             byte[] fontData = Properties.Resources.consola;
             IntPtr fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
             Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
-            PrivateFontCollection pfc = new PrivateFontCollection();
+            PrivateFontCollection pfc = new ();
             pfc.AddMemoryFont(fontPtr, fontData.Length);
             var myCustomFont = new Font(pfc.Families[0], 25, FontStyle.Bold);
             answerBox.Font = myCustomFont;

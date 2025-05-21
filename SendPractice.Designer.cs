@@ -342,7 +342,7 @@
             speedBox.Size = new Size(48, 23);
             speedBox.TabIndex = 0;
             speedBox.Value = new decimal(new int[] { 20, 0, 0, 0 });
-            speedBox.ValueChanged += speedBox_ValueChanged;
+            speedBox.ValueChanged += SpeedBox_ValueChanged;
             // 
             // toneBox
             // 
@@ -353,7 +353,7 @@
             toneBox.Size = new Size(46, 23);
             toneBox.TabIndex = 1;
             toneBox.Value = new decimal(new int[] { 600, 0, 0, 0 });
-            toneBox.ValueChanged += toneBox_ValueChanged;
+            toneBox.ValueChanged += ToneBox_ValueChanged;
             // 
             // label2
             // 
@@ -381,7 +381,7 @@
             volumeTrackBar.Size = new Size(213, 29);
             volumeTrackBar.TabIndex = 4;
             volumeTrackBar.Value = 8;
-            volumeTrackBar.ValueChanged += volumeTrackBar_ValueChanged;
+            volumeTrackBar.ValueChanged += VolumeTrackBar_ValueChanged;
             // 
             // symbolsChb
             // 
@@ -813,7 +813,7 @@
             autoKey.TabStop = true;
             autoKey.Text = "自动键";
             autoKey.UseVisualStyleBackColor = true;
-            autoKey.CheckedChanged += ordinaryKey_CheckedChanged;
+            autoKey.CheckedChanged += OrdinaryKey_CheckedChanged;
             // 
             // ordinaryKey
             // 
@@ -825,7 +825,7 @@
             ordinaryKey.TabStop = true;
             ordinaryKey.Text = "手键";
             ordinaryKey.UseVisualStyleBackColor = true;
-            ordinaryKey.CheckedChanged += ordinaryKey_CheckedChanged;
+            ordinaryKey.CheckedChanged += OrdinaryKey_CheckedChanged;
             // 
             // strictCbx
             // 
@@ -942,7 +942,7 @@
             sendDaLength.Size = new Size(29, 23);
             sendDaLength.TabIndex = 2;
             sendDaLength.Text = "180";
-            sendDaLength.TextChanged += sendDaLength_TextChanged;
+            sendDaLength.TextChanged += SendDaLength_TextChanged;
             sendDaLength.KeyPress += NumberTxb_KeyPress;
             // 
             // label11
@@ -971,7 +971,7 @@
             sendDiLength.Size = new Size(29, 23);
             sendDiLength.TabIndex = 1;
             sendDiLength.Text = "60";
-            sendDiLength.TextChanged += sendDiLength_TextChanged;
+            sendDiLength.TextChanged += SendDiLength_TextChanged;
             sendDiLength.KeyPress += NumberTxb_KeyPress;
             // 
             // label9
