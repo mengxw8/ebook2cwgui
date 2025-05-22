@@ -17,11 +17,11 @@ namespace CW
     public partial class ChineseCodeQuickQuery : Form
     {
 
-        private HashSet<string> suggestions = new(); // 存放候选项的列表
-        private SqlSugarClient db = SqliteUtil.CreateClient();
-        private DataTable dataTable = new();
+        private readonly HashSet<string> suggestions = []; // 存放候选项的列表
+        private readonly SqlSugarClient db = SqliteUtil.CreateClient();
+        private readonly DataTable dataTable = new();
         private readonly static int maxColumn = 12;
-        private readonly static int maxRow = 2 * maxColumn;
+
         private int startIndex = 0;
         public ChineseCodeQuickQuery()
         {
@@ -32,7 +32,7 @@ namespace CW
 
             queryBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend; // 设置为自动追加模式
             queryBox.AutoCompleteSource = AutoCompleteSource.CustomSource; // 设置为自定义源
-            queryBox.AutoCompleteCustomSource.AddRange(suggestions.ToArray()); // 设置自定义源为suggestions列表
+            queryBox.AutoCompleteCustomSource.AddRange([.. suggestions]); // 设置自定义源为suggestions列表
 
             //隐藏表头
             historyTable.ColumnHeadersVisible = false;
@@ -61,7 +61,7 @@ namespace CW
 
         }
 
-        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        private void TextBox1_KeyDown(object sender, KeyEventArgs e)
         {
             // 判断是否为数字键或小键盘数字键
             bool isNumber = (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9) ||
@@ -86,7 +86,7 @@ namespace CW
                 ChineseLab.Text = chinese.Chinese;
                 codeLab.Text = chinese.Code;
                 //记录进历史记录
-                addHistory(chinese);
+                AddHistory(chinese);
                 //移除输入
                 queryBox.Text = "";
                 queryBox.Focus();
@@ -110,7 +110,7 @@ namespace CW
 
         }
         //添加进历史记录
-        private void addHistory(ChineseCode chinese)
+        private void AddHistory(ChineseCode chinese)
         {
             int rowIndex = (startIndex / maxColumn) * 2;
             int columnIndex = startIndex % maxColumn;
@@ -121,7 +121,7 @@ namespace CW
 
         }
 
-        private void cleanBtn_Click(object sender, EventArgs e)
+        private void CleanBtn_Click(object sender, EventArgs e)
         {
             dataTable.Clear();
             startIndex= 0;
