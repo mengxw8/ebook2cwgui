@@ -40,8 +40,8 @@ namespace CW.morse
             //分割成每一组
             string[] chars = content.Replace("\r\n", " ").Split(' ');
             //时间码
-            int startTime = 0;
-            int endTime = 0;
+            long startTime = 0;
+            long endTime = 0;
             long lineNo = 1;
             using var srtWriter = new StreamWriter(outPath.Replace(".mp3", ".srt"));
             foreach (var ch in chars)
@@ -54,8 +54,7 @@ namespace CW.morse
                     {
                         continue;
                     }
-                    var code = keys[c];
-                    foreach (char m in code)
+                    foreach (char m in keys[c])
                     {
                         switch (m)
                         {
@@ -73,9 +72,19 @@ namespace CW.morse
                     endTime += config.Di * 3;
                 }
                 TimeSpan startTimeSpan = TimeSpan.FromMilliseconds(startTime);
+               int startTotalHours =  (int)startTimeSpan.TotalHours;
                 TimeSpan endTimeSpan = TimeSpan.FromMilliseconds(endTime);
+                int endTotalHours = (int)endTimeSpan.TotalHours;
                 srtWriter.WriteLine(lineNo++);
-                srtWriter.WriteLine(startTimeSpan.ToString(@"hh\:mm\:ss\.fff") + " --> " + endTimeSpan.ToString(@"hh\:mm\:ss\.fff"));
+                StringBuilder sb = new ();
+
+                sb.Append(startTotalHours >= 10 ? startTotalHours : "0" + startTotalHours);
+                sb.Append(startTimeSpan.ToString(@"\:mm\:ss\.fff"));
+                sb.Append(" --> ");
+                sb.Append(endTotalHours >= 10 ? endTotalHours : "0" + endTotalHours);
+                sb.Append(endTimeSpan.ToString(@"\:mm\:ss\.fff"));
+
+                srtWriter.WriteLine(sb.ToString());
                 srtWriter.WriteLine(ch);
                 srtWriter.WriteLine();
                 startTime = endTime;
@@ -86,6 +95,9 @@ namespace CW.morse
                 writer.Write(bytes, 0, bytes.Length);
                 endTime += config.Di * 4;
             }
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
         /// <summary>
         /// 
