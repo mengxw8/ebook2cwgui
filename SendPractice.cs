@@ -684,7 +684,7 @@ namespace CW
             replicationBox6.ReadOnly = true;
             //初始化声音
             //初始化播放器
-            player = new MorsePlayer(Convert.ToInt32(toneBox.Value), new MorseConfig { Speed = Convert.ToInt32(speedBox.Value) });
+            player = new MorsePlayer(Convert.ToInt32(toneBox.Value),  MorseConfig.Create( Convert.ToInt32(speedBox.Value)));
             playerWave.Init(player);
             // 创建 SineWaveProvider
             sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
