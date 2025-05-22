@@ -68,7 +68,7 @@
             cleanBtn.TabIndex = 4;
             cleanBtn.Text = "清空历史";
             cleanBtn.UseVisualStyleBackColor = true;
-            cleanBtn.Click +=CleanBtn_Click;
+            cleanBtn.Click += CleanBtn_Click;
             // 
             // codeLab
             // 
@@ -110,10 +110,11 @@
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox2.AutoSize = true;
             groupBox2.Controls.Add(historyTable);
             groupBox2.Location = new Point(7, 111);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(1256, 568);
+            groupBox2.Size = new Size(1256, 584);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "记录";
@@ -122,7 +123,7 @@
             // 
             historyTable.AllowUserToAddRows = false;
             historyTable.AllowUserToDeleteRows = false;
-            historyTable.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            historyTable.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             historyTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             historyTable.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -145,7 +146,7 @@
             historyTable.Location = new Point(3, 19);
             historyTable.Name = "historyTable";
             historyTable.ReadOnly = true;
-            historyTable.Size = new Size(1250, 546);
+            historyTable.Size = new Size(1250, 543);
             historyTable.TabIndex = 0;
             // 
             // AbbreviationQuickSearch
@@ -163,6 +164,7 @@
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)historyTable).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

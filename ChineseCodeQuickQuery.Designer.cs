@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChineseCodeQuickQuery));
             groupBox1 = new GroupBox();
             cleanBtn = new Button();
@@ -110,10 +110,11 @@
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox2.AutoSize = true;
             groupBox2.Controls.Add(historyTable);
             groupBox2.Location = new Point(7, 111);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(1256, 568);
+            groupBox2.Size = new Size(1256, 696);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "记录";
@@ -122,36 +123,37 @@
             // 
             historyTable.AllowUserToAddRows = false;
             historyTable.AllowUserToDeleteRows = false;
-            historyTable.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            historyTable.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             historyTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             historyTable.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            historyTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            historyTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             historyTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            historyTable.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Window;
+            dataGridViewCellStyle4.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Bold);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            historyTable.DefaultCellStyle = dataGridViewCellStyle4;
             historyTable.Location = new Point(3, 19);
             historyTable.Name = "historyTable";
             historyTable.ReadOnly = true;
-            historyTable.Size = new Size(1250, 546);
+            historyTable.Size = new Size(1250, 674);
             historyTable.TabIndex = 0;
             // 
             // ChineseCodeQuickQuery
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             ClientSize = new Size(1264, 681);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -163,6 +165,7 @@
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)historyTable).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
