@@ -128,7 +128,6 @@ namespace CW
                 Filter = "音频文件(*.mp3)|*.mp3",
                 FileName = DateTime.Now.ToUniversalTime().Ticks + ".mp3"
             };
-            saveFileDialog.ShowDialog();
             if (saveFileDialog.ShowDialog() == DialogResult.OK) {
                 string selectedFolderPath = saveFileDialog.FileName;
                 MorseToMp3.ToMp3(File.ReadAllText(FilePathLbl.Text),code,MorseConfig.Create(Convert.ToInt32(speedBox.Value)), selectedFolderPath, player.Dit_buff!,player.Dah_buff!);
