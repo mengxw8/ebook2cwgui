@@ -20,7 +20,7 @@ namespace CW
         public Dictionary<char, string> Code { get; set; } = Constant.allCharCode;
         public EncodingConfiguration()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         private void DefaultBtn_CheckedChanged(object sender, EventArgs e)
@@ -63,6 +63,7 @@ namespace CW
         private void EncodingConfiguration_Load(object sender, EventArgs e)
         {
             defaultBtn.Checked = true;
+            codeConfigTxb.Text = JsonConvert.SerializeObject(Code, Formatting.Indented);
         }
     }
 }
