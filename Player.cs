@@ -19,6 +19,7 @@ namespace CW
     {
         //编码方式，默认为正常编码
         private Dictionary<char, string> code = Constant.allCharCode;
+        private int encodingType = 0;
         private readonly MorsePlayer player = new(600, MorseConfig.Create(20));
         // 创建 WaveOutEvent 对象来播放音频
         private readonly WaveOutEvent playerWave = new();
@@ -51,13 +52,17 @@ namespace CW
 
         private void CodingDefinitionBtn_Click(object sender, EventArgs e)
         {
-            EncodingConfiguration encodingConfiguration = new();
+            EncodingConfiguration encodingConfiguration = new(encodingType,code);
             var result = encodingConfiguration.ShowDialog();
             if (result == DialogResult.OK)
             {
                 code = encodingConfiguration.Code;
                 player.UpdateEncoding(code);
+                //记录下新的编码方式
+                encodingType = encodingConfiguration.EncodingType;
             }
+
+
 
         }
 

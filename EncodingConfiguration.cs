@@ -18,14 +18,29 @@ namespace CW
 
         //编码方式，默认为正常编码
         public Dictionary<char, string> Code { get; set; } = Constant.allCharCode;
+        //这个是编码的类型，默认是正常编码
+        //0默认编码
+        //1 短5改
+        //2 短10改
+        //3 自定义编码
+        public int EncodingType = 0;
         public EncodingConfiguration()
         {
             InitializeComponent();            
         }
 
+        public EncodingConfiguration(int EncodingType, Dictionary<char, string>  codes)
+        {
+            InitializeComponent();
+            this.EncodingType = EncodingType;
+            this.Code = codes;
+        }
+
+
         private void DefaultBtn_CheckedChanged(object sender, EventArgs e)
         {
             codeConfigTxb.Text = JsonConvert.SerializeObject(Code, Formatting.Indented);
+            EncodingType = 0;
         }
         private void Number5Btn_CheckedChanged(object sender, EventArgs e)
         {
@@ -33,6 +48,7 @@ namespace CW
             group => group.Key,
             group => group.Value
     ), Formatting.Indented);
+            EncodingType = 1;
         }
 
         private void Number10Btn_CheckedChanged(object sender, EventArgs e)
@@ -41,12 +57,14 @@ namespace CW
             group => group.Key,
             group => group.Value
     ), Formatting.Indented);
+            EncodingType = 2;
 
         }
 
         private void CustomizeBtn_CheckedChanged(object sender, EventArgs e)
         {
             DefaultBtn_CheckedChanged(sender, e);
+            EncodingType = 3;
         }
 
         private void SaveBtn_Click(object sender, EventArgs e)
@@ -62,8 +80,24 @@ namespace CW
 
         private void EncodingConfiguration_Load(object sender, EventArgs e)
         {
-            defaultBtn.Checked = true;
+            if (EncodingType == 0)
+            {
+                defaultBtn.Checked = true;
+
+            }
+            else if ((EncodingType == 1))
+            {
+                number5Btn.Checked = true;
+            }
+            else if ((EncodingType == 2))
+            {
+                number10Btn.Checked = true;
+            }
+            else if ((EncodingType == 3)) { 
+            customizeBtn.Checked = true;
+            }
             codeConfigTxb.Text = JsonConvert.SerializeObject(Code, Formatting.Indented);
+
         }
     }
 }
