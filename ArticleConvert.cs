@@ -123,7 +123,6 @@ namespace CW
 
             var args = new Dictionary<string, string>
             {
-                { "q", "1" },
                 { "q", "1" }
             };
 
@@ -132,7 +131,10 @@ namespace CW
             var separator = separatorTxb.Text;
             if (separator != "")
             {
-                args.Add("c" , separator);
+                args.Add("c", separator);
+            }
+            else {
+                args.Add("c", "-");
             }
             //速度
             var speed = speedTxb.Value;
