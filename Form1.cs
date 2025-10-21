@@ -23,7 +23,7 @@ namespace CW
             ArticleConvert convert = new();
             this.Visible = false;
             convert.ShowDialog();
-            this.Close();
+    
         }
 
         private void CopyBtn_Click(object sender, EventArgs e)
@@ -31,7 +31,7 @@ namespace CW
             CopyingPractice copyingPractice = new();
             this.Visible = false;
             copyingPractice.ShowDialog();
-            this.Close();
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -54,7 +54,7 @@ namespace CW
             SendPractice sendPractice = new();
             this.Visible = false;
             sendPractice.ShowDialog();
-            this.Close();
+     
         }
 
         private void ShortNumberBtn_Click(object sender, EventArgs e)
@@ -62,7 +62,7 @@ namespace CW
             NumberCopyingPractice number = new();
             this.Visible = false;
             number.ShowDialog();
-            this.Close();
+
         }
 
         //跳转到中文快查界面
@@ -71,7 +71,7 @@ namespace CW
             ChineseCodeQuickQuery chineseCodeQuickQuery = new();
             this.Visible = false;
             chineseCodeQuickQuery.ShowDialog();
-            this.Close();
+
 
         }
 
@@ -80,7 +80,7 @@ namespace CW
             AbbreviationQuickSearch abbreviationQuickSearch = new();
             this.Visible = false;
             abbreviationQuickSearch.ShowDialog();
-            this.Close();
+
         }
 
         private void ToPlayerBtn_Click(object sender, EventArgs e)
@@ -88,7 +88,7 @@ namespace CW
             Player player = new();
             this.Visible = false;
             player.ShowDialog();
-            this.Close();
+ 
         }
     }
 }
