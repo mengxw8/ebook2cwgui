@@ -21,15 +21,15 @@ namespace CW
         {
             //去音频转换小工具
             ArticleConvert convert = new();
-            this.Visible = false;
+
             convert.ShowDialog();
-    
+
         }
 
         private void CopyBtn_Click(object sender, EventArgs e)
         {
             CopyingPractice copyingPractice = new();
-            this.Visible = false;
+
             copyingPractice.ShowDialog();
 
         }
@@ -52,15 +52,14 @@ namespace CW
         private void SendBtn_Click(object sender, EventArgs e)
         {
             SendPractice sendPractice = new();
-            this.Visible = false;
             sendPractice.ShowDialog();
-     
+
         }
 
         private void ShortNumberBtn_Click(object sender, EventArgs e)
         {
             NumberCopyingPractice number = new();
-            this.Visible = false;
+
             number.ShowDialog();
 
         }
@@ -69,7 +68,7 @@ namespace CW
         private void ChineseCodeQuickQueryBtn_Click(object sender, EventArgs e)
         {
             ChineseCodeQuickQuery chineseCodeQuickQuery = new();
-            this.Visible = false;
+
             chineseCodeQuickQuery.ShowDialog();
 
 
@@ -78,7 +77,7 @@ namespace CW
         private void AbbreviationQuickSearchBtn_Click(object sender, EventArgs e)
         {
             AbbreviationQuickSearch abbreviationQuickSearch = new();
-            this.Visible = false;
+
             abbreviationQuickSearch.ShowDialog();
 
         }
@@ -86,9 +85,9 @@ namespace CW
         private void ToPlayerBtn_Click(object sender, EventArgs e)
         {
             Player player = new();
-            this.Visible = false;
+
             player.ShowDialog();
- 
+
         }
     }
 }
