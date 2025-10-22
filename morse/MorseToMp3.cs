@@ -16,7 +16,7 @@ namespace CW.morse
     internal class MorseToMp3
     {
         /// <summary>
-        ///  生成mp3文件
+        ///  生成mp3文件，字幕文件是一组一组显示
         /// </summary>
         /// <param name="content">要生成的文本内容</param>
         /// <param name="keys">文本和嘀嗒对应关系</param>
@@ -73,7 +73,7 @@ namespace CW.morse
                 }
                 TimeSpan startTimeSpan = TimeSpan.FromMilliseconds(startTime);
                int startTotalHours =  (int)startTimeSpan.TotalHours;
-                TimeSpan endTimeSpan = TimeSpan.FromMilliseconds(endTime);
+                TimeSpan endTimeSpan = TimeSpan.FromMilliseconds(endTime- config.Di*3);
                 int endTotalHours = (int)endTimeSpan.TotalHours;
                 srtWriter.WriteLine(lineNo++);
                 StringBuilder sb = new ();
@@ -87,7 +87,7 @@ namespace CW.morse
                 srtWriter.WriteLine(sb.ToString());
                 srtWriter.WriteLine(ch);
                 srtWriter.WriteLine();
-                startTime = endTime;
+                startTime = endTime- config.Di * 3;
                 // 单词间隔补足到7T
                 writer.Write(bytes, 0, bytes.Length);
                 writer.Write(bytes, 0, bytes.Length);
@@ -96,6 +96,96 @@ namespace CW.morse
                 endTime += config.Di * 4;
             }
 
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+        /// <summary>
+        /// 生成的字幕文件是一行一行的显示
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="keys"></param>
+        /// <param name="config"></param>
+        /// <param name="outPath"></param>
+        /// <param name="dit_buff"></param>
+        /// <param name="dah_buff"></param>
+        public static void ToMp3ByLine(String content, Dictionary<char, string> keys, MorseConfig config, string outPath, short[] dit_buff, short[] dah_buff)
+        {
+
+
+
+            // 创建LameMP3FileWriter，设置比特率（如128kbps）
+            using var writer = new LameMP3FileWriter(outPath, new WaveFormat(44100, 1), LAMEPreset.VBR_90);
+
+            byte[] bytes = new byte[dit_buff.Length * sizeof(short)];
+            byte[] di = new byte[dit_buff.Length * sizeof(short)];
+            Buffer.BlockCopy(dit_buff, 0, di, 0, di.Length);
+            byte[] da = new byte[dah_buff.Length * sizeof(short)];
+            Buffer.BlockCopy(dah_buff, 0, da, 0, da.Length);
+            //分割成每一组
+            string[] lines= content.Split("\r\n");
+
+            //时间码
+            long startTime = 0;
+            long endTime = 0;
+            long lineNo = 1;
+            using var srtWriter = new StreamWriter(outPath.Replace(".mp3", ".srt"));
+            foreach (string line in lines)
+            {
+                string[] chars = line.ToUpper().Split(' ');
+                foreach (var ch in chars)
+                {
+                    //每个字母
+                    foreach (char c in ch)
+                    {
+                        //每个莫尔斯
+                        if (!keys.ContainsKey(c))
+                        {
+                            continue;
+                        }
+                        foreach (char m in keys[c])
+                        {
+                            switch (m)
+                            {
+                                case '.': writer.Write(di, 0, di.Length); endTime += config.Di; break;
+                                case '-': writer.Write(da, 0, da.Length); endTime += config.Da; break;
+                            }
+                            // 符号间隔1T
+                            writer.Write(bytes, 0, bytes.Length);
+                            endTime += config.Di;
+                        }
+                        // 字符间隔3T
+                        writer.Write(bytes, 0, bytes.Length);
+                        writer.Write(bytes, 0, bytes.Length);
+                        writer.Write(bytes, 0, bytes.Length);
+                        endTime += config.Di * 3;
+                    }
+               
+                    // 单词间隔补足到7T
+                    writer.Write(bytes, 0, bytes.Length);
+                    writer.Write(bytes, 0, bytes.Length);
+                    writer.Write(bytes, 0, bytes.Length);
+                    writer.Write(bytes, 0, bytes.Length);
+                    endTime += config.Di * 4;
+                }
+                TimeSpan startTimeSpan = TimeSpan.FromMilliseconds(startTime);
+                int startTotalHours = (int)startTimeSpan.TotalHours;
+                TimeSpan endTimeSpan = TimeSpan.FromMilliseconds(endTime - config.Di * 3);
+                int endTotalHours = (int)endTimeSpan.TotalHours;
+                srtWriter.WriteLine(lineNo++);
+                StringBuilder sb = new();
+
+                sb.Append(startTotalHours >= 10 ? startTotalHours : "0" + startTotalHours);
+                sb.Append(startTimeSpan.ToString(@"\:mm\:ss\.fff"));
+                sb.Append(" --> ");
+                sb.Append(endTotalHours >= 10 ? endTotalHours : "0" + endTotalHours);
+                sb.Append(endTimeSpan.ToString(@"\:mm\:ss\.fff"));
+
+                srtWriter.WriteLine(sb.ToString());
+                srtWriter.WriteLine(line);
+                srtWriter.WriteLine();
+                startTime = endTime - config.Di * 3;
+                endTime += config.Di * 4;
+            }
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }

@@ -24,7 +24,7 @@ namespace CW
             //
           var db=   SqliteUtil.CreateClient();
             //如果没有26个字母，那就是选择了部分字母
-            if (words.Count < 26)
+            if (words.Count < 26 &&words.Count>0)
             {
                 book = db.Queryable<Words>().Select(it => it.Word).OrderBy(string.Join(",", words.Select(k => k + " Desc").ToList())).Take(500).ToList().ToList();
             }

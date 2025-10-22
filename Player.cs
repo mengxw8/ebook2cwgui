@@ -143,10 +143,8 @@ namespace CW
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string selectedFolderPath = saveFileDialog.FileName;
-                MorseToMp3.ToMp3(File.ReadAllText(FilePathLbl.Text), code, MorseConfig.Create(Convert.ToInt32(speedBox.Value)), selectedFolderPath, player.Dit_buff!, player.Dah_buff!);
+                MorseToMp3.ToMp3ByLine(File.ReadAllText(FilePathLbl.Text),code,MorseConfig.Create(Convert.ToInt32(speedBox.Value)), selectedFolderPath, player.Dit_buff!,player.Dah_buff!);
             }
-
-        }
 
         private void Player_FormClosing(object sender, FormClosingEventArgs e)
         {
