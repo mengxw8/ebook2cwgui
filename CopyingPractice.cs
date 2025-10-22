@@ -1,5 +1,6 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
+using CW.morse;
 using Microsoft.VisualBasic.Devices;
 using NAudio.SoundFont;
 using NAudio.Wave;
@@ -60,9 +61,11 @@ namespace CW
         WorkingMode mode = WorkingMode.None;
         //答案
         string answer = "";
-        //上一次播放的音频文件路径
-        string lastMusicPath = "";
-        string lastCheckMusicPath = "";
+        string lastBookPath = "";
+        // 创建 WaveOutEvent 对象来播放音频
+        private readonly MorsePlayer player = new(600, MorseConfig.Create(20));
+        // 创建 WaveOutEvent 对象来播放音频
+        private readonly WaveOutEvent playerWave = new();
 
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
         {
@@ -208,10 +211,10 @@ namespace CW
 
 
         //生成报文并播放
-        private async void StartBtn_Click(object sender, EventArgs e)
+        private  void StartBtn_Click(object sender, EventArgs e)
         {
             startBtn.Enabled = false;
-            //生成测试数据
+            //生成报文数据
             List<string> words = GetWords();
             if ((words.Count == 0 || words == null) && mode != WorkingMode.Customize)
             {
@@ -219,7 +222,7 @@ namespace CW
                 return;
             }
             StringBuilder answerBuilder = new();
-            answerBuilder.Append(msgStartTxb.Text);
+            //answerBuilder.Append(msgStartTxb.Text);
             if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol || mode == WorkingMode.Koch)
             {
                 answerBuilder.Append(AnswerTools.GenerateAnswer(words ?? [], repeatRbtn.Checked, continuousRbtn.Checked, System.Convert.ToInt32(groupNumBox.Value), System.Convert.ToInt32(EachGroup.Value)));
@@ -260,12 +263,31 @@ namespace CW
 
             }
 
-            answerBuilder.Append(msgEndTxb.Text);
+            //answerBuilder.Append(msgEndTxb.Text);
             if (mode != WorkingMode.Customize)
             {
                 answer = answerBuilder.ToString();
                 answer = answer.ToLower();
             }
+
+            //fixme: 这个地方改动会把噪音功能给搞没，后边补上
+
+            //开始播放
+            player?.UpdateFrequency(Convert.ToInt32(toneBox.Value));
+            player?.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speetBox.Value)));
+            //停止播放并清空播放内容
+            playerWave.Stop();
+            player?.Clean();
+            player?.AddMorseCode(msgStartTxb.Text, Constant.allCharCode);
+            player?.AddMorseCode(answer, Constant.allCharCode);
+            player?.AddMorseCode(msgEndTxb.Text, Constant.allCharCode);
+            //如果是开启了显示答案的按钮，直接显示答案
+            if (showAnswerChb.Checked)
+            {
+                ShowAnswer();
+            }
+            playerWave.Play();
+ 
 
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
@@ -274,28 +296,19 @@ namespace CW
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(filePath) ?? "");
             }
-
+            //写入临时文件
+            File.WriteAllText(filePath, answer);
+            lastBookPath = filePath;
 
 
             //解除封禁
             pauseBtn.Enabled = true;
             rePlayBtn.Enabled = true;
-
-
-            //如果是开启了显示答案的按钮，直接显示答案
-            if (showAnswerChb.Checked)
-            {
-                ShowAnswer();
-            }
-            Mp3Player.Stop();
-
             startBtn.Enabled = true;
             //处理校报逻辑
 
             if (checkAnswerChb.Checked)
             {
-
-
                 //开启定时器
                 timer1.Start();
             }
@@ -396,7 +409,7 @@ namespace CW
 
         private void ExportBtn_Click(object sender, EventArgs e)
         {
-            if (lastMusicPath == "")
+            if (answer == ""|| lastBookPath=="")
             {
                 MessageBox.Show("您还尚未生成过报文哦，请生成后重试！");
                 return;
@@ -405,8 +418,10 @@ namespace CW
             {
                 Filter = "压缩文件(*.zip)|*.*",
                 Title = "保存音频文件和报文到目录",
-                FileName = "抄收报文" + Path.GetFileName(lastMusicPath).Replace(".mp3", "") + "-" + speetBox.Value + "wpm.zip"
+                FileName = "抄收报文"+ DateTime.Now.ToUniversalTime().Ticks + "-" + speetBox.Value + "wpm.zip"
             };
+
+
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 if (File.Exists(saveFileDialog.FileName))
@@ -421,21 +436,17 @@ namespace CW
 
                 // 添加文件到ZIP存档
                 //添加音频
-                string musicFileName = Path.GetFileName(lastMusicPath);
-                archive.CreateEntryFromFile(lastMusicPath, musicFileName);
+                string musicFileName = lastBookPath.Replace(".txt", ".mp3");
+                MorseToMp3.ToMp3(answer, Constant.allCharCode, MorseConfig.Create(Convert.ToInt32(speetBox.Value)), musicFileName, player!.Dit_buff!, player.Dah_buff!);
+                archive.CreateEntryFromFile(musicFileName, Path.GetFileName(lastBookPath).Replace(".txt", ".mp3"));
                 //添加报文
-                string txtFileName = Path.GetFileName(lastMusicPath.Replace(".mp3", ".txt"));
-                archive.CreateEntryFromFile(lastMusicPath.Replace(".mp3", ".txt"), txtFileName);
-                //添加校报音频
-                if (checkAnswerChb.Checked)
-                {
-                    string checkFileName = Path.GetFileName(lastCheckMusicPath);
-                    archive.CreateEntryFromFile(lastCheckMusicPath, checkFileName);
-                }
-
+                string txtFileName = Path.GetFileName(lastBookPath);
+                archive.CreateEntryFromFile(lastBookPath, txtFileName);
+       
 
 
             }
+
 
         }
 
@@ -475,21 +486,26 @@ namespace CW
         private void Timer1_Tick(object sender, EventArgs e)
         {
 
-            if (Mp3Player.Status() == PlaybackState.Stopped)
+            if (playerWave.PlaybackState== PlaybackState.Stopped)
             {
                 //结束了，需要进行校报
-                Mp3Player.Play(lastCheckMusicPath);
+                player?.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speetBox.Value)));
+                player?.AddMorseCode(msgStartTxb.Text, Constant.allCharCode);
+                player?.AddMorseCode(answer, Constant.allCharCode);
+                player?.AddMorseCode(msgEndTxb.Text, Constant.allCharCode);
                 timer1.Stop();
             }
         }
 
         private void CopyingPractice_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Mp3Player.Stop();
+            playerWave?.Stop();
+            player?.Clean();      
+
             //清除缓存
-            if (lastMusicPath != null && Path.Exists(Path.GetDirectoryName(lastMusicPath)))
+            if (lastBookPath != null && Path.Exists(Path.GetDirectoryName(lastBookPath)))
             {
-                Directory.Delete(Path.GetDirectoryName(lastMusicPath) ?? "", true);
+                Directory.Delete(Path.GetDirectoryName(lastBookPath) ?? "", true);
             }
         }
         private void SpeetBox_ValueChanged(object sender, EventArgs e)
@@ -512,13 +528,14 @@ namespace CW
 
         private void PauseBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.Pause();
+            playerWave.Pause();
             continuePlayBtn.Enabled = true;
             pauseBtn.Enabled = false;
         }
         private void ContinuePlayBtn_Click(object sender, EventArgs e)
         {
             Mp3Player.ContinuePlay();
+            playerWave.Play();
             continuePlayBtn.Enabled = false;
             pauseBtn.Enabled = true;
             if (checkAnswerChb.Checked)
@@ -529,7 +546,12 @@ namespace CW
 
         private void ResumeBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.Play(lastMusicPath);
+            playerWave.Stop();
+            player?.Clean();
+            player?.AddMorseCode(msgStartTxb.Text, Constant.allCharCode);
+            player?.AddMorseCode(answer, Constant.allCharCode);
+            player?.AddMorseCode(msgEndTxb.Text, Constant.allCharCode);
+            playerWave.Play();
         }
 
         private void NeRbtn_CheckedChanged(object sender, EventArgs e)
@@ -550,6 +572,7 @@ namespace CW
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
             Version version = currentAssembly.GetName().Version ?? new Version(1, 0, 0, 0);
             this.Text = this.Text + " V" + version;
+            playerWave.Init(player);
         }
 
         private void IndividuationRbtn_CheckedChanged(object sender, EventArgs e)
