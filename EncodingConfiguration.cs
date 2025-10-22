@@ -40,33 +40,30 @@ namespace CW
 
         private void DefaultBtn_CheckedChanged(object sender, EventArgs e)
         {
-            var defaultCode = Constant.allCharCode;
-            defaultCode.TryAdd('头', "-- ... --. -...-");
-            defaultCode.TryAdd('尾', ".. .. ..");
-            codeConfigTxb.Text = JsonConvert.SerializeObject(Constant.allCharCode
+            var defaultCode =  new Dictionary<char, string>[] { Constant.header, Constant.allCharCode }.SelectMany(disc => disc).ToDictionary(
+            group => group.Key,
+            group => group.Value
+    );
+            codeConfigTxb.Text = JsonConvert.SerializeObject(defaultCode
                 , Formatting.Indented);
             EncodingType = 0;
         }
         private void Number5Btn_CheckedChanged(object sender, EventArgs e)
         {
-            var defaultCode = new Dictionary<char, string>[] { Constant.shortNumber5, Constant.alphabet, Constant.symbol }.SelectMany(disc => disc).ToDictionary(
+            var defaultCode = new Dictionary<char, string>[] { Constant.header, Constant.shortNumber5, Constant.alphabet, Constant.symbol }.SelectMany(disc => disc).ToDictionary(
             group => group.Key,
             group => group.Value
     );
-            defaultCode.TryAdd('头', "-- ... --. -...-");
-            defaultCode.TryAdd('尾', ".. .. ..");
             codeConfigTxb.Text = JsonConvert.SerializeObject(defaultCode, Formatting.Indented);
             EncodingType = 1;
         }
 
         private void Number10Btn_CheckedChanged(object sender, EventArgs e)
         {
-            var defaultCode = new Dictionary<char, string>[] { Constant.shortNumber10, Constant.alphabet, Constant.symbol }.SelectMany(disc => disc).ToDictionary(
+            var defaultCode = new Dictionary<char, string>[] { Constant.header, Constant.shortNumber10, Constant.alphabet, Constant.symbol }.SelectMany(disc => disc).ToDictionary(
             group => group.Key,
             group => group.Value
     );
-            defaultCode.TryAdd('头', "-- ... --. -...-");
-            defaultCode.TryAdd('尾', ".. .. ..");
             codeConfigTxb.Text = JsonConvert.SerializeObject(defaultCode, Formatting.Indented);
             EncodingType = 2;
 

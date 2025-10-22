@@ -6,10 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CW.morse
 {
@@ -99,7 +101,10 @@ namespace CW.morse
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
-        /// <summary>
+
+
+
+
         /// 生成的字幕文件是一行一行的显示
         /// </summary>
         /// <param name="content"></param>
@@ -108,9 +113,13 @@ namespace CW.morse
         /// <param name="outPath"></param>
         /// <param name="dit_buff"></param>
         /// <param name="dah_buff"></param>
-        public static void ToMp3ByLine(String content, Dictionary<char, string> keys, MorseConfig config, string outPath, short[] dit_buff, short[] dah_buff)
+        /// <param name="useHeader"> 使用报头</param>
+        /// <param name="useEnd">使用报尾</param>
+        public static void ToMp3ByLine(String content,  Dictionary<char, string> keys, MorseConfig config, string outPath, short[] dit_buff, short[] dah_buff,bool useHeader = false, bool useEnd = false)
         {
-
+            if (useEnd) { 
+            
+            }
 
 
             // 创建LameMP3FileWriter，设置比特率（如128kbps）
@@ -121,6 +130,13 @@ namespace CW.morse
             Buffer.BlockCopy(dit_buff, 0, di, 0, di.Length);
             byte[] da = new byte[dah_buff.Length * sizeof(short)];
             Buffer.BlockCopy(dah_buff, 0, da, 0, da.Length);
+            if (useHeader) {
+                content = "头\r\n" + content;
+            }
+            if (useEnd) {
+                content =  content+ "\r\n尾";
+            }
+            
             //分割成每一组
             string[] lines= content.Split("\r\n");
 
@@ -148,6 +164,7 @@ namespace CW.morse
                             {
                                 case '.': writer.Write(di, 0, di.Length); endTime += config.Di; break;
                                 case '-': writer.Write(da, 0, da.Length); endTime += config.Da; break;
+                                case ' ': writer.Write(bytes, 0, bytes.Length); writer.Write(bytes, 0, bytes.Length); endTime += config.Di*2; break;
                             }
                             // 符号间隔1T
                             writer.Write(bytes, 0, bytes.Length);
@@ -189,6 +206,7 @@ namespace CW.morse
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
+
         /// <summary>
         /// 
         /// 通过时长序列生成音频文件

@@ -21,7 +21,7 @@ namespace CW
         //符号
         public static readonly Dictionary<char, string> symbol = new() { { '.', ".-.-.-" }, { ':', "---..." }, { ',', "--..--" }, { ';', "-.-.-." }, { '?', "..--.." }, { '=', "-...-" }, { '\'', ".----." }, { '/', "-..-." }, { '!', "-.-.--" }, { '-', "-....-" }, { '_', "..--.-" }, { '\\', "..-..-." }, { '(', "-.--." }, { ')', "-.--.-" }, { '$', "...-..-" }, { '@', ".--.-." } };
        //默认的开头和结尾
-        public static readonly Dictionary<char, string> header = new() { { '头', "-- ... --. -...-" },{'尾',".. .. .."} };
+        public static readonly Dictionary<char, string> header = new() { { '头', "" },{'尾',""} };
         //数字和字母
         public static readonly Dictionary<char, string> numberAndAlphabet = new Dictionary<char, string>[] { alphabet, number }.SelectMany(disc => disc).ToDictionary(
                 group => group.Key,

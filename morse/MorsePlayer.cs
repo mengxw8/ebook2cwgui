@@ -198,6 +198,7 @@ namespace CW
                         {
                             case '.': EnqueueTone(Dit_buff!); break;
                             case '-': EnqueueTone(Dah_buff!); break;
+                            case ' ': EnqueueSilence(2* dotDuration); break;
                         }
                         EnqueueSilence(dotDuration); // 符号间隔1T
                     }
@@ -208,6 +209,9 @@ namespace CW
             }
         }
 
+        public void Mute(int time) {
+            EnqueueSilence(time * dotDuration);
+        }
         /// <summary>
         /// 将音调信号加入队列
         /// </summary>

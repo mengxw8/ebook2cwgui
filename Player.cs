@@ -96,7 +96,11 @@ namespace CW
         {
             playerWave.Stop();
             player.Clean();
+            //重播的时候先停一段时间，不然太急了
+            player.Mute(7);
+            player.AddMorseCode("头", code);
             player.AddMorseCode(File.ReadAllText(FilePathLbl.Text), code);
+            player.AddMorseCode("尾", code);
             playerWave.Play();
         }
 
@@ -143,8 +147,9 @@ namespace CW
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string selectedFolderPath = saveFileDialog.FileName;
-                MorseToMp3.ToMp3ByLine(File.ReadAllText(FilePathLbl.Text),code,MorseConfig.Create(Convert.ToInt32(speedBox.Value)), selectedFolderPath, player.Dit_buff!,player.Dah_buff!);
+                MorseToMp3.ToMp3ByLine(File.ReadAllText(FilePathLbl.Text), code, MorseConfig.Create(Convert.ToInt32(speedBox.Value)), selectedFolderPath, player.Dit_buff!, player.Dah_buff!,true,true);
             }
+        }
 
         private void Player_FormClosing(object sender, FormClosingEventArgs e)
         {
