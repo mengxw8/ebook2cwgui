@@ -80,6 +80,10 @@
             continuePlayBtn = new Button();
             pauseBtn = new Button();
             clearAnswerBtn = new Button();
+            msgEndTxb = new TextBox();
+            label9 = new Label();
+            msgStartTxb = new TextBox();
+            label10 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -223,6 +227,10 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(msgEndTxb);
+            groupBox2.Controls.Add(label9);
+            groupBox2.Controls.Add(msgStartTxb);
+            groupBox2.Controls.Add(label10);
             groupBox2.Controls.Add(label7);
             groupBox2.Controls.Add(KochList);
             groupBox2.Controls.Add(eqBox);
@@ -239,7 +247,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(572, 33);
+            label7.Location = new Point(570, 22);
             label7.Name = "label7";
             label7.Size = new Size(64, 17);
             label7.TabIndex = 5;
@@ -251,7 +259,7 @@
             KochList.Enabled = false;
             KochList.FormattingEnabled = true;
             KochList.Items.AddRange(new object[] { "第1课", "第2课", "第3课", "第4课", "第5课", "第6课", "第7课", "第8课", "第9课", "第10课", "第11课", "第12课", "第13课", "第14课", "第15课", "第16课", "第17课", "第18课", "第19课", "第20课", "第21课", "第22课", "第23课", "第24课", "第25课", "第26课", "第27课", "第28课", "第29课", "第30课", "第31课", "第32课", "第33课", "第34课", "第35课", "第36课", "第37课", "第38课", "第39课", "", "" });
-            KochList.Location = new Point(638, 29);
+            KochList.Location = new Point(636, 18);
             KochList.Name = "KochList";
             KochList.Size = new Size(88, 25);
             KochList.TabIndex = 4;
@@ -648,6 +656,41 @@
             clearAnswerBtn.UseVisualStyleBackColor = true;
             clearAnswerBtn.Click += ClearAnswer_Click;
             // 
+            // msgEndTxb
+            // 
+            msgEndTxb.Location = new Point(636, 71);
+            msgEndTxb.Name = "msgEndTxb";
+            msgEndTxb.Size = new Size(70, 23);
+            msgEndTxb.TabIndex = 14;
+            msgEndTxb.Text = "iii";
+            msgEndTxb.TextChanged += msgEndTxb_TextChanged;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(590, 74);
+            label9.Name = "label9";
+            label9.Size = new Size(44, 17);
+            label9.TabIndex = 13;
+            label9.Text = "报尾：";
+            // 
+            // msgStartTxb
+            // 
+            msgStartTxb.Location = new Point(636, 45);
+            msgStartTxb.Name = "msgStartTxb";
+            msgStartTxb.Size = new Size(70, 23);
+            msgStartTxb.TabIndex = 12;
+            msgStartTxb.Text = "MSG =";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(595, 49);
+            label10.Name = "label10";
+            label10.Size = new Size(44, 17);
+            label10.TabIndex = 11;
+            label10.Text = "报头：";
+            // 
             // CopyingPractice
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -735,5 +778,9 @@
         private RichTextBox answerBox;
         private Label label8;
         private NumericUpDown noiseLevel;
+        private TextBox msgEndTxb;
+        private Label label9;
+        private TextBox msgStartTxb;
+        private Label label10;
     }
 }

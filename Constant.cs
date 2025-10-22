@@ -20,6 +20,8 @@ namespace CW
         public static readonly Dictionary<char, string> alphabet = new() { { 'A', ".-" }, { 'B', "-..." }, { 'C', "-.-." }, { 'D', "-.." }, { 'E', "." }, { 'F', "..-." }, { 'G', "--." }, { 'H', "...." }, { 'I', ".." }, { 'J', ".---" }, { 'K', "-.-" }, { 'L', ".-.." }, { 'M', "--" }, { 'N', "-." }, { 'O', "---" }, { 'P', ".--." }, { 'Q', "--.-" }, { 'R', ".-." }, { 'S', "..." }, { 'T', "-" }, { 'U', "..-" }, { 'V', "...-" }, { 'W', ".--" }, { 'X', "-..-" }, { 'Y', "-.--" }, { 'Z', "--.." } };
         //符号
         public static readonly Dictionary<char, string> symbol = new() { { '.', ".-.-.-" }, { ':', "---..." }, { ',', "--..--" }, { ';', "-.-.-." }, { '?', "..--.." }, { '=', "-...-" }, { '\'', ".----." }, { '/', "-..-." }, { '!', "-.-.--" }, { '-', "-....-" }, { '_', "..--.-" }, { '\\', "..-..-." }, { '(', "-.--." }, { ')', "-.--.-" }, { '$', "...-..-" }, { '@', ".--.-." } };
+       //默认的开头和结尾
+        public static readonly Dictionary<char, string> header = new() { { '头', "-- ... --. -...-" },{'尾',".. .. .."} };
         //数字和字母
         public static readonly Dictionary<char, string> numberAndAlphabet = new Dictionary<char, string>[] { alphabet, number }.SelectMany(disc => disc).ToDictionary(
                 group => group.Key,

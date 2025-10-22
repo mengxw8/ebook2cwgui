@@ -49,7 +49,7 @@ namespace CW
             byte[] fontData = Properties.Resources.consola;
             IntPtr fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
             Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
-            PrivateFontCollection pfc = new ();
+            PrivateFontCollection pfc = new();
             pfc.AddMemoryFont(fontPtr, fontData.Length);
             var myCustomFont = new Font(pfc.Families[0], 25, FontStyle.Bold);
             answerBox.Font = myCustomFont;
@@ -215,18 +215,18 @@ namespace CW
             List<string> words = GetWords();
             if ((words.Count == 0 || words == null) && mode != WorkingMode.Customize)
             {
-                startBtn.Enabled =true;
+                startBtn.Enabled = true;
                 return;
             }
-            StringBuilder answerBuilder = new ();
-            answerBuilder.Append(Constant.StartString);
+            StringBuilder answerBuilder = new();
+            answerBuilder.Append(msgStartTxb.Text);
             if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol || mode == WorkingMode.Koch)
             {
-                answerBuilder.Append(AnswerTools.GenerateAnswer(words ?? [],repeatRbtn.Checked,continuousRbtn.Checked,System.Convert.ToInt32(groupNumBox.Value), System.Convert.ToInt32(EachGroup.Value)));
+                answerBuilder.Append(AnswerTools.GenerateAnswer(words ?? [], repeatRbtn.Checked, continuousRbtn.Checked, System.Convert.ToInt32(groupNumBox.Value), System.Convert.ToInt32(EachGroup.Value)));
             }
             else if (mode == WorkingMode.Article)
             {
-                answerBuilder.Append(ArticleTools.GetArticle(words ?? [],symbolsChb.Checked,System.Convert.ToInt32(groupNumBox.Value)));
+                answerBuilder.Append(ArticleTools.GetArticle(words ?? [], symbolsChb.Checked, System.Convert.ToInt32(groupNumBox.Value)));
 
             }
             else if (mode == WorkingMode.News)
@@ -240,7 +240,7 @@ namespace CW
                 }
                 try
                 {
-                    answerBuilder.Append(NewsPapersTools.GetNewsPapers(words ?? [],System.Convert.ToInt32(groupNumBox.Value),symbolsChb.Checked));
+                    answerBuilder.Append(NewsPapersTools.GetNewsPapers(words ?? [], System.Convert.ToInt32(groupNumBox.Value), symbolsChb.Checked));
                 }
                 catch
                 {
@@ -253,14 +253,14 @@ namespace CW
             }
             else if (mode == WorkingMode.Word)
             {
-                answerBuilder.Append(WordsTools.GenerateWord(words ?? [],System.Convert.ToInt32(groupNumBox.Value)));
+                answerBuilder.Append(WordsTools.GenerateWord(words ?? [], System.Convert.ToInt32(groupNumBox.Value)));
             }
             else if (mode == WorkingMode.Customize)
             {
 
             }
 
-            answerBuilder.Append(Constant.EndString);
+            answerBuilder.Append(msgEndTxb.Text);
             if (mode != WorkingMode.Customize)
             {
                 answer = answerBuilder.ToString();
@@ -269,34 +269,14 @@ namespace CW
 
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
-            string filePath =Constant.TempPath + fileName + ".txt";
+            string filePath = Constant.TempPath + fileName + ".txt";
             if (!Path.Exists(Path.GetDirectoryName(filePath)))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(filePath)??"");
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath) ?? "");
             }
 
 
-            var param = "";
-            if (effectiveSpeed.Value > 0)
-            {
-                param += " -e ";
-                param += effectiveSpeed.Value;
-            }
-            //噪声
-            if (noiseLevel.Value != 0)
-            {
-                param += " -N \"";
-                param += noiseLevel;
-                param += "\" ";
-            }
 
-            //生成音频
-            param += " -q 1 -c - -o  " + Constant.TempPath + fileName + " -w " + speetBox.Value + " -f " + toneBox.Value + " -W " + extraWordSpacing.Value + " " + filePath;
-            //写入临时文件
-            File.WriteAllText(filePath, answer);
-            //生成音频
-            var task = Task.Run(() => { CWTools.GenerateAudio(fileName.ToString(), param); });
-            var audioFileName = filePath.Replace("txt", "mp3");
             //解除封禁
             pauseBtn.Enabled = true;
             rePlayBtn.Enabled = true;
@@ -308,41 +288,17 @@ namespace CW
                 ShowAnswer();
             }
             Mp3Player.Stop();
-            //播放音频
-            lastMusicPath = audioFileName;
-            await task;
-            Mp3Player.Play(audioFileName);
+
             startBtn.Enabled = true;
             //处理校报逻辑
 
             if (checkAnswerChb.Checked)
             {
-                 param = "";
-                if (effectiveSpeed.Value > 0)
-                {
-                    param += " -e ";
-                    param += effectiveSpeed.Value;
-                }
-                //噪声
-                if (noiseLevel.Value != 0)
-                {
-                    param += " -N \"";
-                    param += noiseLevel;
-                    param += "\" ";
-                }
-                //生成音频
-                param += " -q 1 -c - -o  " + Constant.TempPath + fileName.ToString() + "-校报" + " -w " + checkAnserSpeed.Value + " -f " + toneBox.Value + " -W " + extraWordSpacing.Value + " " + filePath;
-                //生成校验报文音频
-                lastCheckMusicPath = filePath.Replace(".txt", "") + "-校报.mp3";
-                //生成音频
-               var  task2=Task.Run( () => { 
-                 CWTools.GenerateAudio(lastCheckMusicPath, param);
 
-                });
-                await task2;
+
                 //开启定时器
                 timer1.Start();
-            }      
+            }
 
 
         }
@@ -404,9 +360,9 @@ namespace CW
             {
                 switch (mode)
                 {
-                    case WorkingMode.Number: words.AddRange(Constant.number.Keys.Select(item=>item.ToString())); break;
+                    case WorkingMode.Number: words.AddRange(Constant.number.Keys.Select(item => item.ToString())); break;
                     case WorkingMode.Alphabet: words.AddRange(Constant.alphabet.Keys.Select(item => item.ToString())); break;
-                    case WorkingMode.AlphabetAndNumber: words.AddRange(Constant.numberAndAlphabet.Keys.Select(item => item.ToString()));  break;
+                    case WorkingMode.AlphabetAndNumber: words.AddRange(Constant.numberAndAlphabet.Keys.Select(item => item.ToString())); break;
                     case WorkingMode.Symbol: words.AddRange(Constant.symbol.Keys.Select(item => item.ToString())); break;
                     case WorkingMode.Article: words.AddRange(new List<string>(Directory.GetFiles(Constant.ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n => n.Replace(Constant.ArticlePath, "")).ToList()); break;
                     case WorkingMode.News: words.AddRange(Constant.newsType.Keys); break;
@@ -422,11 +378,12 @@ namespace CW
         {
             Mp3Player.Stop();
             timer1.Stop();
-            if (answer == "") {
+            if (answer == "")
+            {
                 MessageBox.Show("请先开始抄收！");
                 return;
             }
-            AnswerBoard answerBoard = new (answer, answerBox.Text);
+            AnswerBoard answerBoard = new(answer, answerBox.Text);
             answerBoard.ShowDialog();
 
         }
@@ -444,7 +401,8 @@ namespace CW
                 MessageBox.Show("您还尚未生成过报文哦，请生成后重试！");
                 return;
             }
-            SaveFileDialog saveFileDialog = new() {
+            SaveFileDialog saveFileDialog = new()
+            {
                 Filter = "压缩文件(*.zip)|*.*",
                 Title = "保存音频文件和报文到目录",
                 FileName = "抄收报文" + Path.GetFileName(lastMusicPath).Replace(".mp3", "") + "-" + speetBox.Value + "wpm.zip"
@@ -476,7 +434,7 @@ namespace CW
                 }
 
 
-            
+
             }
 
         }
@@ -531,12 +489,13 @@ namespace CW
             //清除缓存
             if (lastMusicPath != null && Path.Exists(Path.GetDirectoryName(lastMusicPath)))
             {
-                Directory.Delete(Path.GetDirectoryName(lastMusicPath)??"", true);
+                Directory.Delete(Path.GetDirectoryName(lastMusicPath) ?? "", true);
             }
         }
         private void SpeetBox_ValueChanged(object sender, EventArgs e)
         {
             checkAnserSpeed.Value = speetBox.Value + 2;
+            //
         }
 
         private void ClearAnswer()
@@ -589,7 +548,7 @@ namespace CW
         {
             // 获取当前程序集的版本
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
-            Version version = currentAssembly.GetName().Version??new Version(1,0,0,0);
+            Version version = currentAssembly.GetName().Version ?? new Version(1, 0, 0, 0);
             this.Text = this.Text + " V" + version;
         }
 
@@ -603,7 +562,8 @@ namespace CW
                 eqRbtn.Enabled = false;
                 neRbtn.Enabled = false;
                 //弹出文件选择框
-                OpenFileDialog openImageDialog = new() {
+                OpenFileDialog openImageDialog = new()
+                {
                     Filter = "报文(*.txt)|*.txt",
                     Multiselect = false//关闭多选
                 };
@@ -633,7 +593,7 @@ namespace CW
                 return;
             }
             eqBox.Items.Clear();
-            foreach (var data in Constant.KochType[item.ToString()?? "第1课"])
+            foreach (var data in Constant.KochType[item.ToString() ?? "第1课"])
             {
                 eqBox.Items.Add(data, true);
 
@@ -641,7 +601,9 @@ namespace CW
 
         }
 
+        private void msgEndTxb_TextChanged(object sender, EventArgs e)
+        {
 
-      
+        }
     }
 }

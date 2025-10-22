@@ -18,7 +18,11 @@ namespace CW
     public partial class Player : Form
     {
         //编码方式，默认为正常编码
-        private Dictionary<char, string> code = Constant.allCharCode;
+        private Dictionary<char, string> code = new Dictionary<char, string>[]{Constant.header,Constant.allCharCode
+    }.SelectMany(disc => disc).ToDictionary(
+                group => group.Key,
+                group => group.Value // 取最后一个值（覆盖冲突键）
+            );
         private int encodingType = 0;
         private readonly MorsePlayer player = new(600, MorseConfig.Create(20));
         // 创建 WaveOutEvent 对象来播放音频
@@ -52,7 +56,8 @@ namespace CW
 
         private void CodingDefinitionBtn_Click(object sender, EventArgs e)
         {
-            EncodingConfiguration encodingConfiguration = new(encodingType,code);
+
+            EncodingConfiguration encodingConfiguration = new(encodingType, code);
             var result = encodingConfiguration.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -115,7 +120,9 @@ namespace CW
             }
             playerWave.Stop();
             player.Clean();
+            player.AddMorseCode("头", code);
             player.AddMorseCode(File.ReadAllText(FilePathLbl.Text), code);
+            player.AddMorseCode("尾", code);
             ContentTxb.Text = File.ReadAllText(FilePathLbl.Text);
             playerWave.Play();
         }
@@ -127,17 +134,25 @@ namespace CW
                 MessageBox.Show("文本文件不存在，无法导出！", "文件错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            using  SaveFileDialog saveFileDialog = new()
+            using SaveFileDialog saveFileDialog = new()
             {
                 Title = "选择音频保存位置",
                 Filter = "音频文件(*.mp3)|*.mp3",
                 FileName = DateTime.Now.ToUniversalTime().Ticks + ".mp3"
             };
-            if (saveFileDialog.ShowDialog() == DialogResult.OK) {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
                 string selectedFolderPath = saveFileDialog.FileName;
-                MorseToMp3.ToMp3(File.ReadAllText(FilePathLbl.Text),code,MorseConfig.Create(Convert.ToInt32(speedBox.Value)), selectedFolderPath, player.Dit_buff!,player.Dah_buff!);
+                MorseToMp3.ToMp3(File.ReadAllText(FilePathLbl.Text), code, MorseConfig.Create(Convert.ToInt32(speedBox.Value)), selectedFolderPath, player.Dit_buff!, player.Dah_buff!);
             }
 
+        }
+
+        private void Player_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+            playerWave?.Stop();
+            player?.Clean();
         }
     }
 }

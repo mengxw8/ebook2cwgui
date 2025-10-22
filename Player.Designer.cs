@@ -77,7 +77,7 @@
             // groupBox4
             // 
             groupBox4.Controls.Add(ExportBtn);
-            groupBox4.Location = new Point(677, 14);
+            groupBox4.Location = new Point(780, 14);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(123, 90);
             groupBox4.TabIndex = 7;
@@ -101,7 +101,7 @@
             groupBox3.Controls.Add(ReplayBtn);
             groupBox3.Controls.Add(ContinueBtn);
             groupBox3.Controls.Add(PauseBtn);
-            groupBox3.Location = new Point(504, 14);
+            groupBox3.Location = new Point(608, 14);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(169, 90);
             groupBox3.TabIndex = 6;
@@ -167,14 +167,14 @@
             groupBox2.Controls.Add(label1);
             groupBox2.Location = new Point(7, 56);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(491, 48);
+            groupBox2.Size = new Size(595, 48);
             groupBox2.TabIndex = 5;
             groupBox2.TabStop = false;
             groupBox2.Text = "莫尔斯配置";
             // 
             // CodingDefinitionBtn
             // 
-            CodingDefinitionBtn.Location = new Point(386, 15);
+            CodingDefinitionBtn.Location = new Point(503, 15);
             CodingDefinitionBtn.Name = "CodingDefinitionBtn";
             CodingDefinitionBtn.Size = new Size(83, 23);
             CodingDefinitionBtn.TabIndex = 6;
@@ -228,7 +228,7 @@
             groupBox1.Controls.Add(SelectFileBtn);
             groupBox1.Location = new Point(7, 14);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(491, 42);
+            groupBox1.Size = new Size(595, 42);
             groupBox1.TabIndex = 4;
             groupBox1.TabStop = false;
             groupBox1.Text = "播放源";
@@ -293,6 +293,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Player";
             Text = "滴答播放器";
+            FormClosing += Player_FormClosing;
             Load += Player_Load;
             groupBox5.ResumeLayout(false);
             groupBox4.ResumeLayout(false);

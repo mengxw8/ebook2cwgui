@@ -1,4 +1,5 @@
-﻿using AngleSharp.Text;
+﻿using AngleSharp.Dom;
+using AngleSharp.Text;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -39,24 +40,34 @@ namespace CW
 
         private void DefaultBtn_CheckedChanged(object sender, EventArgs e)
         {
-            codeConfigTxb.Text = JsonConvert.SerializeObject(Code, Formatting.Indented);
+            var defaultCode = Constant.allCharCode;
+            defaultCode.TryAdd('头', "-- ... --. -...-");
+            defaultCode.TryAdd('尾', ".. .. ..");
+            codeConfigTxb.Text = JsonConvert.SerializeObject(Constant.allCharCode
+                , Formatting.Indented);
             EncodingType = 0;
         }
         private void Number5Btn_CheckedChanged(object sender, EventArgs e)
         {
-            codeConfigTxb.Text = JsonConvert.SerializeObject(new Dictionary<char, string>[] { Constant.shortNumber5, Constant.alphabet, Constant.symbol }.SelectMany(disc => disc).ToDictionary(
+            var defaultCode = new Dictionary<char, string>[] { Constant.shortNumber5, Constant.alphabet, Constant.symbol }.SelectMany(disc => disc).ToDictionary(
             group => group.Key,
             group => group.Value
-    ), Formatting.Indented);
+    );
+            defaultCode.TryAdd('头', "-- ... --. -...-");
+            defaultCode.TryAdd('尾', ".. .. ..");
+            codeConfigTxb.Text = JsonConvert.SerializeObject(defaultCode, Formatting.Indented);
             EncodingType = 1;
         }
 
         private void Number10Btn_CheckedChanged(object sender, EventArgs e)
         {
-            codeConfigTxb.Text = JsonConvert.SerializeObject(new Dictionary<char, string>[] { Constant.shortNumber10, Constant.alphabet, Constant.symbol }.SelectMany(disc => disc).ToDictionary(
+            var defaultCode = new Dictionary<char, string>[] { Constant.shortNumber10, Constant.alphabet, Constant.symbol }.SelectMany(disc => disc).ToDictionary(
             group => group.Key,
             group => group.Value
-    ), Formatting.Indented);
+    );
+            defaultCode.TryAdd('头', "-- ... --. -...-");
+            defaultCode.TryAdd('尾', ".. .. ..");
+            codeConfigTxb.Text = JsonConvert.SerializeObject(defaultCode, Formatting.Indented);
             EncodingType = 2;
 
         }
@@ -96,7 +107,7 @@ namespace CW
             else if ((EncodingType == 3)) { 
             customizeBtn.Checked = true;
             }
-            codeConfigTxb.Text = JsonConvert.SerializeObject(Code, Formatting.Indented);
+            DefaultBtn_CheckedChanged(sender, e);
 
         }
     }
