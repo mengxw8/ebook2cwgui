@@ -1,5 +1,6 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
+using AngleSharp.Text;
 using CW.morse;
 using Microsoft.VisualBasic.Devices;
 using NAudio.SoundFont;
@@ -37,10 +38,13 @@ namespace CW
         //static extern long LoadKeyboardLayout(string pwszKLID, uint Flags);
         [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
         private static partial IntPtr LoadKeyboardLayoutA(string pwszKLID, uint Flags);
+        private  Dictionary<char, string> keys = new Dictionary<char, string>[] { Constant.alphabet, Constant.shortNumber5 , Constant.symbol }.SelectMany(disc => disc).ToDictionary(
+group => group.Key,
+group => group.Value // 取最后一个值（覆盖冲突键）
+);
 
-
-       private readonly MorsePlayer morsePlayer;
-       private readonly WaveOutEvent waveOut = new ();
+        private readonly MorsePlayer morsePlayer;
+        private readonly WaveOutEvent waveOut = new();
         MorseConfig morseConfig = MorseConfig.Create(20);
         public NumberCopyingPractice()
         {
@@ -55,7 +59,7 @@ namespace CW
             byte[] fontData = Properties.Resources.consola;
             IntPtr fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
             Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
-            PrivateFontCollection pfc = new ();
+            PrivateFontCollection pfc = new();
             pfc.AddMemoryFont(fontPtr, fontData.Length);
             var myCustomFont = new Font(pfc.Families[0], 25, FontStyle.Bold);
             answerBox.Font = myCustomFont;
@@ -65,8 +69,7 @@ namespace CW
             waveOut.Init(morsePlayer);
         }
 
-        //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
-        WorkingMode mode = WorkingMode.None;
+
         //答案
         string answer = "";
         //上一次播放的音频文件路径
@@ -76,10 +79,10 @@ namespace CW
 
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            if (mode != WorkingMode.Customize)
-            {
-                mode = WorkingMode.ShortNumber5;
-            }
+           keys = new Dictionary<char, string>[] { Constant.alphabet, radioButton1.Checked ? Constant.shortNumber5 : Constant.shortNumber10, Constant.symbol }.SelectMany(disc => disc).ToDictionary(
+group => group.Key,
+group => group.Value // 取最后一个值（覆盖冲突键）
+);
 
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
@@ -94,10 +97,7 @@ namespace CW
         }
         private void RadioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            if (mode != WorkingMode.Customize)
-            {
-                mode = WorkingMode.ShortNumber10;
-            }
+ 
             eqRbtn.Enabled = true;
             neRbtn.Enabled = true;
 
@@ -121,26 +121,26 @@ namespace CW
             startBtn.Enabled = false;
             //生成测试数据
             List<string> words = GetWords();
-            if ((words.Count == 0 || words == null) && mode != WorkingMode.Customize)
+            if ((words.Count == 0 || words == null) && !radioButton4.Checked)
             {
                 startBtn.Enabled = true;
                 return;
             }
             StringBuilder answerBuilder = new();
-            answerBuilder.Append(Constant.StartString);
-            if (mode == WorkingMode.ShortNumber5 || mode == WorkingMode.ShortNumber10)
+            answerBuilder.Append(msgStartTxb.Text);
+            if (radioButton3.Checked )
             {
                 answerBuilder.Append(AnswerTools.GenerateAnswer(words ?? [], repeatRbtn.Checked, continuousRbtn.Checked, System.Convert.ToInt32(groupNumBox.Value), System.Convert.ToInt32(EachGroup.Value)));
             }
 
-
-
-            answerBuilder.Append(Constant.EndString);
-            if (mode != WorkingMode.Customize)
+            answerBuilder.Append(msgEndTxb.Text);
+            //自定义报文
+            if (radioButton3.Checked)
             {
                 answer = answerBuilder.ToString();
                 answer = answer.ToLower();
             }
+            
 
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
@@ -155,10 +155,9 @@ namespace CW
             morsePlayer.Clean();
             var task = Task.Run(() =>
             {
-                var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
-                keys.TryAdd('=', "-...-");
-                keys.TryAdd('I', "..");
+
                 morsePlayer.AddMorseCode(answer, keys, Convert.ToInt32(speetBox.Value));
+
             });
 
             //解除封禁
@@ -186,10 +185,10 @@ namespace CW
 
                 var task2 = Task.Run(() =>
                 {
-                    var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
-                    keys.TryAdd('=', "-...-");
-                    keys.TryAdd('i', "..");
+
+        
                     morsePlayer.AddMorseCode(answer, keys, Convert.ToInt32(checkAnserSpeed.Value));
+
                 });
                 await task2;
             }
@@ -254,19 +253,9 @@ namespace CW
 
             if (words.Count == 0)
             {
-                switch (mode)
-                {
-                    case WorkingMode.Number: words.AddRange(Constant.number.Keys.Select(item => item.ToString())); break;
-                    case WorkingMode.Alphabet: words.AddRange(Constant.alphabet.Keys.Select(item => item.ToString())); break;
-                    case WorkingMode.AlphabetAndNumber: words.AddRange(Constant.numberAndAlphabet.Keys.Select(item => item.ToString())); break;
-                    case WorkingMode.Symbol: words.AddRange(Constant.symbol.Keys.Select(item => item.ToString())); break;
-                    case WorkingMode.Article: words.AddRange(new List<string>(Directory.GetFiles(Constant.ArticlePath, "*.txt", SearchOption.TopDirectoryOnly)).Select(n => n.Replace(Constant.ArticlePath, "")).ToList()); break;
-                    case WorkingMode.News: words.AddRange(Constant.newsType.Keys); break;
-                    case WorkingMode.Word: words.AddRange(Constant.alphabet.Keys.Select(item => item.ToString())); break;
-                    case WorkingMode.ShortNumber5: words.AddRange(Constant.number.Keys.Select(item => item.ToString())); break;
-                    case WorkingMode.ShortNumber10: words.AddRange(Constant.number.Keys.Select(item => item.ToString())); break;
+                words.AddRange(Constant.number.Keys.Select(item => item.ToString())); 
 
-                }
+                
             }
 
             return words;
@@ -318,9 +307,7 @@ namespace CW
                 using ZipArchive archive = new(zipToOpen, ZipArchiveMode.Create);
                 //生成mp3
                 var lastMusicPath = lastPath.Replace(".txt", "-" + speetBox.Value + "WMP.mp3");
-                var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
-                keys.TryAdd('=', "-...-");
-                keys.TryAdd('i', "..");
+ 
                 MorseToMp3.ToMp3(answer, keys, MorseConfig.Create(Convert.ToInt32(speetBox.Value)), lastMusicPath, morsePlayer.Dit_buff!, morsePlayer.Dah_buff!);
                 // 添加文件到ZIP存档
                 //添加音频
@@ -373,7 +360,7 @@ namespace CW
 
             if (answer != "")
             {
-                answerBox.Text = answer.Replace(Constant.StartString, "").Replace(Constant.EndString, "");
+                answerBox.Text = answer.Replace(msgStartTxb.Text.ToLower(),"").Replace(msgEndTxb.Text.ToLower(), "");
             }
         }
 
@@ -381,7 +368,8 @@ namespace CW
 
         private void NumberCopyingPractice_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Mp3Player.Stop();
+            waveOut.Stop();
+            morsePlayer.Clean();
             //清除缓存
             if (Path.Exists(Path.GetDirectoryName(Constant.TempPath)))
             {
@@ -431,10 +419,9 @@ namespace CW
             morsePlayer.Clean();
             var task = Task.Run(() =>
             {
-                var keys = mode == WorkingMode.ShortNumber5 ? Constant.shortNumber5 : Constant.shortNumber10;
-                keys.TryAdd('=', "-...-");
-                keys.TryAdd('i', "..");
+
                 morsePlayer.AddMorseCode(answer, keys);
+
             });
             waveOut.Play();
         }
@@ -457,6 +444,8 @@ namespace CW
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
             Version version = currentAssembly.GetName().Version ?? new Version(1, 0, 0, 0);
             this.Text = this.Text + " V" + version;
+            radioButton1.Checked = true;
+            radioButton3.Checked = true;
         }
 
 
@@ -489,8 +478,8 @@ namespace CW
                 if (openImageDialog.ShowDialog() == DialogResult.OK)
                 {
                     answer = File.ReadAllText(openImageDialog.FileName);
-                    mode = WorkingMode.Customize;
-                    if (showAnswerChb.Checked) {
+                    if (showAnswerChb.Checked)
+                    {
                         ShowAnswer();
                     }
                 }
@@ -507,16 +496,24 @@ namespace CW
 
         private void RadioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton3.Checked) {
-                if (radioButton1.Checked)
-                {
-                    mode = WorkingMode.ShortNumber5;
-                }
-                else {
-                    mode = WorkingMode.ShortNumber10;
-                }
-            
+            if (radioButton3.Checked)
+            {
+    
+
             }
+        }
+
+        private void radioButton2_CheckedChanged_1(object sender, EventArgs e)
+        {
+           keys = new Dictionary<char, string>[] { Constant.alphabet, radioButton1.Checked ? Constant.shortNumber5 : Constant.shortNumber10, Constant.symbol }.SelectMany(disc => disc).ToDictionary(
+group => group.Key,
+group => group.Value // 取最后一个值（覆盖冲突键）
+);
+        }
+
+        private void radioButton4_CheckedChanged_1(object sender, EventArgs e)
+        {
+           
         }
     }
 }
