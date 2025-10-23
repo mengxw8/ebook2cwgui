@@ -477,7 +477,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
 
                 if (openImageDialog.ShowDialog() == DialogResult.OK)
                 {
-                    answer = File.ReadAllText(openImageDialog.FileName);
+                    answer =(msgStartTxb.Text+ File.ReadAllText(openImageDialog.FileName)+msgEndTxb.Text).ToLower();
                     if (showAnswerChb.Checked)
                     {
                         ShowAnswer();
