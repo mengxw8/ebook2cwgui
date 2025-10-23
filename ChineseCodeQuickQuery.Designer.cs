@@ -32,13 +32,12 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChineseCodeQuickQuery));
             groupBox1 = new GroupBox();
-            cleanBtn = new Button();
-            codeLab = new Label();
-            ChineseLab = new Label();
             queryBox = new TextBox();
-            label1 = new Label();
+            cleanBtn = new Button();
             groupBox2 = new GroupBox();
             historyTable = new DataGridView();
+            toChineseBtn = new Button();
+            toCodeBtn = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)historyTable).BeginInit();
@@ -47,74 +46,45 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox1.Controls.Add(cleanBtn);
-            groupBox1.Controls.Add(codeLab);
-            groupBox1.Controls.Add(ChineseLab);
+            groupBox1.AutoSize = true;
             groupBox1.Controls.Add(queryBox);
-            groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(7, 5);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1256, 100);
+            groupBox1.Size = new Size(1256, 121);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "查询";
             // 
+            // queryBox
+            // 
+            queryBox.Dock = DockStyle.Fill;
+            queryBox.Font = new Font("Microsoft YaHei UI", 15F);
+            queryBox.Location = new Point(3, 19);
+            queryBox.Multiline = true;
+            queryBox.Name = "queryBox";
+            queryBox.Size = new Size(1250, 99);
+            queryBox.TabIndex = 1;
+            // 
             // cleanBtn
             // 
+            cleanBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             cleanBtn.Font = new Font("Microsoft YaHei UI", 12F);
-            cleanBtn.Location = new Point(955, 42);
+            cleanBtn.Location = new Point(780, 153);
             cleanBtn.Name = "cleanBtn";
             cleanBtn.Size = new Size(102, 28);
             cleanBtn.TabIndex = 4;
-            cleanBtn.Text = "清空历史";
+            cleanBtn.Text = "清空";
             cleanBtn.UseVisualStyleBackColor = true;
             cleanBtn.Click += CleanBtn_Click;
-            // 
-            // codeLab
-            // 
-            codeLab.AutoSize = true;
-            codeLab.Font = new Font("Microsoft YaHei UI", 15F, FontStyle.Bold);
-            codeLab.Location = new Point(686, 61);
-            codeLab.Name = "codeLab";
-            codeLab.Size = new Size(0, 27);
-            codeLab.TabIndex = 3;
-            // 
-            // ChineseLab
-            // 
-            ChineseLab.AutoSize = true;
-            ChineseLab.Font = new Font("Microsoft YaHei UI", 15F, FontStyle.Bold);
-            ChineseLab.Location = new Point(698, 25);
-            ChineseLab.Name = "ChineseLab";
-            ChineseLab.Size = new Size(0, 27);
-            ChineseLab.TabIndex = 2;
-            // 
-            // queryBox
-            // 
-            queryBox.Font = new Font("Microsoft YaHei UI", 15F);
-            queryBox.Location = new Point(409, 37);
-            queryBox.Name = "queryBox";
-            queryBox.Size = new Size(150, 33);
-            queryBox.TabIndex = 1;
-            queryBox.KeyDown += TextBox1_KeyDown;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Microsoft YaHei UI", 12F);
-            label1.Location = new Point(275, 44);
-            label1.Name = "label1";
-            label1.Size = new Size(138, 21);
-            label1.TabIndex = 0;
-            label1.Text = "输入中文或代码：";
             // 
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.AutoSize = true;
             groupBox2.Controls.Add(historyTable);
-            groupBox2.Location = new Point(7, 111);
+            groupBox2.Location = new Point(7, 189);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(1256, 920);
+            groupBox2.Size = new Size(1256, 480);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "记录";
@@ -146,8 +116,30 @@
             historyTable.Location = new Point(3, 19);
             historyTable.Name = "historyTable";
             historyTable.ReadOnly = true;
-            historyTable.Size = new Size(1250, 898);
+            historyTable.Size = new Size(1250, 455);
             historyTable.TabIndex = 0;
+            // 
+            // toChineseBtn
+            // 
+            toChineseBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            toChineseBtn.Location = new Point(364, 153);
+            toChineseBtn.Name = "toChineseBtn";
+            toChineseBtn.Size = new Size(75, 23);
+            toChineseBtn.TabIndex = 5;
+            toChineseBtn.Text = "转中文";
+            toChineseBtn.UseVisualStyleBackColor = true;
+            toChineseBtn.Click += toChineseBtn_Click;
+            // 
+            // toCodeBtn
+            // 
+            toCodeBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            toCodeBtn.Location = new Point(574, 153);
+            toCodeBtn.Name = "toCodeBtn";
+            toCodeBtn.Size = new Size(75, 23);
+            toCodeBtn.TabIndex = 6;
+            toCodeBtn.Text = "转代码";
+            toCodeBtn.UseVisualStyleBackColor = true;
+            toCodeBtn.Click += toCodeBtn_Click;
             // 
             // ChineseCodeQuickQuery
             // 
@@ -155,11 +147,15 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(1264, 681);
+            Controls.Add(toCodeBtn);
+            Controls.Add(toChineseBtn);
+            Controls.Add(cleanBtn);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ChineseCodeQuickQuery";
             Text = "中文标准电码速查 (基于1998年12月人民邮电出版的《标准电码本》)";
+            Load += ChineseCodeQuickQuery_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
@@ -173,10 +169,9 @@
         private GroupBox groupBox1;
         private GroupBox groupBox2;
         private TextBox queryBox;
-        private Label label1;
-        private Label codeLab;
-        private Label ChineseLab;
         private Button cleanBtn;
         private DataGridView historyTable;
+        private Button toChineseBtn;
+        private Button toCodeBtn;
     }
 }
