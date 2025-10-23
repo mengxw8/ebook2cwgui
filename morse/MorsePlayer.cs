@@ -208,9 +208,14 @@ namespace CW
                 EnqueueSilence(4 * dotDuration); // 单词间隔补足到7T
             }
         }
-
-        public void Mute(int time) {
-            EnqueueSilence(time * dotDuration);
+        /// <summary>
+        /// 静音特定的时长
+        /// </summary>
+        /// <param name="time"> 时长，毫秒</param>
+        public void Mute(Int64 time) {
+            //采样率是指1s内有多少个样本
+            //现在计算1ms有多少个样本
+               EnqueueSilence((sampleRate / 1000) * time);
         }
         /// <summary>
         /// 将音调信号加入队列
@@ -226,7 +231,7 @@ namespace CW
         /// <summary>
         /// 将静音信号加入队列
         /// </summary>
-        private void EnqueueSilence(int duration)
+        private void EnqueueSilence(long duration)
         {
             for (int i = 0; i < duration; i++)
             {
