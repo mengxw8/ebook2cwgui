@@ -97,7 +97,7 @@ namespace CW
             playerWave.Stop();
             player.Clean();
             //重播的时候先停一段时间，不然太急了
-            player.Mute(7);
+            player.Mute(500);
             player.AddMorseCode("头", code);
             player.AddMorseCode(File.ReadAllText(FilePathLbl.Text), code);
             player.AddMorseCode("尾", code);
