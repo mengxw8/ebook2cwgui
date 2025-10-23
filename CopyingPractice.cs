@@ -211,7 +211,7 @@ namespace CW
 
 
         //生成报文并播放
-        private  void StartBtn_Click(object sender, EventArgs e)
+        private void StartBtn_Click(object sender, EventArgs e)
         {
             startBtn.Enabled = false;
             //生成报文数据
@@ -287,7 +287,7 @@ namespace CW
                 ShowAnswer();
             }
             playerWave.Play();
- 
+
 
 
             var fileName = DateTime.Now.ToUniversalTime().Ticks;
@@ -409,7 +409,7 @@ namespace CW
 
         private void ExportBtn_Click(object sender, EventArgs e)
         {
-            if (answer == ""|| lastBookPath=="")
+            if (answer == "" || lastBookPath == "")
             {
                 MessageBox.Show("您还尚未生成过报文哦，请生成后重试！");
                 return;
@@ -418,7 +418,7 @@ namespace CW
             {
                 Filter = "压缩文件(*.zip)|*.*",
                 Title = "保存音频文件和报文到目录",
-                FileName = "抄收报文"+ DateTime.Now.ToUniversalTime().Ticks + "-" + speetBox.Value + "wpm.zip"
+                FileName = "抄收报文" + DateTime.Now.ToUniversalTime().Ticks + "-" + speetBox.Value + "wpm.zip"
             };
 
 
@@ -442,7 +442,7 @@ namespace CW
                 //添加报文
                 string txtFileName = Path.GetFileName(lastBookPath);
                 archive.CreateEntryFromFile(lastBookPath, txtFileName);
-       
+
 
 
             }
@@ -486,7 +486,7 @@ namespace CW
         private void Timer1_Tick(object sender, EventArgs e)
         {
 
-            if (playerWave.PlaybackState== PlaybackState.Stopped)
+            if (playerWave.PlaybackState == PlaybackState.Stopped)
             {
                 //结束了，需要进行校报
                 player?.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speetBox.Value)));
@@ -500,7 +500,7 @@ namespace CW
         private void CopyingPractice_FormClosed(object sender, FormClosedEventArgs e)
         {
             playerWave?.Stop();
-            player?.Clean();      
+            player?.Clean();
 
             //清除缓存
             if (lastBookPath != null && Path.Exists(Path.GetDirectoryName(lastBookPath)))
@@ -548,6 +548,8 @@ namespace CW
         {
             playerWave.Stop();
             player?.Clean();
+            //重播前先静默500ms显得没那么急
+            player?.Mute(500);
             player?.AddMorseCode(msgStartTxb.Text, Constant.allCharCode);
             player?.AddMorseCode(answer, Constant.allCharCode);
             player?.AddMorseCode(msgEndTxb.Text, Constant.allCharCode);
@@ -620,12 +622,20 @@ namespace CW
             {
                 eqBox.Items.Add(data, true);
 
-            };
+            }
+            ;
 
         }
 
         private void msgEndTxb_TextChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void extraWordSpacing_ValueChanged(object sender, EventArgs e)
+        {
+            //额外词间隔改变的时候
+         player?.UpdateExtraInterval(extraWordSpacing.Value) ;
 
         }
     }

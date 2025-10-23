@@ -36,6 +36,7 @@ namespace CW
         public short[]? Dit_buff { get; set; }
         public short[]? Dah_buff { get; set; }
         private readonly bool InfiniteLength;
+        private decimal extraInterval;
 
         /// <summary>
         /// 
@@ -45,13 +46,15 @@ namespace CW
         /// <param name="frequency">频率</param>
         /// <param name="amplitude">音量</param>
         /// <param name="config">速度配置</param>
-        public MorsePlayer(int frequency, MorseConfig config, int sampleRate = 44100, float amplitude = 0.8f, bool infiniteLength = true) : base(sampleRate, 2)
+        /// <param name="extraInterval">额外词间隔, ms</param>
+        public MorsePlayer(int frequency, MorseConfig config, int sampleRate = 44100, float amplitude = 0.8f, bool infiniteLength = true,decimal extraInterval= decimal.Zero) : base(sampleRate, 2)
         {
             this.sampleRate = sampleRate;
             this.frequency = frequency;
             this.Volume = amplitude;
             this.config = config;
             this.InfiniteLength = infiniteLength;
+            this.extraInterval = extraInterval;
             UpdateConfig(config);
             //this.waveFormat = new WaveFormat(sampleRate, 16, 2);  // 双声道格式
         }
@@ -133,27 +136,49 @@ namespace CW
             }
         }
 
-
+        /// <summary>
+        /// 更新频率
+        /// </summary>
+        /// <param name="frequency"></param>
         public void UpdateFrequency(int frequency)
         {
             this.frequency = frequency;
             UpdateConfig(config);
 
         }
+        /// <summary>
+        /// 更新编码
+        /// </summary>
+        /// <param name="frequency"></param>
         public void UpdateEncoding(Dictionary<char, string> encoding)
         {
             if (encoding != null) {
                 this.keys = encoding;
-            }
-            
-
-
+            }        
         }
+        /// <summary>        /// 
+        /// 更改额外词间隔
+        /// </summary>
+        /// <param name="extraInterval"></param>
+        public void UpdateExtraInterval(decimal extraInterval)
+        {
+
+                this.extraInterval = extraInterval;
+             
+        }
+        /// <summary>
+        /// 清空播放队列
+        /// </summary>
         public void Clean()
         {
             charQueue.Clear();
             audioQueue.Clear();
         }
+        /// <summary>
+        /// 添加到播放队列
+        /// </summary>
+        /// <param name="morseCode"></param>
+        /// <param name="keys"></param>
         public void AddMorseCode(string morseCode, Dictionary<char, string> keys)
         {
             this.keys = keys;
@@ -206,6 +231,10 @@ namespace CW
                     EnqueueSilence(3 * dotDuration); // 字符间隔3T
                 }
                 EnqueueSilence(4 * dotDuration); // 单词间隔补足到7T
+                //处理额外词间隔，这个是一个倍率关系
+                if (extraInterval.CompareTo(0) > 0) {
+                    EnqueueSilence(Convert.ToInt64(extraInterval * 7 * dotDuration));
+                }
             }
         }
         /// <summary>

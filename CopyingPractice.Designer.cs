@@ -57,8 +57,6 @@
             symbolsChb = new CheckBox();
             extraWordSpacing = new NumericUpDown();
             label6 = new Label();
-            effectiveSpeed = new NumericUpDown();
-            label5 = new Label();
             checkAnserSpeed = new NumericUpDown();
             checkAnswerChb = new CheckBox();
             showAnswerChb = new CheckBox();
@@ -89,7 +87,6 @@
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)noiseLevel).BeginInit();
             ((System.ComponentModel.ISupportInitialize)extraWordSpacing).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)effectiveSpeed).BeginInit();
             ((System.ComponentModel.ISupportInitialize)checkAnserSpeed).BeginInit();
             ((System.ComponentModel.ISupportInitialize)EachGroup).BeginInit();
             ((System.ComponentModel.ISupportInitialize)speetBox).BeginInit();
@@ -268,7 +265,7 @@
             msgStartTxb.Name = "msgStartTxb";
             msgStartTxb.Size = new Size(88, 23);
             msgStartTxb.TabIndex = 12;
-            msgStartTxb.Text = "MSG =";
+            msgStartTxb.Text = "msg=";
             // 
             // label10
             // 
@@ -352,8 +349,6 @@
             groupBox3.Controls.Add(symbolsChb);
             groupBox3.Controls.Add(extraWordSpacing);
             groupBox3.Controls.Add(label6);
-            groupBox3.Controls.Add(effectiveSpeed);
-            groupBox3.Controls.Add(label5);
             groupBox3.Controls.Add(checkAnserSpeed);
             groupBox3.Controls.Add(checkAnswerChb);
             groupBox3.Controls.Add(showAnswerChb);
@@ -380,7 +375,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(167, 87);
+            label8.Location = new Point(167, 58);
             label8.Name = "label8";
             label8.Size = new Size(59, 17);
             label8.TabIndex = 23;
@@ -388,7 +383,7 @@
             // 
             // noiseLevel
             // 
-            noiseLevel.Location = new Point(253, 86);
+            noiseLevel.Location = new Point(253, 57);
             noiseLevel.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             noiseLevel.Minimum = new decimal(new int[] { 10, 0, 0, int.MinValue });
             noiseLevel.Name = "noiseLevel";
@@ -408,38 +403,22 @@
             // extraWordSpacing
             // 
             extraWordSpacing.DecimalPlaces = 1;
-            extraWordSpacing.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            extraWordSpacing.Location = new Point(253, 55);
-            extraWordSpacing.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
+            extraWordSpacing.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
+            extraWordSpacing.Location = new Point(253, 26);
+            extraWordSpacing.Maximum = new decimal(new int[] { 20, 0, 0, 0 });
             extraWordSpacing.Name = "extraWordSpacing";
             extraWordSpacing.Size = new Size(40, 23);
             extraWordSpacing.TabIndex = 20;
+            extraWordSpacing.ValueChanged += extraWordSpacing_ValueChanged;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(153, 56);
+            label6.Location = new Point(153, 27);
             label6.Name = "label6";
             label6.Size = new Size(83, 17);
             label6.TabIndex = 19;
             label6.Text = "词间额外间隔:";
-            // 
-            // effectiveSpeed
-            // 
-            effectiveSpeed.Location = new Point(253, 24);
-            effectiveSpeed.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
-            effectiveSpeed.Name = "effectiveSpeed";
-            effectiveSpeed.Size = new Size(40, 23);
-            effectiveSpeed.TabIndex = 18;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(153, 25);
-            label5.Name = "label5";
-            label5.Size = new Size(98, 17);
-            label5.TabIndex = 17;
-            label5.Text = "有效速度(WPM):";
             // 
             // checkAnserSpeed
             // 
@@ -715,7 +694,6 @@
             groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)noiseLevel).EndInit();
             ((System.ComponentModel.ISupportInitialize)extraWordSpacing).EndInit();
-            ((System.ComponentModel.ISupportInitialize)effectiveSpeed).EndInit();
             ((System.ComponentModel.ISupportInitialize)checkAnserSpeed).EndInit();
             ((System.ComponentModel.ISupportInitialize)EachGroup).EndInit();
             ((System.ComponentModel.ISupportInitialize)speetBox).EndInit();
@@ -759,8 +737,6 @@
         private NumericUpDown checkAnserSpeed;
         private CheckBox checkAnswerChb;
         private System.Windows.Forms.Timer timer1;
-        private NumericUpDown effectiveSpeed;
-        private Label label5;
         private NumericUpDown extraWordSpacing;
         private Label label6;
         private RadioButton radioButton6;
