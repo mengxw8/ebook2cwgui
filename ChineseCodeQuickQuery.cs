@@ -24,8 +24,8 @@ namespace CW
 
 
 
-        Dictionary<string, string> chineseCode;
-        Dictionary<string, string> codeChinese;
+        Dictionary<string, string> chineseCode =new();
+        Dictionary<string, string> codeChinese = new() ;
 
         private int startIndex = 0;
         public ChineseCodeQuickQuery()
@@ -33,8 +33,6 @@ namespace CW
             InitializeComponent();
             //查询条件的自动补全
             // 添加一些候选项到suggestions列表中
-
-
             queryBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend; // 设置为自动追加模式
             queryBox.AutoCompleteSource = AutoCompleteSource.CustomSource; // 设置为自定义源
             queryBox.AutoCompleteCustomSource.AddRange([.. suggestions]); // 设置自定义源为suggestions列表
@@ -156,7 +154,7 @@ namespace CW
             foreach (var item in data)
             {
              
-                if (codeChinese.TryGetValue(item,out string chinese)) {
+                if (codeChinese?.TryGetValue(item,out string? chinese)==true) {
                     AddHistory(new ChineseCode()
                     {
                         Chinese = chinese,
@@ -179,7 +177,7 @@ namespace CW
             foreach (var item in queryBox.Text)
             {
             
-                if (chineseCode.TryGetValue(item.ToString(),out string code)) {
+                if (chineseCode?.TryGetValue(item.ToString(),out string? code)==true) {
                     AddHistory(new ChineseCode()
                     {
                         Chinese = item.ToString(),
@@ -194,7 +192,7 @@ namespace CW
         private void ChineseCodeQuickQuery_Load(object sender, EventArgs e)
         {
            var codeList=  db.Queryable<ChineseCode>().ToList();
-           chineseCode= codeList.Where(item => item.Code != null && item.Chinese!=null).ToDictionary(
+           chineseCode= codeList.Where(item => item.Code != null && item.Chinese != null).ToDictionary(
             item => item.Chinese,   // 指定哪个属性作为 Key
             item => item.Code  // 指定哪个属性作为 Value
         );

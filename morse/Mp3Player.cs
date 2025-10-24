@@ -26,7 +26,7 @@ namespace CW
             waveOut.Init(mp3);
             waveOut.Play();
         }
-        public static Mp3FileReader CreateMp3FileReader(string path)
+        public static Mp3FileReader? CreateMp3FileReader(string path)
         {
             //文件不存在，不播放
             if (!File.Exists(path))

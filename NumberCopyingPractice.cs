@@ -181,14 +181,9 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             //处理校报逻辑
             if (checkAnswerChb.Checked)
             {
-
-
                 var task2 = Task.Run(() =>
-                {
-
-        
+                {                    
                     morsePlayer.AddMorseCode(answer, keys, Convert.ToInt32(checkAnserSpeed.Value));
-
                 });
                 await task2;
             }
