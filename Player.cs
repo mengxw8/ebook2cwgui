@@ -65,6 +65,7 @@ namespace CW
                 player.UpdateEncoding(code);
                 //记录下新的编码方式
                 encodingType = encodingConfiguration.EncodingType;
+                player?.UpdateEncoding(code);
             }
 
 
