@@ -389,7 +389,10 @@ namespace CW
 
         private void SubmitAnswerBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.Stop();
+            playerWave?.Stop();
+            player?.Clean();
+
+
             timer1.Stop();
             if (answer == "")
             {
@@ -403,7 +406,8 @@ namespace CW
 
         private void StopBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.Stop();
+            playerWave?.Stop();
+            player?.Clean();
             timer1.Stop();
         }
 
@@ -511,6 +515,7 @@ namespace CW
         private void SpeetBox_ValueChanged(object sender, EventArgs e)
         {
             checkAnserSpeed.Value = speetBox.Value + 2;
+            player?.UpdateConfig(MorseConfig.Create(Convert.ToInt16(speetBox.Value)));
             //
         }
 
@@ -550,6 +555,7 @@ namespace CW
             player?.Clean();
             //重播前先静默500ms显得没那么急
             player?.Mute(500);
+            player?.UpdateConfig(MorseConfig.Create(Convert.ToInt16(speetBox.Value)));
             player?.AddMorseCode(msgStartTxb.Text, Constant.allCharCode);
             player?.AddMorseCode(answer, Constant.allCharCode);
             player?.AddMorseCode(msgEndTxb.Text, Constant.allCharCode);
@@ -635,8 +641,13 @@ namespace CW
         private void extraWordSpacing_ValueChanged(object sender, EventArgs e)
         {
             //额外词间隔改变的时候
-         player?.UpdateExtraInterval(extraWordSpacing.Value) ;
+            player?.UpdateExtraInterval(extraWordSpacing.Value);
 
+        }
+
+        private void toneBox_ValueChanged(object sender, EventArgs e)
+        {
+            player?.UpdateFrequency(Convert.ToInt16(toneBox.Value));
         }
     }
 }

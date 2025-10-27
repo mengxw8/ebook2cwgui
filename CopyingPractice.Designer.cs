@@ -539,6 +539,7 @@
             toneBox.Size = new Size(48, 23);
             toneBox.TabIndex = 4;
             toneBox.Value = new decimal(new int[] { 600, 0, 0, 0 });
+            toneBox.ValueChanged += toneBox_ValueChanged;
             // 
             // groupNumBox
             // 
