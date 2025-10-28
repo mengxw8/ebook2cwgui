@@ -82,6 +82,8 @@
             continuePlayBtn = new Button();
             pauseBtn = new Button();
             clearAnswerBtn = new Button();
+            waveList = new ComboBox();
+            label5 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -344,6 +346,8 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(waveList);
+            groupBox3.Controls.Add(label5);
             groupBox3.Controls.Add(label8);
             groupBox3.Controls.Add(noiseLevel);
             groupBox3.Controls.Add(symbolsChb);
@@ -671,6 +675,26 @@
             clearAnswerBtn.UseVisualStyleBackColor = true;
             clearAnswerBtn.Click += ClearAnswer_Click;
             // 
+            // waveList
+            // 
+            waveList.DropDownStyle = ComboBoxStyle.DropDownList;
+            waveList.FormattingEnabled = true;
+            waveList.Items.AddRange(new object[] { "正弦波", "锯齿波", "方波" });
+            waveList.Location = new Point(233, 87);
+            waveList.Name = "waveList";
+            waveList.Size = new Size(65, 25);
+            waveList.TabIndex = 25;
+            waveList.SelectedIndexChanged += waveList_SelectedIndexChanged;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(174, 91);
+            label5.Name = "label5";
+            label5.Size = new Size(35, 17);
+            label5.TabIndex = 24;
+            label5.Text = "波形:";
+            // 
             // CopyingPractice
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -759,5 +783,7 @@
         private Label label9;
         private TextBox msgStartTxb;
         private Label label10;
+        private ComboBox waveList;
+        private Label label5;
     }
 }

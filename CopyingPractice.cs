@@ -274,7 +274,7 @@ namespace CW
 
             //开始播放
             player?.UpdateFrequency(Convert.ToInt32(toneBox.Value));
-            player?.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speetBox.Value)));
+            player?.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speetBox.Value),waveList.Text));
             //停止播放并清空播放内容
             playerWave.Stop();
             player?.Clean();
@@ -493,7 +493,7 @@ namespace CW
             if (playerWave.PlaybackState == PlaybackState.Stopped)
             {
                 //结束了，需要进行校报
-                player?.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speetBox.Value)));
+                player?.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speetBox.Value),waveList.Text));
                 player?.AddMorseCode(msgStartTxb.Text, Constant.allCharCode);
                 player?.AddMorseCode(answer, Constant.allCharCode);
                 player?.AddMorseCode(msgEndTxb.Text, Constant.allCharCode);
@@ -515,7 +515,7 @@ namespace CW
         private void SpeetBox_ValueChanged(object sender, EventArgs e)
         {
             checkAnserSpeed.Value = speetBox.Value + 2;
-            player?.UpdateConfig(MorseConfig.Create(Convert.ToInt16(speetBox.Value)));
+            player?.UpdateConfig(MorseConfig.Create(Convert.ToInt16(speetBox.Value),waveList.Text));
             //
         }
 
@@ -555,7 +555,7 @@ namespace CW
             player?.Clean();
             //重播前先静默500ms显得没那么急
             player?.Mute(500);
-            player?.UpdateConfig(MorseConfig.Create(Convert.ToInt16(speetBox.Value)));
+            player?.UpdateConfig(MorseConfig.Create(Convert.ToInt16(speetBox.Value),waveList.Text));
             player?.AddMorseCode(msgStartTxb.Text, Constant.allCharCode);
             player?.AddMorseCode(answer, Constant.allCharCode);
             player?.AddMorseCode(msgEndTxb.Text, Constant.allCharCode);
@@ -581,6 +581,7 @@ namespace CW
             Version version = currentAssembly.GetName().Version ?? new Version(1, 0, 0, 0);
             this.Text = this.Text + " V" + version;
             playerWave.Init(player);
+            waveList.SelectedIndex = 0;
         }
 
         private void IndividuationRbtn_CheckedChanged(object sender, EventArgs e)
@@ -648,6 +649,11 @@ namespace CW
         private void toneBox_ValueChanged(object sender, EventArgs e)
         {
             player?.UpdateFrequency(Convert.ToInt16(toneBox.Value));
+        }
+
+        private void waveList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            player?.UpdateConfig(MorseConfig.Create(Convert.ToInt16(speetBox.Value),waveList.Text));
         }
     }
 }
