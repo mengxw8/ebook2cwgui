@@ -80,6 +80,9 @@ namespace CW
         private void Player_Load(object sender, EventArgs e)
         {
             playerWave.Init(player);
+
+            waveList.SelectedIndex = 0;
+
         }
 
         private void ToneBox_ValueChanged(object sender, EventArgs e)
@@ -148,7 +151,7 @@ namespace CW
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string selectedFolderPath = saveFileDialog.FileName;
-                MorseToMp3.ToMp3ByLine(File.ReadAllText(FilePathLbl.Text), code, MorseConfig.Create(Convert.ToInt32(speedBox.Value)), selectedFolderPath, player.Dit_buff!, player.Dah_buff!,true,true);
+                MorseToMp3.ToMp3ByLine(File.ReadAllText(FilePathLbl.Text), code, MorseConfig.Create(Convert.ToInt32(speedBox.Value)), selectedFolderPath, player.Dit_buff!, player.Dah_buff!, true, true);
             }
         }
 
@@ -157,6 +160,11 @@ namespace CW
 
             playerWave?.Stop();
             player?.Clean();
+        }
+
+        private void waveList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            player.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speedBox.Value),waveList.Text));
         }
     }
 }

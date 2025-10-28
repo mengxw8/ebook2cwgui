@@ -39,6 +39,8 @@
             ContinueBtn = new Button();
             PauseBtn = new Button();
             groupBox2 = new GroupBox();
+            waveList = new ComboBox();
+            label4 = new Label();
             CodingDefinitionBtn = new Button();
             speedBox = new NumericUpDown();
             toneBox = new NumericUpDown();
@@ -160,6 +162,8 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(waveList);
+            groupBox2.Controls.Add(label4);
             groupBox2.Controls.Add(CodingDefinitionBtn);
             groupBox2.Controls.Add(speedBox);
             groupBox2.Controls.Add(toneBox);
@@ -171,6 +175,26 @@
             groupBox2.TabIndex = 5;
             groupBox2.TabStop = false;
             groupBox2.Text = "莫尔斯配置";
+            // 
+            // waveList
+            // 
+            waveList.DropDownStyle = ComboBoxStyle.DropDownList;
+            waveList.FormattingEnabled = true;
+            waveList.Items.AddRange(new object[] { "正弦波", "锯齿波", "方波" });
+            waveList.Location = new Point(281, 16);
+            waveList.Name = "waveList";
+            waveList.Size = new Size(87, 25);
+            waveList.TabIndex = 9;
+            waveList.SelectedIndexChanged += waveList_SelectedIndexChanged;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(244, 20);
+            label4.Name = "label4";
+            label4.Size = new Size(35, 17);
+            label4.TabIndex = 8;
+            label4.Text = "波形:";
             // 
             // CodingDefinitionBtn
             // 
@@ -332,5 +356,7 @@
         private GroupBox groupBox6;
         private RichTextBox ContentTxb;
         private Button StartBtn;
+        private Label label4;
+        private ComboBox waveList;
     }
 }

@@ -33,6 +33,11 @@ namespace CW
         /// 速度WPM
         /// </summary>
         public int Speed { get; set; }
+         /// <summary>
+         /// 波形
+         /// 正弦波，锯齿波，方波
+         /// </summary>
+        public string Waveform  { get; set; }
 
 
         public static MorseConfig Create(int speed)
@@ -49,6 +54,26 @@ namespace CW
             config.KeystrokeInterval = di;
             config.CharInterval = di * 3;
             config.WordInterval = di * 7;
+            //默认正弦波
+            config.Waveform = "正弦波";
+            return config;
+        }
+        public static MorseConfig Create(int speed,string waveform)
+        {
+            var config = new MorseConfig()
+            {
+                Speed = speed,
+            };
+
+            // 以Paris计
+            var di = 1200 / speed;
+            config.Di = di;
+            config.Da = di * 3;
+            config.KeystrokeInterval = di;
+            config.CharInterval = di * 3;
+            config.WordInterval = di * 7;
+            //默认正弦波
+            config.Waveform = waveform;
             return config;
         }
     }

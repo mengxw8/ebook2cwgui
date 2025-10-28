@@ -86,8 +86,15 @@ namespace CW
             Dit_buff = new short[dotDuration];
             for (int i = 0; i < dotDuration; i++)
             {
-                double phase = 2 * Math.PI * frequency * i / sampleRate;
-                double sample = Math.Sin(phase);
+                double sample =
+                config.Waveform switch
+                {
+                    "正弦波" =>
+                        Math.Sin(2 * Math.PI * frequency * i / sampleRate),
+                    "锯齿波" => ((1.0 * frequency * i / sampleRate) - Math.Floor(1.0 * frequency / sampleRate)) - 0.5,
+                    "方波" => Math.Ceiling(Math.Sin(2 * Math.PI * frequency * i / sampleRate)) - 0.5,
+                    _ => Math.Sin(2 * Math.PI * frequency * i / sampleRate),
+                };
 
                 // 淡入处理
                 if (i < riseTime)
@@ -114,8 +121,17 @@ namespace CW
             Dah_buff = new short[dahDuration];
             for (int i = 0; i < dahDuration; i++)
             {
-                double phase = 2 * Math.PI * frequency * i / sampleRate;
-                double sample = Math.Sin(phase);
+
+                double sample =
+                config.Waveform switch {
+                    "正弦波" =>
+                        Math.Sin(2 * Math.PI * frequency * i / sampleRate),
+                    "锯齿波" => ((1.0 * frequency * i / sampleRate) - Math.Floor(1.0 * frequency / sampleRate)) - 0.5,
+                    "方波" => Math.Ceiling(Math.Sin(2 * Math.PI * frequency * i / sampleRate)) - 0.5,
+                    _ => Math.Sin(2 * Math.PI * frequency * i / sampleRate),
+                };
+
+
 
                 // 淡入处理
                 if (i < riseTime)
@@ -135,6 +151,7 @@ namespace CW
                 Dah_buff[i] = (short)(sample * short.MaxValue);
             }
         }
+
 
         /// <summary>
         /// 更新频率
