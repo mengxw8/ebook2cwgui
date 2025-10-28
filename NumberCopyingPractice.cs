@@ -127,13 +127,13 @@ group => group.Value // 取最后一个值（覆盖冲突键）
                 return;
             }
             StringBuilder answerBuilder = new();
-            answerBuilder.Append(msgStartTxb.Text);
+            answerBuilder.Append(msgStartTxb.Text.ToLower());
             if (radioButton3.Checked )
             {
                 answerBuilder.Append(AnswerTools.GenerateAnswer(words ?? [], repeatRbtn.Checked, continuousRbtn.Checked, System.Convert.ToInt32(groupNumBox.Value), System.Convert.ToInt32(EachGroup.Value)));
             }
 
-            answerBuilder.Append(msgEndTxb.Text);
+            answerBuilder.Append(msgEndTxb.Text.ToLower());
             //自定义报文
             if (radioButton3.Checked)
             {
@@ -258,14 +258,16 @@ group => group.Value // 取最后一个值（覆盖冲突键）
 
         private void SubmitAnswerBtn_Click(object sender, EventArgs e)
         {
-            Mp3Player.Stop();
+
+            waveOut.Stop();
+            morsePlayer.Clean();
             timer1.Stop();
             if (answer == "")
             {
                 MessageBox.Show("请先开始抄收！");
                 return;
             }
-            AnswerBoard answerBoard = new(answer, answerBox.Text);
+            AnswerBoard answerBoard = new(answer.Replace(msgStartTxb.Text.ToLower(),"").Replace(msgEndTxb.Text.ToLower(), ""), answerBox.Text);
             answerBoard.ShowDialog();
 
         }

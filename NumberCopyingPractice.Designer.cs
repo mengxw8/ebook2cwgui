@@ -39,6 +39,10 @@
             eqRbtn = new RadioButton();
             neRbtn = new RadioButton();
             groupBox3 = new GroupBox();
+            msgEndTxb = new TextBox();
+            label9 = new Label();
+            msgStartTxb = new TextBox();
+            label10 = new Label();
             label8 = new Label();
             noiseLevel = new NumericUpDown();
             extraWordSpacing = new NumericUpDown();
@@ -73,10 +77,6 @@
             groupBox6 = new GroupBox();
             radioButton4 = new RadioButton();
             radioButton3 = new RadioButton();
-            msgEndTxb = new TextBox();
-            label9 = new Label();
-            msgStartTxb = new TextBox();
-            label10 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -228,6 +228,40 @@
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "CW配置";
+            // 
+            // msgEndTxb
+            // 
+            msgEndTxb.Location = new Point(252, 161);
+            msgEndTxb.Name = "msgEndTxb";
+            msgEndTxb.Size = new Size(88, 28);
+            msgEndTxb.TabIndex = 27;
+            msgEndTxb.Text = "iii";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(188, 166);
+            label9.Name = "label9";
+            label9.Size = new Size(58, 21);
+            label9.TabIndex = 26;
+            label9.Text = "报尾：";
+            // 
+            // msgStartTxb
+            // 
+            msgStartTxb.Location = new Point(253, 127);
+            msgStartTxb.Name = "msgStartTxb";
+            msgStartTxb.Size = new Size(88, 28);
+            msgStartTxb.TabIndex = 25;
+            msgStartTxb.Text = "MSG=";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(188, 131);
+            label10.Name = "label10";
+            label10.Size = new Size(58, 21);
+            label10.TabIndex = 24;
+            label10.Text = "报头：";
             // 
             // label8
             // 
@@ -568,40 +602,6 @@
             radioButton3.Text = "随机生成";
             radioButton3.UseVisualStyleBackColor = true;
             radioButton3.CheckedChanged += RadioButton3_CheckedChanged;
-            // 
-            // msgEndTxb
-            // 
-            msgEndTxb.Location = new Point(252, 161);
-            msgEndTxb.Name = "msgEndTxb";
-            msgEndTxb.Size = new Size(88, 28);
-            msgEndTxb.TabIndex = 27;
-            msgEndTxb.Text = "iii";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(188, 166);
-            label9.Name = "label9";
-            label9.Size = new Size(58, 21);
-            label9.TabIndex = 26;
-            label9.Text = "报尾：";
-            // 
-            // msgStartTxb
-            // 
-            msgStartTxb.Location = new Point(253, 127);
-            msgStartTxb.Name = "msgStartTxb";
-            msgStartTxb.Size = new Size(88, 28);
-            msgStartTxb.TabIndex = 25;
-            msgStartTxb.Text = "MSG =";
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new Point(188, 131);
-            label10.Name = "label10";
-            label10.Size = new Size(58, 21);
-            label10.TabIndex = 24;
-            label10.Text = "报头：";
             // 
             // NumberCopyingPractice
             // 
