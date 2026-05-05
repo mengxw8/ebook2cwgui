@@ -130,10 +130,10 @@ namespace CW.morse
             Buffer.BlockCopy(dit_buff, 0, di, 0, di.Length);
             byte[] da = new byte[dah_buff.Length * sizeof(short)];
             Buffer.BlockCopy(dah_buff, 0, da, 0, da.Length);
-            if (useHeader) {
+            if (useHeader && keys['头']!="") {
                 content = "头\r\n" + content;
             }
-            if (useEnd) {
+            if (useEnd && keys['尾'] != "") {
                 content =  content+ "\r\n尾";
             }
             
