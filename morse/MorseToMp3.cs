@@ -141,12 +141,14 @@ namespace CW.morse
             string[] lines= content.Split("\r\n");
 
             //时间码
-            long startTime = 0;
-            long endTime = 0;
+            const int sampleRate = 44100;
+            long samplesWritten = 0;
+            long subtitleStartSample = 0;
             long lineNo = 1;
             using var srtWriter = new StreamWriter(outPath.Replace(".mp3", ".srt"));
             foreach (string line in lines)
             {
+                long lineAudioEndSample = subtitleStartSample;
                 string[] chars = line.ToUpper().Split(' ');
                 foreach (var ch in chars)
                 {
@@ -162,19 +164,31 @@ namespace CW.morse
                         {
                             switch (m)
                             {
-                                case '.': writer.Write(di, 0, di.Length); endTime += config.Di; break;
-                                case '-': writer.Write(da, 0, da.Length); endTime += config.Da; break;
-                                case ' ': writer.Write(bytes, 0, bytes.Length); writer.Write(bytes, 0, bytes.Length); endTime += config.Di*2; break;
+                                case '.':
+                                    writer.Write(di, 0, di.Length);
+                                    samplesWritten += dit_buff.Length;
+                                    lineAudioEndSample = samplesWritten;
+                                    break;
+                                case '-':
+                                    writer.Write(da, 0, da.Length);
+                                    samplesWritten += dah_buff.Length;
+                                    lineAudioEndSample = samplesWritten;
+                                    break;
+                                case ' ':
+                                    writer.Write(bytes, 0, bytes.Length);
+                                    writer.Write(bytes, 0, bytes.Length);
+                                    samplesWritten += dit_buff.Length * 2;
+                                    break;
                             }
                             // 符号间隔1T
                             writer.Write(bytes, 0, bytes.Length);
-                            endTime += config.Di;
+                            samplesWritten += dit_buff.Length;
                         }
                         // 字符间隔3T
                         writer.Write(bytes, 0, bytes.Length);
                         writer.Write(bytes, 0, bytes.Length);
                         writer.Write(bytes, 0, bytes.Length);
-                        endTime += config.Di * 3;
+                        samplesWritten += dit_buff.Length * 3;
                     }
                
                     // 单词间隔补足到7T
@@ -182,29 +196,32 @@ namespace CW.morse
                     writer.Write(bytes, 0, bytes.Length);
                     writer.Write(bytes, 0, bytes.Length);
                     writer.Write(bytes, 0, bytes.Length);
-                    endTime += config.Di * 4;
+                    samplesWritten += dit_buff.Length * 4;
                 }
-                TimeSpan startTimeSpan = TimeSpan.FromMilliseconds(startTime);
-                int startTotalHours = (int)startTimeSpan.TotalHours;
-                TimeSpan endTimeSpan = TimeSpan.FromMilliseconds(endTime - config.Di * 3);
-                int endTotalHours = (int)endTimeSpan.TotalHours;
-                srtWriter.WriteLine(lineNo++);
-                StringBuilder sb = new();
+                if (lineAudioEndSample > subtitleStartSample)
+                {
+                    srtWriter.WriteLine(lineNo++);
+                    srtWriter.WriteLine($"{ToSrtTime(subtitleStartSample, sampleRate)} --> {ToSrtTime(lineAudioEndSample, sampleRate)}");
+                    srtWriter.WriteLine(line);
+                    srtWriter.WriteLine();
 
-                sb.Append(startTotalHours >= 10 ? startTotalHours : "0" + startTotalHours);
-                sb.Append(startTimeSpan.ToString(@"\:mm\:ss\.fff"));
-                sb.Append(" --> ");
-                sb.Append(endTotalHours >= 10 ? endTotalHours : "0" + endTotalHours);
-                sb.Append(endTimeSpan.ToString(@"\:mm\:ss\.fff"));
-
-                srtWriter.WriteLine(sb.ToString());
-                srtWriter.WriteLine(line);
-                srtWriter.WriteLine();
-                startTime = endTime - config.Di * 3;
-                endTime += config.Di * 4;
+                    // 下一组字幕在上一组有声内容结束时立即显示，覆盖行间静音等待时间。
+                    subtitleStartSample = lineAudioEndSample;
+                }
+                writer.Write(bytes, 0, bytes.Length);
+                writer.Write(bytes, 0, bytes.Length);
+                writer.Write(bytes, 0, bytes.Length);
+                writer.Write(bytes, 0, bytes.Length);
+                samplesWritten += dit_buff.Length * 4;
             }
             GC.Collect();
             GC.WaitForPendingFinalizers();
+        }
+
+        private static string ToSrtTime(long samples, int sampleRate)
+        {
+            TimeSpan time = TimeSpan.FromSeconds(samples / (double)sampleRate);
+            return $"{(int)time.TotalHours:00}:{time.Minutes:00}:{time.Seconds:00},{time.Milliseconds:000}";
         }
 
         /// <summary>
