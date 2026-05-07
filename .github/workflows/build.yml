@@ -1,0 +1,37 @@
+name: Build and Package
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish (framework-dependent)
+        run: dotnet publish -c Release -r win-x64 -o publish/framework-dependent
+
+      - name: Publish (self-contained)
+        run: dotnet publish -c Release -r win-x64 --self-contained -o publish/self-contained
+
+      - name: Upload artifact (framework-dependent)
+        uses: actions/upload-artifact@v4
+        with:
+          name: CW-windows-x64-framework-dependent
+          path: publish/framework-dependent/
+
+      - name: Upload artifact (self-contained)
+        uses: actions/upload-artifact@v4
+        with:
+          name: CW-windows-x64-self-contained
+          path: publish/self-contained/
