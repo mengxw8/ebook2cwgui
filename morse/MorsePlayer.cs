@@ -38,6 +38,8 @@ namespace CW
         private readonly bool InfiniteLength;
         private decimal extraInterval;
 
+        public event Action<string>? OnGroupPlay;
+
         /// <summary>
         /// 
         /// 
@@ -224,6 +226,7 @@ namespace CW
             var flag = charQueue.TryDequeue(out string? ch);
             if (flag && ch != null)
             {
+                OnGroupPlay?.Invoke(ch);
 
                 //每个字母
                 foreach (char c in ch)

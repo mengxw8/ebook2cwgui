@@ -27,10 +27,16 @@ namespace CW
         private readonly MorsePlayer player = new(600, MorseConfig.Create(20));
         // 创建 WaveOutEvent 对象来播放音频
         private readonly WaveOutEvent playerWave = new();
+
+        private int currentGroupIndex = -1;
+        private int fileContentGroupCount = 0;
+        private int lastHighlightStart = -1;
+        private int lastHighlightLength = 0;
+
         public Player()
         {
             InitializeComponent();
-
+            player.OnGroupPlay += OnGroupPlay;
         }
 
         private void SelectFileBtn_Click(object sender, EventArgs e)
@@ -98,13 +104,18 @@ namespace CW
 
         private void ReplayBtn_Click(object sender, EventArgs e)
         {
+            if (!File.Exists(FilePathLbl.Text))
+            {
+                return;
+            }
+            var fileContent = File.ReadAllText(FilePathLbl.Text);
             playerWave.Stop();
             player.Clean();
-            //重播的时候先停一段时间，不然太急了
             player.Mute(500);
             player.AddMorseCode("头", code);
-            player.AddMorseCode(File.ReadAllText(FilePathLbl.Text), code);
+            player.AddMorseCode(fileContent, code);
             player.AddMorseCode("尾", code);
+            ResetGroupTracking(fileContent);
             playerWave.Play();
         }
 
@@ -126,12 +137,14 @@ namespace CW
                 MessageBox.Show("文本文件不存在，无法播放！", "文件错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            var fileContent = File.ReadAllText(FilePathLbl.Text);
             playerWave.Stop();
             player.Clean();
             player.AddMorseCode("头", code);
-            player.AddMorseCode(File.ReadAllText(FilePathLbl.Text), code);
+            player.AddMorseCode(fileContent, code);
             player.AddMorseCode("尾", code);
-            ContentTxb.Text = File.ReadAllText(FilePathLbl.Text);
+            ContentTxb.Text = fileContent;
+            ResetGroupTracking(fileContent);
             playerWave.Play();
         }
 
@@ -152,6 +165,52 @@ namespace CW
             {
                 string selectedFolderPath = saveFileDialog.FileName;
                 MorseToMp3.ToMp3ByLine(File.ReadAllText(FilePathLbl.Text), code, MorseConfig.Create(Convert.ToInt32(speedBox.Value)), selectedFolderPath, player.Dit_buff!, player.Dah_buff!, true, true);
+            }
+        }
+
+        private void ResetGroupTracking(string fileContent)
+        {
+            fileContentGroupCount = fileContent.Replace("\r\n", " ").Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
+            currentGroupIndex = -1;
+            ResetHighlight();
+            lastHighlightStart = -1;
+            lastHighlightLength = 0;
+        }
+
+        private void OnGroupPlay(string group)
+        {
+            currentGroupIndex++;
+            // 跳过报头(index 0)和报尾(index = fileContentGroupCount + 1)
+            if (currentGroupIndex < 1 || currentGroupIndex > fileContentGroupCount)
+            {
+                return;
+            }
+
+            ContentTxb.BeginInvoke(() =>
+            {
+                ResetHighlight();
+
+                var searchStart = lastHighlightStart + lastHighlightLength;
+                if (searchStart < 0) searchStart = 0;
+
+                var pos = ContentTxb.Find(group, searchStart, -1, RichTextBoxFinds.None);
+                if (pos >= 0)
+                {
+                    ContentTxb.Select(pos, group.Length);
+                    ContentTxb.SelectionBackColor = Color.Yellow;
+                    lastHighlightStart = pos;
+                    lastHighlightLength = group.Length;
+                    ContentTxb.ScrollToCaret();
+                }
+            });
+        }
+
+        private void ResetHighlight()
+        {
+            if (lastHighlightStart >= 0 && lastHighlightLength > 0)
+            {
+                ContentTxb.Select(lastHighlightStart, lastHighlightLength);
+                ContentTxb.SelectionBackColor = Color.White;
             }
         }
 
