@@ -8,35 +8,35 @@
 # 软件截图
 ## 主界面
 这个主要以类似工具箱的形式，把各种杂七杂八的功能杂糅在一起，可以按照自己所需要的功能选择使用
-![首页](https://gitee.com/mengxw8/ebook2cwgui/tree/master/doc/img/index.png)
+![首页](https://github.com/mengxw8/ebook2cwgui/blob/master/doc/img/index.png)
 ## 汉化仿制的ebook2cwGUI界面
-![txt转音频](https://gitee.com/mengxw8/ebook2cwgui/tree/master/doc/img/Convert.png)
+![txt转音频](https://github.com/mengxw8/ebook2cwgui/blob/master/doc/img/Convert.png)
 ## 抄收练习工具
 目前集成了数字，字母，数字字母混合，符号，英文文章，新闻，和专八单词随机练习，Koch练习法等功能。量大管饱！
-![抄收练习](https://gitee.com/mengxw8/ebook2cwgui/tree/master/doc/img/copy.png)
+![抄收练习](https://github.com/mengxw8/ebook2cwgui/blob/master/doc/img/copy.png)
 ## 发报练习工具
 目前借鉴了一下Lakey的模式，结合金山打字的练习方法，通过可视化加背景音的方式方便跟练，跟随电脑报进行拍发练习，既容易保证内容的完整性，又容易养成良好的大小间隔，有助于更好的掌握时值关系。
-![发报练习](https://gitee.com/mengxw8/ebook2cwgui/tree/master/doc/img/send.png)
+![发报练习](https://github.com/mengxw8/ebook2cwgui/blob/master/doc/img/send.png)
 
 ## 中文编码速查
 目前有些友台在使用下来，有把中文解释为数字的需求，特此开发了此功能，方便相互转换
-![中文编码速查](https://gitee.com/mengxw8/ebook2cwgui/tree/master/doc/img/ChineseQuery.png)
+![中文编码速查](https://github.com/mengxw8/ebook2cwgui/blob/master/doc/img/ChineseQuery.png)
 
 ## 摩尔斯电码播放器
 目前主要的功能就是实现英文和数字的自定义编码播放，可以自定义任何编码，支持把自定义编码的内容导出为音频文件。目前暂时不支持播放中文和特殊的符号
-![播放器](https://gitee.com/mengxw8/ebook2cwgui/tree/master/doc/img/player.png)
+![播放器](https://github.com/mengxw8/ebook2cwgui/blob/master/doc/img/player.png)
 
 
 
 ### 发报练习设备
 自动键也好，手键也罢，在我看来都是一个开关，控制的是电路的通断信号，我们需要把电路的通断信号，通过一个转换，达到电脑程序能够识别的状态，目前主流的有两种方案，一种是Lakey支持的方案，大致就是将开关信号转化为鼠标的单击信号，通常默认手键是转化为左键单击，如果是自动键的话就转换为左击和右击来区分按下的是哪个。大致释义如下：
-![电键原理](https://gitee.com/mengxw8/ebook2cwgui/tree/master/doc/img/TrainerSchematicDiagram.jpg)
+![电键原理](https://github.com/mengxw8/ebook2cwgui/blob/master/doc/img/TrainerSchematicDiagram.jpg)
 
 ### 抄收练习设备设计
 Lakey支持的方案很简单，网上有很多通过改装鼠标来实现的，不过我没那个动手能力，还是算了。我想到一种方案就是利用南京沁恒微电子的`CH552G`芯片来实现对鼠标的模拟，这玩意儿便宜，本身就是适合拿来当做鼠标芯片用，而且资料丰富,照抄就是。大致原理图如下：
-![练习器设计原理图](https://gitee.com/mengxw8/ebook2cwgui/tree/master/doc/img/schematicDiagram.png)
+![练习器设计原理图](https://github.com/mengxw8/ebook2cwgui/blob/master/doc/img/schematicDiagram.png)
 剩下的事情就交给`嘉立创`就好，嘉立创YYDS,免费打样，再网购点电容电阻焊上,成品效果大概如图:
-![成品3D](https://gitee.com/mengxw8/ebook2cwgui/tree/master/doc/img/schematicDiagram3D.png)
+![成品3D](https://github.com/mengxw8/ebook2cwgui/blob/master/doc/img/schematicDiagram3D.png)
 和网上卖的也大差不差的，虽然丑点，功能能够正常实现不就行了吗，毕竟又不是专业的，要求不高。
 
 ### 抄收练习设备固件
