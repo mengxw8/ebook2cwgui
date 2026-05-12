@@ -138,7 +138,7 @@ namespace CW.morse
             }
             
             //分割成每一组
-            string[] lines= content.Split("\r\n");
+            string[] lines = content.Replace("\r\n", "\n").Split('\n');
 
             //时间码
             const int sampleRate = 44100;
