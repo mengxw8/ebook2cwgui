@@ -207,12 +207,15 @@ namespace CW
         /// <summary>
         /// 添加莫尔斯电码到播放队列
         /// </summary>
-        public void AddMorseCode(string morseCode, Dictionary<char, string> keys, int speed)
-        {
-            config = MorseConfig.Create(speed);
+        /// <param name="morseCode">需要播放的内容</param>
+        /// <param name="keys">编码规则</param>
+        /// <param name="speed">速度</param>
+        /// <param name="vaweMode">波形</param>
+        public void AddMorseCode(string morseCode, Dictionary<char, string> keys, int speed,string vaweMode) {
+            config = MorseConfig.Create(speed,vaweMode);
             UpdateConfig(config);
             this.keys = keys;
-            morseCode= morseCode.Replace("\r\n"," ").ToUpper();
+            morseCode = morseCode.Replace("\r\n", " ").ToUpper();
 
             //分割成每一组
             string[] chars = morseCode.Split(' ');
@@ -220,6 +223,11 @@ namespace CW
             {
                 charQueue.Enqueue(c);
             }
+        }
+        public void AddMorseCode(string morseCode, Dictionary<char, string> keys, int speed)
+        {
+            var waveform = string.IsNullOrWhiteSpace(config.Waveform) ? "正弦波" : config.Waveform;
+            AddMorseCode(morseCode, keys, speed, waveform);
         }
         private void ParseMusic()
         {

@@ -55,7 +55,7 @@ namespace CW
             config.CharInterval = di * 3;
             config.WordInterval = di * 7;
             //默认正弦波
-            config.Waveform = "正弦波";
+            //config.Waveform = "正弦波";
             return config;
         }
         public static MorseConfig Create(int speed,string waveform)

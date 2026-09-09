@@ -12,6 +12,13 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <!-- The repository contains build output from auxiliary projects under subdirectories.
+       Keep those generated sources out of this project's default Compile glob. -->
+  <ItemGroup>
+    <Compile Remove="**\obj\**" />
+    <Compile Remove="**\bin\**" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Remove="Resources\consola.ttf" />
   </ItemGroup>

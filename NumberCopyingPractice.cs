@@ -18,6 +18,7 @@ using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
 using System.Media;
+using System.Numerics;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
@@ -153,6 +154,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             File.WriteAllText(lastPath, answer);
             waveOut.Stop();
             morsePlayer.Clean();
+            morsePlayer?.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speetBox.Value), waveList.Text));
             var task = Task.Run(() =>
             {
 
