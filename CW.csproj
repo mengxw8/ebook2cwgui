@@ -7,8 +7,8 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <SignAssembly>False</SignAssembly>
-    <FileVersion>1.0.0.7</FileVersion>
-    <AssemblyVersion>1.0.0.7</AssemblyVersion>
+    <FileVersion>1.0.0.8</FileVersion>
+    <AssemblyVersion>1.0.0.8</AssemblyVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
