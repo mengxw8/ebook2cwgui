@@ -47,6 +47,7 @@
             label10 = new Label();
             label8 = new Label();
             noiseLevel = new NumericUpDown();
+            noiseCheckBox = new CheckBox();
             extraWordSpacing = new NumericUpDown();
             label6 = new Label();
             effectiveSpeed = new NumericUpDown();
@@ -215,6 +216,7 @@
             groupBox3.Controls.Add(label10);
             groupBox3.Controls.Add(label8);
             groupBox3.Controls.Add(noiseLevel);
+            groupBox3.Controls.Add(noiseCheckBox);
             groupBox3.Controls.Add(extraWordSpacing);
             groupBox3.Controls.Add(label6);
             groupBox3.Controls.Add(effectiveSpeed);
@@ -255,7 +257,6 @@
             waveList.Name = "waveList";
             waveList.Size = new Size(115, 39);
             waveList.TabIndex = 29;
-            waveList.SelectedIndex = 0;
             // 
             // label7
             // 
@@ -311,12 +312,13 @@
             label8.Location = new Point(288, 131);
             label8.Margin = new Padding(5, 0, 5, 0);
             label8.Name = "label8";
-            label8.Size = new Size(116, 31);
+            label8.Size = new Size(138, 31);
             label8.TabIndex = 23;
-            label8.Text = "背景噪声:";
+            label8.Text = "信噪比(dB):";
             // 
             // noiseLevel
             // 
+            noiseLevel.Enabled = false;
             noiseLevel.Location = new Point(465, 133);
             noiseLevel.Margin = new Padding(5, 4, 5, 4);
             noiseLevel.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
@@ -324,6 +326,19 @@
             noiseLevel.Name = "noiseLevel";
             noiseLevel.Size = new Size(69, 38);
             noiseLevel.TabIndex = 22;
+            noiseLevel.ValueChanged += NoiseSettingsChanged;
+            // 
+            // noiseCheckBox
+            // 
+            noiseCheckBox.AutoSize = true;
+            noiseCheckBox.Location = new Point(559, 163);
+            noiseCheckBox.Margin = new Padding(5, 4, 5, 4);
+            noiseCheckBox.Name = "noiseCheckBox";
+            noiseCheckBox.Size = new Size(136, 35);
+            noiseCheckBox.TabIndex = 30;
+            noiseCheckBox.Text = "启用噪声";
+            noiseCheckBox.UseVisualStyleBackColor = true;
+            noiseCheckBox.CheckedChanged += NoiseSettingsChanged;
             // 
             // extraWordSpacing
             // 
@@ -761,6 +776,7 @@
         private RadioButton radioButton2;
         private Label label8;
         private NumericUpDown noiseLevel;
+        private CheckBox noiseCheckBox;
         private NumericUpDown extraWordSpacing;
         private GroupBox groupBox6;
         private RadioButton radioButton4;

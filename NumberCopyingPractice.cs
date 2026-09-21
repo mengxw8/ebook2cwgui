@@ -68,6 +68,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             morseConfig.Speed = Convert.ToInt32(speetBox.Value);
             morsePlayer = new MorsePlayer(Convert.ToInt32(toneBox.Value), morseConfig);
             waveOut.Init(morsePlayer);
+            NoiseSettingsChanged(this, EventArgs.Empty);
         }
 
 
@@ -456,9 +457,20 @@ group => group.Value // 取最后一个值（覆盖冲突键）
 
         }
 
+        // 普通练习、重播和校报共用 morsePlayer，统一在音频读取阶段加噪。
+        // 开关和信噪比可在播放中调整；关闭后保留数值，方便下次启用。
+        private void NoiseSettingsChanged(object sender, EventArgs e)
+        {
+            noiseLevel.Enabled = noiseCheckBox.Checked;
+            // InitializeComponent 可能触发控件事件，此时播放器尚未创建。
+            morsePlayer?.UpdateNoise(noiseCheckBox.Checked, (int)noiseLevel.Value);
+        }
+
         private void ToneBox_ValueChanged(object sender, EventArgs e)
         {
             morsePlayer.UpdateFrequency(Convert.ToInt32(toneBox.Value));
+            // 沿用播放器的处理方式：音调变化后重新对准带通中心。
+            NoiseSettingsChanged(sender, e);
         }
 
         private void RadioButton4_CheckedChanged(object sender, EventArgs e)
