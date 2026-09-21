@@ -270,14 +270,13 @@ namespace CW
                 answer = answer.ToLower();
             }
 
-            //fixme: 这个地方改动会把噪音功能给搞没，后边补上
-
             //开始播放
             player?.UpdateFrequency(Convert.ToInt32(toneBox.Value));
             player?.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speetBox.Value),waveList.Text));
             //停止播放并清空播放内容
             playerWave.Stop();
             player?.Clean();
+            NoiseSettingsChanged(sender, e);
             player?.AddMorseCode(msgStartTxb.Text, Constant.allCharCode);
             player?.AddMorseCode(answer, Constant.allCharCode);
             player?.AddMorseCode(msgEndTxb.Text, Constant.allCharCode);
@@ -582,6 +581,7 @@ namespace CW
             this.Text = this.Text + " V" + version;
             playerWave.Init(player);
             waveList.SelectedIndex = 0;
+            NoiseSettingsChanged(sender, e);
         }
 
         private void IndividuationRbtn_CheckedChanged(object sender, EventArgs e)
@@ -646,9 +646,19 @@ namespace CW
 
         }
 
+        // 各种抄收模式共用 player，统一在音频读取阶段加噪，重播时沿用当前设置。
+        // 关闭开关只旁路噪声处理，保留信噪比数值，方便再次启用。
+        private void NoiseSettingsChanged(object sender, EventArgs e)
+        {
+            noiseLevel.Enabled = noiseCheckBox.Checked;
+            player.UpdateNoise(noiseCheckBox.Checked, (int)noiseLevel.Value);
+        }
+
         private void toneBox_ValueChanged(object sender, EventArgs e)
         {
-            player?.UpdateFrequency(Convert.ToInt16(toneBox.Value));
+            player?.UpdateFrequency(Convert.ToInt32(toneBox.Value));
+            // 音调变化后重新对准带通中心，避免电码声落在阻带。
+            NoiseSettingsChanged(sender, e);
         }
 
         private void waveList_SelectedIndexChanged(object sender, EventArgs e)
