@@ -115,11 +115,14 @@ namespace CW.morse
         /// <param name="dah_buff"></param>
         /// <param name="useHeader"> 使用报头</param>
         /// <param name="useEnd">使用报尾</param>
-        public static void ToMp3ByLine(String content,  Dictionary<char, string> keys, MorseConfig config, string outPath, short[] dit_buff, short[] dah_buff,bool useHeader = false, bool useEnd = false)
+        /// <param name="signalToNoiseRatio">null 关闭噪声，否则使用 -10..10 dB 的原版刻度。</param>
+        /// <param name="frequency">CW 音调（Hz），用于设置噪声处理器的带通中心。</param>
+        public static void ToMp3ByLine(String content,  Dictionary<char, string> keys, MorseConfig config, string outPath, short[] dit_buff, short[] dah_buff,bool useHeader = false, bool useEnd = false, int? signalToNoiseRatio = null, int frequency = 600)
         {
-            if (useEnd) { 
-            
-            }
+            // 每次导出独立创建处理器，贯穿整个文件，避免与实时播放争用滤波历史。
+            var noise = signalToNoiseRatio.HasValue
+                ? new MorseNoise(signalToNoiseRatio.Value, 44100, Math.Clamp(frequency, 100, 44100 * 0.45))
+                : null;
 
 
             // 创建LameMP3FileWriter，设置比特率（如128kbps）
@@ -130,6 +133,26 @@ namespace CW.morse
             Buffer.BlockCopy(dit_buff, 0, di, 0, di.Length);
             byte[] da = new byte[dah_buff.Length * sizeof(short)];
             Buffer.BlockCopy(dah_buff, 0, da, 0, da.Length);
+            // 复用输出缓冲区，保留干净的点划和静音模板；每次写入生成新的噪声。
+            byte[] noisyBytes = new byte[Math.Max(di.Length, da.Length)];
+            // 点、划及静音间隔统一从这里写出，使底噪连续；字节数不变，字幕计时无需调整。
+            void WriteAudio(byte[] source)
+            {
+                if (noise == null)
+                {
+                    writer.Write(source, 0, source.Length);
+                    return;
+                }
+                // 模板是小端 16 位单声道 PCM；只写入临时缓冲，避免重复使用模板时叠加噪声。
+                for (int i = 0; i < source.Length; i += sizeof(short))
+                {
+                    short sample = System.Buffers.Binary.BinaryPrimitives.ReadInt16LittleEndian(source.AsSpan(i, 2));
+                    System.Buffers.Binary.BinaryPrimitives.WriteInt16LittleEndian(
+                        noisyBytes.AsSpan(i, 2), noise.Process(sample));
+                }
+                writer.Write(noisyBytes, 0, source.Length);
+            }
+
             if (useHeader && keys['头']!="") {
                 content = "头\r\n" + content;
             }
@@ -165,37 +188,37 @@ namespace CW.morse
                             switch (m)
                             {
                                 case '.':
-                                    writer.Write(di, 0, di.Length);
+                                    WriteAudio(di);
                                     samplesWritten += dit_buff.Length;
                                     lineAudioEndSample = samplesWritten;
                                     break;
                                 case '-':
-                                    writer.Write(da, 0, da.Length);
+                                    WriteAudio(da);
                                     samplesWritten += dah_buff.Length;
                                     lineAudioEndSample = samplesWritten;
                                     break;
                                 case ' ':
-                                    writer.Write(bytes, 0, bytes.Length);
-                                    writer.Write(bytes, 0, bytes.Length);
+                                    WriteAudio(bytes);
+                                    WriteAudio(bytes);
                                     samplesWritten += dit_buff.Length * 2;
                                     break;
                             }
                             // 符号间隔1T
-                            writer.Write(bytes, 0, bytes.Length);
+                            WriteAudio(bytes);
                             samplesWritten += dit_buff.Length;
                         }
                         // 字符间隔3T
-                        writer.Write(bytes, 0, bytes.Length);
-                        writer.Write(bytes, 0, bytes.Length);
-                        writer.Write(bytes, 0, bytes.Length);
+                        WriteAudio(bytes);
+                        WriteAudio(bytes);
+                        WriteAudio(bytes);
                         samplesWritten += dit_buff.Length * 3;
                     }
                
                     // 单词间隔补足到7T
-                    writer.Write(bytes, 0, bytes.Length);
-                    writer.Write(bytes, 0, bytes.Length);
-                    writer.Write(bytes, 0, bytes.Length);
-                    writer.Write(bytes, 0, bytes.Length);
+                    WriteAudio(bytes);
+                    WriteAudio(bytes);
+                    WriteAudio(bytes);
+                    WriteAudio(bytes);
                     samplesWritten += dit_buff.Length * 4;
                 }
                 if (lineAudioEndSample > subtitleStartSample)
@@ -208,10 +231,10 @@ namespace CW.morse
                     // 下一组字幕在上一组有声内容结束时立即显示，覆盖行间静音等待时间。
                     subtitleStartSample = lineAudioEndSample;
                 }
-                writer.Write(bytes, 0, bytes.Length);
-                writer.Write(bytes, 0, bytes.Length);
-                writer.Write(bytes, 0, bytes.Length);
-                writer.Write(bytes, 0, bytes.Length);
+                WriteAudio(bytes);
+                WriteAudio(bytes);
+                WriteAudio(bytes);
+                WriteAudio(bytes);
                 samplesWritten += dit_buff.Length * 4;
             }
             GC.Collect();

@@ -91,9 +91,18 @@ namespace CW
 
         }
 
+        // 开关和 SNR 共用此事件入口，实时更新播放器的噪声处理器。
+        private void NoiseSettingsChanged(object sender, EventArgs e)
+        {
+            snrBox.Enabled = noiseCheckBox.Checked;
+            player.UpdateNoise(noiseCheckBox.Checked, (int)snrBox.Value);
+        }
+
         private void ToneBox_ValueChanged(object sender, EventArgs e)
         {
             player.UpdateFrequency(Convert.ToInt32(toneBox.Value));
+            // 音调改变后也要重建带通，保证载波继续处于通带中心。
+            NoiseSettingsChanged(sender, e);
         }
 
         private void StopBtn_Click(object sender, EventArgs e)
@@ -164,7 +173,9 @@ namespace CW
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string selectedFolderPath = saveFileDialog.FileName;
-                MorseToMp3.ToMp3ByLine(File.ReadAllText(FilePathLbl.Text), code, MorseConfig.Create(Convert.ToInt32(speedBox.Value)), selectedFolderPath, player.Dit_buff!, player.Dah_buff!, true, true);
+                // null 表示导出干净音频；启用时传入当前 SNR 和音调，与播放使用相同算法。
+                MorseToMp3.ToMp3ByLine(File.ReadAllText(FilePathLbl.Text), code, MorseConfig.Create(Convert.ToInt32(speedBox.Value)), selectedFolderPath, player.Dit_buff!, player.Dah_buff!, true, true,
+                    noiseCheckBox.Checked ? (int)snrBox.Value : null, (int)toneBox.Value);
             }
         }
 

@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Player));
+            noiseGroupBox = new GroupBox();
+            noiseCheckBox = new CheckBox();
+            snrLabel = new Label();
+            snrBox = new NumericUpDown();
             groupBox5 = new GroupBox();
             groupBox4 = new GroupBox();
             ExportBtn = new Button();
@@ -52,6 +56,8 @@
             SelectFileBtn = new Button();
             groupBox6 = new GroupBox();
             ContentTxb = new RichTextBox();
+            noiseGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)snrBox).BeginInit();
             groupBox5.SuspendLayout();
             groupBox4.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -65,6 +71,7 @@
             // groupBox5
             // 
             groupBox5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox5.Controls.Add(noiseGroupBox);
             groupBox5.Controls.Add(groupBox4);
             groupBox5.Controls.Add(groupBox3);
             groupBox5.Controls.Add(groupBox2);
@@ -76,6 +83,35 @@
             groupBox5.TabStop = false;
             groupBox5.Text = "配置";
             // 
+            // noiseGroupBox
+            //
+            noiseGroupBox.Controls.Add(noiseCheckBox);
+            noiseGroupBox.Controls.Add(snrLabel);
+            noiseGroupBox.Controls.Add(snrBox);
+            noiseGroupBox.Location = new Point(909, 14);
+            noiseGroupBox.Name = "noiseGroupBox";
+            noiseGroupBox.Size = new Size(190, 90);
+            noiseGroupBox.TabIndex = 8;
+            noiseGroupBox.TabStop = false;
+            noiseGroupBox.Text = "噪声设置";
+            noiseCheckBox.AutoSize = true;
+            noiseCheckBox.Location = new Point(10, 20);
+            noiseCheckBox.Name = "noiseCheckBox";
+            noiseCheckBox.TabIndex = 0;
+            noiseCheckBox.Text = "启用背景噪声";
+            noiseCheckBox.CheckedChanged += NoiseSettingsChanged;
+            snrLabel.AutoSize = true;
+            snrLabel.Location = new Point(10, 54);
+            snrLabel.Text = "信噪比(dB):";
+            snrBox.Location = new Point(92, 50);
+            snrBox.Name = "snrBox";
+            snrBox.Minimum = -10;
+            snrBox.Maximum = 10;
+            snrBox.Size = new Size(72, 23);
+            snrBox.TabIndex = 1;
+            snrBox.Enabled = false;
+            snrBox.ValueChanged += NoiseSettingsChanged;
+            //
             // groupBox4
             // 
             groupBox4.Controls.Add(ExportBtn);
@@ -319,6 +355,9 @@
             Text = "滴答播放器";
             FormClosing += Player_FormClosing;
             Load += Player_Load;
+            noiseGroupBox.ResumeLayout(false);
+            noiseGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)snrBox).EndInit();
             groupBox5.ResumeLayout(false);
             groupBox4.ResumeLayout(false);
             groupBox3.ResumeLayout(false);
@@ -335,6 +374,10 @@
 
         #endregion
 
+        private GroupBox noiseGroupBox;
+        private CheckBox noiseCheckBox;
+        private Label snrLabel;
+        private NumericUpDown snrBox;
         private GroupBox groupBox5;
         private GroupBox groupBox4;
         private Button ExportBtn;

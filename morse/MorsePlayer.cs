@@ -1,4 +1,5 @@
 ﻿using NAudio.Wave;
+using CW.morse;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -18,6 +19,16 @@ namespace CW
         private readonly int sampleRate;
         private int frequency;
         public float Volume { get; set; }
+        private MorseNoise? noise;
+
+        /// <summary>切换噪声或更新 SNR；新实例会重置滤波历史，关闭时用 null 旁路。</summary>
+        public void UpdateNoise(bool enabled, int snr)
+        {
+            // UI 线程只替换完整实例，音频线程独占处理状态，避免并发修改滤波系数。
+            // 限制滤波中心远离 0 和奈奎斯特频率；此限制不改变实际 CW 音调。
+            System.Threading.Volatile.Write(ref noise,
+                enabled ? new MorseNoise(snr, sampleRate, Math.Clamp(frequency, 100, sampleRate * 0.45)) : null);
+        }
 
 
         private MorseConfig config;
@@ -332,32 +343,29 @@ namespace CW
         public override int Read(short[] buffer, int offset, int count)
         {
             int samplesRead = 0;
-            while (samplesRead < count)
+            // 每个 Read 固定一个处理器快照，UI 调整在下次读取生效。
+            var currentNoise = System.Threading.Volatile.Read(ref noise);
+            while (samplesRead + 1 < count)
             {
                 if (audioQueue.Count < count)
-                {
                     ParseMusic();
-                }
-                if (audioQueue.TryDequeue(out short sample))
-                {
-                    sample = (short)(Volume * sample);
-                    // 立体声复制到左右声道
-                    buffer[offset + samplesRead++] = sample;
-                }
-                else
-                {
 
-                    if (!InfiniteLength)
-                    {
-                        return 0;
-                    }
-                    // 填充静音（双声道）
-                    buffer[offset + samplesRead++] = 0;
-                }
-                samplesRead++;
+                bool hasSample = audioQueue.TryDequeue(out short sample);
+                // 有限流结束时仍返回本次已写入的数据，避免丢掉最后不足一块的音频。
+                if (!hasSample && !InfiniteLength)
+                    return samplesRead;
+
+                // 仅对实际报文（包括码元、字符和词间静音）加噪，播完后保持安静。
+                sample = hasSample && currentNoise != null
+                    ? currentNoise.Process(sample, Volume)
+                    : (short)(Volume * sample);
+                // 每个单声道样本只加噪一次，然后复制到左右声道；count 的单位是 short。
+                buffer[offset + samplesRead++] = sample;
+                buffer[offset + samplesRead++] = sample;
             }
-            return count;
+            return samplesRead;
         }
+
     }
 }
 
