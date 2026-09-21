@@ -226,10 +226,10 @@ namespace CW
             config = MorseConfig.Create(speed,vaweMode);
             UpdateConfig(config);
             this.keys = keys;
-            morseCode = morseCode.Replace("\r\n", " ").ToUpper();
+            morseCode = morseCode.ToUpperInvariant();
 
-            //分割成每一组
-            string[] chars = morseCode.Split(' ');
+            // 与正文高亮一致：所有空白均为组分隔符，连续空白不生成虚假的播放组。
+            string[] chars = morseCode.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
             foreach (string c in chars)
             {
                 charQueue.Enqueue(c);
@@ -347,7 +347,8 @@ namespace CW
             var currentNoise = System.Threading.Volatile.Read(ref noise);
             while (samplesRead + 1 < count)
             {
-                if (audioQueue.Count < count)
+                // 当前组的样本读完后才通知下一组，避免预生成音频时提前跳过高亮。
+                if (audioQueue.IsEmpty)
                     ParseMusic();
 
                 bool hasSample = audioQueue.TryDequeue(out short sample);

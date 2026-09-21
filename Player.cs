@@ -29,7 +29,9 @@ namespace CW
         private readonly WaveOutEvent playerWave = new();
 
         private int currentGroupIndex = -1;
-        private int fileContentGroupCount = 0;
+        private System.Text.RegularExpressions.MatchCollection contentGroups =
+            System.Text.RegularExpressions.Regex.Matches(string.Empty, @"\S+");
+        private int playbackGeneration;
         private int lastHighlightStart = -1;
         private int lastHighlightLength = 0;
 
@@ -109,6 +111,8 @@ namespace CW
         {
             playerWave.Stop();
             player.Clean();
+            playbackGeneration++;
+            ResetHighlight();
         }
 
         private void ReplayBtn_Click(object sender, EventArgs e)
@@ -152,7 +156,6 @@ namespace CW
             player.AddMorseCode("头", code);
             player.AddMorseCode(fileContent, code);
             player.AddMorseCode("尾", code);
-            ContentTxb.Text = fileContent;
             ResetGroupTracking(fileContent);
             playerWave.Play();
         }
@@ -181,39 +184,46 @@ namespace CW
 
         private void ResetGroupTracking(string fileContent)
         {
-            fileContentGroupCount = fileContent.Replace("\r\n", " ").Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
-            currentGroupIndex = -1;
+            // 作废上一轮排入 UI 消息队列的回调；开始和重播均刷新正文。
+            playbackGeneration++;
             ResetHighlight();
+            ContentTxb.Text = fileContent.ToLower();
+            // RichTextBox 会归一化换行，因此必须使用控件中的实际文本计算位置。
+            contentGroups = System.Text.RegularExpressions.Regex.Matches(ContentTxb.Text, @"\S+");
+            currentGroupIndex = -1;
             lastHighlightStart = -1;
             lastHighlightLength = 0;
         }
 
         private void OnGroupPlay(string group)
         {
-            currentGroupIndex++;
-            // 跳过报头(index 0)和报尾(index = fileContentGroupCount + 1)
-            if (currentGroupIndex < 1 || currentGroupIndex > fileContentGroupCount)
+            int generation = System.Threading.Volatile.Read(ref playbackGeneration);
+            if (IsDisposed || Disposing || !IsHandleCreated) return;
+
+            try
             {
-                return;
-            }
-
-            ContentTxb.BeginInvoke(() =>
-            {
-                ResetHighlight();
-
-                var searchStart = lastHighlightStart + lastHighlightLength;
-                if (searchStart < 0) searchStart = 0;
-
-                var pos = ContentTxb.Find(group, searchStart, -1, RichTextBoxFinds.None);
-                if (pos >= 0)
+                BeginInvoke((Action)(() =>
                 {
-                    ContentTxb.Select(pos, group.Length);
+                    if (generation != playbackGeneration || IsDisposed || Disposing) return;
+                    // 计数和高亮状态都由 UI 线程维护，避免停止/重播与音频回调竞争。
+                    currentGroupIndex++;
+                    ResetHighlight();
+                    // 第 0 组是报头；正文之后的报尾只清除最后一处高亮。
+                    int contentIndex = currentGroupIndex - 1;
+                    if (contentIndex < 0 || contentIndex >= contentGroups.Count) return;
+
+                    var match = contentGroups[contentIndex];
+                    ContentTxb.Select(match.Index, match.Length);
                     ContentTxb.SelectionBackColor = Color.Yellow;
-                    lastHighlightStart = pos;
-                    lastHighlightLength = group.Length;
+                    lastHighlightStart = match.Index;
+                    lastHighlightLength = match.Length;
                     ContentTxb.ScrollToCaret();
-                }
-            });
+                }));
+            }
+            catch (InvalidOperationException) when (IsDisposed || Disposing || !IsHandleCreated)
+            {
+                // 关闭窗口时句柄可能在检查后销毁，丢弃最后一个音频通知即可。
+            }
         }
 
         private void ResetHighlight()
@@ -228,6 +238,8 @@ namespace CW
         private void Player_FormClosing(object sender, FormClosingEventArgs e)
         {
 
+            playbackGeneration++;
+            player.OnGroupPlay -= OnGroupPlay;
             playerWave?.Stop();
             player?.Clean();
         }
