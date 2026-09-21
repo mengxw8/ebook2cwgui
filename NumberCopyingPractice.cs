@@ -308,7 +308,13 @@ group => group.Value // 取最后一个值（覆盖冲突键）
                 //生成mp3
                 var lastMusicPath = lastPath.Replace(".txt", "-" + speetBox.Value + "WMP.mp3");
  
-                MorseToMp3.ToMp3(answer, keys, MorseConfig.Create(Convert.ToInt32(speetBox.Value)), lastMusicPath, morsePlayer.Dit_buff!, morsePlayer.Dah_buff!);
+                // 普通音频和校报音频共享当前噪声设置，但分别持有滤波状态。
+                int? exportSnr = noiseCheckBox.Checked ? (int)noiseLevel.Value : null;
+                int exportFrequency = (int)toneBox.Value;
+                var exportConfig = MorseConfig.Create((int)speetBox.Value, waveList.Text);
+                var exportPlayer = new MorsePlayer(exportFrequency, exportConfig);
+                MorseToMp3.ToMp3(answer, keys, exportConfig, lastMusicPath,
+                    exportPlayer.Dit_buff!, exportPlayer.Dah_buff!, exportSnr, exportFrequency);
                 // 添加文件到ZIP存档
                 //添加音频
                 string musicFileName = Path.GetFileName(lastMusicPath);
@@ -320,9 +326,11 @@ group => group.Value // 取最后一个值（覆盖冲突键）
                 if (checkAnswerChb.Checked)
                 {
                     var lastCheckMusicPath = lastPath.Replace(".txt", "-" + checkAnserSpeed.Value + "WPM-check.mp3");
-                    var config = MorseConfig.Create(Convert.ToInt32(checkAnserSpeed.Value));
-                    morsePlayer.UpdateConfig(config);
-                    MorseToMp3.ToMp3(answer, keys, config, lastCheckMusicPath, morsePlayer.Dit_buff!, morsePlayer.Dah_buff!);
+                    var config = MorseConfig.Create((int)checkAnserSpeed.Value, waveList.Text);
+                    // 只更新导出模板，避免校报导出改变实时播放的速度和波形。
+                    exportPlayer.UpdateConfig(config);
+                    MorseToMp3.ToMp3(answer, keys, config, lastCheckMusicPath,
+                        exportPlayer.Dit_buff!, exportPlayer.Dah_buff!, exportSnr, exportFrequency);
                     string checkFileName = Path.GetFileName(lastCheckMusicPath);
                     archive.CreateEntryFromFile(lastCheckMusicPath, checkFileName);
                 }

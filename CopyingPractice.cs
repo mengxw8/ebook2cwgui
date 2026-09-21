@@ -440,7 +440,12 @@ namespace CW
                 // 添加文件到ZIP存档
                 //添加音频
                 string musicFileName = lastBookPath.Replace(".txt", ".mp3");
-                MorseToMp3.ToMp3(answer, Constant.allCharCode, MorseConfig.Create(Convert.ToInt32(speetBox.Value)), musicFileName, player!.Dit_buff!, player.Dah_buff!);
+                // 导出使用独立的干净点划模板，匹配当前音调和波形，不修改正在播放的配置。
+                var exportConfig = MorseConfig.Create((int)speetBox.Value, waveList.Text);
+                var exportPlayer = new MorsePlayer((int)toneBox.Value, exportConfig);
+                MorseToMp3.ToMp3(answer, Constant.allCharCode, exportConfig, musicFileName,
+                    exportPlayer.Dit_buff!, exportPlayer.Dah_buff!,
+                    noiseCheckBox.Checked ? (int)noiseLevel.Value : null, (int)toneBox.Value);
                 archive.CreateEntryFromFile(musicFileName, Path.GetFileName(lastBookPath).Replace(".txt", ".mp3"));
                 //添加报文
                 string txtFileName = Path.GetFileName(lastBookPath);
