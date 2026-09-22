@@ -37,7 +37,7 @@ namespace CW
          /// 波形
          /// 正弦波，锯齿波，方波
          /// </summary>
-        public string Waveform  { get; set; }
+        public string Waveform { get; set; } = "正弦波";
 
 
         public static MorseConfig Create(int speed)

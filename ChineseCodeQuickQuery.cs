@@ -192,15 +192,19 @@ namespace CW
         private void ChineseCodeQuickQuery_Load(object sender, EventArgs e)
         {
            var codeList=  db.Queryable<ChineseCode>().ToList();
-           chineseCode= codeList.Where(item => item.Code != null && item.Chinese != null).ToDictionary(
-            item => item.Chinese,   // 指定哪个属性作为 Key
-            item => item.Code  // 指定哪个属性作为 Value
-        );
+            chineseCode = codeList
+                .Where(item => item.Code != null && item.Chinese != null)
+                .ToDictionary(
+                    item => item.Chinese!,
+                    item => item.Code!
+                );
 
-            codeChinese = codeList.Where(item => item.Code != null && item.Chinese != null).ToDictionary(
- item => item.Code,   // 指定哪个属性作为 Key
- item => item.Chinese  // 指定哪个属性作为 Value
-);
+            codeChinese = codeList
+                .Where(item => item.Code != null && item.Chinese != null)
+                .ToDictionary(
+                    item => item.Code!,
+                    item => item.Chinese!
+                );
         }
     }
 }
