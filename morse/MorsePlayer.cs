@@ -40,8 +40,7 @@ namespace CW
         private int dotDuration;
         //点划对应关系
         private Dictionary<char, string>? keys;
-        //文件迭代器
-        private IEnumerable<string>? strings;
+  
 
         //把计算好的结果缓存起来，不用重复计算
         public short[]? Dit_buff { get; set; }

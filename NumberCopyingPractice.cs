@@ -159,7 +159,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             var task = Task.Run(() =>
             {
 
-                morsePlayer.AddMorseCode(answer, keys, Convert.ToInt32(speetBox.Value));
+                morsePlayer?.AddMorseCode(answer, keys, Convert.ToInt32(speetBox.Value));
 
             });
 
@@ -186,7 +186,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             {
                 var task2 = Task.Run(() =>
                 {                    
-                    morsePlayer.AddMorseCode(answer, keys, Convert.ToInt32(checkAnserSpeed.Value));
+                    morsePlayer?.AddMorseCode(answer, keys, Convert.ToInt32(checkAnserSpeed.Value));
                 });
                 await task2;
             }
