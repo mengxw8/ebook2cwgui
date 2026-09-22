@@ -38,8 +38,12 @@ namespace CW
         }
 
 
+        private bool loadingPreset;
+
         private void DefaultBtn_CheckedChanged(object sender, EventArgs e)
         {
+            if (loadingPreset || sender is RadioButton radio && !radio.Checked)
+                return;
             var defaultCode =  new Dictionary<char, string>[] { Constant.header, Constant.allCharCode }.SelectMany(disc => disc).ToDictionary(
             group => group.Key,
             group => group.Value
@@ -50,6 +54,8 @@ namespace CW
         }
         private void Number5Btn_CheckedChanged(object sender, EventArgs e)
         {
+            if (loadingPreset || sender is RadioButton radio && !radio.Checked)
+                return;
             var defaultCode = new Dictionary<char, string>[] { Constant.header, Constant.shortNumber5, Constant.alphabet, Constant.symbol }.SelectMany(disc => disc).ToDictionary(
             group => group.Key,
             group => group.Value
@@ -60,6 +66,8 @@ namespace CW
 
         private void Number10Btn_CheckedChanged(object sender, EventArgs e)
         {
+            if (loadingPreset || sender is RadioButton radio && !radio.Checked)
+                return;
             var defaultCode = new Dictionary<char, string>[] { Constant.header, Constant.shortNumber10, Constant.alphabet, Constant.symbol }.SelectMany(disc => disc).ToDictionary(
             group => group.Key,
             group => group.Value
@@ -71,6 +79,8 @@ namespace CW
 
         private void CustomizeBtn_CheckedChanged(object sender, EventArgs e)
         {
+            if (loadingPreset || sender is RadioButton radio && !radio.Checked)
+                return;
             DefaultBtn_CheckedChanged(sender, e);
             EncodingType = 3;
         }
@@ -88,24 +98,26 @@ namespace CW
 
         private void EncodingConfiguration_Load(object sender, EventArgs e)
         {
-            if (EncodingType == 0)
-            {
-                defaultBtn.Checked = true;
+            loadingPreset = true;
+            defaultBtn.Checked = EncodingType == 0;
+            number5Btn.Checked = EncodingType == 1;
+            number10Btn.Checked = EncodingType == 2;
+            customizeBtn.Checked = EncodingType == 3;
+            loadingPreset = false;
 
-            }
-            else if ((EncodingType == 1))
+            // 打开已有自定义编码时保留传入的码表，不要被默认模板覆盖。
+            if (EncodingType == 3)
             {
-                number5Btn.Checked = true;
+                codeConfigTxb.Text = JsonConvert.SerializeObject(Code, Formatting.Indented);
+                return;
             }
-            else if ((EncodingType == 2))
-            {
-                number10Btn.Checked = true;
-            }
-            else if ((EncodingType == 3)) { 
-            customizeBtn.Checked = true;
-            }
-            DefaultBtn_CheckedChanged(sender, e);
 
+            if (EncodingType == 1)
+                Number5Btn_CheckedChanged(number5Btn, EventArgs.Empty);
+            else if (EncodingType == 2)
+                Number10Btn_CheckedChanged(number10Btn, EventArgs.Empty);
+            else
+                DefaultBtn_CheckedChanged(defaultBtn, EventArgs.Empty);
         }
     }
 }

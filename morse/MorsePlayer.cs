@@ -366,6 +366,27 @@ namespace CW
             return samplesRead;
         }
 
+        /// <summary>
+        /// 读取一个已施加音量和噪声的单声道样本。有限长度的报文播完时返回 false。
+        /// </summary>
+        public bool TryReadMonoSample(out short sample)
+        {
+            var currentNoise = System.Threading.Volatile.Read(ref noise);
+            if (audioQueue.IsEmpty)
+                ParseMusic();
+
+            if (!audioQueue.TryDequeue(out short raw))
+            {
+                sample = 0;
+                return InfiniteLength;
+            }
+
+            sample = currentNoise != null
+                ? currentNoise.Process(raw, Volume)
+                : (short)(Volume * raw);
+            return true;
+        }
+
     }
 }
 

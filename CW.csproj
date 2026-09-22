@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -101,7 +101,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="AbbreviationQuickSearch.cs">
+    <Compile Update="MultiChannelPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MultiChannelPlayer.Designer.cs">
+      <DependentUpon>MultiChannelPlayer.cs</DependentUpon>
+    </Compile>    <Compile Update="AbbreviationQuickSearch.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="NumberCopyingPractice.cs">
@@ -125,3 +130,7 @@
   </ItemGroup>
 
 </Project>
+
+
+
+

@@ -39,6 +39,7 @@
             chineseCodeQuickQueryBtn = new Button();
             abbreviationQuickSearchBtn = new Button();
             ToPlayerBtn = new Button();
+            multiChannelBtn = new Button();
             SuspendLayout();
             // 
             // button1
@@ -64,7 +65,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(43, 357);
+            label1.Location = new Point(43, 398);
             label1.Name = "label1";
             label1.Size = new Size(179, 17);
             label1.TabIndex = 4;
@@ -73,7 +74,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(49, 374);
+            label2.Location = new Point(49, 415);
             label2.Name = "label2";
             label2.Size = new Size(164, 17);
             label2.TabIndex = 5;
@@ -82,7 +83,7 @@
             // linkLabel1
             // 
             linkLabel1.AutoSize = true;
-            linkLabel1.Location = new Point(94, 391);
+            linkLabel1.Location = new Point(94, 432);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(56, 17);
             linkLabel1.TabIndex = 6;
@@ -140,11 +141,22 @@
             ToPlayerBtn.UseVisualStyleBackColor = true;
             ToPlayerBtn.Click += ToPlayerBtn_Click;
             // 
+            // multiChannelBtn
+            // 
+            multiChannelBtn.Location = new Point(94, 325);
+            multiChannelBtn.Name = "multiChannelBtn";
+            multiChannelBtn.Size = new Size(100, 23);
+            multiChannelBtn.TabIndex = 10;
+            multiChannelBtn.Text = "多路播放";
+            multiChannelBtn.UseVisualStyleBackColor = true;
+            multiChannelBtn.Click += MultiChannelBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(282, 463);
+            ClientSize = new Size(282, 504);
+            Controls.Add(multiChannelBtn);
             Controls.Add(ToPlayerBtn);
             Controls.Add(abbreviationQuickSearchBtn);
             Controls.Add(chineseCodeQuickQueryBtn);
@@ -177,5 +189,6 @@
         private Button chineseCodeQuickQueryBtn;
         private Button abbreviationQuickSearchBtn;
         private Button ToPlayerBtn;
+        private Button multiChannelBtn;
     }
 }

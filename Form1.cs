@@ -89,5 +89,11 @@ namespace CW
             player.ShowDialog();
 
         }
+
+        private void MultiChannelBtn_Click(object sender, EventArgs e)
+        {
+            using MultiChannelPlayer player = new();
+            player.ShowDialog(this);
+        }
     }
 }
