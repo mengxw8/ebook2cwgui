@@ -10,6 +10,16 @@ namespace CW
     public partial class MultiChannelPlayer : Form
     {
         private const int MaxChannels = 8;
+        private static readonly (string Name, int Weight, int Minimum)[] ChannelColumns =
+        [
+            ("名称", 16, 72),
+            ("角色", 9, 44),
+            ("频率", 12, 52),
+            ("速度", 10, 48),
+            ("编码", 12, 60),
+            ("音量", 9, 48),
+            ("当前组", 32, 80),
+        ];
         private static readonly int[] FrequencySteps = [600, 800, 1000, 500, 1200, 700, 900, 450];
 
         private readonly List<ChannelLane> lanes = [];
@@ -47,6 +57,7 @@ namespace CW
         private bool audioReleased;
         private bool waveReady;
         private int sessionId;
+        private bool fittingColumns;
         private PlayState state = PlayState.Stopped;
 
         public MultiChannelPlayer()
@@ -63,6 +74,7 @@ namespace CW
             AddLane(null, isPrimary: false, loop: true);
             channelList.Items[0].Selected = true;
             UpdateTransport();
+            Shown += (_, _) => FitChannelColumns();
         }
 
         private bool IsInDesigner => LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode;
@@ -138,13 +150,16 @@ namespace CW
             channelList.MultiSelect = false;
             channelList.GridLines = true;
             channelList.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-            channelList.Columns.Add("名称", 92);
-            channelList.Columns.Add("角色", 52);
-            channelList.Columns.Add("频率", 66);
-            channelList.Columns.Add("速度", 54);
-            channelList.Columns.Add("编码", 68);
-            channelList.Columns.Add("静音", 52);
-            channelList.Columns.Add("当前组", 110);
+            foreach (var column in ChannelColumns)
+            {
+                var header = channelList.Columns.Add(column.Name, column.Minimum);
+                header.TextAlign = HorizontalAlignment.Center;
+            }
+            channelList.OwnerDraw = true;
+            channelList.DrawColumnHeader += ChannelList_DrawColumnHeader;
+            channelList.DrawItem += (_, e) => e.DrawDefault = false;
+            channelList.DrawSubItem += ChannelList_DrawSubItem;
+            channelList.Resize += (_, _) => FitChannelColumns();
             channelList.SelectedIndexChanged += (_, _) => LoadEditor();
 
             var listButtons = new FlowLayoutPanel { Dock = DockStyle.Bottom, Height = 54, WrapContents = false, FlowDirection = FlowDirection.LeftToRight, Padding = new Padding(0, 10, 0, 0) };
@@ -281,11 +296,13 @@ namespace CW
             }
 
             int index = lanes.Count;
+            bool primary = isPrimary ?? lanes.Count == 0;
             var lane = new ChannelLane
             {
                 Name = $"路{index + 1}",
                 Frequency = FrequencySteps[index % FrequencySteps.Length],
-                IsPrimary = isPrimary ?? lanes.Count == 0,
+                IsPrimary = primary,
+                Volume = primary ? 80 : 50,
                 Loop = loop,
                 Waveform = "正弦波",
             };
@@ -299,7 +316,7 @@ namespace CW
             item.SubItems.Add(lane.Frequency.ToString());
             item.SubItems.Add(lane.Speed.ToString());
             item.SubItems.Add(EncodingName(lane.EncodingType));
-            item.SubItems.Add("");
+            item.SubItems.Add(lane.Volume.ToString());
             item.SubItems.Add("");
             item.Tag = lane;
             channelList.Items.Add(item);
@@ -354,7 +371,7 @@ namespace CW
             item.SubItems.Add(lane.Frequency.ToString());
             item.SubItems.Add(lane.Speed.ToString());
             item.SubItems.Add(EncodingName(lane.EncodingType));
-            item.SubItems.Add(lane.Muted ? "是" : "");
+            item.SubItems.Add(lane.Volume.ToString());
             item.SubItems.Add(lane.Voice.CurrentGroup);
             return item;
         }
@@ -495,6 +512,7 @@ namespace CW
                 return;
             lane.Volume = (int)volumeBox.Value;
             lane.Voice.SetVolume(lane.Volume / 100f);
+            RefreshRows();
         }
 
         private void ApplyNoise()
@@ -805,6 +823,94 @@ namespace CW
             UpdateTransport();
         }
 
+        private void ChannelList_DrawColumnHeader(object? sender, DrawListViewColumnHeaderEventArgs e)
+        {
+            e.DrawBackground();
+            TextRenderer.DrawText(
+                e.Graphics,
+                e.Header?.Text ?? "",
+                channelList.Font,
+                e.Bounds,
+                SystemColors.ControlText,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+        }
+
+        private void ChannelList_DrawSubItem(object? sender, DrawListViewSubItemEventArgs e)
+        {
+            bool selected = e.Item?.Selected == true;
+            bool focused = channelList.Focused;
+            Color back = selected
+                ? (focused ? SystemColors.Highlight : SystemColors.Control)
+                : channelList.BackColor;
+            Color fore = selected && focused ? SystemColors.HighlightText : channelList.ForeColor;
+            using (var brush = new SolidBrush(back))
+                e.Graphics.FillRectangle(brush, e.Bounds);
+
+            var textBounds = e.Bounds;
+            textBounds.Inflate(-4, 0);
+            TextRenderer.DrawText(
+                e.Graphics,
+                e.SubItem?.Text ?? "",
+                e.Item?.Font ?? channelList.Font,
+                textBounds,
+                fore,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+
+            if (channelList.GridLines)
+            {
+                using var pen = new Pen(SystemColors.ControlLight);
+                e.Graphics.DrawLine(pen, e.Bounds.Left, e.Bounds.Bottom - 1, e.Bounds.Right, e.Bounds.Bottom - 1);
+                e.Graphics.DrawLine(pen, e.Bounds.Right - 1, e.Bounds.Top, e.Bounds.Right - 1, e.Bounds.Bottom);
+            }
+        }
+
+        private void FitChannelColumns()
+        {
+            if (fittingColumns || channelList.Columns.Count != ChannelColumns.Length)
+                return;
+
+            int available = channelList.ClientSize.Width;
+            if (available <= 1)
+                return;
+
+            fittingColumns = true;
+            try
+            {
+                int weightSum = 0;
+                foreach (var column in ChannelColumns)
+                    weightSum += column.Weight;
+
+                int used = 0;
+                for (int i = 0; i < ChannelColumns.Length - 1; i++)
+                {
+                    int width = available * ChannelColumns[i].Weight / weightSum;
+                    if (width < ChannelColumns[i].Minimum)
+                        width = ChannelColumns[i].Minimum;
+                    channelList.Columns[i].Width = width;
+                    used += width;
+                }
+
+                int last = available - used;
+                int deficit = ChannelColumns[^1].Minimum - last;
+                for (int i = ChannelColumns.Length - 2; i >= 0 && deficit > 0; i--)
+                {
+                    int spare = channelList.Columns[i].Width - ChannelColumns[i].Minimum;
+                    if (spare <= 0)
+                        continue;
+                    int cut = Math.Min(spare, deficit);
+                    channelList.Columns[i].Width -= cut;
+                    used -= cut;
+                    deficit -= cut;
+                }
+
+                channelList.Columns[^1].Width = Math.Max(1, available - used);
+            }
+            finally
+            {
+                fittingColumns = false;
+            }
+        }
+
         private void RefreshCurrentGroups()
         {
             if (state == PlayState.Playing && waveOut.PlaybackState == PlaybackState.Stopped)
@@ -836,7 +942,7 @@ namespace CW
                 item.SubItems[2].Text = lane.Frequency.ToString();
                 item.SubItems[3].Text = lane.Speed.ToString();
                 item.SubItems[4].Text = EncodingName(lane.EncodingType);
-                item.SubItems[5].Text = lane.Muted ? "是" : "";
+                item.SubItems[5].Text = lane.Volume.ToString();
             }
         }
 
