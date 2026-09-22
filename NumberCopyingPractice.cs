@@ -147,7 +147,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
 
             var area = Screen.FromPoint(Cursor.Position).WorkingArea;
             ClientSize = new Size(
-                Math.Min(Math.Max(right - left + 16, 1100), area.Width - 24),
+                Math.Min(Math.Max(right - left + 400, 1560), area.Width - 24),
                 Math.Min(settingsHeight + 480, area.Height - 24));
 
             Resize += (_, _) => KeepAnswerVisible();

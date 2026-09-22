@@ -132,7 +132,7 @@ namespace CW
 
             var area = Screen.FromPoint(Cursor.Position).WorkingArea;
             ClientSize = new Size(
-                Math.Min(Math.Max(right - left + 16, 1100), area.Width - 24),
+                Math.Min(Math.Max(right - left + 200, 1360), area.Width - 24),
                 Math.Min(settingsHeight + 480, area.Height - 24));
 
             Resize += (_, _) => KeepAnswerVisible();
