@@ -28,9 +28,11 @@ namespace CW
         Dictionary<string, string> codeChinese = new() ;
 
         private int startIndex = 0;
+        private bool centeringButtons;
         public ChineseCodeQuickQuery()
         {
             InitializeComponent();
+            buttonBar.Resize += (_, _) => CenterQueryButtons();
             //查询条件的自动补全
             // 添加一些候选项到suggestions列表中
             queryBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend; // 设置为自动追加模式
@@ -189,8 +191,26 @@ namespace CW
             }
         }
 
+        private void CenterQueryButtons()
+        {
+            if (centeringButtons || buttonBar.ClientSize.Width <= 0)
+                return;
+
+            int groupWidth = toChineseBtn.Width
+                + toCodeBtn.Margin.Left + toCodeBtn.Width
+                + cleanBtn.Margin.Left + cleanBtn.Width;
+            int left = Math.Max(0, (buttonBar.ClientSize.Width - groupWidth) / 2);
+            if (buttonBar.Padding.Left == left)
+                return;
+
+            centeringButtons = true;
+            buttonBar.Padding = new Padding(left, 8, 0, 4);
+            centeringButtons = false;
+        }
+
         private void ChineseCodeQuickQuery_Load(object sender, EventArgs e)
         {
+            CenterQueryButtons();
            var codeList=  db.Queryable<ChineseCode>().ToList();
             chineseCode = codeList
                 .Where(item => item.Code != null && item.Chinese != null)
