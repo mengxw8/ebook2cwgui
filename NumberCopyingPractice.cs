@@ -80,6 +80,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
         private Panel? settingsPanel;
         private TableLayoutPanel? rootLayout;
         private int settingsHeight;
+        private int settingsContentWidth;
         private bool applyingLayout;
 
         /// <summary>
@@ -97,8 +98,8 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             int top = groupBox1.Top;
             var settingsBoxes = new System.Windows.Forms.GroupBox[] { groupBox1, groupBox6, groupBox2, groupBox3, groupBox5 };
             int right = settingsBoxes.Max(box => box.Right);
-            int bottom = settingsBoxes.Max(box => box.Bottom);
-            settingsHeight = bottom - top + 8;
+            settingsContentWidth = right - left + 12;
+            int scrollRoom = SystemInformation.HorizontalScrollBarHeight + 28;
 
             settingsPanel = new Panel
             {
@@ -114,6 +115,13 @@ group => group.Value // 取最后一个值（覆盖冲突键）
                 box.Location = new Point(location.X - left + 4, location.Y - top + 4);
                 settingsPanel.Controls.Add(box);
             }
+            int contentBottom = settingsBoxes.Max(box => box.Bottom);
+            settingsPanel.Controls.Add(new Panel
+            {
+                Location = new Point(0, contentBottom + 4),
+                Size = new Size(10, scrollRoom),
+            });
+            settingsHeight = contentBottom + 4 + scrollRoom + 4;
 
             groupBox4.Anchor = AnchorStyles.None;
             groupBox4.Dock = DockStyle.Fill;
@@ -155,7 +163,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             try
             {
                 int answerMin = Math.Max(180, answerBox.Font.Height + 96);
-                int height = Math.Min(settingsHeight, Math.Max(160, ClientSize.Height - answerMin));
+                int height = Math.Min(SettingsRowHeight(), Math.Max(160, ClientSize.Height - answerMin));
                 if (rootLayout != null && Math.Abs(rootLayout.RowStyles[0].Height - height) > 0.5f)
                     rootLayout.RowStyles[0].Height = height;
                 LayoutAnswerBox();
@@ -164,6 +172,16 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             {
                 applyingLayout = false;
             }
+        }
+
+        private int SettingsRowHeight()
+        {
+            int viewWidth = settingsPanel?.ClientSize.Width ?? 0;
+            if (viewWidth <= 0)
+                viewWidth = Math.Max(0, ClientSize.Width - (rootLayout?.Padding.Horizontal ?? 0));
+            bool needsHorizontalScroll = viewWidth < settingsContentWidth;
+            int scrollRoom = needsHorizontalScroll ? SystemInformation.HorizontalScrollBarHeight + 16 : 0;
+            return settingsHeight + scrollRoom;
         }
 
         private void LayoutAnswerBox()
