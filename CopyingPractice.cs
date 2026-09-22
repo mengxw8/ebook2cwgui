@@ -54,7 +54,134 @@ namespace CW
             pfc.AddMemoryFont(fontPtr, fontData.Length);
             var myCustomFont = new Font(pfc.Families[0], 25, FontStyle.Bold);
             answerBox.Font = myCustomFont;
+            answerBox.ForeColor = Color.Black;
+            answerBox.BackColor = Color.White;
+            answerBox.Text = "";
+            answerBox.WordWrap = true;
+            answerBox.ScrollBars = RichTextBoxScrollBars.Both;
+            EnableSnapLayout();
+        }
 
+        private Panel? settingsPanel;
+        private TableLayoutPanel? rootLayout;
+        private int settingsHeight;
+        private int settingsContentWidth;
+        private bool applyingLayout;
+
+        /// <summary>
+        /// 上部设置保持原来的位置和大小。窗口变窄时在设置区内横向滚动，抄收结果只占下面，不能盖住输入。
+        /// </summary>
+        private void EnableSnapLayout()
+        {
+            AutoSize = false;
+            FormBorderStyle = FormBorderStyle.Sizable;
+            MaximizeBox = true;
+            MinimizeBox = true;
+            MinimumSize = new Size(720, 420);
+
+            int left = groupBox1.Left;
+            int top = groupBox1.Top;
+            var settingsBoxes = new System.Windows.Forms.GroupBox[] { groupBox1, groupBox2, groupBox3, groupBox5 };
+            int right = settingsBoxes.Max(box => box.Right);
+            settingsContentWidth = right - left + 12;
+            int scrollRoom = SystemInformation.HorizontalScrollBarHeight + 28;
+
+            settingsPanel = new Panel
+            {
+                Dock = DockStyle.Fill,
+                AutoScroll = true,
+                Margin = new Padding(0),
+            };
+            foreach (var box in settingsBoxes)
+            {
+                var location = box.Location;
+                Controls.Remove(box);
+                box.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                box.Location = new Point(location.X - left + 4, location.Y - top + 4);
+                settingsPanel.Controls.Add(box);
+            }
+            int contentBottom = settingsBoxes.Max(box => box.Bottom);
+            settingsPanel.Controls.Add(new Panel
+            {
+                Location = new Point(0, contentBottom + 4),
+                Size = new Size(10, scrollRoom),
+            });
+            settingsHeight = contentBottom + 4 + scrollRoom + 4;
+
+            groupBox4.Anchor = AnchorStyles.None;
+            groupBox4.Dock = DockStyle.Fill;
+            groupBox4.Padding = new Padding(8, 8, 8, 8);
+            answerBox.Dock = DockStyle.None;
+            answerBox.Anchor = AnchorStyles.None;
+            groupBox4.Resize += (_, _) => LayoutAnswerBox();
+
+            rootLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 2,
+                Margin = new Padding(0),
+                Padding = new Padding(8),
+            };
+            rootLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
+            rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, settingsHeight));
+            rootLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
+            rootLayout.Controls.Add(settingsPanel, 0, 0);
+            rootLayout.Controls.Add(groupBox4, 0, 1);
+            Controls.Add(rootLayout);
+
+            var area = Screen.FromPoint(Cursor.Position).WorkingArea;
+            ClientSize = new Size(
+                Math.Min(Math.Max(right - left + 16, 1100), area.Width - 24),
+                Math.Min(settingsHeight + 480, area.Height - 24));
+
+            Resize += (_, _) => KeepAnswerVisible();
+            Shown += (_, _) => KeepAnswerVisible();
+        }
+
+        private void KeepAnswerVisible()
+        {
+            if (applyingLayout || settingsPanel == null || ClientSize.Height < 100)
+                return;
+
+            applyingLayout = true;
+            try
+            {
+                int answerMin = Math.Max(180, answerBox.Font.Height + 96);
+                int height = Math.Min(SettingsRowHeight(), Math.Max(160, ClientSize.Height - answerMin));
+                if (rootLayout != null && Math.Abs(rootLayout.RowStyles[0].Height - height) > 0.5f)
+                    rootLayout.RowStyles[0].Height = height;
+                LayoutAnswerBox();
+            }
+            finally
+            {
+                applyingLayout = false;
+            }
+        }
+
+        private int SettingsRowHeight()
+        {
+            int viewWidth = settingsPanel?.ClientSize.Width ?? 0;
+            if (viewWidth <= 0)
+                viewWidth = Math.Max(0, ClientSize.Width - (rootLayout?.Padding.Horizontal ?? 0));
+            bool needsHorizontalScroll = viewWidth < settingsContentWidth;
+            int scrollRoom = needsHorizontalScroll ? SystemInformation.HorizontalScrollBarHeight + 16 : 0;
+            return settingsHeight + scrollRoom;
+        }
+
+        private void LayoutAnswerBox()
+        {
+            if (groupBox4.ClientSize.Width < 40 || groupBox4.ClientSize.Height < 40)
+                return;
+
+            var area = groupBox4.DisplayRectangle;
+            int top = Math.Max(area.Top, 28);
+            int left = Math.Max(area.Left, 8);
+            int width = Math.Max(40, groupBox4.ClientSize.Width - left - 8);
+            int height = Math.Max(answerBox.Font.Height + 12, groupBox4.ClientSize.Height - top - 8);
+            var bounds = new Rectangle(left, top, width, height);
+            if (answerBox.Bounds != bounds)
+                answerBox.SetBounds(bounds.X, bounds.Y, bounds.Width, bounds.Height);
         }
 
         //定义当前工作的模式，0分组数字，1分组字母，2分组字母数字，3英语文章
