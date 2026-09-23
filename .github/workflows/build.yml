@@ -2,8 +2,11 @@ name: Build and Package
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -16,7 +19,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: "8.0.x"
 
       - name: Publish (framework-dependent)
         run: dotnet publish -c Release -r win-x64 -o publish/framework-dependent
@@ -24,14 +27,27 @@ jobs:
       - name: Publish (self-contained)
         run: dotnet publish -c Release -r win-x64 --self-contained -o publish/self-contained
 
-      - name: Upload artifact (framework-dependent)
-        uses: actions/upload-artifact@v7
-        with:
-          name: CW-windows-x64-framework-dependent
-          path: publish/framework-dependent/
+      - name: Zip packages
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart("vV")
+          Compress-Archive -Path "publish/framework-dependent/*" -DestinationPath "CW_${version}_x64_framework-dependent.zip" -Force
+          Compress-Archive -Path "publish/self-contained/*" -DestinationPath "CW_${version}_x64_self-contained.zip" -Force
 
-      - name: Upload artifact (self-contained)
-        uses: actions/upload-artifact@v7
-        with:
-          name: CW-windows-x64-self-contained
-          path: publish/self-contained/
+      - name: Upload to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Continue"
+          $tag = "${{ github.ref_name }}"
+          $version = $tag.TrimStart("vV")
+          gh release view $tag
+          if ($LASTEXITCODE -ne 0) {
+            gh release create $tag --title $tag --generate-notes
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+          gh release upload $tag --clobber `
+            "CW_${version}_x64_framework-dependent.zip" `
+            "CW_${version}_x64_self-contained.zip"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
