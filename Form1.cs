@@ -1,11 +1,4 @@
-﻿using CW.morse;
-using NAudio.Wave;
-using System;
-using System.Diagnostics;
-using System.Numerics;
-using System.Reflection;
-
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+﻿using System.Diagnostics;
 
 
 namespace CW
@@ -34,12 +27,63 @@ namespace CW
 
         }
 
+        private LinkLabel? updateLink;
+        private string? updateUrl;
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            // 获取当前程序集的版本
-            Assembly currentAssembly = Assembly.GetExecutingAssembly();
-            Version version = currentAssembly.GetName().Version ?? new Version(1, 0, 0, 0);
+            Version version = UpdateChecker.CurrentVersion;
             this.Text = this.Text + " V" + version;
+            _ = CheckForUpdateAsync();
+        }
+
+        private async Task CheckForUpdateAsync()
+        {
+            try
+            {
+                var release = await UpdateChecker.FindNewerReleaseAsync();
+                if (release == null || IsDisposed)
+                    return;
+                ShowUpdateNotice(release);
+            }
+            catch (Exception)
+            {
+                // 网络不可用或 GitHub 暂时无法访问时不打扰用户。
+            }
+        }
+
+        private void ShowUpdateNotice(ReleaseInfo release)
+        {
+            if (IsDisposed)
+                return;
+
+            updateUrl = release.Url;
+            if (updateLink == null)
+            {
+                updateLink = new LinkLabel
+                {
+                    AutoSize = false,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    LinkBehavior = LinkBehavior.HoverUnderline,
+                    Size = new Size(ClientSize.Width - 16, 20),
+                    Location = new Point(8, ClientSize.Height + 2),
+                };
+                updateLink.LinkClicked += (_, _) => OpenUpdatePage();
+                Controls.Add(updateLink);
+                ClientSize = new Size(ClientSize.Width, ClientSize.Height + 28);
+                updateLink.Location = new Point(8, ClientSize.Height - 24);
+                updateLink.Width = ClientSize.Width - 16;
+            }
+
+            updateLink.Text = $"发现新版本 {release.VersionText}，点击下载";
+            this.Text = $"CW工具箱 V{UpdateChecker.CurrentVersion}（有更新）";
+        }
+
+        private void OpenUpdatePage()
+        {
+            if (string.IsNullOrWhiteSpace(updateUrl))
+                return;
+            Process.Start(new ProcessStartInfo(updateUrl) { UseShellExecute = true });
         }
 
         private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
