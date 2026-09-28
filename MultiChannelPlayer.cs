@@ -42,6 +42,15 @@ namespace CW
         private readonly CheckBox noiseCheck = new();
         private readonly NumericUpDown snrBox = new();
         private readonly Button encodingBtn = new();
+        private readonly NumericUpDown randomEachBox = new();
+        private readonly NumericUpDown randomGroupBox = new();
+        private readonly CheckBox randomUniqueCheck = new();
+        private readonly CheckBox randomUniqueGroupCheck = new();
+        private readonly CheckBox randomLetterCheck = new();
+        private readonly CheckBox randomNumberCheck = new();
+        private readonly CheckBox randomSymbolCheck = new();
+        private readonly TextBox randomCustomBox = new();
+        private readonly Button randomGenerateBtn = new();
         private readonly TextBox textBox = new();
         private readonly TextBox filePathBox = new();
         private readonly Button loadFileBtn = new();
@@ -187,6 +196,7 @@ namespace CW
             editor.Controls.Add(textBox);
             editor.Controls.Add(previewLabel);
             editor.Controls.Add(fileRow);
+            editor.Controls.Add(CreateRandomPanel());
             editor.Controls.Add(fields);
 
             nameBox.TextChanged += (_, _) => ApplyName();
@@ -201,6 +211,15 @@ namespace CW
             snrBox.ValueChanged += (_, _) => ApplyNoise();
             textBox.TextChanged += (_, _) => ApplyText();
             encodingBtn.Click += (_, _) => EditEncoding();
+            randomEachBox.ValueChanged += (_, _) => ApplyRandomSettings();
+            randomGroupBox.ValueChanged += (_, _) => ApplyRandomSettings();
+            randomUniqueCheck.CheckedChanged += (_, _) => ApplyRandomSettings();
+            randomUniqueGroupCheck.CheckedChanged += (_, _) => ApplyRandomSettings();
+            randomLetterCheck.CheckedChanged += (_, _) => ApplyRandomSettings();
+            randomNumberCheck.CheckedChanged += (_, _) => ApplyRandomSettings();
+            randomSymbolCheck.CheckedChanged += (_, _) => ApplyRandomSettings();
+            randomCustomBox.TextChanged += (_, _) => ApplyRandomSettings();
+            randomGenerateBtn.Click += (_, _) => GenerateRandom();
 
             split.Controls.Add(left, 0, 0);
             split.Controls.Add(editor, 1, 0);
@@ -244,10 +263,79 @@ namespace CW
             options.Controls.AddRange([primaryCheck, loopCheck, muteCheck, noiseCheck, encodingBtn]);
             fields.Controls.Add(options, 0, 2); fields.SetColumnSpan(options, 8);
 
-            var hint = new Label { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft, ForeColor = SystemColors.GrayText, Text = "每路可单独选择 txt 文件，也可以直接在下方预览区粘贴或编辑报文。" };
+            var hint = new Label { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft, ForeColor = SystemColors.GrayText, Text = "每路可选择 txt、粘贴报文，或按自己的组数和字符范围随机生成。" };
             fields.Controls.Add(hint, 0, 3); fields.SetColumnSpan(hint, 8);
             return fields;
         }
+
+        private Panel CreateRandomPanel()
+        {
+            ConfigureNumber(randomEachBox, 1, 40, 4);
+            ConfigureNumber(randomGroupBox, 1, 500, 10);
+            randomUniqueCheck.Text = "组内不重复";
+            randomUniqueGroupCheck.Text = "组不重复";
+            randomLetterCheck.Text = "字母";
+            randomNumberCheck.Text = "数字";
+            randomSymbolCheck.Text = "符号";
+            randomUniqueCheck.AutoSize = true;
+            randomUniqueGroupCheck.AutoSize = true;
+            randomLetterCheck.AutoSize = true;
+            randomNumberCheck.AutoSize = true;
+            randomSymbolCheck.AutoSize = true;
+            randomLetterCheck.Checked = true;
+            randomCustomBox.Width = 220;
+            randomCustomBox.PlaceholderText = "可追加，如 KMRA";
+            randomGenerateBtn.Text = "生成";
+            randomGenerateBtn.Size = new Size(82, 28);
+            randomGenerateBtn.Margin = new Padding(8, 6, 0, 0);
+
+            var panel = new Panel { Dock = DockStyle.Top, Height = 84, Padding = new Padding(0, 2, 0, 2) };
+            var row1 = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 40, WrapContents = false, FlowDirection = FlowDirection.LeftToRight };
+            var row2 = new FlowLayoutPanel { Dock = DockStyle.Fill, WrapContents = false, FlowDirection = FlowDirection.LeftToRight };
+            row1.Controls.AddRange([
+                InlineLabel("随机"),
+                InlineLabel("每组"),
+                InlineNumber(randomEachBox),
+                InlineLabel("组数"),
+                InlineNumber(randomGroupBox),
+                InlineCheck(randomUniqueCheck),
+                InlineCheck(randomUniqueGroupCheck),
+                randomGenerateBtn,
+            ]);
+            row2.Controls.AddRange([
+                InlineLabel("范围"),
+                InlineCheck(randomLetterCheck),
+                InlineCheck(randomNumberCheck),
+                InlineCheck(randomSymbolCheck),
+                InlineLabel("自定义"),
+                InlineNumber(randomCustomBox),
+            ]);
+            panel.Controls.Add(row2);
+            panel.Controls.Add(row1);
+            return panel;
+        }
+
+        private static Label InlineLabel(string text) => new()
+        {
+            Text = text,
+            AutoSize = true,
+            Margin = new Padding(0, 10, 6, 0),
+        };
+
+        private static Control InlineNumber(Control control)
+        {
+            control.Margin = new Padding(0, 6, 12, 0);
+            control.Width = control is TextBox ? 220 : 68;
+            control.Height = 28;
+            return control;
+        }
+
+        private static Control InlineCheck(CheckBox check)
+        {
+            check.Margin = new Padding(0, 8, 14, 0);
+            return check;
+        }
+
         private static void AddField(TableLayoutPanel fields, Control control, int column, int row)
         {
             if (control is Label)
@@ -400,6 +488,15 @@ namespace CW
             volumeBox.Enabled = hasLane;
             noiseCheck.Enabled = hasLane;
             encodingBtn.Enabled = hasLane;
+            randomEachBox.Enabled = hasLane;
+            randomGroupBox.Enabled = hasLane;
+            randomUniqueCheck.Enabled = hasLane;
+            randomUniqueGroupCheck.Enabled = hasLane;
+            randomLetterCheck.Enabled = hasLane;
+            randomNumberCheck.Enabled = hasLane;
+            randomSymbolCheck.Enabled = hasLane;
+            randomCustomBox.Enabled = hasLane;
+            randomGenerateBtn.Enabled = hasLane;
             if (lane == null)
             {
                 suppressEditor = false;
@@ -420,6 +517,14 @@ namespace CW
             snrBox.Enabled = lane.NoiseEnabled;
             filePathBox.Text = lane.FilePath;
             textBox.Text = lane.Text;
+            randomEachBox.Value = lane.RandomGroupSize;
+            randomGroupBox.Value = lane.RandomGroupCount;
+            randomUniqueCheck.Checked = lane.RandomUniqueInGroup;
+            randomUniqueGroupCheck.Checked = lane.RandomUniqueAcrossGroups;
+            randomLetterCheck.Checked = lane.RandomLetters;
+            randomNumberCheck.Checked = lane.RandomNumbers;
+            randomSymbolCheck.Checked = lane.RandomSymbols;
+            randomCustomBox.Text = lane.RandomCustom;
             previewLabel.Text = lane.PreviewDirty ? "预览（已粘贴修改，播放使用这里的内容）" : "预览";
             suppressEditor = false;
             UpdateTransport();
@@ -537,6 +642,99 @@ namespace CW
             lane.Text = textBox.Text;
             lane.PreviewDirty = true;
             previewLabel.Text = "预览（已粘贴修改，播放使用这里的内容）";
+        }
+
+        private void ApplyRandomSettings()
+        {
+            if (suppressEditor || Selected is not ChannelLane lane)
+                return;
+            lane.RandomGroupSize = (int)randomEachBox.Value;
+            lane.RandomGroupCount = (int)randomGroupBox.Value;
+            lane.RandomUniqueInGroup = randomUniqueCheck.Checked;
+            lane.RandomUniqueAcrossGroups = randomUniqueGroupCheck.Checked;
+            lane.RandomLetters = randomLetterCheck.Checked;
+            lane.RandomNumbers = randomNumberCheck.Checked;
+            lane.RandomSymbols = randomSymbolCheck.Checked;
+            lane.RandomCustom = randomCustomBox.Text;
+        }
+
+        private void GenerateRandom()
+        {
+            if (Selected is not ChannelLane lane)
+                return;
+
+            ApplyRandomSettings();
+            bool requested = lane.RandomLetters || lane.RandomNumbers || lane.RandomSymbols || !string.IsNullOrWhiteSpace(lane.RandomCustom);
+            var charset = CollectPlayableChars(lane, out string skipped);
+            if (charset.Length == 0 && requested)
+            {
+                MessageBox.Show("所选字符都不在当前编码中，无法生成。", "多路播放", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (!GroupTextGenerator.TryGenerate(charset, lane.RandomGroupSize, lane.RandomGroupCount, lane.RandomUniqueInGroup, lane.RandomUniqueAcrossGroups, Random.Shared, out string text, out string? error))
+            {
+                MessageBox.Show(error, "多路播放", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            suppressEditor = true;
+            lane.FilePath = "";
+            lane.Text = text;
+            lane.PreviewDirty = false;
+            filePathBox.Text = "";
+            textBox.Text = text;
+            previewLabel.Text = state == PlayState.Stopped
+                ? "预览（已随机生成）"
+                : "预览（已随机生成，重播后使用这里的内容）";
+            suppressEditor = false;
+            if (skipped.Length > 0)
+                MessageBox.Show("这些字符不在当前编码中，已跳过：\n" + skipped, "多路播放", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private static char[] CollectPlayableChars(ChannelLane lane, out string skipped)
+        {
+            var seen = new HashSet<char>();
+            var list = new List<char>();
+            var skippedChars = new List<char>();
+            void Consider(char c, bool fromCustom)
+            {
+                if (char.IsWhiteSpace(c))
+                    return;
+                if (!lane.Code.TryGetValue(c, out string? pattern) || string.IsNullOrEmpty(pattern))
+                {
+                    if (fromCustom && !skippedChars.Contains(c))
+                        skippedChars.Add(c);
+                    return;
+                }
+
+                if (seen.Add(c))
+                    list.Add(c);
+            }
+
+            if (lane.RandomLetters)
+            {
+                foreach (char c in Constant.alphabet.Keys)
+                    Consider(c, false);
+            }
+
+            if (lane.RandomNumbers)
+            {
+                foreach (char c in Constant.number.Keys)
+                    Consider(c, false);
+            }
+
+            if (lane.RandomSymbols)
+            {
+                foreach (char c in Constant.symbol.Keys)
+                    Consider(c, false);
+            }
+
+            foreach (char c in lane.RandomCustom.ToUpperInvariant())
+                Consider(c, true);
+
+            skipped = string.Concat(skippedChars);
+            return [.. list];
         }
 
         private void ChooseTextFile()
@@ -1123,6 +1321,14 @@ namespace CW
                     IsPrimary = lane.IsPrimary,
                     Loop = lane.Loop,
                     Muted = lane.Muted,
+                    RandomGroupSize = lane.RandomGroupSize,
+                    RandomGroupCount = lane.RandomGroupCount,
+                    RandomUniqueInGroup = lane.RandomUniqueInGroup,
+                    RandomUniqueAcrossGroups = lane.RandomUniqueAcrossGroups,
+                    RandomLetters = lane.RandomLetters,
+                    RandomNumbers = lane.RandomNumbers,
+                    RandomSymbols = lane.RandomSymbols,
+                    RandomCustom = lane.RandomCustom,
                 }).ToList()
             };
             File.WriteAllText(dialog.FileName, JsonConvert.SerializeObject(preset, Formatting.Indented));
@@ -1242,6 +1448,14 @@ namespace CW
         public bool IsPrimary { get; set; }
         public bool Loop { get; set; }
         public bool Muted { get; set; }
+        public int RandomGroupSize { get; set; } = 4;
+        public int RandomGroupCount { get; set; } = 10;
+        public bool RandomUniqueInGroup { get; set; }
+        public bool RandomUniqueAcrossGroups { get; set; }
+        public bool RandomLetters { get; set; } = true;
+        public bool RandomNumbers { get; set; }
+        public bool RandomSymbols { get; set; }
+        public string RandomCustom { get; set; } = "";
         public ChannelVoice Voice { get; } = new(600, 20, "正弦波");
 
         public static ChannelLane FromPreset(MultiChannelPresetItem item)
@@ -1277,6 +1491,14 @@ namespace CW
                 Loop = item.Loop,
                 // 兼容旧配置：主路的静音标记一律忽略。
                 Muted = item.IsPrimary ? false : item.Muted,
+                RandomGroupSize = item.RandomGroupSize < 1 ? 4 : Math.Clamp(item.RandomGroupSize, 1, 40),
+                RandomGroupCount = item.RandomGroupCount < 1 ? 10 : Math.Clamp(item.RandomGroupCount, 1, 500),
+                RandomUniqueInGroup = item.RandomUniqueInGroup,
+                RandomUniqueAcrossGroups = item.RandomUniqueAcrossGroups,
+                RandomLetters = item.RandomLetters ?? true,
+                RandomNumbers = item.RandomNumbers,
+                RandomSymbols = item.RandomSymbols,
+                RandomCustom = item.RandomCustom ?? "",
             };
             lane.Voice.IsPrimary = lane.IsPrimary;
             lane.Voice.Loop = lane.Loop;
@@ -1319,6 +1541,14 @@ namespace CW
         public bool IsPrimary { get; set; }
         public bool Loop { get; set; }
         public bool Muted { get; set; }
+        public int RandomGroupSize { get; set; }
+        public int RandomGroupCount { get; set; }
+        public bool RandomUniqueInGroup { get; set; }
+        public bool RandomUniqueAcrossGroups { get; set; }
+        public bool? RandomLetters { get; set; }
+        public bool RandomNumbers { get; set; }
+        public bool RandomSymbols { get; set; }
+        public string? RandomCustom { get; set; }
     }
 }
 
