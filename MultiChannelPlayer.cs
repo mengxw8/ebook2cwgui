@@ -52,7 +52,10 @@ namespace CW
         private readonly Button replayBtn = new();
         private readonly Button openBtn = new();
         private readonly Button saveBtn = new();
+        private readonly Button exportBtn = new();
         private readonly Label statusLabel = new();
+        private CancellationTokenSource? exportCts;
+        private bool exporting;
         private bool suppressEditor;
         private bool audioReleased;
         private bool waveReady;
@@ -124,6 +127,7 @@ namespace CW
             StyleButton(replayBtn, "重播");
             StyleButton(openBtn, "打开配置", 104);
             StyleButton(saveBtn, "保存配置", 104);
+            StyleButton(exportBtn, "导出音频", 104);
             statusLabel.Text = "已停止";
             statusLabel.Dock = DockStyle.Fill;
             statusLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -134,11 +138,12 @@ namespace CW
             replayBtn.Click += (_, _) => Replay();
             openBtn.Click += (_, _) => OpenPreset();
             saveBtn.Click += (_, _) => SavePreset();
+            exportBtn.Click += (_, _) => ExportOrCancel();
 
             var transport = new FlowLayoutPanel { Dock = DockStyle.Left, AutoSize = true, WrapContents = false, FlowDirection = FlowDirection.LeftToRight, Padding = new Padding(0, 8, 0, 0) };
             transport.Controls.AddRange([playBtn, pauseBtn, stopBtn, replayBtn]);
             var fileButtons = new FlowLayoutPanel { Dock = DockStyle.Right, AutoSize = true, WrapContents = false, FlowDirection = FlowDirection.LeftToRight, Padding = new Padding(0, 8, 0, 0) };
-            fileButtons.Controls.AddRange([openBtn, saveBtn]);
+            fileButtons.Controls.AddRange([openBtn, saveBtn, exportBtn]);
             bottom.Controls.Add(fileButtons);
             bottom.Controls.Add(transport);
             bottom.Controls.Add(statusLabel);
@@ -959,6 +964,135 @@ namespace CW
             primaryCheck.Enabled = Selected != null && state == PlayState.Stopped;
         }
 
+        private void ExportOrCancel()
+        {
+            if (exporting)
+            {
+                exportCts?.Cancel();
+                exportBtn.Enabled = false;
+                return;
+            }
+
+            _ = ExportAudioAsync();
+        }
+
+        private async Task ExportAudioAsync()
+        {
+            ReloadUneditedFiles();
+            var primary = lanes.FirstOrDefault(lane => lane.IsPrimary) ?? lanes.FirstOrDefault();
+            if (primary == null || string.IsNullOrWhiteSpace(primary.Text))
+            {
+                MessageBox.Show("主路还没有报文。请先选择一个 txt 文件。", "多路播放", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            using var dialog = new SaveFileDialog
+            {
+                Filter = "MP3 音频 (*.mp3)|*.mp3|WAV 音频 (*.wav)|*.wav",
+                Title = "导出混合音频",
+                FileName = SafeFileName(primary.Name) + "-混音.mp3",
+            };
+            if (dialog.ShowDialog(this) != DialogResult.OK)
+                return;
+
+            string path = EnsureAudioExtension(dialog.FileName, dialog.FilterIndex);
+            var sources = SnapshotMix();
+            exporting = true;
+            exportCts = new CancellationTokenSource();
+            exportBtn.Text = "取消导出";
+            statusLabel.Text = "正在导出 00:00:00";
+            var progress = new Progress<TimeSpan>(time =>
+            {
+                if (!IsDisposed && exporting)
+                    statusLabel.Text = "正在导出 " + time.ToString(@"hh\:mm\:ss");
+            });
+
+            try
+            {
+                var result = await Task.Run(() => MultiChannelExporter.Export(sources, path, progress, exportCts.Token));
+                if (IsDisposed)
+                    return;
+
+                if (result == MixExportResult.Empty)
+                {
+                    statusLabel.Text = PlaybackStatusText();
+                    MessageBox.Show("没有生成可保存的音频。", "多路播放", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                statusLabel.Text = state == PlayState.Stopped ? "已导出" : PlaybackStatusText();
+                MessageBox.Show("已导出主路播放一遍的混合音频：\n" + path, "多路播放", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (OperationCanceledException)
+            {
+                if (!IsDisposed)
+                    statusLabel.Text = "已取消导出";
+            }
+            catch (Exception ex)
+            {
+                if (!IsDisposed)
+                {
+                    statusLabel.Text = PlaybackStatusText();
+                    MessageBox.Show("导出失败：" + ex.Message, "多路播放", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            finally
+            {
+                exporting = false;
+                exportCts.Dispose();
+                exportCts = null;
+                if (!IsDisposed)
+                {
+                    exportBtn.Text = "导出音频";
+                    exportBtn.Enabled = true;
+                    UpdateTransport();
+                }
+            }
+        }
+
+        private List<ChannelMixSource> SnapshotMix()
+        {
+            var sources = lanes.Select(lane => new ChannelMixSource
+            {
+                Text = lane.Text,
+                Code = new Dictionary<char, string>(lane.Code),
+                Speed = lane.Speed,
+                Waveform = lane.Waveform,
+                Frequency = lane.Frequency,
+                Volume = lane.Volume / 100f,
+                NoiseEnabled = lane.NoiseEnabled,
+                NoiseSnr = lane.NoiseSnr,
+                IsPrimary = lane.IsPrimary,
+                Loop = lane.Loop,
+                Muted = lane.IsPrimary ? false : lane.Muted,
+            }).ToList();
+            if (sources.Count > 0 && !sources.Exists(item => item.IsPrimary))
+                sources[0].IsPrimary = true;
+            return sources;
+        }
+
+        private static string EnsureAudioExtension(string path, int filterIndex)
+        {
+            if (path.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
+                return path;
+            return path + (filterIndex == 2 ? ".wav" : ".mp3");
+        }
+
+        private static string SafeFileName(string name)
+        {
+            foreach (char c in Path.GetInvalidFileNameChars())
+                name = name.Replace(c, '_');
+            name = name.Trim();
+            return string.IsNullOrWhiteSpace(name) ? "多路混音" : name;
+        }
+
+        private string PlaybackStatusText() => state switch
+        {
+            PlayState.Playing => "播放中",
+            PlayState.Paused => "已暂停",
+            _ => "已停止",
+        };
+
         private void SavePreset()
         {
             using var dialog = new SaveFileDialog
@@ -1062,6 +1196,7 @@ namespace CW
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
+            exportCts?.Cancel();
             if (!audioReleased)
             {
                 audioReleased = true;
