@@ -47,16 +47,20 @@ namespace CW.morse
             if (!double.IsFinite(frequency) || frequency <= 0 || frequency >= sampleRate / 2.0)
                 throw new ArgumentOutOfRangeException(nameof(frequency));
 
-            // 本项目输入为满幅 short PCM；先换算到原版 CW 峰值 20000，再应用增益表。
-            signalGain = SnrGain[snr + 10] * 20000.0 / short.MaxValue;
+            // 原版增益表在 +10 dB 只有 0.425，再换算到 20000 峰值后，电码只有干净信号的约四分之一。
+            // 以 +10 dB 为满幅基准，较低档仍按原表比例下降，信噪比刻度不变。
+            const double maxSnrGain = 0.425;
+            const double loudness = 0.82;
+            signalGain = SnrGain[snr + 10] / maxSnrGain * loudness;
             // 1062 Hz 是原版 500 Hz 档系数的近似通带中心，并非其配置中的 800 Hz。
             // tan 预畸变同时考虑采样率和中心频率，使所选 CW 音调落在通带中。
             // 中心移动后带宽也随之变化，不保证仍是严格的 500 Hz 带宽。
             double rateRatio = Math.Tan(Math.PI * 1062 / ReferenceSampleRate)
                 / Math.Tan(Math.PI * frequency / sampleRate);
             // 原版白噪声峰值为 10000；按频率缩放比的平方根近似补偿带内噪声功率。
-            // 这是幅度补偿，不能直接乘功率比；数字频率畸变使该补偿并非精确标定。
-            noiseAmplitude = 10000 * Math.Sqrt(rateRatio);
+            // 信号抬到接近满幅后，噪声乘同一倍率，避免只把电码变响而改变信噪比。
+            double levelCompensation = loudness * short.MaxValue / (maxSnrGain * 20000.0);
+            noiseAmplitude = 10000 * Math.Sqrt(rateRatio) * levelCompensation;
 
             // z_old^-1 = (q + z_new^-1) / (1 + q*z_new^-1)。
             // 同时转换六个极点与零点，保留原版 Butterworth 形状。
@@ -106,8 +110,21 @@ namespace CW.morse
             double output = numeratorGain * (x[0] - 3 * x[2] + 3 * x[4] - x[6]);
             for (int i = 1; i <= 6; i++) output -= denominator[i] * y[i];
             y[0] = output;
-            // 最后才转换为 PCM，并限幅，避免 short 溢出导致波形翻转。
-            return (short)Math.Clamp(output * volume, short.MinValue, short.MaxValue);
+            // 噪声尖峰可能超过满幅。线性区保持原样，超出部分软限幅，避免硬削波翻转。
+            return (short)Math.Clamp(SoftLimit(output) * volume, short.MinValue, short.MaxValue);
+        }
+
+        private static double SoftLimit(double sample)
+        {
+            const double ceiling = short.MaxValue;
+            const double knee = 0.75;
+            double x = sample / ceiling;
+            double ax = Math.Abs(x);
+            if (ax <= knee)
+                return sample;
+            double excess = (ax - knee) / (1 - knee);
+            double shaped = knee + (1 - knee) * Math.Tanh(excess);
+            return Math.CopySign(ceiling * shaped, sample);
         }
     }
 }
