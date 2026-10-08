@@ -35,15 +35,17 @@ namespace CW.morse
         private readonly double[] y = new double[7];
         private readonly double numeratorGain;
         private readonly ChannelMode channelMode;
+        private readonly double channelStrength;
         private double fade = 1;
         private short delayedSample;
 
         /// <param name="snr">原版信噪比刻度，范围 -10..10 dB，并非精密功率标定。</param>
         /// <param name="sampleRate">单声道样本的采样率（Hz），至少 11025。</param>
         /// <param name="frequency">期望的通带中心（Hz），通常取 CW 音调，必须低于奈奎斯特频率。</param>
-        public MorseNoise(int snr, int sampleRate, double frequency, ChannelMode mode = ChannelMode.WhiteNoise)
+        public MorseNoise(int snr, int sampleRate, double frequency, ChannelMode mode = ChannelMode.WhiteNoise, double strength = 1)
         {
             channelMode = mode;
+            channelStrength = Math.Clamp(strength, 0, 2);
             if (snr < -10 || snr > 10)
                 throw new ArgumentOutOfRangeException(nameof(snr));
             if (sampleRate < ReferenceSampleRate)
@@ -107,17 +109,17 @@ namespace CW.morse
             double channelSample = sample;
             if (channelMode == ChannelMode.Fading)
             {
-                fade += (0.55 + random.NextDouble() * 0.45 - fade) * 0.002;
+                fade += (0.55 + random.NextDouble() * 0.45 - fade) * 0.002 * channelStrength;
                 channelSample *= fade;
             }
             else if (channelMode == ChannelMode.Multipath)
             {
-                channelSample += delayedSample * 0.22;
+                channelSample += delayedSample * 0.22 * channelStrength;
                 delayedSample = sample;
             }
-            else if (channelMode == ChannelMode.Impulsive && random.NextDouble() < 0.0008)
-                channelSample += (random.NextDouble() * 2 - 1) * short.MaxValue;
-            double input = channelSample * signalGain + (random.NextDouble() * 2 - 1) * noiseAmplitude;
+            else if (channelMode == ChannelMode.Impulsive && random.NextDouble() < 0.0008 * channelStrength)
+                channelSample += (random.NextDouble() * 2 - 1) * short.MaxValue * channelStrength;
+            double input = channelSample * signalGain + (random.NextDouble() * 2 - 1) * noiseAmplitude * channelStrength;
             for (int i = 6; i > 0; i--)
             {
                 x[i] = x[i - 1];

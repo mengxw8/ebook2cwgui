@@ -155,7 +155,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(282, 504);
+            ClientSize = new Size(282, 540);
             Controls.Add(multiChannelBtn);
             Controls.Add(ToPlayerBtn);
             Controls.Add(abbreviationQuickSearchBtn);

@@ -28,6 +28,9 @@ namespace CW
         // 创建 WaveOutEvent 对象来播放音频
         private readonly WaveOutEvent playerWave = new();
         private ComboBox channelModeBox = null!;
+        private NumericUpDown channelStrengthBox = null!;
+        private Label channelStrengthLabel = null!;
+        private ToolTip shortcutTips = null!;
 
         private int currentGroupIndex = -1;
         private System.Text.RegularExpressions.MatchCollection contentGroups =
@@ -46,12 +49,24 @@ namespace CW
             channelModeBox.SelectedIndex = 0;
             channelModeBox.SelectedIndexChanged += (_, _) => NoiseSettingsChanged(this, EventArgs.Empty);
             Controls.Add(channelModeBox);
+            channelStrengthLabel = new Label { Text = "强度(%):", AutoSize = true, Location = new Point(1110, 58) };
+            channelStrengthBox = new NumericUpDown { Minimum = 0, Maximum = 200, Value = 100, Increment = 5, Location = new Point(1170, 55), Size = new Size(70, 23) };
+            channelStrengthBox.ValueChanged += (_, _) => NoiseSettingsChanged(this, EventArgs.Empty);
+            Controls.Add(channelStrengthLabel);
+            Controls.Add(channelStrengthBox);
+            shortcutTips = new ToolTip();
+            shortcutTips.SetToolTip(StartBtn, "开始播放 (Enter)");
+            shortcutTips.SetToolTip(ContinueBtn, "继续播放 (Space)");
+            shortcutTips.SetToolTip(PauseBtn, "暂停播放 (Space)");
+            shortcutTips.SetToolTip(ReplayBtn, "重新播放 (R)");
+            shortcutTips.SetToolTip(StopBtn, "停止播放 (S 或 Esc)");
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             // 播放器快捷键：空格暂停/继续，R 重播，S 停止，Esc 停止。
             if (keyData == Keys.Space) { if (playerWave.PlaybackState == PlaybackState.Playing) PauseBtn_Click(this, EventArgs.Empty); else ContinueBtn_Click(this, EventArgs.Empty); return true; }
+            if (keyData == Keys.Enter) { StartBtn_Click(this, EventArgs.Empty); return true; }
             if (keyData == Keys.R) { ReplayBtn_Click(this, EventArgs.Empty); return true; }
             if (keyData == Keys.S || keyData == Keys.Escape) { StopBtn_Click(this, EventArgs.Empty); return true; }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -113,6 +128,8 @@ namespace CW
         private void NoiseSettingsChanged(object sender, EventArgs e)
         {
             snrBox.Enabled = noiseCheckBox.Checked;
+            if (channelModeBox == null || channelStrengthBox == null)
+                return;
             var mode = channelModeBox.SelectedIndex switch
             {
                 1 => morse.ChannelMode.Fading,
@@ -120,7 +137,7 @@ namespace CW
                 3 => morse.ChannelMode.Multipath,
                 _ => morse.ChannelMode.WhiteNoise
             };
-            player.UpdateNoise(noiseCheckBox.Checked, (int)snrBox.Value, mode);
+            player.UpdateNoise(noiseCheckBox.Checked, (int)snrBox.Value, mode, (float)channelStrengthBox.Value / 100f);
         }
 
         private void ToneBox_ValueChanged(object sender, EventArgs e)

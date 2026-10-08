@@ -152,7 +152,7 @@
             StartBtn.Name = "StartBtn";
             StartBtn.Size = new Size(75, 23);
             StartBtn.TabIndex = 4;
-            StartBtn.Text = "开始";
+            StartBtn.Text = "开始 (Enter)";
             StartBtn.UseVisualStyleBackColor = true;
             StartBtn.Click += StartBtn_Click;
             // 
@@ -162,7 +162,7 @@
             StopBtn.Name = "StopBtn";
             StopBtn.Size = new Size(75, 23);
             StopBtn.TabIndex = 3;
-            StopBtn.Text = "停止";
+            StopBtn.Text = "停止 (S/Esc)";
             StopBtn.UseVisualStyleBackColor = true;
             StopBtn.Click += StopBtn_Click;
             // 
@@ -172,7 +172,7 @@
             ReplayBtn.Name = "ReplayBtn";
             ReplayBtn.Size = new Size(75, 23);
             ReplayBtn.TabIndex = 2;
-            ReplayBtn.Text = "重播";
+            ReplayBtn.Text = "重播 (R)";
             ReplayBtn.UseVisualStyleBackColor = true;
             ReplayBtn.Click += ReplayBtn_Click;
             // 
@@ -182,7 +182,7 @@
             ContinueBtn.Name = "ContinueBtn";
             ContinueBtn.Size = new Size(75, 23);
             ContinueBtn.TabIndex = 1;
-            ContinueBtn.Text = "继续";
+            ContinueBtn.Text = "继续 (Space)";
             ContinueBtn.UseVisualStyleBackColor = true;
             ContinueBtn.Click += ContinueBtn_Click;
             // 
@@ -192,7 +192,7 @@
             PauseBtn.Name = "PauseBtn";
             PauseBtn.Size = new Size(75, 23);
             PauseBtn.TabIndex = 0;
-            PauseBtn.Text = "暂停";
+            PauseBtn.Text = "暂停 (Space)";
             PauseBtn.UseVisualStyleBackColor = true;
             PauseBtn.Click += PauseBtn_Click;
             // 

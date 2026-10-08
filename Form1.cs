@@ -14,10 +14,12 @@ namespace CW
 
         private void AddThemeButtons()
         {
-            var theme = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(82, 462), Size = new Size(125, 25) };
+            var label = new Label { Text = "主题:", AutoSize = true, Location = new Point(42, 470) };
+            var theme = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(82, 466), Size = new Size(125, 25) };
             theme.Items.AddRange(new object[] { "浅色模式", "深色模式", "高对比度模式" });
             theme.SelectedIndex = (int)ThemeManager.Current;
             theme.SelectedIndexChanged += (_, _) => ThemeManager.Set((AppTheme)theme.SelectedIndex);
+            Controls.Add(label);
             Controls.Add(theme);
         }
 

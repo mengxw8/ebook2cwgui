@@ -25,12 +25,12 @@ namespace CW
         public void UpdateNoise(bool enabled, int snr)
             => UpdateNoise(enabled, snr, CW.morse.ChannelMode.WhiteNoise);
 
-        public void UpdateNoise(bool enabled, int snr, CW.morse.ChannelMode mode)
+        public void UpdateNoise(bool enabled, int snr, CW.morse.ChannelMode mode, float strength = 1)
         {
             // UI 线程只替换完整实例，音频线程独占处理状态，避免并发修改滤波系数。
             // 限制滤波中心远离 0 和奈奎斯特频率；此限制不改变实际 CW 音调。
             System.Threading.Volatile.Write(ref noise,
-                enabled ? new MorseNoise(snr, sampleRate, Math.Clamp(frequency, 100, sampleRate * 0.45), mode) : null);
+                enabled ? new MorseNoise(snr, sampleRate, Math.Clamp(frequency, 100, sampleRate * 0.45), mode, strength) : null);
         }
 
 
