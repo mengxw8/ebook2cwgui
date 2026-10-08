@@ -2,6 +2,7 @@ using System;
 
 namespace CW.morse
 {
+    public enum ChannelMode { WhiteNoise, Fading, Impulsive, Multipath }
     /// <summary>
     /// ebook2cw 默认 500 Hz 档：CW 增益、白噪声、六阶带通。
     /// 用双线性变换将 11025 Hz 的原始滤波器转换到输出采样率。
@@ -33,12 +34,16 @@ namespace CW.morse
         private readonly double[] x = new double[7];
         private readonly double[] y = new double[7];
         private readonly double numeratorGain;
+        private readonly ChannelMode channelMode;
+        private double fade = 1;
+        private short delayedSample;
 
         /// <param name="snr">原版信噪比刻度，范围 -10..10 dB，并非精密功率标定。</param>
         /// <param name="sampleRate">单声道样本的采样率（Hz），至少 11025。</param>
         /// <param name="frequency">期望的通带中心（Hz），通常取 CW 音调，必须低于奈奎斯特频率。</param>
-        public MorseNoise(int snr, int sampleRate, double frequency)
+        public MorseNoise(int snr, int sampleRate, double frequency, ChannelMode mode = ChannelMode.WhiteNoise)
         {
+            channelMode = mode;
             if (snr < -10 || snr > 10)
                 throw new ArgumentOutOfRangeException(nameof(snr));
             if (sampleRate < ReferenceSampleRate)
@@ -99,7 +104,20 @@ namespace CW.morse
         {
             // 与原版相同，信号和噪声先混合，再一起经过带通。
             // 用 double 保存中间结果，避免原版 short 转换和 float 反馈的精度损失。
-            double input = sample * signalGain + (random.NextDouble() * 2 - 1) * noiseAmplitude;
+            double channelSample = sample;
+            if (channelMode == ChannelMode.Fading)
+            {
+                fade += (0.55 + random.NextDouble() * 0.45 - fade) * 0.002;
+                channelSample *= fade;
+            }
+            else if (channelMode == ChannelMode.Multipath)
+            {
+                channelSample += delayedSample * 0.22;
+                delayedSample = sample;
+            }
+            else if (channelMode == ChannelMode.Impulsive && random.NextDouble() < 0.0008)
+                channelSample += (random.NextDouble() * 2 - 1) * short.MaxValue;
+            double input = channelSample * signalGain + (random.NextDouble() * 2 - 1) * noiseAmplitude;
             for (int i = 6; i > 0; i--)
             {
                 x[i] = x[i - 1];

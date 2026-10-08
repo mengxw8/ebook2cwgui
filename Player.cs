@@ -27,6 +27,7 @@ namespace CW
         private readonly MorsePlayer player = new(600, MorseConfig.Create(20));
         // 创建 WaveOutEvent 对象来播放音频
         private readonly WaveOutEvent playerWave = new();
+        private ComboBox channelModeBox = null!;
 
         private int currentGroupIndex = -1;
         private System.Text.RegularExpressions.MatchCollection contentGroups =
@@ -38,7 +39,22 @@ namespace CW
         public Player()
         {
             InitializeComponent();
+            ThemeManager.Apply(this);
             player.OnGroupPlay += OnGroupPlay;
+            channelModeBox = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(1110, 28), Size = new Size(150, 25) };
+            channelModeBox.Items.AddRange(new object[] { "白噪声", "衰落信道", "脉冲干扰", "多径回声" });
+            channelModeBox.SelectedIndex = 0;
+            channelModeBox.SelectedIndexChanged += (_, _) => NoiseSettingsChanged(this, EventArgs.Empty);
+            Controls.Add(channelModeBox);
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            // 播放器快捷键：空格暂停/继续，R 重播，S 停止，Esc 停止。
+            if (keyData == Keys.Space) { if (playerWave.PlaybackState == PlaybackState.Playing) PauseBtn_Click(this, EventArgs.Empty); else ContinueBtn_Click(this, EventArgs.Empty); return true; }
+            if (keyData == Keys.R) { ReplayBtn_Click(this, EventArgs.Empty); return true; }
+            if (keyData == Keys.S || keyData == Keys.Escape) { StopBtn_Click(this, EventArgs.Empty); return true; }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void SelectFileBtn_Click(object sender, EventArgs e)
@@ -97,7 +113,14 @@ namespace CW
         private void NoiseSettingsChanged(object sender, EventArgs e)
         {
             snrBox.Enabled = noiseCheckBox.Checked;
-            player.UpdateNoise(noiseCheckBox.Checked, (int)snrBox.Value);
+            var mode = channelModeBox.SelectedIndex switch
+            {
+                1 => morse.ChannelMode.Fading,
+                2 => morse.ChannelMode.Impulsive,
+                3 => morse.ChannelMode.Multipath,
+                _ => morse.ChannelMode.WhiteNoise
+            };
+            player.UpdateNoise(noiseCheckBox.Checked, (int)snrBox.Value, mode);
         }
 
         private void ToneBox_ValueChanged(object sender, EventArgs e)

@@ -8,6 +8,27 @@ namespace CW
         public Form1()
         {
             InitializeComponent();
+            ThemeManager.Apply(this);
+            AddThemeButtons();
+        }
+
+        private void AddThemeButtons()
+        {
+            var theme = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(82, 462), Size = new Size(125, 25) };
+            theme.Items.AddRange(new object[] { "浅色模式", "深色模式", "高对比度模式" });
+            theme.SelectedIndex = (int)ThemeManager.Current;
+            theme.SelectedIndexChanged += (_, _) => ThemeManager.Set((AppTheme)theme.SelectedIndex);
+            Controls.Add(theme);
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            // 全局入口：Ctrl+1/2/3 切换主题，Ctrl+P 打开播放器。
+            if (keyData == (Keys.Control | Keys.D1)) { ThemeManager.Set(AppTheme.Light); return true; }
+            if (keyData == (Keys.Control | Keys.D2)) { ThemeManager.Set(AppTheme.Dark); return true; }
+            if (keyData == (Keys.Control | Keys.D3)) { ThemeManager.Set(AppTheme.HighContrast); return true; }
+            if (keyData == (Keys.Control | Keys.P)) { ToPlayerBtn.PerformClick(); return true; }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void Button1_Click(object sender, EventArgs e)
