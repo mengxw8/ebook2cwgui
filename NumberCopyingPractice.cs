@@ -610,6 +610,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             this.Text = this.Text + " V" + version;
             radioButton1.Checked = true;
             radioButton3.Checked = true;
+            waveList.SelectedIndex = 0;
         }
 
 

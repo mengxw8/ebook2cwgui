@@ -251,7 +251,7 @@
             // 
             waveList.DropDownStyle = ComboBoxStyle.DropDownList;
             waveList.FormattingEnabled = true;
-            waveList.Items.AddRange(new object[] { "方波", "锯齿波", "正弦波" });
+            waveList.Items.AddRange(new object[] { "正弦波", "方波", "锯齿波" });
             waveList.Location = new Point(635, 226);
             waveList.Margin = new Padding(5, 4, 5, 4);
             waveList.Name = "waveList";
@@ -701,9 +701,6 @@
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(2992, 1470);
-            FormBorderStyle = FormBorderStyle.Sizable;
-            MaximizeBox = true;
-            MinimumSize = new Size(720, 420);
             Controls.Add(groupBox6);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
@@ -712,6 +709,7 @@
             Controls.Add(groupBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(5, 4, 5, 4);
+            MinimumSize = new Size(720, 420);
             Name = "NumberCopyingPractice";
             Text = "数字短码抄收练习";
             FormClosed += NumberCopyingPractice_FormClosed;
