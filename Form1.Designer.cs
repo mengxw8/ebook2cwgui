@@ -40,6 +40,8 @@
             abbreviationQuickSearchBtn = new Button();
             ToPlayerBtn = new Button();
             multiChannelBtn = new Button();
+            themeLabel = new Label();
+            themeCombo = new ComboBox();
             SuspendLayout();
             // 
             // button1
@@ -150,14 +152,30 @@
             multiChannelBtn.Text = "多路播放";
             multiChannelBtn.UseVisualStyleBackColor = true;
             multiChannelBtn.Click += MultiChannelBtn_Click;
+            // themeLabel
+            themeLabel.AutoSize = true;
+            themeLabel.Location = new Point(42, 362);
+            themeLabel.Name = "themeLabel";
+            themeLabel.Size = new Size(68, 17);
+            themeLabel.Text = "界面主题:";
+            // themeCombo
+            themeCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            themeCombo.Items.AddRange(new object[] { "浅色模式", "深色模式", "高对比度模式", "跟随系统" });
+            themeCombo.Location = new Point(112, 358);
+            themeCombo.Name = "themeCombo";
+            themeCombo.Size = new Size(128, 25);
+            themeCombo.TabIndex = 11;
+            themeCombo.SelectedIndexChanged += ThemeCombo_SelectedIndexChanged;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             // 底部预留主题设置区域，避免与功能按钮、版权说明重叠。
-            ClientSize = new Size(282, 620);
+            ClientSize = new Size(282, 520);
             Controls.Add(multiChannelBtn);
+            Controls.Add(themeCombo);
+            Controls.Add(themeLabel);
             Controls.Add(ToPlayerBtn);
             Controls.Add(abbreviationQuickSearchBtn);
             Controls.Add(chineseCodeQuickQueryBtn);
@@ -191,5 +209,7 @@
         private Button abbreviationQuickSearchBtn;
         private Button ToPlayerBtn;
         private Button multiChannelBtn;
+        private Label themeLabel;
+        private ComboBox themeCombo;
     }
 }

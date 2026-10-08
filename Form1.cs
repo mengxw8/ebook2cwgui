@@ -9,32 +9,11 @@ namespace CW
         {
             InitializeComponent();
             ThemeManager.Apply(this);
-            AddThemeButtons();
+            themeCombo.SelectedIndex = (int)ThemeManager.Current;
         }
 
-        private void AddThemeButtons()
-        {
-            // 使用独立容器管理主题控件，避免直接叠加到版权和反馈控件的坐标上。
-            var themeBox = new GroupBox
-            {
-                Text = "界面主题",
-                Location = new Point(52, 505),
-                Size = new Size(178, 58),
-                TabStop = false
-            };
-            var theme = new ComboBox
-            {
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                Location = new Point(8, 21),
-                Size = new Size(160, 25),
-                Anchor = AnchorStyles.Left | AnchorStyles.Right
-            };
-            theme.Items.AddRange(new object[] { "浅色模式", "深色模式", "高对比度模式", "跟随系统" });
-            theme.SelectedIndex = (int)ThemeManager.Current;
-            theme.SelectedIndexChanged += (_, _) => ThemeManager.Set((AppTheme)theme.SelectedIndex);
-            themeBox.Controls.Add(theme);
-            Controls.Add(themeBox);
-        }
+        private void ThemeCombo_SelectedIndexChanged(object? sender, EventArgs e) =>
+            ThemeManager.Set((AppTheme)themeCombo.SelectedIndex);
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
