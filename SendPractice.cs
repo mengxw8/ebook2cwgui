@@ -62,6 +62,7 @@ namespace CW
             Layout += (_, _) => UpdateReplicationWidths();
             groupBox4.SizeChanged += (_, _) => UpdateReplicationWidths();
             UpdateReplicationWidths();
+            timer2.Interval = 20; // 界面最多每秒刷新 50 次，给音频线程留出调度时间。
             sendBtn.MouseCaptureChanged += (_, _) =>
             {
                 if (!sendBtn.Capture) { isDraw = false; sineWaveProvider?.SetKey(false); timingAnalyzer.Release(); }
@@ -708,7 +709,7 @@ namespace CW
             sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
             // 将 SineWaveProvider 连接到 WaveOutEvent
             transmitWave = new WaveOutEvent();
-            transmitWave.DesiredLatency = 30;
+            transmitWave.DesiredLatency = 60;
             transmitWave.NumberOfBuffers = 3;
             transmitWave.Init(sineWaveProvider);
             transmitWave.Play();
@@ -951,29 +952,27 @@ namespace CW
         /// <param name="e"></param>
         private void Timer2_Tick(object sender, EventArgs e)
         {
-            //刷新显示
-            for (int i = 0; i < bitmapQueue.Count; i++)
+            // 丢弃过时帧，每次只显示最新波形，避免积压和重复重绘。
+            Bitmap? latest = null;
+            while (bitmapQueue.TryDequeue(out Bitmap? frame))
             {
-                if (bitmapQueue.TryDequeue(out Bitmap? sb))
-                {
-                    visualizedBox.Image?.Dispose();
-
-                    visualizedBox.Image = sb;
-                }
+                latest?.Dispose();
+                latest = frame;
             }
-            //填充答案
-            //把缓存的内容全部取出来
-            for (int i = 0; i < inputQueue.Count; i++)
+            if (latest != null)
             {
-                if (inputQueue.TryDequeue(out char inputChar))
-                {
-                    inputBuilde.Append(inputChar);
-                }
+                visualizedBox.Image?.Dispose();
+                visualizedBox.Image = latest;
             }
-            ShowInput(inputBuilde.ToString().ToLower());
 
-
-
+            bool inputChanged = false;
+            while (inputQueue.TryDequeue(out char inputChar))
+            {
+                inputBuilde.Append(inputChar);
+                inputChanged = true;
+            }
+            if (inputChanged)
+                ShowInput(inputBuilde.ToString().ToLower());
         }
 
         private void SnedSpeedTxb_Leave(object sender, EventArgs e)

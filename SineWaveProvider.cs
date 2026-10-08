@@ -59,7 +59,9 @@ namespace CW
                 // 写入缓冲区，处理多通道
                 for (int channel = 0; channel < _channels; channel++)
                 {
-                    Buffer.BlockCopy(BitConverter.GetBytes(sample16), 0, buffer, offset + (n * bytesPerSample * _channels) + (channel * bytesPerSample), bytesPerSample);
+                    int sampleOffset = offset + (n * bytesPerSample * _channels) + (channel * bytesPerSample);
+                    buffer[sampleOffset] = (byte)sample16;
+                    buffer[sampleOffset + 1] = (byte)(sample16 >> 8);
                 }
 
 
