@@ -413,7 +413,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
                 MessageBox.Show("请先开始抄收！");
                 return;
             }
-            AnswerBoard answerBoard = new(answer.Replace(msgStartTxb.Text.ToLower(),"").Replace(msgEndTxb.Text.ToLower(), ""), answerBox.Text);
+            AnswerBoard answerBoard = new(GetAnswerBody(), answerBox.Text);
             answerBoard.ShowDialog();
 
         }
@@ -511,8 +511,21 @@ group => group.Value // 取最后一个值（覆盖冲突键）
 
             if (answer != "")
             {
-                answerBox.Text = answer.Replace(msgStartTxb.Text.ToLower(),"").Replace(msgEndTxb.Text.ToLower(), "");
+                answerBox.Text = GetAnswerBody();
             }
+        }
+
+        /// <summary>移除控制报头和报尾，并清除边界空白，显示答案不以空格开头。</summary>
+        private string GetAnswerBody()
+        {
+            string body = answer;
+            string header = NormalizeMessageHeader(msgStartTxb.Text);
+            string footer = NormalizeMessageFooter(msgEndTxb.Text);
+            if (body.StartsWith(header, StringComparison.OrdinalIgnoreCase))
+                body = body[header.Length..];
+            if (body.EndsWith(footer, StringComparison.OrdinalIgnoreCase))
+                body = body[..^footer.Length];
+            return body.Trim();
         }
 
 
