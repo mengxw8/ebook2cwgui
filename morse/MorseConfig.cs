@@ -42,6 +42,7 @@ namespace CW
 
         public static MorseConfig Create(int speed)
         {
+            speed = Math.Max(1, speed);
             var config = new MorseConfig()
             {
                 Speed = speed,
@@ -60,6 +61,7 @@ namespace CW
         }
         public static MorseConfig Create(int speed,string waveform)
         {
+            speed = Math.Max(1, speed);
             var config = new MorseConfig()
             {
                 Speed = speed,

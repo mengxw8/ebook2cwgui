@@ -320,7 +320,7 @@ namespace CW.morse
                         }
 
                         // 淡出处理
-                        if (i >= dotDuration - fallTime)
+                        if (j >= dotDuration - fallTime)
                         {
                             int fallIndex = j - (dotDuration - fallTime);
                             double t = fallIndex / (double)(fallTime - 1);
