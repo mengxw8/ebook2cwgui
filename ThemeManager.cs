@@ -3,7 +3,7 @@ using System.Drawing;
 namespace CW;
 
 /// <summary>统一管理深色和高对比度配色，并保存用户选择。</summary>
-internal enum AppTheme { Light, Dark, HighContrast }
+internal enum AppTheme { Light, Dark, HighContrast, System }
 
 internal static class ThemeManager
 {
@@ -16,6 +16,7 @@ internal static class ThemeManager
         {
             AppTheme.Dark => (Color.FromArgb(32, 32, 32), Color.Gainsboro, Color.FromArgb(48, 48, 48), Color.FromArgb(0, 122, 204)),
             AppTheme.HighContrast => (Color.Black, Color.White, Color.Black, Color.Yellow),
+            AppTheme.System => (SystemColors.Control, SystemColors.ControlText, SystemColors.Window, SystemColors.Highlight),
             _ => (SystemColors.Control, SystemColors.ControlText, SystemColors.Window, SystemColors.Highlight)
         };
         ApplyControl(root, back, fore, input, accent);

@@ -155,7 +155,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(282, 540);
+            // 底部预留主题设置区域，避免与功能按钮、版权说明重叠。
+            ClientSize = new Size(282, 620);
             Controls.Add(multiChannelBtn);
             Controls.Add(ToPlayerBtn);
             Controls.Add(abbreviationQuickSearchBtn);
