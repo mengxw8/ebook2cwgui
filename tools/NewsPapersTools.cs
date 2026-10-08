@@ -21,10 +21,20 @@ namespace CW
         public static string GetNewsPapers(List<string> words, int groupNum, bool needSymbols)
         {
 
+            if (words == null || words.Count == 0 || groupNum <= 0)
+                return "";
+
             Random random = new();
             var type = random.Next(0, words.Count);
             var resp = newspapers.HttpRequestUtil.GetWebRequest(Constant.newsType[words[type]]);
             if (string.IsNullOrWhiteSpace(resp))
+                return "";
+            return ParseNewsPaper(resp, groupNum, needSymbols, random);
+        }
+
+        internal static string ParseNewsPaper(string resp, int groupNum, bool needSymbols, Random random)
+        {
+            if (groupNum <= 0 || string.IsNullOrWhiteSpace(resp))
                 return "";
             XmlDocument doc = new();
             try { doc.LoadXml(resp); }
@@ -36,6 +46,8 @@ namespace CW
             var content = "";
             var title = "";
             var item = doc.SelectNodes("/rss/channel/item");
+            if (item is null || item.Count == 0)
+                return "";
             if (item is not null)
             {
                 var index = random.Next(0, item.Count);
