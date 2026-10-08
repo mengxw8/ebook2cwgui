@@ -59,6 +59,9 @@ namespace CW
         public SendPractice()
         {
             InitializeComponent();
+            Layout += (_, _) => UpdateReplicationWidths();
+            groupBox4.SizeChanged += (_, _) => UpdateReplicationWidths();
+            UpdateReplicationWidths();
             sendBtn.MouseCaptureChanged += (_, _) =>
             {
                 if (!sendBtn.Capture) { isDraw = false; sineWaveProvider?.SetKey(false); timingAnalyzer.Release(); }
@@ -1044,6 +1047,20 @@ namespace CW
             // 只更新音调，不重建正在运行的音频设备。
             if (double.TryParse(sendToneBox.Text, out double frequency))
                 sineWaveProvider?.SetFrequency(frequency);
+        }
+
+        private void UpdateReplicationWidths()
+        {
+            // 初始窗体可能被屏幕工作区限制，不能依赖设计器的锚定宽度。
+            groupBox4.Width = Math.Max(0, ClientSize.Width - groupBox4.Left * 2);
+            foreach (Control control in groupBox4.Controls)
+            {
+                if (control is RichTextBox || control is System.Windows.Forms.Label)
+                {
+                    // 使用缩放后的左边距，确保高 DPI 下左右边距一致。
+                    control.Width = Math.Max(0, groupBox4.ClientSize.Width - control.Left * 2);
+                }
+            }
         }
 
         private void SendPractice_SizeChanged(object sender, EventArgs e)
