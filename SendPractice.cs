@@ -51,9 +51,9 @@ namespace CW
         private static KeyType keyType;
 
         //发报声音
-        private static SineWaveProvider? sineWaveProvider;
-        private static readonly SendingTimingAnalyzer timingAnalyzer = new();
-        private static WaveOutEvent transmitWave = new();
+        private SineWaveProvider? sineWaveProvider;
+        private readonly SendingTimingAnalyzer timingAnalyzer = new();
+        private WaveOutEvent transmitWave = new();
         //用来记录发报的时长
         private readonly Queue<double> audioRecordQueue = new();
 
@@ -722,6 +722,7 @@ namespace CW
             // 创建 SineWaveProvider
             sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
             // 将 SineWaveProvider 连接到 WaveOutEvent
+            transmitWave?.Dispose();
             transmitWave = new WaveOutEvent();
             transmitWave.DesiredLatency = 60;
             transmitWave.NumberOfBuffers = 3;
@@ -780,7 +781,7 @@ namespace CW
         /// <param name="dwUser"></param>
         /// <param name="dw1"></param>
         /// <param name="dw2"></param>
-        private static void TimerProc(UIntPtr uTimerID, UIntPtr uMsg, UIntPtr dwUser, UIntPtr dw1, UIntPtr dw2)
+        private void TimerProc(UIntPtr uTimerID, UIntPtr uMsg, UIntPtr dwUser, UIntPtr dw1, UIntPtr dw2)
         {
             if (isDraw || wait <= blankWidth && !isDraw)
             {
