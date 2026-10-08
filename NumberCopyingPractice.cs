@@ -257,13 +257,16 @@ group => group.Value // 取最后一个值（覆盖冲突键）
                 return;
             }
             StringBuilder answerBuilder = new();
-            answerBuilder.Append(msgStartTxb.Text.ToLower());
+            // 报头和正文、正文和报尾必须以空格分隔，避免自定义标记与数字粘连。
+            string messageHeader = NormalizeMessageHeader(msgStartTxb.Text);
+            string messageFooter = NormalizeMessageFooter(msgEndTxb.Text);
+            answerBuilder.Append(messageHeader);
             if (radioButton3.Checked )
             {
                 answerBuilder.Append(AnswerTools.GenerateAnswer(words ?? [], repeatRbtn.Checked, continuousRbtn.Checked, System.Convert.ToInt32(groupNumBox.Value), System.Convert.ToInt32(EachGroup.Value)));
             }
 
-            answerBuilder.Append(msgEndTxb.Text.ToLower());
+            answerBuilder.Append(messageFooter);
             //自定义报文
             if (radioButton3.Checked)
             {
@@ -322,6 +325,18 @@ group => group.Value // 取最后一个值（覆盖冲突键）
 
 
 
+        }
+
+        private static string NormalizeMessageHeader(string value)
+        {
+            string header = value.ToLowerInvariant();
+            return header.EndsWith(' ') ? header : header + " ";
+        }
+
+        private static string NormalizeMessageFooter(string value)
+        {
+            string footer = value.ToLowerInvariant();
+            return footer.StartsWith(' ') ? footer : " " + footer;
         }
 
         private List<string> GetWords()
