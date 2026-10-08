@@ -182,7 +182,7 @@
             ContinueBtn.Name = "ContinueBtn";
             ContinueBtn.Size = new Size(75, 23);
             ContinueBtn.TabIndex = 24;
-            ContinueBtn.Text = "继续 (Space)";
+            ContinueBtn.Text = "继续（空格）";
             ContinueBtn.UseVisualStyleBackColor = true;
             ContinueBtn.Click += ContinueBtn_Click;
             // 
@@ -192,7 +192,7 @@
             PauseBtn.Name = "PauseBtn";
             PauseBtn.Size = new Size(75, 23);
             PauseBtn.TabIndex = 19;
-            PauseBtn.Text = "暂停 (Space)";
+            PauseBtn.Text = "暂停（空格）";
             PauseBtn.UseVisualStyleBackColor = true;
             PauseBtn.Click += PauseBtn_Click;
             // 

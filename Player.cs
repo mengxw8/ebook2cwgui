@@ -56,8 +56,8 @@ namespace CW
             Controls.Add(channelStrengthBox);
             shortcutTips = new ToolTip();
             shortcutTips.SetToolTip(StartBtn, "开始播放 (Enter)");
-            shortcutTips.SetToolTip(ContinueBtn, "继续播放 (Space)");
-            shortcutTips.SetToolTip(PauseBtn, "暂停播放 (Space)");
+            shortcutTips.SetToolTip(ContinueBtn, "继续播放（空格键）");
+            shortcutTips.SetToolTip(PauseBtn, "暂停播放（空格键）");
             shortcutTips.SetToolTip(ReplayBtn, "重新播放 (R)");
             shortcutTips.SetToolTip(StopBtn, "停止播放 (Esc)");
             shortcutTips.SetToolTip(CodingDefinitionBtn, "打开编码设置 (S)");
