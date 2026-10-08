@@ -313,7 +313,7 @@ namespace CW.morse
                         double sample = Math.Sin(phase);
 
                         // 淡入处理
-                        if (j < riseTime)
+                        if (riseTime > 1 && j < riseTime)
                         {
                             double t = j / (double)riseTime;
                             sample *= Math.Pow(Math.Sin(t * Math.PI / 2), 2);
