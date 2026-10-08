@@ -240,13 +240,13 @@ namespace CW
             // 遍历字典
             foreach (var pair in args)
             {
-                param += "-" + pair.Key + " ";
+                param += QuoteArgument("-" + pair.Key) + " ";
                 if (pair.Value != "") {
-                    param += pair.Value + " ";
+                    param += QuoteArgument(pair.Value) + " ";
                 }
             }
 
-            param += inputFile;
+            param += QuoteArgument(inputFile);
             Console.WriteLine(param);
 
             ProcessStartInfo startInfo = new()
@@ -317,6 +317,14 @@ namespace CW
                     Write("settings", pair.Key, pair.Value, filePath);
                 }
             }         
+        }
+
+        // ebook2cw 的文件路径和元数据可能包含空格或引号，统一按 Windows 命令行规则转义。
+        private static string QuoteArgument(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return "\"\"";
+            return "\"" + value.Replace("\"", "\\\"") + "\"";
         }
 
 
