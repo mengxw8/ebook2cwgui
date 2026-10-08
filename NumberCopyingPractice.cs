@@ -341,6 +341,13 @@ group => group.Value // 取最后一个值（覆盖冲突键）
 
         }
 
+        private string BuildImportedMessage(string body)
+        {
+            return (NormalizeMessageHeader(msgStartTxb.Text)
+                + body.Trim()
+                + NormalizeMessageFooter(msgEndTxb.Text)).ToLowerInvariant();
+        }
+
         private static string NormalizeMessageHeader(string value)
         {
             string header = value.ToLowerInvariant();
@@ -667,7 +674,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
 
                 if (openImageDialog.ShowDialog() == DialogResult.OK)
                 {
-                    answer =(msgStartTxb.Text+ File.ReadAllText(openImageDialog.FileName)+msgEndTxb.Text).ToLower();
+                    answer = BuildImportedMessage(File.ReadAllText(openImageDialog.FileName));
                     if (showAnswerChb.Checked)
                     {
                         ShowAnswer();
