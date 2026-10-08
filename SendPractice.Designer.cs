@@ -82,6 +82,7 @@
             pauseBtn = new Button();
             clearAnswerBtn = new Button();
             sendBtn = new Button();
+            timingAnalysisBtn = new Button();
             visualizedBox = new PictureBox();
             timer2 = new System.Windows.Forms.Timer(components);
             groupBox6 = new GroupBox();
@@ -1040,6 +1041,15 @@
             Controls.Add(groupBox7);
             Controls.Add(groupBox6);
             Controls.Add(groupBox8);
+            timingAnalysisBtn.Text = "时值分析";
+            timingAnalysisBtn.Name = "timingAnalysisBtn";
+            timingAnalysisBtn.Location = new Point(1795, 82);
+            timingAnalysisBtn.Size = new Size(106, 32);
+            timingAnalysisBtn.TabIndex = 67;
+            timingAnalysisBtn.Click += TimingAnalysisBtn_Click;
+            sendBtn.Location = new Point(1795, 120);
+            sendBtn.Size = new Size(106, 48);
+            Controls.Add(timingAnalysisBtn);
             Controls.Add(sendBtn);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
@@ -1116,6 +1126,7 @@
         private Label answerLbl1;
         private RichTextBox replicationBox1;
         private Button sendBtn;
+        private Button timingAnalysisBtn;
         private PictureBox visualizedBox;
         private System.Windows.Forms.Timer timer2;
         private GroupBox groupBox6;

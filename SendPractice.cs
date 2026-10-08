@@ -49,7 +49,8 @@ namespace CW
         private static KeyType keyType;
 
         //发报声音
-        private SineWaveProvider? sineWaveProvider;
+        private static SineWaveProvider? sineWaveProvider;
+        private static readonly SendingTimingAnalyzer timingAnalyzer = new();
         private static WaveOutEvent transmitWave = new();
         //用来记录发报的时长
         private readonly Queue<double> audioRecordQueue = new();
@@ -58,6 +59,10 @@ namespace CW
         public SendPractice()
         {
             InitializeComponent();
+            sendBtn.MouseCaptureChanged += (_, _) =>
+            {
+                if (!sendBtn.Capture) { isDraw = false; sineWaveProvider?.SetKey(false); timingAnalyzer.Release(); }
+            };
             //不允许息屏
             SystemSleep.PreventForCurrentThread();
             //输入法切换为英文
@@ -86,6 +91,11 @@ namespace CW
             UIntPtr dwUser,
             uint fuEvent);
 
+
+        private uint drawingTimerId;
+        private TimerCallback? drawingCallback;
+        [LibraryImport("winmm.dll")]
+        private static partial uint timeKillEvent(uint id);
 
         //是否在绘制中
         private static bool isDraw = false;
@@ -262,6 +272,7 @@ namespace CW
             inputBuilde.Clear();
             //清空录音
             audioRecordQueue.Clear();
+            timingAnalyzer.Reset();
             //生成测试数据
             List<string> words = GetWords();
             if ((words.Count == 0 || words == null) && mode != WorkingMode.Customize)
@@ -501,6 +512,9 @@ namespace CW
 
         private void CopyingPractice_FormClosed(object sender, FormClosedEventArgs e)
         {
+            isDraw = false;
+            if (drawingTimerId != 0) { timeKillEvent(drawingTimerId); drawingTimerId = 0; }
+            timingAnalyzer.Release();
 
             //清除缓存
             if (lastBookPath != null && Path.Exists(Path.GetDirectoryName(lastBookPath)))
@@ -613,6 +627,7 @@ namespace CW
         private void ClearAnswer_Click(object sender, EventArgs e)
         {
             CleanInput();
+            timingAnalyzer.Reset();
         }
 
         private void PauseBtn_Click(object sender, EventArgs e)
@@ -689,19 +704,24 @@ namespace CW
             // 创建 SineWaveProvider
             sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
             // 将 SineWaveProvider 连接到 WaveOutEvent
+            transmitWave = new WaveOutEvent();
+            transmitWave.DesiredLatency = 30;
+            transmitWave.NumberOfBuffers = 3;
             transmitWave.Init(sineWaveProvider);
+            transmitWave.Play();
             //默认选中手键
+            timingAnalyzer.Reset();
             ordinaryKey.Checked = true;
             keyType = KeyType.Ordinary;
             //初始化定时器
-            TimerCallback callback = TimerProc;
+            drawingCallback = TimerProc;
             UIntPtr user = UIntPtr.Zero;
-            uint timerId = timeSetEvent(
-                10, // 延迟 1000 毫秒（1 秒）
+            drawingTimerId = timeSetEvent(
+                10, // 每 10ms 更新可视化
                 TIMER_RESOLUTION, // 分辨率
-                callback,
+                drawingCallback,
                 user,
-                TIME_PERIODIC // 周期性定时器
+                TIME_PERIODIC | 0x100 // 同步取消回调，关闭窗口后不再访问音频设备
             );
 
         }
@@ -756,12 +776,14 @@ namespace CW
                     if (keyType == KeyType.Auto && pressMouseButton == MouseButtons.Left && drawCount == DiLength)
                     {
                         isDraw = false;
-                        transmitWave.Stop();
+                        sineWaveProvider?.SetKey(false);
+                        timingAnalyzer.Release();
                     }
                     else if (keyType == KeyType.Auto && pressMouseButton == MouseButtons.Right && drawCount == DaLength)
                     {
                         isDraw = false;
-                        transmitWave.Stop();
+                        sineWaveProvider?.SetKey(false);
+                        timingAnalyzer.Release();
                     }
                 }
                 else if (wait <= blankWidth && !isDraw)
@@ -840,15 +862,15 @@ namespace CW
         //按下
         private void SendBtn_MouseDown(object sender, MouseEventArgs e)
         {
-            // 开始播放音频
-            transmitWave.Play();
+            // 声音流保持运行，不重复启动设备。
+            timingAnalyzer.Press();
             //开始绘制
             isDraw = true;
             isThrob = false;
             pressMouseButton = e.Button;
             drawCount = 0;
             // 开始播放音频
-            transmitWave.Play();
+            sineWaveProvider?.SetKey(true);
     
                 //记录空白时间
                 if (startTime > 0&& recordingChb.Checked)
@@ -872,7 +894,8 @@ namespace CW
         {
             isDraw = false;
             //停止播放声音
-            transmitWave.Stop();
+            sineWaveProvider?.SetKey(false);
+            timingAnalyzer.Release();
             //结束计时
             QueryPerformanceCounter(out long endTime);
             QueryPerformanceFrequency(out long lpFrequency);
@@ -961,7 +984,7 @@ namespace CW
             {
             }
 
-            if (speed > 99 || speed < 0)
+            if (speed > 99 || speed < 1)
             {
                 sendSpeedTxb.Text = "20";
                 speed = 20;
@@ -1018,14 +1041,9 @@ namespace CW
             {
                 sendToneBox.Text = "1";
             }
-            //改变发报声音频率
-            sineWaveProvider = new(System.Convert.ToDouble(sendToneBox.Text));
-            transmitWave?.Stop();
-            transmitWave?.Dispose();
-            transmitWave = new();
-            // 将 SineWaveProvider 连接到 WaveOutEvent
-            transmitWave.Init(sineWaveProvider);
-
+            // 只更新音调，不重建正在运行的音频设备。
+            if (double.TryParse(sendToneBox.Text, out double frequency))
+                sineWaveProvider?.SetFrequency(frequency);
         }
 
         private void SendPractice_SizeChanged(object sender, EventArgs e)
@@ -1076,6 +1094,16 @@ namespace CW
         private void ToneBox_ValueChanged(object sender, EventArgs e)
         {
             player?.UpdateFrequency(Convert.ToInt32(toneBox.Value));
+        }
+        private void TimingAnalysisBtn_Click(object? sender, EventArgs e)
+        {
+            int speed = int.TryParse(sendSpeedTxb.Text, out int value) ? Math.Max(1, value) : 20;
+            using var report = new Form { Text = "拍发时值分析", Size = new Size(850, 600), StartPosition = FormStartPosition.CenterParent };
+            var text = new RichTextBox { Dock = DockStyle.Fill, ReadOnly = true, Font = new System.Drawing.Font("Consolas", 12), Text = timingAnalyzer.Report(speed), WordWrap = false };
+            report.Controls.Add(text);
+            ThemeManager.Apply(report);
+            Trace.WriteLine("打开拍发时值分析报告");
+            report.ShowDialog(this);
         }
     }
 }

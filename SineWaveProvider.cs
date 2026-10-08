@@ -11,9 +11,13 @@ namespace CW
     {
         private readonly int _sampleRate;
         private readonly int _channels;
-        private readonly double _frequency;
+        private double _frequency;
+        private int keyed;
+        private double envelope;
+        public void SetKey(bool down) => System.Threading.Volatile.Write(ref keyed, down ? 1 : 0);
+        public void SetFrequency(double frequency) => System.Threading.Volatile.Write(ref _frequency, Math.Clamp(frequency, 1, _sampleRate / 2.0 - 1));
         private readonly float _amplitude;
-        private long _currentSample;
+        private double phase;
 
         // 构造函数
         public SineWaveProvider(double frequency, int sampleRate = 44100, int channels = 1, float amplitude = 0.7f)
@@ -43,8 +47,11 @@ namespace CW
             for (int n = 0; n < samplesRequired; n++)
             {
                 // 计算正弦波值并应用幅度
-                double time = (double)_currentSample / _sampleRate;
-                float sample = (float)(Math.Sin(2 * Math.PI * _frequency * time)) * _amplitude;
+                phase = (phase + 2 * Math.PI * System.Threading.Volatile.Read(ref _frequency) / _sampleRate) % (2 * Math.PI);
+                // 持续输出静音或音调，5ms 包络避免重启声卡产生断续和爆音。
+                double target = System.Threading.Volatile.Read(ref keyed);
+                envelope += Math.Clamp(target - envelope, -1.0 / (_sampleRate * .005), 1.0 / (_sampleRate * .005));
+                float sample = (float)(Math.Sin(phase) * envelope) * _amplitude;
 
                 // 将浮点样本缩放到16位整数范围
                 short sample16 = (short)(sample * short.MaxValue);
@@ -55,7 +62,7 @@ namespace CW
                     Buffer.BlockCopy(BitConverter.GetBytes(sample16), 0, buffer, offset + (n * bytesPerSample * _channels) + (channel * bytesPerSample), bytesPerSample);
                 }
 
-                _currentSample++;
+
                 samplesRead++;
             }
 
