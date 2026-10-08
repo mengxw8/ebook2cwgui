@@ -32,10 +32,24 @@ namespace CW
 {
     public partial class CopyingPractice : Form
     {
+        private readonly InputLanguageScope inputLanguageScope = new();
+
         //[DllImport("user32.dll")]
         //static extern long LoadKeyboardLayout(string pwszKLID, uint Flags);
         [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
         private static partial IntPtr LoadKeyboardLayoutA(string pwszKLID, uint Flags);
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            try
+            {
+                base.OnFormClosed(e);
+            }
+            finally
+            {
+                inputLanguageScope.Dispose();
+            }
+        }
 
         public CopyingPractice()
         {

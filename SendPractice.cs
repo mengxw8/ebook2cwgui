@@ -38,6 +38,8 @@ namespace CW
 {
     public partial class SendPractice : Form
     {
+        private readonly InputLanguageScope inputLanguageScope = new();
+
         //[DllImport("user32.dll")]
         //static extern long LoadKeyboardLayout(string pwszKLID, uint Flags);
         [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
@@ -55,6 +57,18 @@ namespace CW
         //用来记录发报的时长
         private readonly Queue<double> audioRecordQueue = new();
 
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            try
+            {
+                base.OnFormClosed(e);
+            }
+            finally
+            {
+                inputLanguageScope.Dispose();
+            }
+        }
 
         public SendPractice()
         {

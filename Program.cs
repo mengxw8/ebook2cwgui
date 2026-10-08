@@ -10,6 +10,7 @@ namespace CW
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
+            using var inputLanguageScope = new InputLanguageScope();
             ApplicationConfiguration.Initialize();
             // 子窗口由各功能按钮动态创建，定时同步确保新窗口也继承当前主题。
             using var themeTimer = new System.Windows.Forms.Timer { Interval = 500 };

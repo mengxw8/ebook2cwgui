@@ -35,6 +35,8 @@ namespace CW
 {
     public partial class NumberCopyingPractice : Form
     {
+        private readonly InputLanguageScope inputLanguageScope = new();
+
         //[DllImport("user32.dll")]
         //static extern long LoadKeyboardLayout(string pwszKLID, uint Flags);
         [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
@@ -47,6 +49,18 @@ group => group.Value // 取最后一个值（覆盖冲突键）
         private readonly MorsePlayer morsePlayer;
         private readonly WaveOutEvent waveOut = new();
         MorseConfig morseConfig = MorseConfig.Create(20);
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            try
+            {
+                base.OnFormClosed(e);
+            }
+            finally
+            {
+                inputLanguageScope.Dispose();
+            }
+        }
+
         public NumberCopyingPractice()
         {
             InitializeComponent();
