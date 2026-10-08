@@ -34,6 +34,8 @@ namespace CW
 
 
   
+            // 先清除无效条目，避免抽到空词后无休止重试。
+            book = book.Where(word => !string.IsNullOrWhiteSpace(word)).ToList();
             if (groupNum <= 0 || book.Count == 0)
                 return "";
 
@@ -41,9 +43,6 @@ namespace CW
             while (groupNum > 0)
             {
                 string? word = book[random.Next(0, book.Count)];
-                if (word == null || word == "") {
-                    continue;
-                }
                 answer += word;
                 groupNum--;
                 if (groupNum > 0)
