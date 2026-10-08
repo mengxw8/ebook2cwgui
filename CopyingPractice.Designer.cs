@@ -126,7 +126,7 @@
             radioButton7.Margin = new Padding(5, 4, 5, 4);
             radioButton7.Name = "radioButton7";
             radioButton7.Size = new Size(131, 28);
-            radioButton7.TabIndex = 8;
+            radioButton7.TabIndex = 15;
             radioButton7.TabStop = true;
             radioButton7.Text = "Koch训练法";
             radioButton7.UseVisualStyleBackColor = true;
@@ -139,7 +139,7 @@
             individuationRbtn.Margin = new Padding(5, 4, 5, 4);
             individuationRbtn.Name = "individuationRbtn";
             individuationRbtn.Size = new Size(89, 28);
-            individuationRbtn.TabIndex = 7;
+            individuationRbtn.TabIndex = 14;
             individuationRbtn.TabStop = true;
             individuationRbtn.Text = "自定义";
             individuationRbtn.UseVisualStyleBackColor = true;
@@ -152,7 +152,7 @@
             radioButton8.Margin = new Padding(5, 4, 5, 4);
             radioButton8.Name = "radioButton8";
             radioButton8.Size = new Size(107, 28);
-            radioButton8.TabIndex = 6;
+            radioButton8.TabIndex = 13;
             radioButton8.TabStop = true;
             radioButton8.Text = "随机单词";
             radioButton8.UseVisualStyleBackColor = true;
@@ -165,7 +165,7 @@
             radioButton6.Margin = new Padding(5, 4, 5, 4);
             radioButton6.Name = "radioButton6";
             radioButton6.Size = new Size(71, 28);
-            radioButton6.TabIndex = 5;
+            radioButton6.TabIndex = 12;
             radioButton6.TabStop = true;
             radioButton6.Text = "新闻";
             radioButton6.UseVisualStyleBackColor = true;
@@ -178,7 +178,7 @@
             radioButton5.Margin = new Padding(5, 4, 5, 4);
             radioButton5.Name = "radioButton5";
             radioButton5.Size = new Size(71, 28);
-            radioButton5.TabIndex = 4;
+            radioButton5.TabIndex = 10;
             radioButton5.TabStop = true;
             radioButton5.Text = "符号";
             radioButton5.UseVisualStyleBackColor = true;
@@ -191,7 +191,7 @@
             radioButton4.Margin = new Padding(5, 4, 5, 4);
             radioButton4.Name = "radioButton4";
             radioButton4.Size = new Size(107, 28);
-            radioButton4.TabIndex = 3;
+            radioButton4.TabIndex = 11;
             radioButton4.TabStop = true;
             radioButton4.Text = "英语文章";
             radioButton4.UseVisualStyleBackColor = true;
@@ -204,7 +204,7 @@
             radioButton3.Margin = new Padding(5, 4, 5, 4);
             radioButton3.Name = "radioButton3";
             radioButton3.Size = new Size(156, 28);
-            radioButton3.TabIndex = 2;
+            radioButton3.TabIndex = 9;
             radioButton3.TabStop = true;
             radioButton3.Text = "数字+字母分组";
             radioButton3.UseVisualStyleBackColor = true;
@@ -217,7 +217,7 @@
             radioButton2.Margin = new Padding(5, 4, 5, 4);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new Size(107, 28);
-            radioButton2.TabIndex = 1;
+            radioButton2.TabIndex = 8;
             radioButton2.TabStop = true;
             radioButton2.Text = "分组字母";
             radioButton2.UseVisualStyleBackColor = true;
@@ -230,7 +230,7 @@
             radioButton1.Margin = new Padding(5, 4, 5, 4);
             radioButton1.Name = "radioButton1";
             radioButton1.Size = new Size(107, 28);
-            radioButton1.TabIndex = 0;
+            radioButton1.TabIndex = 6;
             radioButton1.TabStop = true;
             radioButton1.Text = "分组数字";
             radioButton1.UseVisualStyleBackColor = true;
@@ -253,7 +253,7 @@
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(5, 4, 5, 4);
             groupBox2.Size = new Size(1155, 141);
-            groupBox2.TabIndex = 1;
+            groupBox2.TabIndex = 35;
             groupBox2.TabStop = false;
             groupBox2.Text = "个性化定制";
             // 
@@ -263,7 +263,7 @@
             msgEndTxb.Margin = new Padding(5, 4, 5, 4);
             msgEndTxb.Name = "msgEndTxb";
             msgEndTxb.Size = new Size(136, 30);
-            msgEndTxb.TabIndex = 14;
+            msgEndTxb.TabIndex = 36;
             msgEndTxb.Text = "iii";
             msgEndTxb.TextChanged += msgEndTxb_TextChanged;
             // 
@@ -274,7 +274,7 @@
             label9.Margin = new Padding(5, 0, 5, 0);
             label9.Name = "label9";
             label9.Size = new Size(64, 24);
-            label9.TabIndex = 13;
+            label9.TabIndex = 37;
             label9.Text = "报尾：";
             // 
             // msgStartTxb
@@ -283,7 +283,7 @@
             msgStartTxb.Margin = new Padding(5, 4, 5, 4);
             msgStartTxb.Name = "msgStartTxb";
             msgStartTxb.Size = new Size(136, 30);
-            msgStartTxb.TabIndex = 12;
+            msgStartTxb.TabIndex = 26;
             msgStartTxb.Text = "msg=";
             // 
             // label10
@@ -293,7 +293,7 @@
             label10.Margin = new Padding(5, 0, 5, 0);
             label10.Name = "label10";
             label10.Size = new Size(64, 24);
-            label10.TabIndex = 11;
+            label10.TabIndex = 27;
             label10.Text = "报头：";
             // 
             // label7
@@ -303,7 +303,7 @@
             label7.Margin = new Padding(5, 0, 5, 0);
             label7.Name = "label7";
             label7.Size = new Size(92, 24);
-            label7.TabIndex = 5;
+            label7.TabIndex = 16;
             label7.Text = "Koch课时:";
             // 
             // KochList
@@ -316,7 +316,7 @@
             KochList.Margin = new Padding(5, 4, 5, 4);
             KochList.Name = "KochList";
             KochList.Size = new Size(136, 32);
-            KochList.TabIndex = 4;
+            KochList.TabIndex = 3;
             KochList.SelectedIndexChanged += KochList_SelectedIndexChanged;
             // 
             // eqBox
@@ -328,7 +328,7 @@
             eqBox.Margin = new Padding(5, 4, 5, 4);
             eqBox.Name = "eqBox";
             eqBox.Size = new Size(334, 85);
-            eqBox.TabIndex = 3;
+            eqBox.TabIndex = 4;
             // 
             // neBox
             // 
@@ -340,7 +340,7 @@
             neBox.Margin = new Padding(5, 4, 5, 4);
             neBox.Name = "neBox";
             neBox.Size = new Size(334, 85);
-            neBox.TabIndex = 2;
+            neBox.TabIndex = 7;
             // 
             // eqRbtn
             // 
@@ -349,7 +349,7 @@
             eqRbtn.Margin = new Padding(5, 4, 5, 4);
             eqRbtn.Name = "eqRbtn";
             eqRbtn.Size = new Size(89, 28);
-            eqRbtn.TabIndex = 1;
+            eqRbtn.TabIndex = 25;
             eqRbtn.TabStop = true;
             eqRbtn.Text = "仅包含";
             eqRbtn.UseVisualStyleBackColor = true;
@@ -362,7 +362,7 @@
             neRbtn.Margin = new Padding(5, 4, 5, 4);
             neRbtn.Name = "neRbtn";
             neRbtn.Size = new Size(71, 28);
-            neRbtn.TabIndex = 0;
+            neRbtn.TabIndex = 24;
             neRbtn.TabStop = true;
             neRbtn.Text = "排除";
             neRbtn.UseVisualStyleBackColor = true;
@@ -399,7 +399,7 @@
             groupBox3.Name = "groupBox3";
             groupBox3.Padding = new Padding(5, 4, 5, 4);
             groupBox3.Size = new Size(757, 234);
-            groupBox3.TabIndex = 2;
+            groupBox3.TabIndex = 1;
             groupBox3.TabStop = false;
             groupBox3.Text = "CW配置";
             // 
@@ -412,7 +412,7 @@
             waveList.Margin = new Padding(5, 4, 5, 4);
             waveList.Name = "waveList";
             waveList.Size = new Size(100, 32);
-            waveList.TabIndex = 25;
+            waveList.TabIndex = 42;
             waveList.SelectedIndexChanged += waveList_SelectedIndexChanged;
             // 
             // label5
@@ -422,7 +422,7 @@
             label5.Margin = new Padding(5, 0, 5, 0);
             label5.Name = "label5";
             label5.Size = new Size(50, 24);
-            label5.TabIndex = 24;
+            label5.TabIndex = 43;
             label5.Text = "波形:";
             // 
             // label8
@@ -432,7 +432,7 @@
             label8.Margin = new Padding(5, 0, 5, 0);
             label8.Name = "label8";
             label8.Size = new Size(103, 24);
-            label8.TabIndex = 23;
+            label8.TabIndex = 34;
             label8.Text = "信噪比(dB):";
             // 
             // noiseLevel
@@ -444,7 +444,7 @@
             noiseLevel.Minimum = new decimal(new int[] { 10, 0, 0, int.MinValue });
             noiseLevel.Name = "noiseLevel";
             noiseLevel.Size = new Size(63, 30);
-            noiseLevel.TabIndex = 22;
+            noiseLevel.TabIndex = 33;
             noiseLevel.ValueChanged += NoiseSettingsChanged;
             // 
             // noiseCheckBox
@@ -454,7 +454,7 @@
             noiseCheckBox.Margin = new Padding(5, 4, 5, 4);
             noiseCheckBox.Name = "noiseCheckBox";
             noiseCheckBox.Size = new Size(108, 28);
-            noiseCheckBox.TabIndex = 26;
+            noiseCheckBox.TabIndex = 52;
             noiseCheckBox.Text = "启用噪声";
             noiseCheckBox.UseVisualStyleBackColor = true;
             noiseCheckBox.CheckedChanged += NoiseSettingsChanged;
@@ -466,7 +466,7 @@
             symbolsChb.Margin = new Padding(5, 4, 5, 4);
             symbolsChb.Name = "symbolsChb";
             symbolsChb.Size = new Size(126, 28);
-            symbolsChb.TabIndex = 21;
+            symbolsChb.TabIndex = 47;
             symbolsChb.Text = "文章含符号";
             symbolsChb.UseVisualStyleBackColor = true;
             // 
@@ -489,7 +489,7 @@
             label6.Margin = new Padding(5, 0, 5, 0);
             label6.Name = "label6";
             label6.Size = new Size(122, 24);
-            label6.TabIndex = 19;
+            label6.TabIndex = 23;
             label6.Text = "词间额外间隔:";
             // 
             // checkAnserSpeed
@@ -500,7 +500,7 @@
             checkAnserSpeed.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             checkAnserSpeed.Name = "checkAnserSpeed";
             checkAnserSpeed.Size = new Size(75, 30);
-            checkAnserSpeed.TabIndex = 16;
+            checkAnserSpeed.TabIndex = 51;
             checkAnserSpeed.Value = new decimal(new int[] { 20, 0, 0, 0 });
             // 
             // checkAnswerChb
@@ -510,7 +510,7 @@
             checkAnswerChb.Margin = new Padding(5, 4, 5, 4);
             checkAnswerChb.Name = "checkAnswerChb";
             checkAnswerChb.Size = new Size(72, 28);
-            checkAnswerChb.TabIndex = 15;
+            checkAnswerChb.TabIndex = 50;
             checkAnswerChb.Text = "校报";
             checkAnswerChb.UseVisualStyleBackColor = true;
             checkAnswerChb.CheckedChanged += CheckAnswerChb_CheckedChanged;
@@ -522,7 +522,7 @@
             showAnswerChb.Margin = new Padding(5, 4, 5, 4);
             showAnswerChb.Name = "showAnswerChb";
             showAnswerChb.Size = new Size(108, 28);
-            showAnswerChb.TabIndex = 14;
+            showAnswerChb.TabIndex = 40;
             showAnswerChb.Text = "显示答案";
             showAnswerChb.UseVisualStyleBackColor = true;
             showAnswerChb.CheckedChanged += ShowAnswerChb_CheckedChanged;
@@ -534,7 +534,7 @@
             EachGroup.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             EachGroup.Name = "EachGroup";
             EachGroup.Size = new Size(74, 30);
-            EachGroup.TabIndex = 13;
+            EachGroup.TabIndex = 46;
             EachGroup.Value = new decimal(new int[] { 4, 0, 0, 0 });
             // 
             // label4
@@ -544,7 +544,7 @@
             label4.Margin = new Padding(5, 0, 5, 0);
             label4.Name = "label4";
             label4.Size = new Size(120, 24);
-            label4.TabIndex = 12;
+            label4.TabIndex = 48;
             label4.Text = "数量(个/组)：";
             // 
             // exportBtn
@@ -553,7 +553,7 @@
             exportBtn.Margin = new Padding(5, 4, 5, 4);
             exportBtn.Name = "exportBtn";
             exportBtn.Size = new Size(118, 32);
-            exportBtn.TabIndex = 10;
+            exportBtn.TabIndex = 45;
             exportBtn.Text = "导出";
             exportBtn.UseVisualStyleBackColor = true;
             exportBtn.Click += ExportBtn_Click;
@@ -565,7 +565,7 @@
             repeatRbtn.Margin = new Padding(5, 4, 5, 4);
             repeatRbtn.Name = "repeatRbtn";
             repeatRbtn.Size = new Size(126, 28);
-            repeatRbtn.TabIndex = 9;
+            repeatRbtn.TabIndex = 21;
             repeatRbtn.Text = "同组无重复";
             repeatRbtn.UseVisualStyleBackColor = true;
             // 
@@ -576,7 +576,7 @@
             continuousRbtn.Margin = new Padding(5, 4, 5, 4);
             continuousRbtn.Name = "continuousRbtn";
             continuousRbtn.Size = new Size(126, 28);
-            continuousRbtn.TabIndex = 8;
+            continuousRbtn.TabIndex = 31;
             continuousRbtn.Text = "同组无连续";
             continuousRbtn.UseVisualStyleBackColor = true;
             // 
@@ -586,7 +586,7 @@
             submitAnswerBtn.Margin = new Padding(5, 4, 5, 4);
             submitAnswerBtn.Name = "submitAnswerBtn";
             submitAnswerBtn.Size = new Size(118, 32);
-            submitAnswerBtn.TabIndex = 7;
+            submitAnswerBtn.TabIndex = 32;
             submitAnswerBtn.Text = "提交答案";
             submitAnswerBtn.UseVisualStyleBackColor = true;
             submitAnswerBtn.Click += SubmitAnswerBtn_Click;
@@ -597,7 +597,7 @@
             startBtn.Margin = new Padding(5, 4, 5, 4);
             startBtn.Name = "startBtn";
             startBtn.Size = new Size(118, 32);
-            startBtn.TabIndex = 6;
+            startBtn.TabIndex = 22;
             startBtn.Text = "开始抄收";
             startBtn.UseVisualStyleBackColor = true;
             startBtn.Click += StartBtn_Click;
@@ -609,7 +609,7 @@
             speetBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             speetBox.Name = "speetBox";
             speetBox.Size = new Size(75, 30);
-            speetBox.TabIndex = 5;
+            speetBox.TabIndex = 18;
             speetBox.Value = new decimal(new int[] { 20, 0, 0, 0 });
             speetBox.ValueChanged += SpeetBox_ValueChanged;
             // 
@@ -621,7 +621,7 @@
             toneBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             toneBox.Name = "toneBox";
             toneBox.Size = new Size(75, 30);
-            toneBox.TabIndex = 4;
+            toneBox.TabIndex = 30;
             toneBox.Value = new decimal(new int[] { 600, 0, 0, 0 });
             toneBox.ValueChanged += toneBox_ValueChanged;
             // 
@@ -633,7 +633,7 @@
             groupNumBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             groupNumBox.Name = "groupNumBox";
             groupNumBox.Size = new Size(75, 30);
-            groupNumBox.TabIndex = 3;
+            groupNumBox.TabIndex = 39;
             groupNumBox.Value = new decimal(new int[] { 100, 0, 0, 0 });
             // 
             // label3
@@ -643,7 +643,7 @@
             label3.Margin = new Padding(5, 0, 5, 0);
             label3.Name = "label3";
             label3.Size = new Size(94, 24);
-            label3.TabIndex = 2;
+            label3.TabIndex = 41;
             label3.Text = "数量(组)：";
             // 
             // label2
@@ -653,7 +653,7 @@
             label2.Margin = new Padding(5, 0, 5, 0);
             label2.Name = "label2";
             label2.Size = new Size(85, 24);
-            label2.TabIndex = 1;
+            label2.TabIndex = 29;
             label2.Text = "频率(Hz):";
             // 
             // label1
@@ -663,7 +663,7 @@
             label1.Margin = new Padding(5, 0, 5, 0);
             label1.Name = "label1";
             label1.Size = new Size(109, 24);
-            label1.TabIndex = 0;
+            label1.TabIndex = 19;
             label1.Text = "速度(WPM):";
             // 
             // stopBtn
@@ -672,7 +672,7 @@
             stopBtn.Margin = new Padding(5, 4, 5, 4);
             stopBtn.Name = "stopBtn";
             stopBtn.Size = new Size(118, 32);
-            stopBtn.TabIndex = 11;
+            stopBtn.TabIndex = 49;
             stopBtn.Text = "结束抄收";
             stopBtn.UseVisualStyleBackColor = true;
             stopBtn.Click += StopBtn_Click;
@@ -686,7 +686,7 @@
             groupBox4.Name = "groupBox4";
             groupBox4.Padding = new Padding(5, 4, 5, 4);
             groupBox4.Size = new Size(2978, 1220);
-            groupBox4.TabIndex = 3;
+            groupBox4.TabIndex = 53;
             groupBox4.TabStop = false;
             groupBox4.Text = "抄收结果";
             // 
@@ -698,7 +698,7 @@
             answerBox.Margin = new Padding(5, 4, 5, 4);
             answerBox.Name = "answerBox";
             answerBox.Size = new Size(2968, 1189);
-            answerBox.TabIndex = 0;
+            answerBox.TabIndex = 5;
             answerBox.Text = " ";
             // 
             // timer1
@@ -718,7 +718,7 @@
             groupBox5.Name = "groupBox5";
             groupBox5.Padding = new Padding(5, 4, 5, 4);
             groupBox5.Size = new Size(171, 234);
-            groupBox5.TabIndex = 4;
+            groupBox5.TabIndex = 2;
             groupBox5.TabStop = false;
             groupBox5.Text = "控制";
             // 
@@ -729,7 +729,7 @@
             rePlayBtn.Margin = new Padding(5, 4, 5, 4);
             rePlayBtn.Name = "rePlayBtn";
             rePlayBtn.Size = new Size(118, 32);
-            rePlayBtn.TabIndex = 3;
+            rePlayBtn.TabIndex = 44;
             rePlayBtn.Text = "重播";
             rePlayBtn.UseVisualStyleBackColor = true;
             rePlayBtn.Click += ResumeBtn_Click;
@@ -741,7 +741,7 @@
             continuePlayBtn.Margin = new Padding(5, 4, 5, 4);
             continuePlayBtn.Name = "continuePlayBtn";
             continuePlayBtn.Size = new Size(118, 32);
-            continuePlayBtn.TabIndex = 2;
+            continuePlayBtn.TabIndex = 38;
             continuePlayBtn.Text = "继续播放";
             continuePlayBtn.UseVisualStyleBackColor = true;
             continuePlayBtn.Click += ContinuePlayBtn_Click;
@@ -753,7 +753,7 @@
             pauseBtn.Margin = new Padding(5, 4, 5, 4);
             pauseBtn.Name = "pauseBtn";
             pauseBtn.Size = new Size(118, 32);
-            pauseBtn.TabIndex = 1;
+            pauseBtn.TabIndex = 28;
             pauseBtn.Text = "暂停播放";
             pauseBtn.UseVisualStyleBackColor = true;
             pauseBtn.Click += PauseBtn_Click;
@@ -764,7 +764,7 @@
             clearAnswerBtn.Margin = new Padding(5, 4, 5, 4);
             clearAnswerBtn.Name = "clearAnswerBtn";
             clearAnswerBtn.Size = new Size(118, 32);
-            clearAnswerBtn.TabIndex = 0;
+            clearAnswerBtn.TabIndex = 17;
             clearAnswerBtn.Text = "清空答案";
             clearAnswerBtn.UseVisualStyleBackColor = true;
             clearAnswerBtn.Click += ClearAnswer_Click;

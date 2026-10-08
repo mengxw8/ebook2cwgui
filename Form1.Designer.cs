@@ -73,7 +73,7 @@
             label1.Margin = new Padding(5, 0, 5, 0);
             label1.Name = "label1";
             label1.Size = new Size(266, 24);
-            label1.TabIndex = 4;
+            label1.TabIndex = 10;
             label1.Text = "本软件基于GPL-2.0 license开源";
             // 
             // label2
@@ -83,7 +83,7 @@
             label2.Margin = new Padding(5, 0, 5, 0);
             label2.Name = "label2";
             label2.Size = new Size(244, 24);
-            label2.TabIndex = 5;
+            label2.TabIndex = 11;
             label2.Text = "使用该软件代表同意相关协议";
             // 
             // linkLabel1
@@ -93,7 +93,7 @@
             linkLabel1.Margin = new Padding(5, 0, 5, 0);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(82, 24);
-            linkLabel1.TabIndex = 6;
+            linkLabel1.TabIndex = 12;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "反馈问题";
             linkLabel1.LinkClicked += LinkLabel1_LinkClicked;
@@ -126,7 +126,7 @@
             chineseCodeQuickQueryBtn.Margin = new Padding(5, 4, 5, 4);
             chineseCodeQuickQueryBtn.Name = "chineseCodeQuickQueryBtn";
             chineseCodeQuickQueryBtn.Size = new Size(157, 32);
-            chineseCodeQuickQueryBtn.TabIndex = 7;
+            chineseCodeQuickQueryBtn.TabIndex = 4;
             chineseCodeQuickQueryBtn.Text = "中文电码本快查";
             chineseCodeQuickQueryBtn.UseVisualStyleBackColor = true;
             chineseCodeQuickQueryBtn.Click += ChineseCodeQuickQueryBtn_Click;
@@ -137,7 +137,7 @@
             abbreviationQuickSearchBtn.Margin = new Padding(5, 4, 5, 4);
             abbreviationQuickSearchBtn.Name = "abbreviationQuickSearchBtn";
             abbreviationQuickSearchBtn.Size = new Size(157, 32);
-            abbreviationQuickSearchBtn.TabIndex = 8;
+            abbreviationQuickSearchBtn.TabIndex = 5;
             abbreviationQuickSearchBtn.Text = "简语速查";
             abbreviationQuickSearchBtn.UseVisualStyleBackColor = true;
             abbreviationQuickSearchBtn.Click += AbbreviationQuickSearchBtn_Click;
@@ -148,7 +148,7 @@
             ToPlayerBtn.Margin = new Padding(5, 4, 5, 4);
             ToPlayerBtn.Name = "ToPlayerBtn";
             ToPlayerBtn.Size = new Size(157, 32);
-            ToPlayerBtn.TabIndex = 9;
+            ToPlayerBtn.TabIndex = 6;
             ToPlayerBtn.Text = "莫尔斯播放器";
             ToPlayerBtn.UseVisualStyleBackColor = true;
             ToPlayerBtn.Click += ToPlayerBtn_Click;
@@ -159,7 +159,7 @@
             multiChannelBtn.Margin = new Padding(5, 4, 5, 4);
             multiChannelBtn.Name = "multiChannelBtn";
             multiChannelBtn.Size = new Size(157, 32);
-            multiChannelBtn.TabIndex = 10;
+            multiChannelBtn.TabIndex = 7;
             multiChannelBtn.Text = "多路播放";
             multiChannelBtn.UseVisualStyleBackColor = true;
             multiChannelBtn.Click += MultiChannelBtn_Click;
@@ -171,7 +171,7 @@
             themeLabel.Margin = new Padding(5, 0, 5, 0);
             themeLabel.Name = "themeLabel";
             themeLabel.Size = new Size(86, 24);
-            themeLabel.TabIndex = 12;
+            themeLabel.TabIndex = 9;
             themeLabel.Text = "界面主题:";
             // 
             // themeCombo
@@ -182,7 +182,7 @@
             themeCombo.Margin = new Padding(5, 4, 5, 4);
             themeCombo.Name = "themeCombo";
             themeCombo.Size = new Size(199, 32);
-            themeCombo.TabIndex = 11;
+            themeCombo.TabIndex = 8;
             themeCombo.SelectedIndexChanged += ThemeCombo_SelectedIndexChanged;
             // 
             // Form1

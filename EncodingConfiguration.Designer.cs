@@ -48,7 +48,7 @@
             label1.Location = new Point(9, 31);
             label1.Name = "label1";
             label1.Size = new Size(68, 17);
-            label1.TabIndex = 0;
+            label1.TabIndex = 7;
             label1.Text = "编码方式：";
             // 
             // groupBox1
@@ -64,7 +64,7 @@
             groupBox1.Location = new Point(3, 3);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(798, 72);
-            groupBox1.TabIndex = 1;
+            groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "配置";
             // 
@@ -74,7 +74,7 @@
             customizeBtn.Location = new Point(262, 29);
             customizeBtn.Name = "customizeBtn";
             customizeBtn.Size = new Size(62, 21);
-            customizeBtn.TabIndex = 5;
+            customizeBtn.TabIndex = 6;
             customizeBtn.Text = "自定义";
             customizeBtn.UseVisualStyleBackColor = true;
             customizeBtn.CheckedChanged += CustomizeBtn_CheckedChanged;
@@ -85,7 +85,7 @@
             number10Btn.Location = new Point(192, 29);
             number10Btn.Name = "number10Btn";
             number10Btn.Size = new Size(64, 21);
-            number10Btn.TabIndex = 4;
+            number10Btn.TabIndex = 5;
             number10Btn.Text = "短10改";
             number10Btn.UseVisualStyleBackColor = true;
             number10Btn.CheckedChanged += Number10Btn_CheckedChanged;
@@ -96,7 +96,7 @@
             number5Btn.Location = new Point(129, 29);
             number5Btn.Name = "number5Btn";
             number5Btn.Size = new Size(57, 21);
-            number5Btn.TabIndex = 3;
+            number5Btn.TabIndex = 4;
             number5Btn.Text = "短5改";
             number5Btn.UseVisualStyleBackColor = true;
             number5Btn.CheckedChanged += Number5Btn_CheckedChanged;
@@ -108,7 +108,7 @@
             defaultBtn.Location = new Point(73, 29);
             defaultBtn.Name = "defaultBtn";
             defaultBtn.Size = new Size(50, 21);
-            defaultBtn.TabIndex = 2;
+            defaultBtn.TabIndex = 3;
             defaultBtn.TabStop = true;
             defaultBtn.Text = "默认";
             defaultBtn.UseVisualStyleBackColor = true;
@@ -119,7 +119,7 @@
             SaveBtn.Location = new Point(697, 22);
             SaveBtn.Name = "SaveBtn";
             SaveBtn.Size = new Size(75, 23);
-            SaveBtn.TabIndex = 1;
+            SaveBtn.TabIndex = 2;
             SaveBtn.Text = "应用";
             SaveBtn.UseVisualStyleBackColor = true;
             SaveBtn.Click += SaveBtn_Click;
@@ -132,7 +132,7 @@
             groupBox2.Location = new Point(3, 76);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(798, 370);
-            groupBox2.TabIndex = 2;
+            groupBox2.TabIndex = 8;
             groupBox2.TabStop = false;
             groupBox2.Text = "详细配置";
             // 
@@ -143,7 +143,7 @@
             codeConfigTxb.Location = new Point(3, 19);
             codeConfigTxb.Name = "codeConfigTxb";
             codeConfigTxb.Size = new Size(792, 348);
-            codeConfigTxb.TabIndex = 0;
+            codeConfigTxb.TabIndex = 1;
             codeConfigTxb.Text = "";
             // 
             // EncodingConfiguration

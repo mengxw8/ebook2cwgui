@@ -100,7 +100,7 @@
             label2.Location = new Point(4, 58);
             label2.Name = "label2";
             label2.Size = new Size(80, 17);
-            label2.TabIndex = 1;
+            label2.TabIndex = 11;
             label2.Text = "输出文件路径";
             // 
             // inputFilePathTxb
@@ -109,7 +109,7 @@
             inputFilePathTxb.Location = new Point(8, 21);
             inputFilePathTxb.Name = "inputFilePathTxb";
             inputFilePathTxb.Size = new Size(497, 23);
-            inputFilePathTxb.TabIndex = 2;
+            inputFilePathTxb.TabIndex = 1;
             // 
             // inputFilePathBtn
             // 
@@ -128,7 +128,7 @@
             outputFilePathTxb.Location = new Point(8, 78);
             outputFilePathTxb.Name = "outputFilePathTxb";
             outputFilePathTxb.Size = new Size(497, 23);
-            outputFilePathTxb.TabIndex = 4;
+            outputFilePathTxb.TabIndex = 12;
             // 
             // outputFilePathBtn
             // 
@@ -136,7 +136,7 @@
             outputFilePathBtn.Location = new Point(511, 78);
             outputFilePathBtn.Name = "outputFilePathBtn";
             outputFilePathBtn.Size = new Size(89, 23);
-            outputFilePathBtn.TabIndex = 5;
+            outputFilePathBtn.TabIndex = 13;
             outputFilePathBtn.Text = "选择";
             outputFilePathBtn.UseVisualStyleBackColor = true;
             outputFilePathBtn.Click += OutputFilePathBtn_Click;
@@ -147,7 +147,7 @@
             label3.Location = new Point(4, 116);
             label3.Name = "label3";
             label3.Size = new Size(68, 17);
-            label3.TabIndex = 6;
+            label3.TabIndex = 23;
             label3.Text = "段落分隔符";
             // 
             // separatorTxb
@@ -156,7 +156,7 @@
             separatorTxb.Location = new Point(78, 113);
             separatorTxb.Name = "separatorTxb";
             separatorTxb.Size = new Size(522, 23);
-            separatorTxb.TabIndex = 7;
+            separatorTxb.TabIndex = 22;
             // 
             // groupBox1
             // 
@@ -175,7 +175,7 @@
             groupBox1.Location = new Point(3, 149);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(236, 197);
-            groupBox1.TabIndex = 8;
+            groupBox1.TabIndex = 28;
             groupBox1.TabStop = false;
             groupBox1.Text = "CW参数";
             // 
@@ -186,7 +186,7 @@
             waveform.Location = new Point(152, 165);
             waveform.Name = "waveform";
             waveform.Size = new Size(72, 25);
-            waveform.TabIndex = 11;
+            waveform.TabIndex = 30;
             // 
             // label9
             // 
@@ -194,7 +194,7 @@
             label9.Location = new Point(5, 168);
             label9.Name = "label9";
             label9.Size = new Size(44, 17);
-            label9.TabIndex = 10;
+            label9.TabIndex = 31;
             label9.Text = "波形：";
             // 
             // toneTxb
@@ -203,7 +203,7 @@
             toneTxb.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             toneTxb.Name = "toneTxb";
             toneTxb.Size = new Size(71, 23);
-            toneTxb.TabIndex = 9;
+            toneTxb.TabIndex = 27;
             toneTxb.Value = new decimal(new int[] { 600, 0, 0, 0 });
             // 
             // label8
@@ -212,7 +212,7 @@
             label8.Location = new Point(5, 139);
             label8.Name = "label8";
             label8.Size = new Size(67, 17);
-            label8.TabIndex = 8;
+            label8.TabIndex = 25;
             label8.Text = "频率(Hz)：";
             // 
             // QRQ
@@ -220,7 +220,7 @@
             QRQ.Location = new Point(153, 110);
             QRQ.Name = "QRQ";
             QRQ.Size = new Size(71, 23);
-            QRQ.TabIndex = 7;
+            QRQ.TabIndex = 21;
             // 
             // label7
             // 
@@ -228,7 +228,7 @@
             label7.Location = new Point(5, 110);
             label7.Name = "label7";
             label7.Size = new Size(132, 17);
-            label7.TabIndex = 6;
+            label7.TabIndex = 19;
             label7.Text = "QRQ(分钟，0=关闭)：";
             // 
             // extraSpaceTxb
@@ -236,7 +236,7 @@
             extraSpaceTxb.Location = new Point(153, 80);
             extraSpaceTxb.Name = "extraSpaceTxb";
             extraSpaceTxb.Size = new Size(71, 23);
-            extraSpaceTxb.TabIndex = 5;
+            extraSpaceTxb.TabIndex = 15;
             // 
             // label6
             // 
@@ -244,7 +244,7 @@
             label6.Location = new Point(5, 82);
             label6.Name = "label6";
             label6.Size = new Size(92, 17);
-            label6.TabIndex = 4;
+            label6.TabIndex = 16;
             label6.Text = "单字额外停顿：";
             // 
             // effSpeedTxb
@@ -252,7 +252,7 @@
             effSpeedTxb.Location = new Point(153, 52);
             effSpeedTxb.Name = "effSpeedTxb";
             effSpeedTxb.Size = new Size(71, 23);
-            effSpeedTxb.TabIndex = 3;
+            effSpeedTxb.TabIndex = 8;
             // 
             // label5
             // 
@@ -260,7 +260,7 @@
             label5.Location = new Point(5, 54);
             label5.Name = "label5";
             label5.Size = new Size(108, 17);
-            label5.TabIndex = 2;
+            label5.TabIndex = 9;
             label5.Text = "有效速度(WpM)：";
             // 
             // speedTxb
@@ -269,7 +269,7 @@
             speedTxb.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             speedTxb.Name = "speedTxb";
             speedTxb.Size = new Size(71, 23);
-            speedTxb.TabIndex = 1;
+            speedTxb.TabIndex = 4;
             speedTxb.Value = new decimal(new int[] { 20, 0, 0, 0 });
             speedTxb.Leave += SpeedTxb_Leave;
             // 
@@ -279,7 +279,7 @@
             label4.Location = new Point(5, 25);
             label4.Name = "label4";
             label4.Size = new Size(84, 17);
-            label4.TabIndex = 0;
+            label4.TabIndex = 5;
             label4.Text = "速度(WpM)：";
             // 
             // groupBox2
@@ -300,7 +300,7 @@
             groupBox2.Location = new Point(292, 149);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(308, 197);
-            groupBox2.TabIndex = 12;
+            groupBox2.TabIndex = 29;
             groupBox2.TabStop = false;
             groupBox2.Text = "输出文件信息";
             // 
@@ -309,21 +309,21 @@
             dateTxb.Location = new Point(67, 136);
             dateTxb.Name = "dateTxb";
             dateTxb.Size = new Size(235, 23);
-            dateTxb.TabIndex = 17;
+            dateTxb.TabIndex = 24;
             // 
             // commentTxb
             // 
             commentTxb.Location = new Point(67, 106);
             commentTxb.Name = "commentTxb";
             commentTxb.Size = new Size(235, 23);
-            commentTxb.TabIndex = 16;
+            commentTxb.TabIndex = 18;
             // 
             // titleTxb
             // 
             titleTxb.Location = new Point(67, 79);
             titleTxb.Name = "titleTxb";
             titleTxb.Size = new Size(235, 23);
-            titleTxb.TabIndex = 15;
+            titleTxb.TabIndex = 14;
             titleTxb.Text = "cw";
             // 
             // authorTxb
@@ -331,14 +331,14 @@
             authorTxb.Location = new Point(67, 50);
             authorTxb.Name = "authorTxb";
             authorTxb.Size = new Size(235, 23);
-            authorTxb.TabIndex = 14;
+            authorTxb.TabIndex = 7;
             // 
             // fileNameTxb
             // 
             fileNameTxb.Location = new Point(67, 21);
             fileNameTxb.Name = "fileNameTxb";
             fileNameTxb.Size = new Size(235, 23);
-            fileNameTxb.TabIndex = 13;
+            fileNameTxb.TabIndex = 2;
             fileNameTxb.Text = "输出音频";
             // 
             // fileFormat
@@ -348,7 +348,7 @@
             fileFormat.Location = new Point(67, 168);
             fileFormat.Name = "fileFormat";
             fileFormat.Size = new Size(235, 25);
-            fileFormat.TabIndex = 12;
+            fileFormat.TabIndex = 33;
             // 
             // label10
             // 
@@ -356,7 +356,7 @@
             label10.Location = new Point(5, 168);
             label10.Name = "label10";
             label10.Size = new Size(68, 17);
-            label10.TabIndex = 10;
+            label10.TabIndex = 32;
             label10.Text = "文件格式：";
             // 
             // label11
@@ -365,7 +365,7 @@
             label11.Location = new Point(5, 139);
             label11.Name = "label11";
             label11.Size = new Size(32, 17);
-            label11.TabIndex = 8;
+            label11.TabIndex = 26;
             label11.Text = "年：";
             // 
             // label12
@@ -374,7 +374,7 @@
             label12.Location = new Point(5, 110);
             label12.Name = "label12";
             label12.Size = new Size(44, 17);
-            label12.TabIndex = 6;
+            label12.TabIndex = 20;
             label12.Text = "备注：";
             // 
             // label13
@@ -383,7 +383,7 @@
             label13.Location = new Point(5, 82);
             label13.Name = "label13";
             label13.Size = new Size(44, 17);
-            label13.TabIndex = 4;
+            label13.TabIndex = 17;
             label13.Text = "标题：";
             // 
             // label14
@@ -392,7 +392,7 @@
             label14.Location = new Point(5, 54);
             label14.Name = "label14";
             label14.Size = new Size(44, 17);
-            label14.TabIndex = 2;
+            label14.TabIndex = 10;
             label14.Text = "作者：";
             // 
             // label15
@@ -401,7 +401,7 @@
             label15.Location = new Point(5, 25);
             label15.Name = "label15";
             label15.Size = new Size(56, 17);
-            label15.TabIndex = 0;
+            label15.TabIndex = 6;
             label15.Text = "文件名：";
             // 
             // label16
@@ -410,7 +410,7 @@
             label16.Location = new Point(3, 356);
             label16.Name = "label16";
             label16.Size = new Size(152, 17);
-            label16.TabIndex = 13;
+            label16.TabIndex = 36;
             label16.Text = "每段字符数限制(0=关闭)：";
             // 
             // wordsLimitTxb
@@ -418,7 +418,7 @@
             wordsLimitTxb.Location = new Point(156, 354);
             wordsLimitTxb.Name = "wordsLimitTxb";
             wordsLimitTxb.Size = new Size(82, 23);
-            wordsLimitTxb.TabIndex = 14;
+            wordsLimitTxb.TabIndex = 34;
             // 
             // label17
             // 
@@ -426,7 +426,7 @@
             label17.Location = new Point(4, 389);
             label17.Name = "label17";
             label17.Size = new Size(164, 17);
-            label17.TabIndex = 15;
+            label17.TabIndex = 39;
             label17.Text = "每段时长限制(秒，0=关闭)：";
             // 
             // timeLimitTxb
@@ -434,7 +434,7 @@
             timeLimitTxb.Location = new Point(158, 387);
             timeLimitTxb.Name = "timeLimitTxb";
             timeLimitTxb.Size = new Size(82, 23);
-            timeLimitTxb.TabIndex = 16;
+            timeLimitTxb.TabIndex = 38;
             // 
             // resetSpeedCbx
             // 
@@ -445,7 +445,7 @@
             resetSpeedCbx.Location = new Point(291, 354);
             resetSpeedCbx.Name = "resetSpeedCbx";
             resetSpeedCbx.Size = new Size(99, 21);
-            resetSpeedCbx.TabIndex = 17;
+            resetSpeedCbx.TabIndex = 35;
             resetSpeedCbx.Text = "重置每段速度";
             resetSpeedCbx.UseVisualStyleBackColor = true;
             // 
@@ -456,7 +456,7 @@
             disableBtCbx.Location = new Point(291, 381);
             disableBtCbx.Name = "disableBtCbx";
             disableBtCbx.Size = new Size(120, 21);
-            disableBtCbx.TabIndex = 18;
+            disableBtCbx.TabIndex = 37;
             disableBtCbx.Text = "禁用段落的<BT>";
             disableBtCbx.UseVisualStyleBackColor = true;
             // 
@@ -466,7 +466,7 @@
             label18.Location = new Point(4, 418);
             label18.Name = "label18";
             label18.Size = new Size(68, 17);
-            label18.TabIndex = 19;
+            label18.TabIndex = 41;
             label18.Text = "附加参数：";
             // 
             // parametersTxb
@@ -474,7 +474,7 @@
             parametersTxb.Location = new Point(83, 414);
             parametersTxb.Name = "parametersTxb";
             parametersTxb.Size = new Size(511, 23);
-            parametersTxb.TabIndex = 20;
+            parametersTxb.TabIndex = 40;
             // 
             // ConvertBtn
             // 
@@ -482,7 +482,7 @@
             ConvertBtn.Location = new Point(226, 468);
             ConvertBtn.Name = "ConvertBtn";
             ConvertBtn.Size = new Size(105, 25);
-            ConvertBtn.TabIndex = 21;
+            ConvertBtn.TabIndex = 42;
             ConvertBtn.Text = "开始转换";
             ConvertBtn.UseVisualStyleBackColor = true;
             ConvertBtn.Click += ConvertBtn_Click;
@@ -494,7 +494,7 @@
             label20.Location = new Point(406, 502);
             label20.Name = "label20";
             label20.Size = new Size(188, 17);
-            label20.TabIndex = 23;
+            label20.TabIndex = 44;
             label20.Text = "by Fabian Kurz,DJ1YFK, BI8EGZ";
             // 
             // linkLabel1
@@ -504,7 +504,7 @@
             linkLabel1.Location = new Point(406, 485);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(164, 17);
-            linkLabel1.TabIndex = 24;
+            linkLabel1.TabIndex = 43;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "汉化自ebook2cw-gui v0.1.2";
             linkLabel1.TextAlign = ContentAlignment.MiddleCenter;

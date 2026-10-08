@@ -77,7 +77,7 @@
             codeLab.Location = new Point(686, 61);
             codeLab.Name = "codeLab";
             codeLab.Size = new Size(0, 27);
-            codeLab.TabIndex = 3;
+            codeLab.TabIndex = 6;
             // 
             // ChineseLab
             // 
@@ -94,7 +94,7 @@
             queryBox.Location = new Point(409, 37);
             queryBox.Name = "queryBox";
             queryBox.Size = new Size(150, 33);
-            queryBox.TabIndex = 1;
+            queryBox.TabIndex = 3;
             queryBox.KeyDown += TextBox1_KeyDown;
             // 
             // label1
@@ -104,7 +104,7 @@
             label1.Location = new Point(275, 44);
             label1.Name = "label1";
             label1.Size = new Size(122, 21);
-            label1.TabIndex = 0;
+            label1.TabIndex = 5;
             label1.Text = "输入查询代码：";
             // 
             // groupBox2
@@ -115,7 +115,7 @@
             groupBox2.Location = new Point(7, 111);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(1256, 584);
-            groupBox2.TabIndex = 1;
+            groupBox2.TabIndex = 7;
             groupBox2.TabStop = false;
             groupBox2.Text = "记录";
             // 
@@ -147,7 +147,7 @@
             historyTable.Name = "historyTable";
             historyTable.ReadOnly = true;
             historyTable.Size = new Size(1250, 543);
-            historyTable.TabIndex = 0;
+            historyTable.TabIndex = 1;
             // 
             // AbbreviationQuickSearch
             // 

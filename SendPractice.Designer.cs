@@ -151,7 +151,7 @@
             individuationRbtn.Location = new Point(539, 20);
             individuationRbtn.Name = "individuationRbtn";
             individuationRbtn.Size = new Size(62, 21);
-            individuationRbtn.TabIndex = 7;
+            individuationRbtn.TabIndex = 42;
             individuationRbtn.TabStop = true;
             individuationRbtn.Text = "自定义";
             individuationRbtn.UseVisualStyleBackColor = true;
@@ -163,7 +163,7 @@
             radioButton8.Location = new Point(458, 20);
             radioButton8.Name = "radioButton8";
             radioButton8.Size = new Size(74, 21);
-            radioButton8.TabIndex = 6;
+            radioButton8.TabIndex = 41;
             radioButton8.TabStop = true;
             radioButton8.Text = "随机单词";
             radioButton8.UseVisualStyleBackColor = true;
@@ -175,7 +175,7 @@
             radioButton6.Location = new Point(400, 20);
             radioButton6.Name = "radioButton6";
             radioButton6.Size = new Size(50, 21);
-            radioButton6.TabIndex = 5;
+            radioButton6.TabIndex = 40;
             radioButton6.TabStop = true;
             radioButton6.Text = "新闻";
             radioButton6.UseVisualStyleBackColor = true;
@@ -187,7 +187,7 @@
             radioButton5.Location = new Point(266, 20);
             radioButton5.Name = "radioButton5";
             radioButton5.Size = new Size(50, 21);
-            radioButton5.TabIndex = 3;
+            radioButton5.TabIndex = 38;
             radioButton5.TabStop = true;
             radioButton5.Text = "符号";
             radioButton5.UseVisualStyleBackColor = true;
@@ -199,7 +199,7 @@
             radioButton4.Location = new Point(320, 20);
             radioButton4.Name = "radioButton4";
             radioButton4.Size = new Size(74, 21);
-            radioButton4.TabIndex = 4;
+            radioButton4.TabIndex = 39;
             radioButton4.TabStop = true;
             radioButton4.Text = "英语文章";
             radioButton4.UseVisualStyleBackColor = true;
@@ -211,7 +211,7 @@
             radioButton3.Location = new Point(157, 20);
             radioButton3.Name = "radioButton3";
             radioButton3.Size = new Size(107, 21);
-            radioButton3.TabIndex = 2;
+            radioButton3.TabIndex = 36;
             radioButton3.TabStop = true;
             radioButton3.Text = "数字+字母分组";
             radioButton3.UseVisualStyleBackColor = true;
@@ -223,7 +223,7 @@
             radioButton2.Location = new Point(82, 20);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new Size(74, 21);
-            radioButton2.TabIndex = 1;
+            radioButton2.TabIndex = 35;
             radioButton2.TabStop = true;
             radioButton2.Text = "分组字母";
             radioButton2.UseVisualStyleBackColor = true;
@@ -235,7 +235,7 @@
             radioButton1.Location = new Point(8, 20);
             radioButton1.Name = "radioButton1";
             radioButton1.Size = new Size(74, 21);
-            radioButton1.TabIndex = 0;
+            radioButton1.TabIndex = 32;
             radioButton1.TabStop = true;
             radioButton1.Text = "分组数字";
             radioButton1.UseVisualStyleBackColor = true;
@@ -250,7 +250,7 @@
             groupBox2.Location = new Point(6, 68);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(605, 100);
-            groupBox2.TabIndex = 1;
+            groupBox2.TabIndex = 61;
             groupBox2.TabStop = false;
             groupBox2.Text = "个性化定制";
             // 
@@ -262,7 +262,7 @@
             eqBox.Location = new Point(346, 18);
             eqBox.Name = "eqBox";
             eqBox.Size = new Size(214, 76);
-            eqBox.TabIndex = 3;
+            eqBox.TabIndex = 22;
             // 
             // neBox
             // 
@@ -273,7 +273,7 @@
             neBox.Location = new Point(66, 20);
             neBox.Name = "neBox";
             neBox.Size = new Size(214, 76);
-            neBox.TabIndex = 2;
+            neBox.TabIndex = 33;
             // 
             // eqRbtn
             // 
@@ -281,7 +281,7 @@
             eqRbtn.Location = new Point(286, 29);
             eqRbtn.Name = "eqRbtn";
             eqRbtn.Size = new Size(62, 21);
-            eqRbtn.TabIndex = 1;
+            eqRbtn.TabIndex = 48;
             eqRbtn.TabStop = true;
             eqRbtn.Text = "仅包含";
             eqRbtn.UseVisualStyleBackColor = true;
@@ -293,7 +293,7 @@
             neRbtn.Location = new Point(10, 29);
             neRbtn.Name = "neRbtn";
             neRbtn.Size = new Size(50, 21);
-            neRbtn.TabIndex = 0;
+            neRbtn.TabIndex = 47;
             neRbtn.TabStop = true;
             neRbtn.Text = "排除";
             neRbtn.UseVisualStyleBackColor = true;
@@ -311,7 +311,7 @@
             groupBox3.Location = new Point(617, 2);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(292, 78);
-            groupBox3.TabIndex = 2;
+            groupBox3.TabIndex = 1;
             groupBox3.TabStop = false;
             groupBox3.Text = "背景音配置";
             // 
@@ -321,7 +321,7 @@
             label7.Location = new Point(9, 47);
             label7.Name = "label7";
             label7.Size = new Size(59, 17);
-            label7.TabIndex = 3;
+            label7.TabIndex = 53;
             label7.Text = "背景音量:";
             // 
             // bgmCbx
@@ -330,7 +330,7 @@
             bgmCbx.Location = new Point(233, 20);
             bgmCbx.Name = "bgmCbx";
             bgmCbx.Size = new Size(51, 21);
-            bgmCbx.TabIndex = 2;
+            bgmCbx.TabIndex = 37;
             bgmCbx.Text = "开启";
             bgmCbx.UseVisualStyleBackColor = true;
             // 
@@ -340,7 +340,7 @@
             speedBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             speedBox.Name = "speedBox";
             speedBox.Size = new Size(48, 23);
-            speedBox.TabIndex = 0;
+            speedBox.TabIndex = 14;
             speedBox.Value = new decimal(new int[] { 20, 0, 0, 0 });
             speedBox.ValueChanged += SpeedBox_ValueChanged;
             // 
@@ -351,7 +351,7 @@
             toneBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             toneBox.Name = "toneBox";
             toneBox.Size = new Size(46, 23);
-            toneBox.TabIndex = 1;
+            toneBox.TabIndex = 31;
             toneBox.Value = new decimal(new int[] { 600, 0, 0, 0 });
             toneBox.ValueChanged += ToneBox_ValueChanged;
             // 
@@ -361,7 +361,7 @@
             label2.Location = new Point(129, 21);
             label2.Name = "label2";
             label2.Size = new Size(58, 17);
-            label2.TabIndex = 1;
+            label2.TabIndex = 44;
             label2.Text = "频率(Hz):";
             // 
             // label1
@@ -370,7 +370,7 @@
             label1.Location = new Point(5, 19);
             label1.Name = "label1";
             label1.Size = new Size(74, 17);
-            label1.TabIndex = 0;
+            label1.TabIndex = 30;
             label1.Text = "速度(WPM):";
             // 
             // volumeTrackBar
@@ -379,7 +379,7 @@
             volumeTrackBar.Location = new Point(67, 43);
             volumeTrackBar.Name = "volumeTrackBar";
             volumeTrackBar.Size = new Size(213, 29);
-            volumeTrackBar.TabIndex = 4;
+            volumeTrackBar.TabIndex = 52;
             volumeTrackBar.Value = 8;
             volumeTrackBar.ValueChanged += VolumeTrackBar_ValueChanged;
             // 
@@ -389,7 +389,7 @@
             symbolsChb.Location = new Point(125, 57);
             symbolsChb.Name = "symbolsChb";
             symbolsChb.Size = new Size(87, 21);
-            symbolsChb.TabIndex = 4;
+            symbolsChb.TabIndex = 60;
             symbolsChb.Text = "文章含符号";
             symbolsChb.UseVisualStyleBackColor = true;
             // 
@@ -399,7 +399,7 @@
             EachGroup.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             EachGroup.Name = "EachGroup";
             EachGroup.Size = new Size(47, 23);
-            EachGroup.TabIndex = 1;
+            EachGroup.TabIndex = 57;
             EachGroup.Value = new decimal(new int[] { 4, 0, 0, 0 });
             // 
             // label4
@@ -408,7 +408,7 @@
             label4.Location = new Point(1, 53);
             label4.Name = "label4";
             label4.Size = new Size(81, 17);
-            label4.TabIndex = 12;
+            label4.TabIndex = 58;
             label4.Text = "数量(个/组)：";
             // 
             // exportBtn
@@ -416,7 +416,7 @@
             exportBtn.Location = new Point(212, 56);
             exportBtn.Name = "exportBtn";
             exportBtn.Size = new Size(75, 23);
-            exportBtn.TabIndex = 7;
+            exportBtn.TabIndex = 59;
             exportBtn.Text = "导出";
             exportBtn.UseVisualStyleBackColor = true;
             exportBtn.Click += ExportBtn_Click;
@@ -427,7 +427,7 @@
             repeatRbtn.Location = new Point(125, 13);
             repeatRbtn.Name = "repeatRbtn";
             repeatRbtn.Size = new Size(87, 21);
-            repeatRbtn.TabIndex = 2;
+            repeatRbtn.TabIndex = 7;
             repeatRbtn.Text = "同组无重复";
             repeatRbtn.UseVisualStyleBackColor = true;
             // 
@@ -437,7 +437,7 @@
             continuousRbtn.Location = new Point(125, 35);
             continuousRbtn.Name = "continuousRbtn";
             continuousRbtn.Size = new Size(87, 21);
-            continuousRbtn.TabIndex = 3;
+            continuousRbtn.TabIndex = 50;
             continuousRbtn.Text = "同组无连续";
             continuousRbtn.UseVisualStyleBackColor = true;
             // 
@@ -446,7 +446,7 @@
             submitAnswerBtn.Location = new Point(212, 33);
             submitAnswerBtn.Name = "submitAnswerBtn";
             submitAnswerBtn.Size = new Size(75, 23);
-            submitAnswerBtn.TabIndex = 6;
+            submitAnswerBtn.TabIndex = 49;
             submitAnswerBtn.Text = "提交答案";
             submitAnswerBtn.UseVisualStyleBackColor = true;
             // 
@@ -455,7 +455,7 @@
             startBtn.Location = new Point(212, 10);
             startBtn.Name = "startBtn";
             startBtn.Size = new Size(75, 23);
-            startBtn.TabIndex = 5;
+            startBtn.TabIndex = 6;
             startBtn.Text = "生成报文";
             startBtn.UseVisualStyleBackColor = true;
             startBtn.Click += StartBtn_Click;
@@ -466,7 +466,7 @@
             groupNumBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             groupNumBox.Name = "groupNumBox";
             groupNumBox.Size = new Size(48, 23);
-            groupNumBox.TabIndex = 0;
+            groupNumBox.TabIndex = 34;
             groupNumBox.Value = new decimal(new int[] { 100, 0, 0, 0 });
             // 
             // label3
@@ -475,7 +475,7 @@
             label3.Location = new Point(3, 22);
             label3.Name = "label3";
             label3.Size = new Size(64, 17);
-            label3.TabIndex = 2;
+            label3.TabIndex = 45;
             label3.Text = "数量(组)：";
             // 
             // stopBtn
@@ -483,7 +483,7 @@
             stopBtn.Location = new Point(6, 134);
             stopBtn.Name = "stopBtn";
             stopBtn.Size = new Size(75, 23);
-            stopBtn.TabIndex = 4;
+            stopBtn.TabIndex = 68;
             stopBtn.Text = "停止";
             stopBtn.UseVisualStyleBackColor = true;
             stopBtn.Click += StopBtn_Click;
@@ -506,7 +506,7 @@
             groupBox4.Location = new Point(6, 174);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(1895, 864);
-            groupBox4.TabIndex = 3;
+            groupBox4.TabIndex = 70;
             groupBox4.TabStop = false;
             groupBox4.Text = "拍发";
             // 
@@ -520,7 +520,7 @@
             replicationBox6.Name = "replicationBox6";
             replicationBox6.ScrollBars = RichTextBoxScrollBars.None;
             replicationBox6.Size = new Size(1885, 77);
-            replicationBox6.TabIndex = 11;
+            replicationBox6.TabIndex = 79;
             replicationBox6.Text = "";
             // 
             // answerLbl6
@@ -530,7 +530,7 @@
             answerLbl6.Location = new Point(6, 691);
             answerLbl6.Name = "answerLbl6";
             answerLbl6.Size = new Size(1889, 54);
-            answerLbl6.TabIndex = 10;
+            answerLbl6.TabIndex = 78;
             // 
             // replicationBox5
             // 
@@ -542,7 +542,7 @@
             replicationBox5.Name = "replicationBox5";
             replicationBox5.ScrollBars = RichTextBoxScrollBars.None;
             replicationBox5.Size = new Size(1885, 77);
-            replicationBox5.TabIndex = 9;
+            replicationBox5.TabIndex = 77;
             replicationBox5.Text = "";
             // 
             // answerLbl5
@@ -552,7 +552,7 @@
             answerLbl5.Location = new Point(6, 557);
             answerLbl5.Name = "answerLbl5";
             answerLbl5.Size = new Size(1889, 54);
-            answerLbl5.TabIndex = 8;
+            answerLbl5.TabIndex = 76;
             // 
             // replicationBox4
             // 
@@ -564,7 +564,7 @@
             replicationBox4.Name = "replicationBox4";
             replicationBox4.ScrollBars = RichTextBoxScrollBars.None;
             replicationBox4.Size = new Size(1885, 77);
-            replicationBox4.TabIndex = 7;
+            replicationBox4.TabIndex = 75;
             replicationBox4.Text = "";
             // 
             // answerLbl4
@@ -574,7 +574,7 @@
             answerLbl4.Location = new Point(6, 423);
             answerLbl4.Name = "answerLbl4";
             answerLbl4.Size = new Size(1889, 54);
-            answerLbl4.TabIndex = 6;
+            answerLbl4.TabIndex = 74;
             // 
             // replicationBox3
             // 
@@ -586,7 +586,7 @@
             replicationBox3.Name = "replicationBox3";
             replicationBox3.ScrollBars = RichTextBoxScrollBars.None;
             replicationBox3.Size = new Size(1885, 77);
-            replicationBox3.TabIndex = 5;
+            replicationBox3.TabIndex = 73;
             replicationBox3.Text = "";
             // 
             // answerLbl3
@@ -596,7 +596,7 @@
             answerLbl3.Location = new Point(6, 289);
             answerLbl3.Name = "answerLbl3";
             answerLbl3.Size = new Size(1889, 54);
-            answerLbl3.TabIndex = 4;
+            answerLbl3.TabIndex = 72;
             // 
             // replicationBox2
             // 
@@ -608,7 +608,7 @@
             replicationBox2.Name = "replicationBox2";
             replicationBox2.ScrollBars = RichTextBoxScrollBars.None;
             replicationBox2.Size = new Size(1885, 77);
-            replicationBox2.TabIndex = 3;
+            replicationBox2.TabIndex = 71;
             replicationBox2.Text = "";
             // 
             // answerLbl2
@@ -618,7 +618,7 @@
             answerLbl2.Location = new Point(6, 155);
             answerLbl2.Name = "answerLbl2";
             answerLbl2.Size = new Size(1889, 54);
-            answerLbl2.TabIndex = 2;
+            answerLbl2.TabIndex = 69;
             // 
             // replicationBox1
             // 
@@ -630,7 +630,7 @@
             replicationBox1.Name = "replicationBox1";
             replicationBox1.ScrollBars = RichTextBoxScrollBars.None;
             replicationBox1.Size = new Size(1885, 77);
-            replicationBox1.TabIndex = 1;
+            replicationBox1.TabIndex = 63;
             replicationBox1.Text = "";
             // 
             // answerLbl1
@@ -640,7 +640,7 @@
             answerLbl1.Location = new Point(6, 21);
             answerLbl1.Name = "answerLbl1";
             answerLbl1.Size = new Size(1889, 54);
-            answerLbl1.TabIndex = 0;
+            answerLbl1.TabIndex = 43;
             // 
             // timer1
             // 
@@ -657,7 +657,7 @@
             groupBox5.Location = new Point(914, 2);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(88, 166);
-            groupBox5.TabIndex = 4;
+            groupBox5.TabIndex = 2;
             groupBox5.TabStop = false;
             groupBox5.Text = "播放控制";
             // 
@@ -667,7 +667,7 @@
             rePlayBtn.Location = new Point(6, 106);
             rePlayBtn.Name = "rePlayBtn";
             rePlayBtn.Size = new Size(75, 23);
-            rePlayBtn.TabIndex = 3;
+            rePlayBtn.TabIndex = 67;
             rePlayBtn.Text = "重播";
             rePlayBtn.UseVisualStyleBackColor = true;
             rePlayBtn.Click += ResumeBtn_Click;
@@ -678,7 +678,7 @@
             continuePlayBtn.Location = new Point(6, 78);
             continuePlayBtn.Name = "continuePlayBtn";
             continuePlayBtn.Size = new Size(75, 23);
-            continuePlayBtn.TabIndex = 2;
+            continuePlayBtn.TabIndex = 62;
             continuePlayBtn.Text = "继续播放";
             continuePlayBtn.UseVisualStyleBackColor = true;
             continuePlayBtn.Click += ContinuePlayBtn_Click;
@@ -689,7 +689,7 @@
             pauseBtn.Location = new Point(6, 50);
             pauseBtn.Name = "pauseBtn";
             pauseBtn.Size = new Size(75, 23);
-            pauseBtn.TabIndex = 1;
+            pauseBtn.TabIndex = 55;
             pauseBtn.Text = "暂停播放";
             pauseBtn.UseVisualStyleBackColor = true;
             pauseBtn.Click += PauseBtn_Click;
@@ -699,7 +699,7 @@
             clearAnswerBtn.Location = new Point(6, 22);
             clearAnswerBtn.Name = "clearAnswerBtn";
             clearAnswerBtn.Size = new Size(75, 23);
-            clearAnswerBtn.TabIndex = 0;
+            clearAnswerBtn.TabIndex = 46;
             clearAnswerBtn.Text = "清空答案";
             clearAnswerBtn.UseVisualStyleBackColor = true;
             clearAnswerBtn.Click += ClearAnswer_Click;
@@ -711,7 +711,7 @@
             sendBtn.Location = new Point(1795, 96);
             sendBtn.Name = "sendBtn";
             sendBtn.Size = new Size(106, 70);
-            sendBtn.TabIndex = 7;
+            sendBtn.TabIndex = 66;
             sendBtn.Text = "发送";
             sendBtn.UseVisualStyleBackColor = true;
             sendBtn.MouseDown += SendBtn_MouseDown;
@@ -724,7 +724,7 @@
             visualizedBox.Name = "visualizedBox";
             visualizedBox.Size = new Size(887, 53);
             visualizedBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            visualizedBox.TabIndex = 7;
+            visualizedBox.TabIndex = 29;
             visualizedBox.TabStop = false;
             // 
             // timer2
@@ -740,7 +740,7 @@
             groupBox6.Location = new Point(1008, 2);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(893, 78);
-            groupBox6.TabIndex = 5;
+            groupBox6.TabIndex = 3;
             groupBox6.TabStop = false;
             groupBox6.Text = "可视化";
             // 
@@ -771,7 +771,7 @@
             groupBox7.Location = new Point(1011, 86);
             groupBox7.Name = "groupBox7";
             groupBox7.Size = new Size(778, 82);
-            groupBox7.TabIndex = 6;
+            groupBox7.TabIndex = 65;
             groupBox7.TabStop = false;
             groupBox7.Text = "CW规则";
             // 
@@ -781,7 +781,7 @@
             recordingChb.Location = new Point(203, 49);
             recordingChb.Name = "recordingChb";
             recordingChb.Size = new Size(75, 21);
-            recordingChb.TabIndex = 20;
+            recordingChb.TabIndex = 54;
             recordingChb.Text = "记录发报";
             recordingChb.UseVisualStyleBackColor = true;
             // 
@@ -791,7 +791,7 @@
             keyTypeLbl.Location = new Point(10, 50);
             keyTypeLbl.Name = "keyTypeLbl";
             keyTypeLbl.Size = new Size(47, 17);
-            keyTypeLbl.TabIndex = 19;
+            keyTypeLbl.TabIndex = 56;
             keyTypeLbl.Text = "键类型:";
             // 
             // panel1
@@ -801,7 +801,7 @@
             panel1.Location = new Point(58, 42);
             panel1.Name = "panel1";
             panel1.Size = new Size(130, 31);
-            panel1.TabIndex = 18;
+            panel1.TabIndex = 51;
             // 
             // autoKey
             // 
@@ -809,7 +809,7 @@
             autoKey.Location = new Point(60, 5);
             autoKey.Name = "autoKey";
             autoKey.Size = new Size(62, 21);
-            autoKey.TabIndex = 1;
+            autoKey.TabIndex = 5;
             autoKey.TabStop = true;
             autoKey.Text = "自动键";
             autoKey.UseVisualStyleBackColor = true;
@@ -821,7 +821,7 @@
             ordinaryKey.Location = new Point(3, 5);
             ordinaryKey.Name = "ordinaryKey";
             ordinaryKey.Size = new Size(50, 21);
-            ordinaryKey.TabIndex = 0;
+            ordinaryKey.TabIndex = 4;
             ordinaryKey.TabStop = true;
             ordinaryKey.Text = "手键";
             ordinaryKey.UseVisualStyleBackColor = true;
@@ -833,7 +833,7 @@
             strictCbx.Location = new Point(705, 17);
             strictCbx.Name = "strictCbx";
             strictCbx.Size = new Size(51, 21);
-            strictCbx.TabIndex = 6;
+            strictCbx.TabIndex = 15;
             strictCbx.Text = "严格";
             strictCbx.UseVisualStyleBackColor = true;
             strictCbx.CheckedChanged += StrictCbx_CheckedChanged;
@@ -844,7 +844,7 @@
             label16.Location = new Point(676, 18);
             label16.Name = "label16";
             label16.Size = new Size(31, 17);
-            label16.TabIndex = 17;
+            label16.TabIndex = 28;
             label16.Text = "(Hz)";
             // 
             // sendToneBox
@@ -853,7 +853,7 @@
             sendToneBox.MaxLength = 5;
             sendToneBox.Name = "sendToneBox";
             sendToneBox.Size = new Size(59, 23);
-            sendToneBox.TabIndex = 5;
+            sendToneBox.TabIndex = 13;
             sendToneBox.Text = "650";
             sendToneBox.TextChanged += SendToneBox_TextChanged;
             sendToneBox.KeyPress += NumberTxb_KeyPress;
@@ -864,7 +864,7 @@
             label17.Location = new Point(580, 18);
             label17.Name = "label17";
             label17.Size = new Size(35, 17);
-            label17.TabIndex = 15;
+            label17.TabIndex = 27;
             label17.Text = "频率:";
             // 
             // label14
@@ -873,7 +873,7 @@
             label14.Location = new Point(549, 18);
             label14.Name = "label14";
             label14.Size = new Size(33, 17);
-            label14.TabIndex = 14;
+            label14.TabIndex = 26;
             label14.Text = "(ms)";
             // 
             // charInterval
@@ -882,7 +882,7 @@
             charInterval.MaxLength = 3;
             charInterval.Name = "charInterval";
             charInterval.Size = new Size(29, 23);
-            charInterval.TabIndex = 4;
+            charInterval.TabIndex = 12;
             charInterval.Text = "420";
             charInterval.TextChanged += CharInterval_TextChanged;
             charInterval.KeyPress += NumberTxb_KeyPress;
@@ -893,7 +893,7 @@
             label15.Location = new Point(464, 18);
             label15.Name = "label15";
             label15.Size = new Size(59, 17);
-            label15.TabIndex = 12;
+            label15.TabIndex = 25;
             label15.Text = "字符间隔:";
             // 
             // label12
@@ -902,7 +902,7 @@
             label12.Location = new Point(433, 18);
             label12.Name = "label12";
             label12.Size = new Size(33, 17);
-            label12.TabIndex = 11;
+            label12.TabIndex = 24;
             label12.Text = "(ms)";
             // 
             // keyInterval
@@ -911,7 +911,7 @@
             keyInterval.MaxLength = 3;
             keyInterval.Name = "keyInterval";
             keyInterval.Size = new Size(29, 23);
-            keyInterval.TabIndex = 3;
+            keyInterval.TabIndex = 11;
             keyInterval.Text = "60";
             keyInterval.TextChanged += KeyInterval_TextChanged;
             keyInterval.KeyPress += NumberTxb_KeyPress;
@@ -922,7 +922,7 @@
             label13.Location = new Point(348, 18);
             label13.Name = "label13";
             label13.Size = new Size(59, 17);
-            label13.TabIndex = 9;
+            label13.TabIndex = 23;
             label13.Text = "键击间隔:";
             // 
             // label10
@@ -931,7 +931,7 @@
             label10.Location = new Point(316, 18);
             label10.Name = "label10";
             label10.Size = new Size(33, 17);
-            label10.TabIndex = 8;
+            label10.TabIndex = 21;
             label10.Text = "(ms)";
             // 
             // sendDaLength
@@ -940,7 +940,7 @@
             sendDaLength.MaxLength = 3;
             sendDaLength.Name = "sendDaLength";
             sendDaLength.Size = new Size(29, 23);
-            sendDaLength.TabIndex = 2;
+            sendDaLength.TabIndex = 10;
             sendDaLength.Text = "180";
             sendDaLength.TextChanged += SendDaLength_TextChanged;
             sendDaLength.KeyPress += NumberTxb_KeyPress;
@@ -951,7 +951,7 @@
             label11.Location = new Point(232, 18);
             label11.Name = "label11";
             label11.Size = new Size(57, 17);
-            label11.TabIndex = 6;
+            label11.TabIndex = 20;
             label11.Text = "\"嗒\"声长:";
             // 
             // label8
@@ -960,7 +960,7 @@
             label8.Location = new Point(203, 18);
             label8.Name = "label8";
             label8.Size = new Size(33, 17);
-            label8.TabIndex = 5;
+            label8.TabIndex = 19;
             label8.Text = "(ms)";
             // 
             // sendDiLength
@@ -969,7 +969,7 @@
             sendDiLength.MaxLength = 3;
             sendDiLength.Name = "sendDiLength";
             sendDiLength.Size = new Size(29, 23);
-            sendDiLength.TabIndex = 1;
+            sendDiLength.TabIndex = 9;
             sendDiLength.Text = "60";
             sendDiLength.TextChanged += SendDiLength_TextChanged;
             sendDiLength.KeyPress += NumberTxb_KeyPress;
@@ -980,7 +980,7 @@
             label9.Location = new Point(118, 18);
             label9.Name = "label9";
             label9.Size = new Size(57, 17);
-            label9.TabIndex = 3;
+            label9.TabIndex = 18;
             label9.Text = "\"嘀\"声长:";
             // 
             // label6
@@ -989,7 +989,7 @@
             label6.Location = new Point(72, 18);
             label6.Name = "label6";
             label6.Size = new Size(47, 17);
-            label6.TabIndex = 2;
+            label6.TabIndex = 17;
             label6.Text = "(WPM)";
             // 
             // sendSpeedTxb
@@ -998,7 +998,7 @@
             sendSpeedTxb.MaxLength = 2;
             sendSpeedTxb.Name = "sendSpeedTxb";
             sendSpeedTxb.Size = new Size(29, 23);
-            sendSpeedTxb.TabIndex = 0;
+            sendSpeedTxb.TabIndex = 8;
             sendSpeedTxb.Text = "20";
             sendSpeedTxb.KeyPress += NumberTxb_KeyPress;
             sendSpeedTxb.Leave += SnedSpeedTxb_Leave;
@@ -1009,7 +1009,7 @@
             label5.Location = new Point(7, 18);
             label5.Name = "label5";
             label5.Size = new Size(35, 17);
-            label5.TabIndex = 0;
+            label5.TabIndex = 16;
             label5.Text = "键速:";
             // 
             // groupBox8
@@ -1027,7 +1027,7 @@
             groupBox8.Location = new Point(617, 86);
             groupBox8.Name = "groupBox8";
             groupBox8.Size = new Size(292, 82);
-            groupBox8.TabIndex = 3;
+            groupBox8.TabIndex = 64;
             groupBox8.TabStop = false;
             groupBox8.Text = "报文控制";
             // 

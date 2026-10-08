@@ -79,7 +79,7 @@
             groupBox5.Location = new Point(1, 1);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(1314, 111);
-            groupBox5.TabIndex = 4;
+            groupBox5.TabIndex = 0;
             groupBox5.TabStop = false;
             groupBox5.Text = "配置";
             // 
@@ -91,13 +91,13 @@
             noiseGroupBox.Location = new Point(909, 14);
             noiseGroupBox.Name = "noiseGroupBox";
             noiseGroupBox.Size = new Size(190, 90);
-            noiseGroupBox.TabIndex = 8;
+            noiseGroupBox.TabIndex = 4;
             noiseGroupBox.TabStop = false;
             noiseGroupBox.Text = "噪声设置";
             noiseCheckBox.AutoSize = true;
             noiseCheckBox.Location = new Point(10, 20);
             noiseCheckBox.Name = "noiseCheckBox";
-            noiseCheckBox.TabIndex = 0;
+            noiseCheckBox.TabIndex = 13;
             noiseCheckBox.Text = "启用背景噪声";
             noiseCheckBox.CheckedChanged += NoiseSettingsChanged;
             snrLabel.AutoSize = true;
@@ -108,7 +108,7 @@
             snrBox.Minimum = -10;
             snrBox.Maximum = 10;
             snrBox.Size = new Size(72, 23);
-            snrBox.TabIndex = 1;
+            snrBox.TabIndex = 21;
             snrBox.Enabled = false;
             snrBox.ValueChanged += NoiseSettingsChanged;
             //
@@ -118,7 +118,7 @@
             groupBox4.Location = new Point(780, 14);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(123, 90);
-            groupBox4.TabIndex = 7;
+            groupBox4.TabIndex = 3;
             groupBox4.TabStop = false;
             groupBox4.Text = "导出";
             // 
@@ -127,7 +127,7 @@
             ExportBtn.Location = new Point(24, 42);
             ExportBtn.Name = "ExportBtn";
             ExportBtn.Size = new Size(75, 23);
-            ExportBtn.TabIndex = 0;
+            ExportBtn.TabIndex = 20;
             ExportBtn.Text = "导出音频";
             ExportBtn.UseVisualStyleBackColor = true;
             ExportBtn.Click += ExportBtn_Click;
@@ -142,7 +142,7 @@
             groupBox3.Location = new Point(608, 14);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(169, 90);
-            groupBox3.TabIndex = 6;
+            groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "播放设置";
             // 
@@ -151,7 +151,7 @@
             StartBtn.Location = new Point(6, 16);
             StartBtn.Name = "StartBtn";
             StartBtn.Size = new Size(75, 23);
-            StartBtn.TabIndex = 4;
+            StartBtn.TabIndex = 6;
             StartBtn.Text = "开始 (Enter)";
             StartBtn.UseVisualStyleBackColor = true;
             StartBtn.Click += StartBtn_Click;
@@ -161,7 +161,7 @@
             StopBtn.Location = new Point(87, 61);
             StopBtn.Name = "StopBtn";
             StopBtn.Size = new Size(75, 23);
-            StopBtn.TabIndex = 3;
+            StopBtn.TabIndex = 23;
             StopBtn.Text = "停止 (S/Esc)";
             StopBtn.UseVisualStyleBackColor = true;
             StopBtn.Click += StopBtn_Click;
@@ -171,7 +171,7 @@
             ReplayBtn.Location = new Point(87, 37);
             ReplayBtn.Name = "ReplayBtn";
             ReplayBtn.Size = new Size(75, 23);
-            ReplayBtn.TabIndex = 2;
+            ReplayBtn.TabIndex = 18;
             ReplayBtn.Text = "重播 (R)";
             ReplayBtn.UseVisualStyleBackColor = true;
             ReplayBtn.Click += ReplayBtn_Click;
@@ -181,7 +181,7 @@
             ContinueBtn.Location = new Point(6, 62);
             ContinueBtn.Name = "ContinueBtn";
             ContinueBtn.Size = new Size(75, 23);
-            ContinueBtn.TabIndex = 1;
+            ContinueBtn.TabIndex = 24;
             ContinueBtn.Text = "继续 (Space)";
             ContinueBtn.UseVisualStyleBackColor = true;
             ContinueBtn.Click += ContinueBtn_Click;
@@ -191,7 +191,7 @@
             PauseBtn.Location = new Point(6, 39);
             PauseBtn.Name = "PauseBtn";
             PauseBtn.Size = new Size(75, 23);
-            PauseBtn.TabIndex = 0;
+            PauseBtn.TabIndex = 19;
             PauseBtn.Text = "暂停 (Space)";
             PauseBtn.UseVisualStyleBackColor = true;
             PauseBtn.Click += PauseBtn_Click;
@@ -208,7 +208,7 @@
             groupBox2.Location = new Point(7, 56);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(595, 48);
-            groupBox2.TabIndex = 5;
+            groupBox2.TabIndex = 22;
             groupBox2.TabStop = false;
             groupBox2.Text = "莫尔斯配置";
             // 
@@ -220,7 +220,7 @@
             waveList.Location = new Point(281, 16);
             waveList.Name = "waveList";
             waveList.Size = new Size(87, 25);
-            waveList.TabIndex = 9;
+            waveList.TabIndex = 8;
             waveList.SelectedIndexChanged += waveList_SelectedIndexChanged;
             // 
             // label4
@@ -229,7 +229,7 @@
             label4.Location = new Point(244, 20);
             label4.Name = "label4";
             label4.Size = new Size(35, 17);
-            label4.TabIndex = 8;
+            label4.TabIndex = 15;
             label4.Text = "波形:";
             // 
             // CodingDefinitionBtn
@@ -237,7 +237,7 @@
             CodingDefinitionBtn.Location = new Point(503, 15);
             CodingDefinitionBtn.Name = "CodingDefinitionBtn";
             CodingDefinitionBtn.Size = new Size(83, 23);
-            CodingDefinitionBtn.TabIndex = 6;
+            CodingDefinitionBtn.TabIndex = 5;
             CodingDefinitionBtn.Text = "编码设置";
             CodingDefinitionBtn.UseVisualStyleBackColor = true;
             CodingDefinitionBtn.Click += CodingDefinitionBtn_Click;
@@ -248,7 +248,7 @@
             speedBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             speedBox.Name = "speedBox";
             speedBox.Size = new Size(48, 23);
-            speedBox.TabIndex = 2;
+            speedBox.TabIndex = 9;
             speedBox.Value = new decimal(new int[] { 20, 0, 0, 0 });
             speedBox.ValueChanged += SpeedBox_ValueChanged;
             // 
@@ -259,7 +259,7 @@
             toneBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             toneBox.Name = "toneBox";
             toneBox.Size = new Size(46, 23);
-            toneBox.TabIndex = 4;
+            toneBox.TabIndex = 10;
             toneBox.Value = new decimal(new int[] { 600, 0, 0, 0 });
             toneBox.ValueChanged += ToneBox_ValueChanged;
             // 
@@ -269,7 +269,7 @@
             label2.Location = new Point(135, 21);
             label2.Name = "label2";
             label2.Size = new Size(58, 17);
-            label2.TabIndex = 5;
+            label2.TabIndex = 17;
             label2.Text = "频率(Hz):";
             // 
             // label1
@@ -278,7 +278,7 @@
             label1.Location = new Point(11, 21);
             label1.Name = "label1";
             label1.Size = new Size(74, 17);
-            label1.TabIndex = 3;
+            label1.TabIndex = 16;
             label1.Text = "速度(WPM):";
             // 
             // groupBox1
@@ -289,7 +289,7 @@
             groupBox1.Location = new Point(7, 14);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(595, 42);
-            groupBox1.TabIndex = 4;
+            groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
             groupBox1.Text = "播放源";
             // 
@@ -299,7 +299,7 @@
             FilePathLbl.Location = new Point(148, 20);
             FilePathLbl.Name = "FilePathLbl";
             FilePathLbl.Size = new Size(44, 17);
-            FilePathLbl.TabIndex = 2;
+            FilePathLbl.TabIndex = 14;
             FilePathLbl.Text = "未选择";
             // 
             // label3
@@ -308,7 +308,7 @@
             label3.Location = new Point(88, 19);
             label3.Name = "label3";
             label3.Size = new Size(68, 17);
-            label3.TabIndex = 1;
+            label3.TabIndex = 12;
             label3.Text = "文件路径：";
             // 
             // SelectFileBtn
@@ -316,7 +316,7 @@
             SelectFileBtn.Location = new Point(9, 16);
             SelectFileBtn.Name = "SelectFileBtn";
             SelectFileBtn.Size = new Size(75, 23);
-            SelectFileBtn.TabIndex = 0;
+            SelectFileBtn.TabIndex = 7;
             SelectFileBtn.Text = "选择文件";
             SelectFileBtn.UseVisualStyleBackColor = true;
             SelectFileBtn.Click += SelectFileBtn_Click;
@@ -329,7 +329,7 @@
             groupBox6.Location = new Point(1, 118);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(1320, 611);
-            groupBox6.TabIndex = 5;
+            groupBox6.TabIndex = 25;
             groupBox6.TabStop = false;
             groupBox6.Text = "内容";
             // 
@@ -340,7 +340,7 @@
             ContentTxb.Location = new Point(3, 19);
             ContentTxb.Name = "ContentTxb";
             ContentTxb.Size = new Size(1314, 589);
-            ContentTxb.TabIndex = 0;
+            ContentTxb.TabIndex = 11;
             ContentTxb.Text = "";
             // 
             // Player
