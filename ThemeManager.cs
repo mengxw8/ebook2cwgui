@@ -22,13 +22,24 @@ internal static class ThemeManager
         ApplyControl(root, back, fore, input, accent);
     }
 
+    private static readonly HashSet<Form> appliedForms = new();
+
+    public static void ApplyNewForms()
+    {
+        foreach (Form form in Application.OpenForms)
+        {
+            if (appliedForms.Add(form))
+                Apply(form);
+        }
+    }
+
     public static void Set(AppTheme theme)
     {
         Current = theme;
         try { File.WriteAllText(SettingsPath, theme.ToString()); }
         catch (Exception ex) { System.Diagnostics.Trace.WriteLine($"主题设置保存失败: {ex}"); }
-        foreach (Form form in Application.OpenForms)
-            Apply(form);
+        appliedForms.Clear();
+        ApplyNewForms();
     }
 
     private static AppTheme Load()

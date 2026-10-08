@@ -12,14 +12,8 @@ namespace CW
             // see https://aka.ms/applicationconfiguration.
             using var inputLanguageScope = new InputLanguageScope();
             ApplicationConfiguration.Initialize();
-            // 子窗口由各功能按钮动态创建，定时同步确保新窗口也继承当前主题。
-            using var themeTimer = new System.Windows.Forms.Timer { Interval = 500 };
-            themeTimer.Tick += (_, _) =>
-            {
-                foreach (Form form in Application.OpenForms)
-                    ThemeManager.Apply(form);
-            };
-            themeTimer.Start();
+            // 新窗口首次进入消息循环时应用一次主题；主题切换由 ThemeManager.Set 统一刷新。
+            Application.Idle += (_, _) => ThemeManager.ApplyNewForms();
             Application.Run(new Form1());
         }
     }
