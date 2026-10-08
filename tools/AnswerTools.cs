@@ -19,6 +19,12 @@ namespace CW
         /// <returns></returns>
         public static string GenerateAnswer(List<string> words,bool isRepeat,bool isContinuous,int groupNum,int number)
         {
+            if (words == null || words.Count == 0 || groupNum <= 0 || number <= 0)
+                return "";
+
+            // 候选字符不足时提前返回，避免约束条件下无限重试导致界面卡死。
+            if ((isRepeat || isContinuous) && words.Distinct().Count() < number)
+                return "";
 
 
             Random random = new();

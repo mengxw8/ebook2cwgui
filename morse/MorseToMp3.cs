@@ -68,7 +68,8 @@ namespace CW.morse
             }
 
             //分割成每一组
-            string[] chars = content.Replace("\r\n", " ").Split(' ');
+            string[] chars = content.Replace("\r\n", " ")
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries);
             //时间码
             long startTime = 0;
             long endTime = 0;
@@ -84,16 +85,21 @@ namespace CW.morse
                     {
                         continue;
                     }
-                    foreach (char m in keys[c])
+                    var code = keys[c];
+                    for (int symbolIndex = 0; symbolIndex < code.Length; symbolIndex++)
                     {
+                        char m = code[symbolIndex];
                         switch (m)
                         {
                             case '.': WriteAudio(di); endTime += config.Di; break;
                             case '-': WriteAudio(da); endTime += config.Da; break;
                         }
-                        // 符号间隔1T
-                        WriteAudio(bytes);
-                        endTime += config.Di;
+                        if (symbolIndex + 1 < code.Length)
+                        {
+                            // 同一字符内符号之间为 1T；最后一个符号不额外增加间隔。
+                            WriteAudio(bytes);
+                            endTime += config.Di;
+                        }
                     }
                     // 字符间隔3T
                     WriteAudio(bytes);
@@ -200,7 +206,7 @@ namespace CW.morse
             foreach (string line in lines)
             {
                 long lineAudioEndSample = subtitleStartSample;
-                string[] chars = line.ToUpper().Split(' ');
+                string[] chars = line.ToUpper().Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 foreach (var ch in chars)
                 {
                     //每个字母
@@ -211,8 +217,10 @@ namespace CW.morse
                         {
                             continue;
                         }
-                        foreach (char m in keys[c])
+                        var code = keys[c];
+                        for (int symbolIndex = 0; symbolIndex < code.Length; symbolIndex++)
                         {
+                            char m = code[symbolIndex];
                             switch (m)
                             {
                                 case '.':
@@ -231,9 +239,11 @@ namespace CW.morse
                                     samplesWritten += dit_buff.Length * 2;
                                     break;
                             }
-                            // 符号间隔1T
-                            WriteAudio(bytes);
-                            samplesWritten += dit_buff.Length;
+                            if (symbolIndex + 1 < code.Length)
+                            {
+                                WriteAudio(bytes);
+                                samplesWritten += dit_buff.Length;
+                            }
                         }
                         // 字符间隔3T
                         WriteAudio(bytes);

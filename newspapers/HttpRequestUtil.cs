@@ -21,12 +21,14 @@ namespace CW.newspapers
             string responseContent = ""; 
             try
             {
-                using var client = new HttpClient();
+                using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
                 using var response = client.Send(new HttpRequestMessage(HttpMethod.Get, getUrl));
+                response.EnsureSuccessStatusCode();
                 //在这里对接收到的页面内容进行处理
                 responseContent = response.Content.ReadAsStringAsync().Result;
             }
-            catch (Exception ) {             
+            catch (Exception ex) {
+                System.Diagnostics.Trace.WriteLine($"新闻请求失败: {getUrl}, {ex}");
             }
             return responseContent;
         }
@@ -49,9 +51,9 @@ namespace CW.newspapers
                 responseContent= response.Content.ReadAsStringAsync().Result;   
                   
             }
-            catch (Exception )
+            catch (Exception ex)
             {
-                
+                System.Diagnostics.Trace.WriteLine($"新闻 POST 请求失败: {postUrl}, {ex}");
             }
             return responseContent;
         }

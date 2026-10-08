@@ -34,10 +34,13 @@ namespace CW
 
 
   
+            if (groupNum <= 0 || book.Count == 0)
+                return "";
+
             Random random = new();
             while (groupNum > 0)
             {
-                string? word = book[random.Next(1, book.Count)];
+                string? word = book[random.Next(0, book.Count)];
                 if (word == null || word == "") {
                     continue;
                 }
@@ -68,7 +71,7 @@ namespace CW
                 PropertyInfo? property = Array.Find(properties, p => p.Name == i.ToString());
                 if (property != null)
                 {
-                    property.SetValue(properties, 0);
+                        property.SetValue(words, 0);
                 }
             }
 

@@ -62,11 +62,13 @@ namespace CW
             }
             waveOut?.Dispose();
             mp3?.Dispose();
-            mp3?.Close();
-
+            mp3 = null;
+            waveOut = null;
         }
         public static void RePlay()
         {
+            if (mp3 == null)
+                return;
             waveOut?.Dispose();
             waveOut = new WaveOutEvent();
             waveOut.Init(mp3);

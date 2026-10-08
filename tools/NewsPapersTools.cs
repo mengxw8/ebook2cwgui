@@ -24,8 +24,15 @@ namespace CW
             Random random = new();
             var type = random.Next(0, words.Count);
             var resp = newspapers.HttpRequestUtil.GetWebRequest(Constant.newsType[words[type]]);
+            if (string.IsNullOrWhiteSpace(resp))
+                return "";
             XmlDocument doc = new();
-            doc.LoadXml(resp);
+            try { doc.LoadXml(resp); }
+            catch (XmlException ex)
+            {
+                System.Diagnostics.Trace.WriteLine($"新闻 RSS XML 解析失败: {ex}");
+                return "";
+            }
             var content = "";
             var title = "";
             var item = doc.SelectNodes("/rss/channel/item");
@@ -40,10 +47,10 @@ namespace CW
                 }
                 XmlNamespaceManager nsm1 = new(doc.NameTable);
                 nsm1.AddNamespace("dc", @"http://purl.org/dc/elements/1.1/");
-                var date = newsPaper.SelectSingleNode("//dc:date", nsm1)!.InnerText;
+                var date = newsPaper.SelectSingleNode("dc:date", nsm1)?.InnerText ?? "";
                 XmlNamespaceManager nsm2 = new(doc.NameTable);
                 nsm2.AddNamespace("content", @"http://purl.org/rss/1.0/modules/content/");
-                var contentHtml = newsPaper.SelectSingleNode("//content:encoded", nsm2)!.InnerText;
+                var contentHtml = newsPaper.SelectSingleNode("content:encoded", nsm2)?.InnerText ?? "";
                 //处理超文本
                 IDocument document = BrowsingContext.New(Configuration.Default).OpenAsync(req => req.Content(contentHtml)).Result;
                 if (document.Body is not null)
@@ -52,7 +59,9 @@ namespace CW
                 }
 
                 //处理时间
-                content = DateTime.Parse(date).ToString("yyyy-MM-dd HH:mm:ss") + " "+title+" " + content;
+                var dateText = DateTime.TryParse(date, out var parsedDate)
+                    ? parsedDate.ToString("yyyy-MM-dd HH:mm:ss") : "";
+                content = dateText + " "+title+" " + content;
 
             }
                  

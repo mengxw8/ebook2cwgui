@@ -255,15 +255,19 @@ namespace CW
                         continue;
                     }
                     var code = keys[c];
-                    foreach (char m in code)
+                    for (int symbolIndex = 0; symbolIndex < code.Length; symbolIndex++)
                     {
+                        char m = code[symbolIndex];
                         switch (m)
                         {
                             case '.': EnqueueTone(Dit_buff!); break;
                             case '-': EnqueueTone(Dah_buff!); break;
                             case ' ': EnqueueSilence(2* dotDuration); break;
                         }
-                        EnqueueSilence(dotDuration); // 符号间隔1T
+                        // 1T 只位于同一字符的两个符号之间；最后一个符号后的
+                        // 静音由下面的字符间隔统一补足，避免多出 1T。
+                        if (symbolIndex + 1 < code.Length)
+                            EnqueueSilence(dotDuration);
                     }
 
                     EnqueueSilence(3 * dotDuration); // 字符间隔3T

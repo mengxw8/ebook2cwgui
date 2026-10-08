@@ -14,7 +14,7 @@ namespace CW
 
  
         public static SqlSugarClient CreateClient() {
-            var path = Path.Combine(Environment.CurrentDirectory, @"db\CW.db");
+            var path = Path.Combine(AppContext.BaseDirectory, "db", "CW.db");
     
             var connectionString = new SqliteConnectionStringBuilder()
             {

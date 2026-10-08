@@ -170,7 +170,7 @@ namespace CW
            var author=   authorTxb.Text;
             if (author != "")
             {
-                args.Add("a" , fileName);
+                args.Add("a" , author);
             }
             var title = titleTxb.Text;
             if (title != "")

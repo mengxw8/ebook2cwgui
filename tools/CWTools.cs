@@ -22,7 +22,7 @@ namespace CW
 
             ProcessStartInfo startInfo = new()
             {
-                FileName = "ebook2cw.exe",
+                FileName = Path.Combine(AppContext.BaseDirectory, "ebook2cw.exe"),
                 Arguments = param,
                 UseShellExecute = false,//是否使用操作系统的shell启动
                 RedirectStandardOutput = true,//由调用程序获取输出信息
@@ -36,9 +36,12 @@ namespace CW
                 string result = "";
                 if (process is not null)
                 {
+                    process.WaitForExit();
                     using var reader = process.StandardOutput;
                     // 获取exe的输出结果
                     result = reader.ReadToEnd();
+                    if (process.ExitCode != 0)
+                        Trace.WriteLine($"ebook2cw 退出码: {process.ExitCode}");
                 }
 
 
