@@ -46,9 +46,10 @@
             // 
             // button1
             // 
-            button1.Location = new Point(94, 31);
+            button1.Location = new Point(148, 44);
+            button1.Margin = new Padding(5, 4, 5, 4);
             button1.Name = "button1";
-            button1.Size = new Size(100, 23);
+            button1.Size = new Size(157, 32);
             button1.TabIndex = 0;
             button1.Text = "字符转音频";
             button1.UseVisualStyleBackColor = true;
@@ -56,9 +57,10 @@
             // 
             // copyBtn
             // 
-            copyBtn.Location = new Point(94, 72);
+            copyBtn.Location = new Point(148, 102);
+            copyBtn.Margin = new Padding(5, 4, 5, 4);
             copyBtn.Name = "copyBtn";
-            copyBtn.Size = new Size(100, 23);
+            copyBtn.Size = new Size(157, 32);
             copyBtn.TabIndex = 1;
             copyBtn.Text = "CW抄收练习";
             copyBtn.UseVisualStyleBackColor = true;
@@ -67,27 +69,30 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(43, 398);
+            label1.Location = new Point(68, 636);
+            label1.Margin = new Padding(5, 0, 5, 0);
             label1.Name = "label1";
-            label1.Size = new Size(179, 17);
+            label1.Size = new Size(266, 24);
             label1.TabIndex = 4;
             label1.Text = "本软件基于GPL-2.0 license开源";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(49, 415);
+            label2.Location = new Point(77, 660);
+            label2.Margin = new Padding(5, 0, 5, 0);
             label2.Name = "label2";
-            label2.Size = new Size(164, 17);
+            label2.Size = new Size(244, 24);
             label2.TabIndex = 5;
             label2.Text = "使用该软件代表同意相关协议";
             // 
             // linkLabel1
             // 
             linkLabel1.AutoSize = true;
-            linkLabel1.Location = new Point(94, 432);
+            linkLabel1.Location = new Point(148, 684);
+            linkLabel1.Margin = new Padding(5, 0, 5, 0);
             linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(56, 17);
+            linkLabel1.Size = new Size(82, 24);
             linkLabel1.TabIndex = 6;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "反馈问题";
@@ -95,9 +100,10 @@
             // 
             // sendBtn
             // 
-            sendBtn.Location = new Point(94, 113);
+            sendBtn.Location = new Point(148, 160);
+            sendBtn.Margin = new Padding(5, 4, 5, 4);
             sendBtn.Name = "sendBtn";
-            sendBtn.Size = new Size(100, 23);
+            sendBtn.Size = new Size(157, 32);
             sendBtn.TabIndex = 2;
             sendBtn.Text = "CW发报练习";
             sendBtn.UseVisualStyleBackColor = true;
@@ -105,9 +111,10 @@
             // 
             // shortNumberBtn
             // 
-            shortNumberBtn.Location = new Point(94, 154);
+            shortNumberBtn.Location = new Point(148, 217);
+            shortNumberBtn.Margin = new Padding(5, 4, 5, 4);
             shortNumberBtn.Name = "shortNumberBtn";
-            shortNumberBtn.Size = new Size(100, 23);
+            shortNumberBtn.Size = new Size(157, 32);
             shortNumberBtn.TabIndex = 3;
             shortNumberBtn.Text = "数字短码练习";
             shortNumberBtn.UseVisualStyleBackColor = true;
@@ -115,9 +122,10 @@
             // 
             // chineseCodeQuickQueryBtn
             // 
-            chineseCodeQuickQueryBtn.Location = new Point(94, 196);
+            chineseCodeQuickQueryBtn.Location = new Point(148, 277);
+            chineseCodeQuickQueryBtn.Margin = new Padding(5, 4, 5, 4);
             chineseCodeQuickQueryBtn.Name = "chineseCodeQuickQueryBtn";
-            chineseCodeQuickQueryBtn.Size = new Size(100, 23);
+            chineseCodeQuickQueryBtn.Size = new Size(157, 32);
             chineseCodeQuickQueryBtn.TabIndex = 7;
             chineseCodeQuickQueryBtn.Text = "中文电码本快查";
             chineseCodeQuickQueryBtn.UseVisualStyleBackColor = true;
@@ -125,9 +133,10 @@
             // 
             // abbreviationQuickSearchBtn
             // 
-            abbreviationQuickSearchBtn.Location = new Point(94, 241);
+            abbreviationQuickSearchBtn.Location = new Point(148, 340);
+            abbreviationQuickSearchBtn.Margin = new Padding(5, 4, 5, 4);
             abbreviationQuickSearchBtn.Name = "abbreviationQuickSearchBtn";
-            abbreviationQuickSearchBtn.Size = new Size(100, 23);
+            abbreviationQuickSearchBtn.Size = new Size(157, 32);
             abbreviationQuickSearchBtn.TabIndex = 8;
             abbreviationQuickSearchBtn.Text = "简语速查";
             abbreviationQuickSearchBtn.UseVisualStyleBackColor = true;
@@ -135,9 +144,10 @@
             // 
             // ToPlayerBtn
             // 
-            ToPlayerBtn.Location = new Point(94, 284);
+            ToPlayerBtn.Location = new Point(148, 401);
+            ToPlayerBtn.Margin = new Padding(5, 4, 5, 4);
             ToPlayerBtn.Name = "ToPlayerBtn";
-            ToPlayerBtn.Size = new Size(100, 23);
+            ToPlayerBtn.Size = new Size(157, 32);
             ToPlayerBtn.TabIndex = 9;
             ToPlayerBtn.Text = "莫尔斯播放器";
             ToPlayerBtn.UseVisualStyleBackColor = true;
@@ -145,34 +155,41 @@
             // 
             // multiChannelBtn
             // 
-            multiChannelBtn.Location = new Point(94, 325);
+            multiChannelBtn.Location = new Point(148, 459);
+            multiChannelBtn.Margin = new Padding(5, 4, 5, 4);
             multiChannelBtn.Name = "multiChannelBtn";
-            multiChannelBtn.Size = new Size(100, 23);
+            multiChannelBtn.Size = new Size(157, 32);
             multiChannelBtn.TabIndex = 10;
             multiChannelBtn.Text = "多路播放";
             multiChannelBtn.UseVisualStyleBackColor = true;
             multiChannelBtn.Click += MultiChannelBtn_Click;
+            // 
             // themeLabel
+            // 
             themeLabel.AutoSize = true;
-            themeLabel.Location = new Point(42, 362);
+            themeLabel.Location = new Point(63, 591);
+            themeLabel.Margin = new Padding(5, 0, 5, 0);
             themeLabel.Name = "themeLabel";
-            themeLabel.Size = new Size(68, 17);
+            themeLabel.Size = new Size(86, 24);
+            themeLabel.TabIndex = 12;
             themeLabel.Text = "界面主题:";
+            // 
             // themeCombo
+            // 
             themeCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             themeCombo.Items.AddRange(new object[] { "浅色模式", "深色模式", "高对比度模式", "跟随系统" });
-            themeCombo.Location = new Point(112, 358);
+            themeCombo.Location = new Point(173, 585);
+            themeCombo.Margin = new Padding(5, 4, 5, 4);
             themeCombo.Name = "themeCombo";
-            themeCombo.Size = new Size(128, 25);
+            themeCombo.Size = new Size(199, 32);
             themeCombo.TabIndex = 11;
             themeCombo.SelectedIndexChanged += ThemeCombo_SelectedIndexChanged;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
-            // 底部预留主题设置区域，避免与功能按钮、版权说明重叠。
-            ClientSize = new Size(282, 520);
+            ClientSize = new Size(443, 734);
             Controls.Add(multiChannelBtn);
             Controls.Add(themeCombo);
             Controls.Add(themeLabel);
@@ -187,6 +204,7 @@
             Controls.Add(copyBtn);
             Controls.Add(button1);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(5, 4, 5, 4);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "Form1";
