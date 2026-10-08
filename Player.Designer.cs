@@ -162,7 +162,7 @@
             StopBtn.Name = "StopBtn";
             StopBtn.Size = new Size(75, 23);
             StopBtn.TabIndex = 23;
-            StopBtn.Text = "停止 (S/Esc)";
+            StopBtn.Text = "停止 (Esc)";
             StopBtn.UseVisualStyleBackColor = true;
             StopBtn.Click += StopBtn_Click;
             // 
@@ -238,7 +238,7 @@
             CodingDefinitionBtn.Name = "CodingDefinitionBtn";
             CodingDefinitionBtn.Size = new Size(83, 23);
             CodingDefinitionBtn.TabIndex = 5;
-            CodingDefinitionBtn.Text = "编码设置";
+            CodingDefinitionBtn.Text = "编码设置 (S)";
             CodingDefinitionBtn.UseVisualStyleBackColor = true;
             CodingDefinitionBtn.Click += CodingDefinitionBtn_Click;
             // 

@@ -59,16 +59,18 @@ namespace CW
             shortcutTips.SetToolTip(ContinueBtn, "继续播放 (Space)");
             shortcutTips.SetToolTip(PauseBtn, "暂停播放 (Space)");
             shortcutTips.SetToolTip(ReplayBtn, "重新播放 (R)");
-            shortcutTips.SetToolTip(StopBtn, "停止播放 (S 或 Esc)");
+            shortcutTips.SetToolTip(StopBtn, "停止播放 (Esc)");
+            shortcutTips.SetToolTip(CodingDefinitionBtn, "打开编码设置 (S)");
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            // 播放器快捷键：空格暂停/继续，R 重播，S 停止，Esc 停止。
+            // 播放器快捷键：空格暂停/继续，R 重播，S 打开编码设置，Esc 停止。
             if (keyData == Keys.Space) { if (playerWave.PlaybackState == PlaybackState.Playing) PauseBtn_Click(this, EventArgs.Empty); else ContinueBtn_Click(this, EventArgs.Empty); return true; }
             if (keyData == Keys.Enter) { StartBtn_Click(this, EventArgs.Empty); return true; }
             if (keyData == Keys.R) { ReplayBtn_Click(this, EventArgs.Empty); return true; }
-            if (keyData == Keys.S || keyData == Keys.Escape) { StopBtn_Click(this, EventArgs.Empty); return true; }
+            if (keyData == Keys.S) { CodingDefinitionBtn_Click(this, EventArgs.Empty); return true; }
+            if (keyData == Keys.Escape) { StopBtn_Click(this, EventArgs.Empty); return true; }
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
