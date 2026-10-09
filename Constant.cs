@@ -82,9 +82,9 @@ namespace CW
             { "第39课", new string[] { "K", "M", "R", "S", "U", "A", "P", "T","L","O","W","I" ,".","N","J","E","F","O","Y",",","V","G","5","/","Q","9","Z","H","3","8","B","?","4","2","7","C","1","D","6","X"} },
         };
         //内置的文章存放路径
-        public readonly static string ArticlePath = @"./text/";
-        public readonly static string TempPath = @"./temp/";
-        public readonly static string DbPath = @"./db/";
+        public readonly static string ArticlePath = Path.Combine(AppContext.BaseDirectory, "text") + Path.DirectorySeparatorChar;
+        public readonly static string TempPath = Path.Combine(AppContext.BaseDirectory, "temp") + Path.DirectorySeparatorChar;
+        public readonly static string DbPath = Path.Combine(AppContext.BaseDirectory, "db") + Path.DirectorySeparatorChar;
         //开始提示符
         public readonly static string StartString = "===\r\n";
         //结束提示符

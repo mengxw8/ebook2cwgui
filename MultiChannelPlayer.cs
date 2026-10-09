@@ -742,9 +742,9 @@ namespace CW
             if (Selected is not ChannelLane lane)
                 return;
 
-            var initialDirectory = Directory.Exists("./text")
-                ? Path.GetFullPath("./text")
-                : Environment.CurrentDirectory;
+            var initialDirectory = Directory.Exists(Constant.ArticlePath)
+                ? Constant.ArticlePath
+                : AppContext.BaseDirectory;
             if (!string.IsNullOrWhiteSpace(lane.FilePath))
             {
                 var directory = Path.GetDirectoryName(lane.FilePath);
@@ -838,9 +838,9 @@ namespace CW
 
         private static string[] SampleTextFiles()
         {
-            if (!Directory.Exists("./text"))
+            if (!Directory.Exists(Constant.ArticlePath))
                 return [];
-            return Directory.GetFiles("./text", "*.txt")
+            return Directory.GetFiles(Constant.ArticlePath, "*.txt")
                 .OrderBy(Path.GetFileName, StringComparer.CurrentCultureIgnoreCase)
                 .Take(2)
                 .ToArray();
