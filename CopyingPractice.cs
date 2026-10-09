@@ -404,6 +404,14 @@ namespace CW
 
             }
 
+            string messageBody = mode == WorkingMode.Customize ? answer : answerBuilder.ToString();
+            if (string.IsNullOrWhiteSpace(messageBody))
+            {
+                MessageBox.Show("未能生成有效报文，请检查字符选择、词库或新闻来源后重试。", "报文为空", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                startBtn.Enabled = true;
+                return;
+            }
+
             //answerBuilder.Append(msgEndTxb.Text);
             if (mode != WorkingMode.Customize)
             {

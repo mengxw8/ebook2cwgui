@@ -274,12 +274,20 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             // 报头和正文、正文和报尾必须以空格分隔，避免自定义标记与数字粘连。
             string messageHeader = NormalizeMessageHeader(msgStartTxb.Text);
             string messageFooter = NormalizeMessageFooter(msgEndTxb.Text);
-            answerBuilder.Append(messageHeader);
             if (radioButton3.Checked )
             {
                 answerBuilder.Append(AnswerTools.GenerateAnswer(words ?? [], repeatRbtn.Checked, continuousRbtn.Checked, System.Convert.ToInt32(groupNumBox.Value), System.Convert.ToInt32(EachGroup.Value)));
             }
 
+            string messageBody = radioButton3.Checked ? answerBuilder.ToString() : GetAnswerBody();
+            if (string.IsNullOrWhiteSpace(messageBody))
+            {
+                MessageBox.Show("未能生成有效报文，请检查字符选择、词库或新闻来源后重试。", "报文为空", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                startBtn.Enabled = true;
+                return;
+            }
+
+            answerBuilder.Insert(0, messageHeader);
             answerBuilder.Append(messageFooter);
             //自定义报文
             if (radioButton3.Checked)

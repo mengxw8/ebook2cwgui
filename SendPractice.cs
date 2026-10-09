@@ -298,9 +298,7 @@ namespace CW
                 startBtn.Enabled = true;
                 return;
             }
-            answer = "";
             StringBuilder answerBuilder = new();
-            answerBuilder.Append(Constant.StartString);
             if (mode == WorkingMode.Number || mode == WorkingMode.Alphabet || mode == WorkingMode.AlphabetAndNumber || mode == WorkingMode.Symbol)
             {
                 answerBuilder.Append(AnswerTools.GenerateAnswer(words ?? [], repeatRbtn.Checked, continuousRbtn.Checked, System.Convert.ToInt32(groupNumBox.Value), System.Convert.ToInt32(EachGroup.Value)));
@@ -344,6 +342,15 @@ namespace CW
 
             }
 
+            string messageBody = mode == WorkingMode.Customize ? answer : answerBuilder.ToString();
+            if (string.IsNullOrWhiteSpace(messageBody))
+            {
+                MessageBox.Show("未能生成有效报文，请检查字符选择、词库或新闻来源后重试。", "报文为空", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                startBtn.Enabled = true;
+                return;
+            }
+
+            answerBuilder.Insert(0, Constant.StartString);
             answerBuilder.Append(Constant.EndString);
             if (mode != WorkingMode.Customize)
             {
