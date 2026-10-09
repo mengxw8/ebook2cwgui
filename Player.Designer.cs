@@ -339,6 +339,7 @@
             ContentTxb.Font = new Font("Microsoft YaHei UI", 30F);
             ContentTxb.Location = new Point(3, 19);
             ContentTxb.Name = "ContentTxb";
+            ContentTxb.ReadOnly = true;
             ContentTxb.Size = new Size(1314, 589);
             ContentTxb.TabIndex = 11;
             ContentTxb.Text = "";
