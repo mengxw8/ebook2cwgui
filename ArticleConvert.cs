@@ -328,11 +328,30 @@ namespace CW
         // ebook2cw 的文件路径和元数据可能包含空格或引号，统一按 Windows 命令行规则转义。
         private static string QuoteArgument(string value)
         {
-            if (string.IsNullOrEmpty(value))
-                return "\"\"";
-            return "\"" + value.Replace("\"", "\\\"") + "\"";
+            var quoted = new StringBuilder("\"");
+            int backslashes = 0;
+            foreach (char character in value)
+            {
+                if (character == '\\')
+                {
+                    backslashes++;
+                    continue;
+                }
+                if (character == '\"')
+                {
+                    quoted.Append('\\', backslashes * 2 + 1);
+                }
+                else
+                {
+                    quoted.Append('\\', backslashes);
+                }
+                quoted.Append(character);
+                backslashes = 0;
+            }
+            // 结尾反斜杠紧邻关闭引号，必须翻倍。
+            quoted.Append('\\', backslashes * 2);
+            return quoted.Append('\"').ToString();
         }
-
 
         private void Convert_Load(object sender, EventArgs e)
         {
