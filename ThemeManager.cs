@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Drawing;
 
 namespace CW;
@@ -22,14 +23,17 @@ internal static class ThemeManager
         ApplyControl(root, back, fore, input, accent);
     }
 
-    private static readonly HashSet<Form> appliedForms = new();
+    private static ConditionalWeakTable<Form, object> appliedForms = new();
 
     public static void ApplyNewForms()
     {
         foreach (Form form in Application.OpenForms)
         {
-            if (appliedForms.Add(form))
+            if (!appliedForms.TryGetValue(form, out _))
+            {
+                appliedForms.Add(form, new object());
                 Apply(form);
+            }
         }
     }
 
@@ -38,7 +42,7 @@ internal static class ThemeManager
         Current = theme;
         try { File.WriteAllText(SettingsPath, theme.ToString()); }
         catch (Exception ex) { System.Diagnostics.Trace.WriteLine($"主题设置保存失败: {ex}"); }
-        appliedForms.Clear();
+        appliedForms = new();
         ApplyNewForms();
     }
 
