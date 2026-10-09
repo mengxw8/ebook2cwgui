@@ -18,9 +18,9 @@ namespace CW
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             // 全局入口：Ctrl+1/2/3 切换主题，Ctrl+P 打开播放器。
-            if (keyData == (Keys.Control | Keys.D1)) { ThemeManager.Set(AppTheme.Light); return true; }
-            if (keyData == (Keys.Control | Keys.D2)) { ThemeManager.Set(AppTheme.Dark); return true; }
-            if (keyData == (Keys.Control | Keys.D3)) { ThemeManager.Set(AppTheme.HighContrast); return true; }
+            if (keyData == (Keys.Control | Keys.D1)) { themeCombo.SelectedIndex = (int)AppTheme.Light; return true; }
+            if (keyData == (Keys.Control | Keys.D2)) { themeCombo.SelectedIndex = (int)AppTheme.Dark; return true; }
+            if (keyData == (Keys.Control | Keys.D3)) { themeCombo.SelectedIndex = (int)AppTheme.HighContrast; return true; }
             if (keyData == (Keys.Control | Keys.P)) { ToPlayerBtn.PerformClick(); return true; }
             return base.ProcessCmdKey(ref msg, keyData);
         }
