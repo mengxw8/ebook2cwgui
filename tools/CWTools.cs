@@ -31,20 +31,13 @@ namespace CW
 
             try
             {
-                //调用EXE
-                using var process = Process.Start(startInfo);
-                string result = "";
-                if (process is not null)
+                var conversion = ExternalProcess.RunAsync(startInfo).GetAwaiter().GetResult();
+                string result = conversion.Output;
+                if (conversion.ExitCode != 0)
                 {
-                    process.WaitForExit();
-                    using var reader = process.StandardOutput;
-                    // 获取exe的输出结果
-                    result = reader.ReadToEnd();
-                    if (process.ExitCode != 0)
-                        Trace.WriteLine($"ebook2cw 退出码: {process.ExitCode}");
+                    MessageBox.Show("配置错误，转换失败，请检查！");
+                    return "";
                 }
-
-
 
                 if (result != "")
                 {
@@ -65,6 +58,10 @@ namespace CW
                     }
 
                 }
+            }
+            catch (TimeoutException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
             catch (Exception)
             {

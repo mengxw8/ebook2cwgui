@@ -94,7 +94,7 @@ namespace CW
             }
         }
 
-        private void ConvertBtn_Click(object sender, EventArgs e)
+        private async void ConvertBtn_Click(object sender, EventArgs e)
         {
             //校验数据
             //校验输入文件
@@ -263,16 +263,15 @@ namespace CW
             //创建进程对象   
 
 
+            ConvertBtn.Enabled = false;
             try
             {
-                //调用EXE
-                using var process = Process.Start(startInfo);
-                var result = "";
-                if (process != null) {
-                    process.WaitForExit();
-                    using var reader = process.StandardOutput;
-                    // 获取exe的输出结果
-                     result = reader.ReadToEnd();
+                var conversion = await ExternalProcess.RunAsync(startInfo);
+                string result = conversion.Output;
+                if (conversion.ExitCode != 0)
+                {
+                    MessageBox.Show("配置错误，转换失败，请检查！");
+                    return;
                 }
 
                 if (result != "")
@@ -290,7 +289,7 @@ namespace CW
                     }
                     else
                     {
-                        var data = lines[^3].Split(":");
+                        var data = lines.Length >= 3 ? lines[^3].Split(":") : Array.Empty<string>();
                         if (data.Length == 3)
                         {
                             MessageBox.Show("转换完成，共计用时" + data[2] + "！");
@@ -301,8 +300,15 @@ namespace CW
 
                 }
             }
+            catch (TimeoutException ex) {
+                MessageBox.Show(ex.Message);
+            }
             catch (Exception ) {
                 MessageBox.Show("程序错误，请重新下载！");
+            }
+            finally
+            {
+                if (!IsDisposed) ConvertBtn.Enabled = true;
             }
 
 
