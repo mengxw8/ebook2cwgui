@@ -22,7 +22,7 @@ namespace CW
             editorGroup = new GroupBox();
             textBox = new TextBox();
             previewLabel = new Label();
-            filePanel = new Panel();
+            filePanel = new TableLayoutPanel();
             loadFileBtn = new Button();
             filePathBox = new TextBox();
             fileLabel = new Label();
@@ -334,6 +334,12 @@ namespace CW
             filePanel.MaximumSize = new Size(0, 0);
             filePanel.Margin = new Padding(3, 3, 3, 3);
             filePanel.Padding = new Padding(0, 7, 0, 7);
+            filePanel.ColumnCount = 3;
+            filePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 84F));
+            filePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            filePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 104F));
+            filePanel.RowCount = 1;
+            filePanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             filePanel.Dock = DockStyle.Top;
             filePanel.AutoSize = false;
             filePanel.BackColor = Color.FromArgb(255, 245, 247, 250);
@@ -349,9 +355,7 @@ namespace CW
             loadFileBtn.Size = new Size(104, 28);
             loadFileBtn.MinimumSize = new Size(0, 0);
             loadFileBtn.MaximumSize = new Size(0, 0);
-            loadFileBtn.Margin = new Padding(0, 0, 12, 0);
             loadFileBtn.Padding = new Padding(0, 0, 0, 0);
-            loadFileBtn.Dock = DockStyle.Right;
             loadFileBtn.AutoSize = false;
             loadFileBtn.BackColor = Color.FromArgb(255, 245, 247, 250);
             loadFileBtn.ForeColor = SystemColors.ControlText;
@@ -359,16 +363,17 @@ namespace CW
             loadFileBtn.TabStop = true;
             loadFileBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
             loadFileBtn.TextAlign = ContentAlignment.MiddleCenter;
+            loadFileBtn.Margin = new Padding(0);
+            loadFileBtn.Anchor = AnchorStyles.None;
             loadFileBtn.Name = "loadFileBtn";
             // filePathBox
             filePathBox.Text = "";
-            filePathBox.Location = new Point(84, 7);
+            filePathBox.Location = new Point(84, 9);
             filePathBox.Size = new Size(619, 23);
             filePathBox.MinimumSize = new Size(0, 0);
             filePathBox.MaximumSize = new Size(0, 0);
-            filePathBox.Margin = new Padding(3, 3, 3, 3);
             filePathBox.Padding = new Padding(0, 0, 0, 0);
-            filePathBox.Dock = DockStyle.Fill;
+            filePathBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             filePathBox.AutoSize = true;
             filePathBox.BackColor = SystemColors.Control;
             filePathBox.ForeColor = SystemColors.WindowText;
@@ -382,6 +387,7 @@ namespace CW
             filePathBox.PlaceholderText = "未选择 txt 或音频文件";
             filePathBox.TextAlign = HorizontalAlignment.Left;
             filePathBox.HideSelection = true;
+            filePathBox.Margin = new Padding(0);
             filePathBox.Name = "filePathBox";
             // fileLabel
             fileLabel.Text = "播放文件";
@@ -389,9 +395,7 @@ namespace CW
             fileLabel.Size = new Size(84, 28);
             fileLabel.MinimumSize = new Size(0, 0);
             fileLabel.MaximumSize = new Size(0, 0);
-            fileLabel.Margin = new Padding(3, 0, 3, 0);
             fileLabel.Padding = new Padding(0, 0, 0, 0);
-            fileLabel.Dock = DockStyle.Left;
             fileLabel.AutoSize = false;
             fileLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
             fileLabel.ForeColor = SystemColors.ControlText;
@@ -399,6 +403,8 @@ namespace CW
             fileLabel.TabStop = false;
             fileLabel.BorderStyle = BorderStyle.None;
             fileLabel.TextAlign = ContentAlignment.MiddleLeft;
+            fileLabel.Margin = new Padding(0);
+            fileLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             fileLabel.Name = "fileLabel";
             // randomPanel
             randomPanel.Text = "";
@@ -1297,9 +1303,9 @@ namespace CW
             editorGroup.Controls.Add(filePanel);
             editorGroup.Controls.Add(randomPanel);
             editorGroup.Controls.Add(fieldGrid);
-            filePanel.Controls.Add(filePathBox);
-            filePanel.Controls.Add(loadFileBtn);
-            filePanel.Controls.Add(fileLabel);
+            filePanel.Controls.Add(filePathBox, 1, 0);
+            filePanel.Controls.Add(loadFileBtn, 2, 0);
+            filePanel.Controls.Add(fileLabel, 0, 0);
             randomPanel.Controls.Add(randomRangeRow);
             randomPanel.Controls.Add(randomCountRow);
             randomRangeRow.Controls.Add(rangeLabel);
@@ -1422,7 +1428,7 @@ namespace CW
         private GroupBox editorGroup = null!;
         private TextBox textBox = null!;
         private Label previewLabel = null!;
-        private Panel filePanel = null!;
+        private TableLayoutPanel filePanel = null!;
         private Button loadFileBtn = null!;
         private TextBox filePathBox = null!;
         private Label fileLabel = null!;
