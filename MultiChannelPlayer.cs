@@ -1041,11 +1041,10 @@ namespace CW
         private void ChannelList_DrawSubItem(object? sender, DrawListViewSubItemEventArgs e)
         {
             bool selected = e.Item?.Selected == true;
-            bool focused = channelList.Focused;
-            Color back = selected
-                ? (focused ? SystemColors.Highlight : SystemColors.Control)
-                : channelList.BackColor;
-            Color fore = selected && focused ? SystemColors.HighlightText : channelList.ForeColor;
+            // 当前编辑的通道在焦点移到右侧设置区后仍需保持清晰的选中状态。
+            var selection = ThemeManager.SelectionColors;
+            Color back = selected ? selection.Back : channelList.BackColor;
+            Color fore = selected ? selection.Fore : channelList.ForeColor;
             using (var brush = new SolidBrush(back))
                 e.Graphics.FillRectangle(brush, e.Bounds);
 

@@ -11,6 +11,13 @@ internal static class ThemeManager
     private static readonly string SettingsPath = Path.Combine(AppContext.BaseDirectory, "cw-theme.txt");
     public static AppTheme Current { get; private set; } = Load();
 
+    public static (Color Back, Color Fore) SelectionColors => Current switch
+    {
+        AppTheme.Dark => (Color.FromArgb(0, 122, 204), Color.White),
+        AppTheme.HighContrast => (Color.Yellow, Color.Black),
+        _ => (SystemColors.Highlight, SystemColors.HighlightText)
+    };
+
     public static void Apply(Control root)
     {
         var (back, fore, input, accent) = Current switch
