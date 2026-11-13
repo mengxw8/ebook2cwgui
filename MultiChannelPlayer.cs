@@ -23,46 +23,9 @@ namespace CW
         private static readonly int[] FrequencySteps = [600, 800, 1000, 500, 1200, 700, 900, 450];
 
         private readonly List<ChannelLane> lanes = [];
-        private readonly MultiChannelMixer mixer = new();
-        private readonly WaveOutEvent waveOut = new();
-        private readonly System.Windows.Forms.Timer groupTimer = new() { Interval = 200 };
-        private readonly ListView channelList = new();
-        private readonly Button addBtn = new();
-        private readonly Button deleteBtn = new();
-        private readonly Button upBtn = new();
-        private readonly Button downBtn = new();
-        private readonly TextBox nameBox = new();
-        private readonly CheckBox primaryCheck = new();
-        private readonly CheckBox loopCheck = new();
-        private readonly CheckBox muteCheck = new();
-        private readonly NumericUpDown speedBox = new();
-        private readonly NumericUpDown frequencyBox = new();
-        private readonly ComboBox waveformBox = new();
-        private readonly NumericUpDown volumeBox = new();
-        private readonly CheckBox noiseCheck = new();
-        private readonly NumericUpDown snrBox = new();
-        private readonly Button encodingBtn = new();
-        private readonly NumericUpDown randomEachBox = new();
-        private readonly NumericUpDown randomGroupBox = new();
-        private readonly CheckBox randomUniqueCheck = new();
-        private readonly CheckBox randomUniqueGroupCheck = new();
-        private readonly CheckBox randomLetterCheck = new();
-        private readonly CheckBox randomNumberCheck = new();
-        private readonly CheckBox randomSymbolCheck = new();
-        private readonly TextBox randomCustomBox = new();
-        private readonly Button randomGenerateBtn = new();
-        private readonly TextBox textBox = new();
-        private readonly TextBox filePathBox = new();
-        private readonly Button loadFileBtn = new();
-        private readonly Label previewLabel = new();
-        private readonly Button playBtn = new();
-        private readonly Button pauseBtn = new();
-        private readonly Button stopBtn = new();
-        private readonly Button replayBtn = new();
-        private readonly Button openBtn = new();
-        private readonly Button saveBtn = new();
-        private readonly Button exportBtn = new();
-        private readonly Label statusLabel = new();
+        private readonly MultiChannelMixer mixer = null!;
+        private readonly WaveOutEvent waveOut = null!;
+        private readonly System.Windows.Forms.Timer groupTimer = null!;
         private CancellationTokenSource? exportCts;
         private bool exporting;
         private bool suppressEditor;
@@ -78,6 +41,10 @@ namespace CW
             if (IsInDesigner)
                 return;
 
+            mixer = new MultiChannelMixer();
+            waveOut = new WaveOutEvent();
+            groupTimer = new System.Windows.Forms.Timer { Interval = 200 };
+            BindEvents();
             mixer.SetUiContext(SynchronizationContext.Current);
             groupTimer.Tick += (_, _) => RefreshCurrentGroups();
             groupTimer.Start();
@@ -90,57 +57,10 @@ namespace CW
         }
 
         private bool IsInDesigner => LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode;
-        private void BuildLayout()
+        private void BindEvents()
         {
-            BackColor = Color.FromArgb(245, 247, 250);
-            Font = new Font("Microsoft YaHei UI", 9F);
-
-            var bottom = new Panel { Dock = DockStyle.Bottom, Height = 72, Padding = new Padding(16, 10, 16, 10), BackColor = Color.White };
-            // 使用百分比分栏而不是 SplitContainer，避免设计器预览尺寸较小时触发分隔线约束异常。
-            var split = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                ColumnCount = 2,
-                RowCount = 1,
-                BackColor = BackColor,
-                Padding = new Padding(16, 16, 16, 12),
-            };
-            split.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
-            split.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
-            split.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            var left = new GroupBox { Dock = DockStyle.Fill, Text = "播放通道", Padding = new Padding(12, 22, 12, 12) };
-            var editor = new GroupBox { Dock = DockStyle.Fill, Text = "通道设置与报文", Padding = new Padding(16, 24, 16, 12) };
-            var fields = CreateFieldGrid();
-
-            previewLabel.Text = "预览";
-            previewLabel.Dock = DockStyle.Top;
-            previewLabel.Height = 30;
-            previewLabel.TextAlign = ContentAlignment.BottomLeft;
-            previewLabel.Padding = new Padding(0, 0, 0, 6);
-
-            var fileRow = new Panel { Dock = DockStyle.Top, Height = 42, Padding = new Padding(0, 4, 0, 4) };
-            var fileLabel = new Label { Text = "播放文件", Dock = DockStyle.Left, Width = 84, TextAlign = ContentAlignment.MiddleLeft };
-            StyleButton(loadFileBtn, "选择文件", 104);
-            loadFileBtn.Dock = DockStyle.Right;
-            filePathBox.Dock = DockStyle.Fill;
-            filePathBox.ReadOnly = true;
-            filePathBox.PlaceholderText = "未选择 txt 或音频文件";
-            fileRow.Controls.Add(loadFileBtn);
-            fileRow.Controls.Add(filePathBox);
-            fileRow.Controls.Add(fileLabel);
+            channelList.OwnerDraw = true;
             loadFileBtn.Click += (_, _) => ChoosePlaybackFile();
-
-            StyleButton(playBtn, "播放");
-            StyleButton(pauseBtn, "暂停");
-            StyleButton(stopBtn, "停止");
-            StyleButton(replayBtn, "重播");
-            StyleButton(openBtn, "打开配置", 104);
-            StyleButton(saveBtn, "保存配置", 104);
-            StyleButton(exportBtn, "导出音频", 104);
-            statusLabel.Text = "已停止";
-            statusLabel.Dock = DockStyle.Fill;
-            statusLabel.TextAlign = ContentAlignment.MiddleLeft;
-            statusLabel.Padding = new Padding(8, 0, 0, 0);
             playBtn.Click += (_, _) => Play();
             pauseBtn.Click += (_, _) => Pause();
             stopBtn.Click += (_, _) => StopPlayback();
@@ -148,57 +68,15 @@ namespace CW
             openBtn.Click += (_, _) => OpenPreset();
             saveBtn.Click += (_, _) => SavePreset();
             exportBtn.Click += (_, _) => ExportOrCancel();
-
-            var transport = new FlowLayoutPanel { Dock = DockStyle.Left, AutoSize = true, WrapContents = false, FlowDirection = FlowDirection.LeftToRight, Padding = new Padding(0, 8, 0, 0) };
-            transport.Controls.AddRange([playBtn, pauseBtn, stopBtn, replayBtn]);
-            var fileButtons = new FlowLayoutPanel { Dock = DockStyle.Right, AutoSize = true, WrapContents = false, FlowDirection = FlowDirection.LeftToRight, Padding = new Padding(0, 8, 0, 0) };
-            fileButtons.Controls.AddRange([openBtn, saveBtn, exportBtn]);
-            bottom.Controls.Add(fileButtons);
-            bottom.Controls.Add(transport);
-            bottom.Controls.Add(statusLabel);
-
-            channelList.Dock = DockStyle.Fill;
-            channelList.View = View.Details;
-            channelList.FullRowSelect = true;
-            channelList.HideSelection = false;
-            channelList.MultiSelect = false;
-            channelList.GridLines = true;
-            channelList.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-            foreach (var column in ChannelColumns)
-            {
-                var header = channelList.Columns.Add(column.Name, column.Minimum);
-                header.TextAlign = HorizontalAlignment.Center;
-            }
-            channelList.OwnerDraw = true;
             channelList.DrawColumnHeader += ChannelList_DrawColumnHeader;
             channelList.DrawItem += (_, e) => e.DrawDefault = false;
             channelList.DrawSubItem += ChannelList_DrawSubItem;
             channelList.Resize += (_, _) => FitChannelColumns();
             channelList.SelectedIndexChanged += (_, _) => LoadEditor();
-
-            var listButtons = new FlowLayoutPanel { Dock = DockStyle.Bottom, Height = 54, WrapContents = false, FlowDirection = FlowDirection.LeftToRight, Padding = new Padding(0, 10, 0, 0) };
-            StyleButton(addBtn, "添加", 82);
-            StyleButton(deleteBtn, "删除", 82);
-            StyleButton(upBtn, "上移", 82);
-            StyleButton(downBtn, "下移", 82);
             addBtn.Click += (_, _) => AddLane();
             deleteBtn.Click += (_, _) => DeleteSelected();
             upBtn.Click += (_, _) => MoveSelected(-1);
             downBtn.Click += (_, _) => MoveSelected(1);
-            listButtons.Controls.AddRange([addBtn, deleteBtn, upBtn, downBtn]);
-            left.Controls.Add(channelList);
-            left.Controls.Add(listButtons);
-
-            textBox.Dock = DockStyle.Fill;
-            textBox.Multiline = true;
-            textBox.ScrollBars = ScrollBars.Vertical;
-            textBox.AcceptsReturn = true;
-            editor.Controls.Add(textBox);
-            editor.Controls.Add(previewLabel);
-            editor.Controls.Add(fileRow);
-            editor.Controls.Add(CreateRandomPanel());
-            editor.Controls.Add(fields);
-
             nameBox.TextChanged += (_, _) => ApplyName();
             primaryCheck.CheckedChanged += (_, _) => ApplyPrimary();
             loopCheck.CheckedChanged += (_, _) => ApplyLoop();
@@ -220,161 +98,6 @@ namespace CW
             randomSymbolCheck.CheckedChanged += (_, _) => ApplyRandomSettings();
             randomCustomBox.TextChanged += (_, _) => ApplyRandomSettings();
             randomGenerateBtn.Click += (_, _) => GenerateRandom();
-
-            split.Controls.Add(left, 0, 0);
-            split.Controls.Add(editor, 1, 0);
-            Controls.Add(split);
-            Controls.Add(bottom);
-        }
-
-        private TableLayoutPanel CreateFieldGrid()
-        {
-            var fields = new TableLayoutPanel { Dock = DockStyle.Top, Height = 194, ColumnCount = 8, RowCount = 4, Padding = new Padding(0, 0, 0, 2) };
-            fields.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54));
-            fields.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1));
-            fields.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54));
-            fields.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54));
-            fields.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1));
-            fields.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54));
-            fields.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54));
-            fields.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1));
-            for (int i = 0; i < 3; i++) fields.RowStyles.Add(new RowStyle(SizeType.Absolute, 48));
-            fields.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));
-
-            ConfigureNumber(speedBox, 1, 100, 20);
-            ConfigureNumber(frequencyBox, 1, 99999, 600);
-            ConfigureNumber(volumeBox, 0, 100, 50);
-            ConfigureNumber(snrBox, -10, 10, 0);
-            waveformBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            waveformBox.Items.AddRange(["正弦波", "锯齿波", "方波"]);
-            primaryCheck.Text = "主路"; loopCheck.Text = "循环"; muteCheck.Text = "静音"; noiseCheck.Text = "噪声";
-            primaryCheck.AutoSize = true; loopCheck.AutoSize = true; muteCheck.AutoSize = true; noiseCheck.AutoSize = true;
-            StyleButton(encodingBtn, "编码设置", 104);
-
-            AddField(fields, FieldLabel("名称"), 0, 0); AddField(fields, nameBox, 1, 0);
-            AddField(fields, FieldLabel("速度"), 3, 0); AddField(fields, speedBox, 4, 0);
-            AddField(fields, FieldLabel("频率"), 6, 0); AddField(fields, frequencyBox, 7, 0);
-            AddField(fields, FieldLabel("波形"), 0, 1); AddField(fields, waveformBox, 1, 1);
-            AddField(fields, FieldLabel("音量"), 3, 1); AddField(fields, volumeBox, 4, 1);
-            AddField(fields, FieldLabel("信噪比"), 6, 1); AddField(fields, snrBox, 7, 1);
-
-            var options = new FlowLayoutPanel { Dock = DockStyle.Fill, WrapContents = false, FlowDirection = FlowDirection.LeftToRight, Padding = new Padding(0, 6, 0, 0) };
-            primaryCheck.Margin = new Padding(0, 5, 20, 0); loopCheck.Margin = new Padding(0, 5, 20, 0); muteCheck.Margin = new Padding(0, 5, 20, 0); noiseCheck.Margin = new Padding(0, 5, 20, 0);
-            options.Controls.AddRange([primaryCheck, loopCheck, muteCheck, noiseCheck, encodingBtn]);
-            fields.Controls.Add(options, 0, 2); fields.SetColumnSpan(options, 8);
-
-            var hint = new Label { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft, ForeColor = SystemColors.GrayText, Text = "每路可选择 txt、粘贴报文，或按自己的组数和字符范围随机生成。" };
-            fields.Controls.Add(hint, 0, 3); fields.SetColumnSpan(hint, 8);
-            return fields;
-        }
-
-        private Panel CreateRandomPanel()
-        {
-            ConfigureNumber(randomEachBox, 1, 40, 4);
-            ConfigureNumber(randomGroupBox, 1, 500, 10);
-            randomUniqueCheck.Text = "组内不重复";
-            randomUniqueGroupCheck.Text = "组不重复";
-            randomLetterCheck.Text = "字母";
-            randomNumberCheck.Text = "数字";
-            randomSymbolCheck.Text = "符号";
-            randomUniqueCheck.AutoSize = true;
-            randomUniqueGroupCheck.AutoSize = true;
-            randomLetterCheck.AutoSize = true;
-            randomNumberCheck.AutoSize = true;
-            randomSymbolCheck.AutoSize = true;
-            randomLetterCheck.Checked = true;
-            randomCustomBox.Width = 220;
-            randomCustomBox.PlaceholderText = "可追加，如 KMRA";
-            randomGenerateBtn.Text = "生成";
-            randomGenerateBtn.Size = new Size(82, 28);
-            randomGenerateBtn.Margin = new Padding(8, 6, 0, 0);
-
-            var panel = new Panel { Dock = DockStyle.Top, Height = 84, Padding = new Padding(0, 2, 0, 2) };
-            var row1 = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 40, WrapContents = false, FlowDirection = FlowDirection.LeftToRight };
-            var row2 = new FlowLayoutPanel { Dock = DockStyle.Fill, WrapContents = false, FlowDirection = FlowDirection.LeftToRight };
-            row1.Controls.AddRange([
-                InlineLabel("随机"),
-                InlineLabel("每组"),
-                InlineNumber(randomEachBox),
-                InlineLabel("组数"),
-                InlineNumber(randomGroupBox),
-                InlineCheck(randomUniqueCheck),
-                InlineCheck(randomUniqueGroupCheck),
-                randomGenerateBtn,
-            ]);
-            row2.Controls.AddRange([
-                InlineLabel("范围"),
-                InlineCheck(randomLetterCheck),
-                InlineCheck(randomNumberCheck),
-                InlineCheck(randomSymbolCheck),
-                InlineLabel("自定义"),
-                InlineNumber(randomCustomBox),
-            ]);
-            panel.Controls.Add(row2);
-            panel.Controls.Add(row1);
-            return panel;
-        }
-
-        private static Label InlineLabel(string text) => new()
-        {
-            Text = text,
-            AutoSize = true,
-            Margin = new Padding(0, 10, 6, 0),
-        };
-
-        private static Control InlineNumber(Control control)
-        {
-            control.Margin = new Padding(0, 6, 12, 0);
-            control.Width = control is TextBox ? 220 : 68;
-            control.Height = 28;
-            return control;
-        }
-
-        private static Control InlineCheck(CheckBox check)
-        {
-            check.Margin = new Padding(0, 8, 14, 0);
-            return check;
-        }
-
-        private static void AddField(TableLayoutPanel fields, Control control, int column, int row)
-        {
-            if (control is Label)
-            {
-                control.Dock = DockStyle.Fill;
-                control.Margin = new Padding(0, 8, 8, 8);
-            }
-            else
-            {
-                control.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-                control.Height = 28;
-                control.Margin = new Padding(0, 12, 16, 12);
-            }
-
-            fields.Controls.Add(control, column, row);
-        }
-
-        private static Label FieldLabel(string text) => new()
-        {
-            Text = text,
-            AutoSize = false,
-            TextAlign = ContentAlignment.MiddleLeft,
-            Margin = new Padding(0, 10, 8, 10),
-        };
-
-        private static void StyleButton(Button button, string text, int width = 96)
-        {
-            button.Text = text;
-            button.AutoSize = false;
-            button.Size = new Size(width, 36);
-            button.Margin = new Padding(0, 0, 12, 0);
-        }
-
-        private static void ConfigureNumber(NumericUpDown box, int min, int max, int value)
-        {
-            box.Minimum = min;
-            box.Maximum = max;
-            box.Value = value;
-            box.DecimalPlaces = 0;
         }
 
         private ChannelLane? Selected =>
@@ -1426,7 +1149,7 @@ namespace CW
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             exportCts?.Cancel();
-            if (!audioReleased)
+            if (!audioReleased && !IsInDesigner)
             {
                 audioReleased = true;
                 sessionId++;
