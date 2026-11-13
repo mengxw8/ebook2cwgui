@@ -54,6 +54,9 @@ namespace CW
         public CopyingPractice()
         {
             InitializeComponent();
+            PracticeButtonLayout.UseCompactHeight(
+                startBtn, submitAnswerBtn, exportBtn, clearAnswerBtn,
+                pauseBtn, continuePlayBtn, rePlayBtn, stopBtn);
             //不允许息屏
             SystemSleep.PreventForCurrentThread();
             //输入法切换为英文

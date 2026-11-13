@@ -549,8 +549,6 @@
             // 
             // exportBtn
             // 
-            exportBtn.AutoSize = true;
-            exportBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
             exportBtn.Location = new Point(625, 150);
             exportBtn.Margin = new Padding(5, 4, 5, 4);
             exportBtn.Name = "exportBtn";
@@ -584,8 +582,6 @@
             // 
             // submitAnswerBtn
             // 
-            submitAnswerBtn.AutoSize = true;
-            submitAnswerBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
             submitAnswerBtn.Location = new Point(625, 79);
             submitAnswerBtn.Margin = new Padding(5, 4, 5, 4);
             submitAnswerBtn.Name = "submitAnswerBtn";
@@ -597,8 +593,6 @@
             // 
             // startBtn
             // 
-            startBtn.AutoSize = true;
-            startBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
             startBtn.Location = new Point(625, 37);
             startBtn.Margin = new Padding(5, 4, 5, 4);
             startBtn.Name = "startBtn";
@@ -674,8 +668,6 @@
             // 
             // stopBtn
             // 
-            stopBtn.AutoSize = true;
-            stopBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
             stopBtn.Location = new Point(28, 189);
             stopBtn.Margin = new Padding(5, 4, 5, 4);
             stopBtn.Name = "stopBtn";
@@ -733,8 +725,6 @@
             // rePlayBtn
             // 
             rePlayBtn.Enabled = false;
-            rePlayBtn.AutoSize = true;
-            rePlayBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
             rePlayBtn.Location = new Point(28, 150);
             rePlayBtn.Margin = new Padding(5, 4, 5, 4);
             rePlayBtn.Name = "rePlayBtn";
@@ -747,8 +737,6 @@
             // continuePlayBtn
             // 
             continuePlayBtn.Enabled = false;
-            continuePlayBtn.AutoSize = true;
-            continuePlayBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
             continuePlayBtn.Location = new Point(28, 110);
             continuePlayBtn.Margin = new Padding(5, 4, 5, 4);
             continuePlayBtn.Name = "continuePlayBtn";
@@ -761,8 +749,6 @@
             // pauseBtn
             // 
             pauseBtn.Enabled = false;
-            pauseBtn.AutoSize = true;
-            pauseBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
             pauseBtn.Location = new Point(28, 71);
             pauseBtn.Margin = new Padding(5, 4, 5, 4);
             pauseBtn.Name = "pauseBtn";
@@ -774,8 +760,6 @@
             // 
             // clearAnswerBtn
             // 
-            clearAnswerBtn.AutoSize = true;
-            clearAnswerBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
             clearAnswerBtn.Location = new Point(28, 31);
             clearAnswerBtn.Margin = new Padding(5, 4, 5, 4);
             clearAnswerBtn.Name = "clearAnswerBtn";

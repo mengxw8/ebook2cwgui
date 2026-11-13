@@ -73,6 +73,9 @@ namespace CW
         public SendPractice()
         {
             InitializeComponent();
+            PracticeButtonLayout.UseCompactHeight(
+                startBtn, submitAnswerBtn, exportBtn, clearAnswerBtn,
+                pauseBtn, continuePlayBtn, rePlayBtn, stopBtn);
             Layout += (_, _) => UpdateReplicationWidths();
             groupBox4.SizeChanged += (_, _) => UpdateReplicationWidths();
             UpdateReplicationWidths();
