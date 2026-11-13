@@ -86,8 +86,7 @@ public partial class CopyingPractice
             return;
         var range = playbackHighlight.Groups[bodyIndex];
         if (range.Length == 0) return;
-        var colors = ThemeManager.SelectionColors;
-        FormatAnswerRange(range.Start, range.Length, colors.Back, colors.Fore);
+        FormatAnswerRange(range.Start, range.Length, Color.LightYellow, Color.Black);
         highlightedAnswerStart = range.Start;
         highlightedAnswerLength = range.Length;
     }
