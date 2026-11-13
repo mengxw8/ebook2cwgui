@@ -4,6 +4,7 @@ namespace CW
     {
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MultiChannelPlayer));
             nameColumn = new ColumnHeader();
             roleColumn = new ColumnHeader();
             frequencyColumn = new ColumnHeader();
@@ -23,8 +24,8 @@ namespace CW
             textBox = new TextBox();
             previewLabel = new Label();
             filePanel = new TableLayoutPanel();
-            loadFileBtn = new Button();
             filePathBox = new TextBox();
+            loadFileBtn = new Button();
             fileLabel = new Label();
             randomPanel = new Panel();
             randomRangeRow = new FlowLayoutPanel();
@@ -64,17 +65,16 @@ namespace CW
             encodingBtn = new Button();
             sourceHintLabel = new Label();
             bottomPanel = new Panel();
-            presetButtons = new FlowLayoutPanel();
-            openBtn = new Button();
-            saveBtn = new Button();
-            exportBtn = new Button();
+            statusLabel = new Label();
             transportButtons = new FlowLayoutPanel();
             playBtn = new Button();
             pauseBtn = new Button();
             stopBtn = new Button();
             replayBtn = new Button();
-            statusLabel = new Label();
-            this.SuspendLayout();
+            presetButtons = new FlowLayoutPanel();
+            openBtn = new Button();
+            saveBtn = new Button();
+            exportBtn = new Button();
             mainLayout.SuspendLayout();
             channelGroup.SuspendLayout();
             channelButtons.SuspendLayout();
@@ -92,1228 +92,375 @@ namespace CW
             ((System.ComponentModel.ISupportInitialize)snrBox).BeginInit();
             channelOptions.SuspendLayout();
             bottomPanel.SuspendLayout();
-            presetButtons.SuspendLayout();
             transportButtons.SuspendLayout();
-            // mainLayout
-            mainLayout.Text = "";
-            mainLayout.Location = new Point(0, 0);
-            mainLayout.Size = new Size(1440, 888);
-            mainLayout.MinimumSize = new Size(0, 0);
-            mainLayout.MaximumSize = new Size(0, 0);
-            mainLayout.Margin = new Padding(3, 3, 3, 3);
-            mainLayout.Padding = new Padding(16, 16, 16, 12);
-            mainLayout.Dock = DockStyle.Fill;
-            mainLayout.AutoSize = false;
-            mainLayout.BackColor = Color.FromArgb(255, 245, 247, 250);
-            mainLayout.ForeColor = SystemColors.ControlText;
-            mainLayout.TabIndex = 0;
-            mainLayout.TabStop = false;
-            mainLayout.AutoSizeMode = AutoSizeMode.GrowOnly;
-            mainLayout.ColumnCount = 2;
-            mainLayout.RowCount = 1;
-            mainLayout.BorderStyle = BorderStyle.None;
-            mainLayout.Name = "mainLayout";
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
-            mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
-            // channelGroup
-            channelGroup.Text = "播放通道";
-            channelGroup.Location = new Point(19, 19);
-            channelGroup.Size = new Size(557, 854);
-            channelGroup.MinimumSize = new Size(0, 0);
-            channelGroup.MaximumSize = new Size(0, 0);
-            channelGroup.Margin = new Padding(3, 3, 3, 3);
-            channelGroup.Padding = new Padding(12, 22, 12, 12);
-            channelGroup.Dock = DockStyle.Fill;
-            channelGroup.AutoSize = false;
-            channelGroup.BackColor = Color.FromArgb(255, 245, 247, 250);
-            channelGroup.ForeColor = SystemColors.ControlText;
-            channelGroup.TabIndex = 0;
-            channelGroup.TabStop = false;
-            channelGroup.AutoSizeMode = AutoSizeMode.GrowOnly;
-            channelGroup.Name = "channelGroup";
-            // channelList
-            channelList.Text = "";
-            channelList.Location = new Point(12, 38);
-            channelList.Size = new Size(533, 750);
-            channelList.MinimumSize = new Size(0, 0);
-            channelList.MaximumSize = new Size(0, 0);
-            channelList.Margin = new Padding(3, 3, 3, 3);
-            channelList.Padding = new Padding(0, 0, 0, 0);
-            channelList.Dock = DockStyle.Fill;
-            channelList.AutoSize = false;
-            channelList.BackColor = SystemColors.Window;
-            channelList.ForeColor = SystemColors.WindowText;
-            channelList.TabIndex = 0;
-            channelList.TabStop = true;
-            channelList.BorderStyle = BorderStyle.Fixed3D;
-            channelList.View = View.Details;
-            channelList.FullRowSelect = true;
-            channelList.HideSelection = false;
-            channelList.MultiSelect = false;
-            channelList.GridLines = true;
-            channelList.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-            channelList.OwnerDraw = false;
-            channelList.Name = "channelList";
+            presetButtons.SuspendLayout();
+            SuspendLayout();
+            // 
+            // nameColumn
+            // 
             nameColumn.Text = "名称";
             nameColumn.Width = 72;
-            nameColumn.TextAlign = HorizontalAlignment.Left;
-            channelList.Columns.Add(nameColumn);
+            // 
+            // roleColumn
+            // 
             roleColumn.Text = "角色";
-            roleColumn.Width = 44;
             roleColumn.TextAlign = HorizontalAlignment.Center;
-            channelList.Columns.Add(roleColumn);
+            roleColumn.Width = 44;
+            // 
+            // frequencyColumn
+            // 
             frequencyColumn.Text = "频率";
-            frequencyColumn.Width = 52;
             frequencyColumn.TextAlign = HorizontalAlignment.Center;
-            channelList.Columns.Add(frequencyColumn);
+            frequencyColumn.Width = 52;
+            // 
+            // speedColumn
+            // 
             speedColumn.Text = "速度";
-            speedColumn.Width = 48;
             speedColumn.TextAlign = HorizontalAlignment.Center;
-            channelList.Columns.Add(speedColumn);
+            speedColumn.Width = 48;
+            // 
+            // encodingColumn
+            // 
             encodingColumn.Text = "编码";
-            encodingColumn.Width = 60;
             encodingColumn.TextAlign = HorizontalAlignment.Center;
-            channelList.Columns.Add(encodingColumn);
+            // 
+            // volumeColumn
+            // 
             volumeColumn.Text = "音量";
-            volumeColumn.Width = 48;
             volumeColumn.TextAlign = HorizontalAlignment.Center;
-            channelList.Columns.Add(volumeColumn);
+            volumeColumn.Width = 48;
+            // 
+            // currentGroupColumn
+            // 
             currentGroupColumn.Text = "当前组";
-            currentGroupColumn.Width = 80;
             currentGroupColumn.TextAlign = HorizontalAlignment.Center;
-            channelList.Columns.Add(currentGroupColumn);
-            // channelButtons
-            channelButtons.Text = "";
-            channelButtons.Location = new Point(12, 788);
-            channelButtons.Size = new Size(533, 54);
-            channelButtons.MinimumSize = new Size(0, 0);
-            channelButtons.MaximumSize = new Size(0, 0);
-            channelButtons.Margin = new Padding(3, 3, 3, 3);
-            channelButtons.Padding = new Padding(0, 10, 0, 0);
-            channelButtons.Dock = DockStyle.Bottom;
-            channelButtons.AutoSize = false;
-            channelButtons.BackColor = Color.FromArgb(255, 245, 247, 250);
-            channelButtons.ForeColor = SystemColors.ControlText;
-            channelButtons.TabIndex = 1;
-            channelButtons.TabStop = false;
-            channelButtons.AutoSizeMode = AutoSizeMode.GrowOnly;
-            channelButtons.WrapContents = false;
-            channelButtons.FlowDirection = FlowDirection.LeftToRight;
-            channelButtons.BorderStyle = BorderStyle.None;
-            channelButtons.Name = "channelButtons";
-            // addBtn
-            addBtn.Text = "添加";
-            addBtn.Location = new Point(0, 10);
-            addBtn.Size = new Size(82, 36);
-            addBtn.MinimumSize = new Size(0, 0);
-            addBtn.MaximumSize = new Size(0, 0);
-            addBtn.Margin = new Padding(0, 0, 12, 0);
-            addBtn.Padding = new Padding(0, 0, 0, 0);
-            addBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            addBtn.AutoSize = false;
-            addBtn.BackColor = Color.FromArgb(255, 245, 247, 250);
-            addBtn.ForeColor = SystemColors.ControlText;
-            addBtn.TabIndex = 0;
-            addBtn.TabStop = true;
-            addBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
-            addBtn.TextAlign = ContentAlignment.MiddleCenter;
-            addBtn.Name = "addBtn";
-            // deleteBtn
-            deleteBtn.Text = "删除";
-            deleteBtn.Location = new Point(94, 10);
-            deleteBtn.Size = new Size(82, 36);
-            deleteBtn.MinimumSize = new Size(0, 0);
-            deleteBtn.MaximumSize = new Size(0, 0);
-            deleteBtn.Margin = new Padding(0, 0, 12, 0);
-            deleteBtn.Padding = new Padding(0, 0, 0, 0);
-            deleteBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            deleteBtn.AutoSize = false;
-            deleteBtn.BackColor = Color.FromArgb(255, 245, 247, 250);
-            deleteBtn.ForeColor = SystemColors.ControlText;
-            deleteBtn.TabIndex = 1;
-            deleteBtn.TabStop = true;
-            deleteBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
-            deleteBtn.TextAlign = ContentAlignment.MiddleCenter;
-            deleteBtn.Name = "deleteBtn";
-            // upBtn
-            upBtn.Text = "上移";
-            upBtn.Location = new Point(188, 10);
-            upBtn.Size = new Size(82, 36);
-            upBtn.MinimumSize = new Size(0, 0);
-            upBtn.MaximumSize = new Size(0, 0);
-            upBtn.Margin = new Padding(0, 0, 12, 0);
-            upBtn.Padding = new Padding(0, 0, 0, 0);
-            upBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            upBtn.AutoSize = false;
-            upBtn.BackColor = Color.FromArgb(255, 245, 247, 250);
-            upBtn.ForeColor = SystemColors.ControlText;
-            upBtn.TabIndex = 2;
-            upBtn.TabStop = true;
-            upBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
-            upBtn.TextAlign = ContentAlignment.MiddleCenter;
-            upBtn.Name = "upBtn";
-            // downBtn
-            downBtn.Text = "下移";
-            downBtn.Location = new Point(282, 10);
-            downBtn.Size = new Size(82, 36);
-            downBtn.MinimumSize = new Size(0, 0);
-            downBtn.MaximumSize = new Size(0, 0);
-            downBtn.Margin = new Padding(0, 0, 12, 0);
-            downBtn.Padding = new Padding(0, 0, 0, 0);
-            downBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            downBtn.AutoSize = false;
-            downBtn.BackColor = Color.FromArgb(255, 245, 247, 250);
-            downBtn.ForeColor = SystemColors.ControlText;
-            downBtn.TabIndex = 3;
-            downBtn.TabStop = true;
-            downBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
-            downBtn.TextAlign = ContentAlignment.MiddleCenter;
-            downBtn.Name = "downBtn";
-            // editorGroup
-            editorGroup.Text = "通道设置与报文";
-            editorGroup.Location = new Point(582, 19);
-            editorGroup.Size = new Size(839, 854);
-            editorGroup.MinimumSize = new Size(0, 0);
-            editorGroup.MaximumSize = new Size(0, 0);
-            editorGroup.Margin = new Padding(3, 3, 3, 3);
-            editorGroup.Padding = new Padding(16, 24, 16, 12);
-            editorGroup.Dock = DockStyle.Fill;
-            editorGroup.AutoSize = false;
-            editorGroup.BackColor = Color.FromArgb(255, 245, 247, 250);
-            editorGroup.ForeColor = SystemColors.ControlText;
-            editorGroup.TabIndex = 1;
-            editorGroup.TabStop = false;
-            editorGroup.AutoSizeMode = AutoSizeMode.GrowOnly;
-            editorGroup.Name = "editorGroup";
-            // textBox
-            textBox.Text = "";
-            textBox.Location = new Point(16, 390);
-            textBox.Size = new Size(807, 452);
-            textBox.MinimumSize = new Size(0, 0);
-            textBox.MaximumSize = new Size(0, 0);
-            textBox.Margin = new Padding(3, 3, 3, 3);
-            textBox.Padding = new Padding(0, 0, 0, 0);
-            textBox.Dock = DockStyle.Fill;
-            textBox.AutoSize = true;
-            textBox.BackColor = SystemColors.Window;
-            textBox.ForeColor = SystemColors.WindowText;
-            textBox.TabIndex = 0;
-            textBox.TabStop = true;
-            textBox.BorderStyle = BorderStyle.Fixed3D;
-            textBox.ReadOnly = false;
-            textBox.Multiline = true;
-            textBox.ScrollBars = ScrollBars.Vertical;
-            textBox.WordWrap = true;
-            textBox.PlaceholderText = "";
-            textBox.TextAlign = HorizontalAlignment.Left;
-            textBox.HideSelection = true;
-            textBox.Name = "textBox";
-            // previewLabel
-            previewLabel.Text = "预览";
-            previewLabel.Location = new Point(16, 360);
-            previewLabel.Size = new Size(807, 30);
-            previewLabel.MinimumSize = new Size(0, 0);
-            previewLabel.MaximumSize = new Size(0, 0);
-            previewLabel.Margin = new Padding(3, 0, 3, 0);
-            previewLabel.Padding = new Padding(0, 0, 0, 6);
-            previewLabel.Dock = DockStyle.Top;
-            previewLabel.AutoSize = false;
-            previewLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            previewLabel.ForeColor = SystemColors.ControlText;
-            previewLabel.TabIndex = 1;
-            previewLabel.TabStop = false;
-            previewLabel.BorderStyle = BorderStyle.None;
-            previewLabel.TextAlign = ContentAlignment.BottomLeft;
-            previewLabel.Name = "previewLabel";
-            // filePanel
-            filePanel.Text = "";
-            filePanel.Location = new Point(16, 318);
-            filePanel.Size = new Size(807, 42);
-            filePanel.MinimumSize = new Size(0, 0);
-            filePanel.MaximumSize = new Size(0, 0);
-            filePanel.Margin = new Padding(3, 3, 3, 3);
-            filePanel.Padding = new Padding(0, 7, 0, 7);
-            filePanel.ColumnCount = 3;
-            filePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 84F));
-            filePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            filePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 104F));
-            filePanel.RowCount = 1;
-            filePanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            filePanel.Dock = DockStyle.Top;
-            filePanel.AutoSize = false;
-            filePanel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            filePanel.ForeColor = SystemColors.ControlText;
-            filePanel.TabIndex = 2;
-            filePanel.TabStop = false;
-            filePanel.AutoSizeMode = AutoSizeMode.GrowOnly;
-            filePanel.BorderStyle = BorderStyle.None;
-            filePanel.Name = "filePanel";
-            // loadFileBtn
-            loadFileBtn.Text = "选择文件";
-            loadFileBtn.Location = new Point(703, 7);
-            loadFileBtn.Size = new Size(104, 28);
-            loadFileBtn.MinimumSize = new Size(0, 0);
-            loadFileBtn.MaximumSize = new Size(0, 0);
-            loadFileBtn.Padding = new Padding(0, 0, 0, 0);
-            loadFileBtn.AutoSize = false;
-            loadFileBtn.BackColor = Color.FromArgb(255, 245, 247, 250);
-            loadFileBtn.ForeColor = SystemColors.ControlText;
-            loadFileBtn.TabIndex = 0;
-            loadFileBtn.TabStop = true;
-            loadFileBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
-            loadFileBtn.TextAlign = ContentAlignment.MiddleCenter;
-            loadFileBtn.Margin = new Padding(0);
-            loadFileBtn.Anchor = AnchorStyles.None;
-            loadFileBtn.Name = "loadFileBtn";
-            // filePathBox
-            filePathBox.Text = "";
-            filePathBox.Location = new Point(84, 9);
-            filePathBox.Size = new Size(619, 23);
-            filePathBox.MinimumSize = new Size(0, 0);
-            filePathBox.MaximumSize = new Size(0, 0);
-            filePathBox.Padding = new Padding(0, 0, 0, 0);
-            filePathBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            filePathBox.AutoSize = true;
-            filePathBox.BackColor = SystemColors.Control;
-            filePathBox.ForeColor = SystemColors.WindowText;
-            filePathBox.TabIndex = 1;
-            filePathBox.TabStop = true;
-            filePathBox.BorderStyle = BorderStyle.Fixed3D;
-            filePathBox.ReadOnly = true;
-            filePathBox.Multiline = false;
-            filePathBox.ScrollBars = ScrollBars.None;
-            filePathBox.WordWrap = true;
-            filePathBox.PlaceholderText = "未选择 txt 或音频文件";
-            filePathBox.TextAlign = HorizontalAlignment.Left;
-            filePathBox.HideSelection = true;
-            filePathBox.Margin = new Padding(0);
-            filePathBox.Name = "filePathBox";
-            // fileLabel
-            fileLabel.Text = "播放文件";
-            fileLabel.Location = new Point(0, 7);
-            fileLabel.Size = new Size(84, 28);
-            fileLabel.MinimumSize = new Size(0, 0);
-            fileLabel.MaximumSize = new Size(0, 0);
-            fileLabel.Padding = new Padding(0, 0, 0, 0);
-            fileLabel.AutoSize = false;
-            fileLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            fileLabel.ForeColor = SystemColors.ControlText;
-            fileLabel.TabIndex = 2;
-            fileLabel.TabStop = false;
-            fileLabel.BorderStyle = BorderStyle.None;
-            fileLabel.TextAlign = ContentAlignment.MiddleLeft;
-            fileLabel.Margin = new Padding(0);
-            fileLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            fileLabel.Name = "fileLabel";
-            // randomPanel
-            randomPanel.Text = "";
-            randomPanel.Location = new Point(16, 234);
-            randomPanel.Size = new Size(807, 84);
-            randomPanel.MinimumSize = new Size(0, 0);
-            randomPanel.MaximumSize = new Size(0, 0);
-            randomPanel.Margin = new Padding(3, 3, 3, 3);
-            randomPanel.Padding = new Padding(0, 2, 0, 2);
-            randomPanel.Dock = DockStyle.Top;
-            randomPanel.AutoSize = false;
-            randomPanel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            randomPanel.ForeColor = SystemColors.ControlText;
-            randomPanel.TabIndex = 3;
-            randomPanel.TabStop = false;
-            randomPanel.AutoSizeMode = AutoSizeMode.GrowOnly;
-            randomPanel.BorderStyle = BorderStyle.None;
-            randomPanel.Name = "randomPanel";
-            // randomRangeRow
-            randomRangeRow.Text = "";
-            randomRangeRow.Location = new Point(0, 42);
-            randomRangeRow.Size = new Size(807, 40);
-            randomRangeRow.MinimumSize = new Size(0, 0);
-            randomRangeRow.MaximumSize = new Size(0, 0);
-            randomRangeRow.Margin = new Padding(3, 3, 3, 3);
-            randomRangeRow.Padding = new Padding(0, 0, 0, 0);
-            randomRangeRow.Dock = DockStyle.Fill;
-            randomRangeRow.AutoSize = false;
-            randomRangeRow.BackColor = Color.FromArgb(255, 245, 247, 250);
-            randomRangeRow.ForeColor = SystemColors.ControlText;
-            randomRangeRow.TabIndex = 0;
-            randomRangeRow.TabStop = false;
-            randomRangeRow.AutoSizeMode = AutoSizeMode.GrowOnly;
-            randomRangeRow.WrapContents = false;
-            randomRangeRow.FlowDirection = FlowDirection.LeftToRight;
-            randomRangeRow.BorderStyle = BorderStyle.None;
-            randomRangeRow.Name = "randomRangeRow";
-            // rangeLabel
-            rangeLabel.Text = "范围";
-            rangeLabel.Location = new Point(0, 10);
-            rangeLabel.Size = new Size(29, 20);
-            rangeLabel.MinimumSize = new Size(0, 0);
-            rangeLabel.MaximumSize = new Size(0, 0);
-            rangeLabel.Margin = new Padding(0, 10, 6, 0);
-            rangeLabel.Padding = new Padding(0, 0, 0, 0);
-            rangeLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            rangeLabel.AutoSize = true;
-            rangeLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            rangeLabel.ForeColor = SystemColors.ControlText;
-            rangeLabel.TabIndex = 0;
-            rangeLabel.TabStop = false;
-            rangeLabel.BorderStyle = BorderStyle.None;
-            rangeLabel.TextAlign = ContentAlignment.TopLeft;
-            rangeLabel.Name = "rangeLabel";
-            // randomLetterCheck
-            randomLetterCheck.Text = "字母";
-            randomLetterCheck.Location = new Point(35, 8);
-            randomLetterCheck.Size = new Size(48, 21);
-            randomLetterCheck.MinimumSize = new Size(0, 0);
-            randomLetterCheck.MaximumSize = new Size(0, 0);
-            randomLetterCheck.Margin = new Padding(0, 8, 14, 0);
-            randomLetterCheck.Padding = new Padding(0, 0, 0, 0);
-            randomLetterCheck.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            randomLetterCheck.AutoSize = true;
-            randomLetterCheck.BackColor = Color.FromArgb(255, 245, 247, 250);
-            randomLetterCheck.ForeColor = SystemColors.ControlText;
-            randomLetterCheck.TabIndex = 1;
-            randomLetterCheck.TabStop = true;
-            randomLetterCheck.TextAlign = ContentAlignment.MiddleLeft;
-            randomLetterCheck.Checked = true;
-            randomLetterCheck.Name = "randomLetterCheck";
-            // randomNumberCheck
-            randomNumberCheck.Text = "数字";
-            randomNumberCheck.Location = new Point(97, 8);
-            randomNumberCheck.Size = new Size(48, 21);
-            randomNumberCheck.MinimumSize = new Size(0, 0);
-            randomNumberCheck.MaximumSize = new Size(0, 0);
-            randomNumberCheck.Margin = new Padding(0, 8, 14, 0);
-            randomNumberCheck.Padding = new Padding(0, 0, 0, 0);
-            randomNumberCheck.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            randomNumberCheck.AutoSize = true;
-            randomNumberCheck.BackColor = Color.FromArgb(255, 245, 247, 250);
-            randomNumberCheck.ForeColor = SystemColors.ControlText;
-            randomNumberCheck.TabIndex = 2;
-            randomNumberCheck.TabStop = true;
-            randomNumberCheck.TextAlign = ContentAlignment.MiddleLeft;
-            randomNumberCheck.Checked = false;
-            randomNumberCheck.Name = "randomNumberCheck";
-            // randomSymbolCheck
-            randomSymbolCheck.Text = "符号";
-            randomSymbolCheck.Location = new Point(159, 8);
-            randomSymbolCheck.Size = new Size(48, 21);
-            randomSymbolCheck.MinimumSize = new Size(0, 0);
-            randomSymbolCheck.MaximumSize = new Size(0, 0);
-            randomSymbolCheck.Margin = new Padding(0, 8, 14, 0);
-            randomSymbolCheck.Padding = new Padding(0, 0, 0, 0);
-            randomSymbolCheck.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            randomSymbolCheck.AutoSize = true;
-            randomSymbolCheck.BackColor = Color.FromArgb(255, 245, 247, 250);
-            randomSymbolCheck.ForeColor = SystemColors.ControlText;
-            randomSymbolCheck.TabIndex = 3;
-            randomSymbolCheck.TabStop = true;
-            randomSymbolCheck.TextAlign = ContentAlignment.MiddleLeft;
-            randomSymbolCheck.Checked = false;
-            randomSymbolCheck.Name = "randomSymbolCheck";
-            // customLabel
-            customLabel.Text = "自定义";
-            customLabel.Location = new Point(221, 10);
-            customLabel.Size = new Size(42, 20);
-            customLabel.MinimumSize = new Size(0, 0);
-            customLabel.MaximumSize = new Size(0, 0);
-            customLabel.Margin = new Padding(0, 10, 6, 0);
-            customLabel.Padding = new Padding(0, 0, 0, 0);
-            customLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            customLabel.AutoSize = true;
-            customLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            customLabel.ForeColor = SystemColors.ControlText;
-            customLabel.TabIndex = 4;
-            customLabel.TabStop = false;
-            customLabel.BorderStyle = BorderStyle.None;
-            customLabel.TextAlign = ContentAlignment.TopLeft;
-            customLabel.Name = "customLabel";
-            // randomCustomBox
-            randomCustomBox.Text = "";
-            randomCustomBox.Location = new Point(269, 6);
-            randomCustomBox.Size = new Size(220, 23);
-            randomCustomBox.MinimumSize = new Size(0, 0);
-            randomCustomBox.MaximumSize = new Size(0, 0);
-            randomCustomBox.Margin = new Padding(0, 6, 12, 0);
-            randomCustomBox.Padding = new Padding(0, 0, 0, 0);
-            randomCustomBox.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            randomCustomBox.AutoSize = true;
-            randomCustomBox.BackColor = SystemColors.Window;
-            randomCustomBox.ForeColor = SystemColors.WindowText;
-            randomCustomBox.TabIndex = 5;
-            randomCustomBox.TabStop = true;
-            randomCustomBox.BorderStyle = BorderStyle.Fixed3D;
-            randomCustomBox.ReadOnly = false;
-            randomCustomBox.Multiline = false;
-            randomCustomBox.ScrollBars = ScrollBars.None;
-            randomCustomBox.WordWrap = true;
-            randomCustomBox.PlaceholderText = "可追加，如 KMRA";
-            randomCustomBox.TextAlign = HorizontalAlignment.Left;
-            randomCustomBox.HideSelection = true;
-            randomCustomBox.Name = "randomCustomBox";
-            // randomCountRow
-            randomCountRow.Text = "";
-            randomCountRow.Location = new Point(0, 2);
-            randomCountRow.Size = new Size(807, 40);
-            randomCountRow.MinimumSize = new Size(0, 0);
-            randomCountRow.MaximumSize = new Size(0, 0);
-            randomCountRow.Margin = new Padding(3, 3, 3, 3);
-            randomCountRow.Padding = new Padding(0, 0, 0, 0);
-            randomCountRow.Dock = DockStyle.Top;
-            randomCountRow.AutoSize = false;
-            randomCountRow.BackColor = Color.FromArgb(255, 245, 247, 250);
-            randomCountRow.ForeColor = SystemColors.ControlText;
-            randomCountRow.TabIndex = 1;
-            randomCountRow.TabStop = false;
-            randomCountRow.AutoSizeMode = AutoSizeMode.GrowOnly;
-            randomCountRow.WrapContents = false;
-            randomCountRow.FlowDirection = FlowDirection.LeftToRight;
-            randomCountRow.BorderStyle = BorderStyle.None;
-            randomCountRow.Name = "randomCountRow";
-            // randomLabel
-            randomLabel.Text = "随机";
-            randomLabel.Location = new Point(0, 10);
-            randomLabel.Size = new Size(29, 20);
-            randomLabel.MinimumSize = new Size(0, 0);
-            randomLabel.MaximumSize = new Size(0, 0);
-            randomLabel.Margin = new Padding(0, 10, 6, 0);
-            randomLabel.Padding = new Padding(0, 0, 0, 0);
-            randomLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            randomLabel.AutoSize = true;
-            randomLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            randomLabel.ForeColor = SystemColors.ControlText;
-            randomLabel.TabIndex = 0;
-            randomLabel.TabStop = false;
-            randomLabel.BorderStyle = BorderStyle.None;
-            randomLabel.TextAlign = ContentAlignment.TopLeft;
-            randomLabel.Name = "randomLabel";
-            // groupSizeLabel
-            groupSizeLabel.Text = "每组";
-            groupSizeLabel.Location = new Point(35, 10);
-            groupSizeLabel.Size = new Size(29, 20);
-            groupSizeLabel.MinimumSize = new Size(0, 0);
-            groupSizeLabel.MaximumSize = new Size(0, 0);
-            groupSizeLabel.Margin = new Padding(0, 10, 6, 0);
-            groupSizeLabel.Padding = new Padding(0, 0, 0, 0);
-            groupSizeLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            groupSizeLabel.AutoSize = true;
-            groupSizeLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            groupSizeLabel.ForeColor = SystemColors.ControlText;
-            groupSizeLabel.TabIndex = 1;
-            groupSizeLabel.TabStop = false;
-            groupSizeLabel.BorderStyle = BorderStyle.None;
-            groupSizeLabel.TextAlign = ContentAlignment.TopLeft;
-            groupSizeLabel.Name = "groupSizeLabel";
-            // randomEachBox
-            randomEachBox.Text = "4";
-            randomEachBox.Location = new Point(70, 6);
-            randomEachBox.Size = new Size(68, 23);
-            randomEachBox.MinimumSize = new Size(0, 0);
-            randomEachBox.MaximumSize = new Size(0, 0);
-            randomEachBox.Margin = new Padding(0, 6, 12, 0);
-            randomEachBox.Padding = new Padding(0, 0, 0, 0);
-            randomEachBox.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            randomEachBox.AutoSize = false;
-            randomEachBox.BackColor = SystemColors.Window;
-            randomEachBox.ForeColor = SystemColors.WindowText;
-            randomEachBox.TabIndex = 2;
-            randomEachBox.TabStop = true;
-            randomEachBox.BorderStyle = BorderStyle.Fixed3D;
-            randomEachBox.ReadOnly = false;
-            randomEachBox.TextAlign = HorizontalAlignment.Left;
-            randomEachBox.Minimum = 1M;
-            randomEachBox.Maximum = 40M;
-            randomEachBox.Value = 4M;
-            randomEachBox.DecimalPlaces = 0;
-            randomEachBox.Name = "randomEachBox";
-            // groupCountLabel
-            groupCountLabel.Text = "组数";
-            groupCountLabel.Location = new Point(150, 10);
-            groupCountLabel.Size = new Size(29, 20);
-            groupCountLabel.MinimumSize = new Size(0, 0);
-            groupCountLabel.MaximumSize = new Size(0, 0);
-            groupCountLabel.Margin = new Padding(0, 10, 6, 0);
-            groupCountLabel.Padding = new Padding(0, 0, 0, 0);
-            groupCountLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            groupCountLabel.AutoSize = true;
-            groupCountLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            groupCountLabel.ForeColor = SystemColors.ControlText;
-            groupCountLabel.TabIndex = 3;
-            groupCountLabel.TabStop = false;
-            groupCountLabel.BorderStyle = BorderStyle.None;
-            groupCountLabel.TextAlign = ContentAlignment.TopLeft;
-            groupCountLabel.Name = "groupCountLabel";
-            // randomGroupBox
-            randomGroupBox.Text = "10";
-            randomGroupBox.Location = new Point(185, 6);
-            randomGroupBox.Size = new Size(68, 23);
-            randomGroupBox.MinimumSize = new Size(0, 0);
-            randomGroupBox.MaximumSize = new Size(0, 0);
-            randomGroupBox.Margin = new Padding(0, 6, 12, 0);
-            randomGroupBox.Padding = new Padding(0, 0, 0, 0);
-            randomGroupBox.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            randomGroupBox.AutoSize = false;
-            randomGroupBox.BackColor = SystemColors.Window;
-            randomGroupBox.ForeColor = SystemColors.WindowText;
-            randomGroupBox.TabIndex = 4;
-            randomGroupBox.TabStop = true;
-            randomGroupBox.BorderStyle = BorderStyle.Fixed3D;
-            randomGroupBox.ReadOnly = false;
-            randomGroupBox.TextAlign = HorizontalAlignment.Left;
-            randomGroupBox.Minimum = 1M;
-            randomGroupBox.Maximum = 500M;
-            randomGroupBox.Value = 10M;
-            randomGroupBox.DecimalPlaces = 0;
-            randomGroupBox.Name = "randomGroupBox";
-            // randomUniqueCheck
-            randomUniqueCheck.Text = "组内不重复";
-            randomUniqueCheck.Location = new Point(265, 8);
-            randomUniqueCheck.Size = new Size(85, 21);
-            randomUniqueCheck.MinimumSize = new Size(0, 0);
-            randomUniqueCheck.MaximumSize = new Size(0, 0);
-            randomUniqueCheck.Margin = new Padding(0, 8, 14, 0);
-            randomUniqueCheck.Padding = new Padding(0, 0, 0, 0);
-            randomUniqueCheck.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            randomUniqueCheck.AutoSize = true;
-            randomUniqueCheck.BackColor = Color.FromArgb(255, 245, 247, 250);
-            randomUniqueCheck.ForeColor = SystemColors.ControlText;
-            randomUniqueCheck.TabIndex = 5;
-            randomUniqueCheck.TabStop = true;
-            randomUniqueCheck.TextAlign = ContentAlignment.MiddleLeft;
-            randomUniqueCheck.Checked = false;
-            randomUniqueCheck.Name = "randomUniqueCheck";
-            // randomUniqueGroupCheck
-            randomUniqueGroupCheck.Text = "组不重复";
-            randomUniqueGroupCheck.Location = new Point(364, 8);
-            randomUniqueGroupCheck.Size = new Size(73, 21);
-            randomUniqueGroupCheck.MinimumSize = new Size(0, 0);
-            randomUniqueGroupCheck.MaximumSize = new Size(0, 0);
-            randomUniqueGroupCheck.Margin = new Padding(0, 8, 14, 0);
-            randomUniqueGroupCheck.Padding = new Padding(0, 0, 0, 0);
-            randomUniqueGroupCheck.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            randomUniqueGroupCheck.AutoSize = true;
-            randomUniqueGroupCheck.BackColor = Color.FromArgb(255, 245, 247, 250);
-            randomUniqueGroupCheck.ForeColor = SystemColors.ControlText;
-            randomUniqueGroupCheck.TabIndex = 6;
-            randomUniqueGroupCheck.TabStop = true;
-            randomUniqueGroupCheck.TextAlign = ContentAlignment.MiddleLeft;
-            randomUniqueGroupCheck.Checked = false;
-            randomUniqueGroupCheck.Name = "randomUniqueGroupCheck";
-            // randomGenerateBtn
-            randomGenerateBtn.Text = "生成";
-            randomGenerateBtn.Location = new Point(459, 6);
-            randomGenerateBtn.Size = new Size(104, 28);
-            randomGenerateBtn.MinimumSize = new Size(0, 0);
-            randomGenerateBtn.MaximumSize = new Size(0, 0);
-            randomGenerateBtn.Margin = new Padding(8, 6, 0, 0);
-            randomGenerateBtn.Padding = new Padding(0, 0, 0, 0);
-            randomGenerateBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            randomGenerateBtn.AutoSize = false;
-            randomGenerateBtn.BackColor = Color.FromArgb(255, 245, 247, 250);
-            randomGenerateBtn.ForeColor = SystemColors.ControlText;
-            randomGenerateBtn.TabIndex = 7;
-            randomGenerateBtn.TabStop = true;
-            randomGenerateBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
-            randomGenerateBtn.TextAlign = ContentAlignment.MiddleCenter;
-            randomGenerateBtn.Name = "randomGenerateBtn";
-            // fieldGrid
-            fieldGrid.Text = "";
-            fieldGrid.Location = new Point(16, 40);
-            fieldGrid.Size = new Size(807, 194);
-            fieldGrid.MinimumSize = new Size(0, 0);
-            fieldGrid.MaximumSize = new Size(0, 0);
-            fieldGrid.Margin = new Padding(3, 3, 3, 3);
-            fieldGrid.Padding = new Padding(0, 0, 0, 2);
-            fieldGrid.Dock = DockStyle.Top;
-            fieldGrid.AutoSize = false;
-            fieldGrid.BackColor = Color.FromArgb(255, 245, 247, 250);
-            fieldGrid.ForeColor = SystemColors.ControlText;
-            fieldGrid.TabIndex = 4;
-            fieldGrid.TabStop = false;
-            fieldGrid.AutoSizeMode = AutoSizeMode.GrowOnly;
-            fieldGrid.ColumnCount = 8;
-            fieldGrid.RowCount = 4;
-            fieldGrid.BorderStyle = BorderStyle.None;
-            fieldGrid.Name = "fieldGrid";
-            fieldGrid.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
-            fieldGrid.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
-            fieldGrid.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
-            fieldGrid.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54F));
-            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1F));
-            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54F));
-            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54F));
-            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1F));
-            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54F));
-            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54F));
-            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1F));
-            // nameLabel
-            nameLabel.Text = "名称";
-            nameLabel.Location = new Point(0, 8);
-            nameLabel.Size = new Size(46, 32);
-            nameLabel.MinimumSize = new Size(0, 0);
-            nameLabel.MaximumSize = new Size(0, 0);
-            nameLabel.Margin = new Padding(0, 8, 8, 8);
-            nameLabel.Padding = new Padding(0, 0, 0, 0);
-            nameLabel.Dock = DockStyle.Fill;
-            nameLabel.AutoSize = false;
-            nameLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            nameLabel.ForeColor = SystemColors.ControlText;
-            nameLabel.TabIndex = 0;
-            nameLabel.TabStop = false;
-            nameLabel.BorderStyle = BorderStyle.None;
-            nameLabel.TextAlign = ContentAlignment.MiddleLeft;
-            nameLabel.Name = "nameLabel";
-            // nameBox
-            nameBox.Text = "";
-            nameBox.Location = new Point(54, 12);
-            nameBox.Size = new Size(163, 23);
-            nameBox.MinimumSize = new Size(0, 0);
-            nameBox.MaximumSize = new Size(0, 0);
-            nameBox.Margin = new Padding(0, 12, 16, 12);
-            nameBox.Padding = new Padding(0, 0, 0, 0);
-            nameBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            nameBox.AutoSize = true;
-            nameBox.BackColor = SystemColors.Window;
-            nameBox.ForeColor = SystemColors.WindowText;
-            nameBox.TabIndex = 1;
-            nameBox.TabStop = true;
-            nameBox.BorderStyle = BorderStyle.Fixed3D;
-            nameBox.ReadOnly = false;
-            nameBox.Multiline = false;
-            nameBox.ScrollBars = ScrollBars.None;
-            nameBox.WordWrap = true;
-            nameBox.PlaceholderText = "";
-            nameBox.TextAlign = HorizontalAlignment.Left;
-            nameBox.HideSelection = true;
-            nameBox.Name = "nameBox";
-            // speedLabel
-            speedLabel.Text = "速度";
-            speedLabel.Location = new Point(287, 8);
-            speedLabel.Size = new Size(46, 32);
-            speedLabel.MinimumSize = new Size(0, 0);
-            speedLabel.MaximumSize = new Size(0, 0);
-            speedLabel.Margin = new Padding(0, 8, 8, 8);
-            speedLabel.Padding = new Padding(0, 0, 0, 0);
-            speedLabel.Dock = DockStyle.Fill;
-            speedLabel.AutoSize = false;
-            speedLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            speedLabel.ForeColor = SystemColors.ControlText;
-            speedLabel.TabIndex = 2;
-            speedLabel.TabStop = false;
-            speedLabel.BorderStyle = BorderStyle.None;
-            speedLabel.TextAlign = ContentAlignment.MiddleLeft;
-            speedLabel.Name = "speedLabel";
-            // speedBox
-            speedBox.Text = "20";
-            speedBox.Location = new Point(341, 12);
-            speedBox.Size = new Size(163, 23);
-            speedBox.MinimumSize = new Size(0, 0);
-            speedBox.MaximumSize = new Size(0, 0);
-            speedBox.Margin = new Padding(0, 12, 16, 12);
-            speedBox.Padding = new Padding(0, 0, 0, 0);
-            speedBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            speedBox.AutoSize = false;
-            speedBox.BackColor = SystemColors.Window;
-            speedBox.ForeColor = SystemColors.WindowText;
-            speedBox.TabIndex = 3;
-            speedBox.TabStop = true;
-            speedBox.BorderStyle = BorderStyle.Fixed3D;
-            speedBox.ReadOnly = false;
-            speedBox.TextAlign = HorizontalAlignment.Left;
-            speedBox.Minimum = 1M;
-            speedBox.Maximum = 100M;
-            speedBox.Value = 20M;
-            speedBox.DecimalPlaces = 0;
-            speedBox.Name = "speedBox";
-            // frequencyLabel
-            frequencyLabel.Text = "频率";
-            frequencyLabel.Location = new Point(574, 8);
-            frequencyLabel.Size = new Size(46, 32);
-            frequencyLabel.MinimumSize = new Size(0, 0);
-            frequencyLabel.MaximumSize = new Size(0, 0);
-            frequencyLabel.Margin = new Padding(0, 8, 8, 8);
-            frequencyLabel.Padding = new Padding(0, 0, 0, 0);
-            frequencyLabel.Dock = DockStyle.Fill;
-            frequencyLabel.AutoSize = false;
-            frequencyLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            frequencyLabel.ForeColor = SystemColors.ControlText;
-            frequencyLabel.TabIndex = 4;
-            frequencyLabel.TabStop = false;
-            frequencyLabel.BorderStyle = BorderStyle.None;
-            frequencyLabel.TextAlign = ContentAlignment.MiddleLeft;
-            frequencyLabel.Name = "frequencyLabel";
-            // frequencyBox
-            frequencyBox.Text = "600";
-            frequencyBox.Location = new Point(628, 12);
-            frequencyBox.Size = new Size(163, 23);
-            frequencyBox.MinimumSize = new Size(0, 0);
-            frequencyBox.MaximumSize = new Size(0, 0);
-            frequencyBox.Margin = new Padding(0, 12, 16, 12);
-            frequencyBox.Padding = new Padding(0, 0, 0, 0);
-            frequencyBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            frequencyBox.AutoSize = false;
-            frequencyBox.BackColor = SystemColors.Window;
-            frequencyBox.ForeColor = SystemColors.WindowText;
-            frequencyBox.TabIndex = 5;
-            frequencyBox.TabStop = true;
-            frequencyBox.BorderStyle = BorderStyle.Fixed3D;
-            frequencyBox.ReadOnly = false;
-            frequencyBox.TextAlign = HorizontalAlignment.Left;
-            frequencyBox.Minimum = 1M;
-            frequencyBox.Maximum = 99999M;
-            frequencyBox.Value = 600M;
-            frequencyBox.DecimalPlaces = 0;
-            frequencyBox.Name = "frequencyBox";
-            // waveformLabel
-            waveformLabel.Text = "波形";
-            waveformLabel.Location = new Point(0, 56);
-            waveformLabel.Size = new Size(46, 32);
-            waveformLabel.MinimumSize = new Size(0, 0);
-            waveformLabel.MaximumSize = new Size(0, 0);
-            waveformLabel.Margin = new Padding(0, 8, 8, 8);
-            waveformLabel.Padding = new Padding(0, 0, 0, 0);
-            waveformLabel.Dock = DockStyle.Fill;
-            waveformLabel.AutoSize = false;
-            waveformLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            waveformLabel.ForeColor = SystemColors.ControlText;
-            waveformLabel.TabIndex = 6;
-            waveformLabel.TabStop = false;
-            waveformLabel.BorderStyle = BorderStyle.None;
-            waveformLabel.TextAlign = ContentAlignment.MiddleLeft;
-            waveformLabel.Name = "waveformLabel";
-            // waveformBox
-            waveformBox.Text = "";
-            waveformBox.Location = new Point(54, 60);
-            waveformBox.Size = new Size(163, 25);
-            waveformBox.MinimumSize = new Size(0, 0);
-            waveformBox.MaximumSize = new Size(0, 0);
-            waveformBox.Margin = new Padding(0, 12, 16, 12);
-            waveformBox.Padding = new Padding(0, 0, 0, 0);
-            waveformBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            waveformBox.AutoSize = false;
-            waveformBox.BackColor = SystemColors.Window;
-            waveformBox.ForeColor = SystemColors.WindowText;
-            waveformBox.TabIndex = 7;
-            waveformBox.TabStop = true;
-            waveformBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            waveformBox.Name = "waveformBox";
-            waveformBox.Items.Add("正弦波");
-            waveformBox.Items.Add("锯齿波");
-            waveformBox.Items.Add("方波");
-            // volumeLabel
-            volumeLabel.Text = "音量";
-            volumeLabel.Location = new Point(287, 56);
-            volumeLabel.Size = new Size(46, 32);
-            volumeLabel.MinimumSize = new Size(0, 0);
-            volumeLabel.MaximumSize = new Size(0, 0);
-            volumeLabel.Margin = new Padding(0, 8, 8, 8);
-            volumeLabel.Padding = new Padding(0, 0, 0, 0);
-            volumeLabel.Dock = DockStyle.Fill;
-            volumeLabel.AutoSize = false;
-            volumeLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            volumeLabel.ForeColor = SystemColors.ControlText;
-            volumeLabel.TabIndex = 8;
-            volumeLabel.TabStop = false;
-            volumeLabel.BorderStyle = BorderStyle.None;
-            volumeLabel.TextAlign = ContentAlignment.MiddleLeft;
-            volumeLabel.Name = "volumeLabel";
-            // volumeBox
-            volumeBox.Text = "50";
-            volumeBox.Location = new Point(341, 60);
-            volumeBox.Size = new Size(163, 23);
-            volumeBox.MinimumSize = new Size(0, 0);
-            volumeBox.MaximumSize = new Size(0, 0);
-            volumeBox.Margin = new Padding(0, 12, 16, 12);
-            volumeBox.Padding = new Padding(0, 0, 0, 0);
-            volumeBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            volumeBox.AutoSize = false;
-            volumeBox.BackColor = SystemColors.Window;
-            volumeBox.ForeColor = SystemColors.WindowText;
-            volumeBox.TabIndex = 9;
-            volumeBox.TabStop = true;
-            volumeBox.BorderStyle = BorderStyle.Fixed3D;
-            volumeBox.ReadOnly = false;
-            volumeBox.TextAlign = HorizontalAlignment.Left;
-            volumeBox.Minimum = 0M;
-            volumeBox.Maximum = 100M;
-            volumeBox.Value = 50M;
-            volumeBox.DecimalPlaces = 0;
-            volumeBox.Name = "volumeBox";
-            // snrLabel
-            snrLabel.Text = "信噪比";
-            snrLabel.Location = new Point(574, 56);
-            snrLabel.Size = new Size(46, 32);
-            snrLabel.MinimumSize = new Size(0, 0);
-            snrLabel.MaximumSize = new Size(0, 0);
-            snrLabel.Margin = new Padding(0, 8, 8, 8);
-            snrLabel.Padding = new Padding(0, 0, 0, 0);
-            snrLabel.Dock = DockStyle.Fill;
-            snrLabel.AutoSize = false;
-            snrLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            snrLabel.ForeColor = SystemColors.ControlText;
-            snrLabel.TabIndex = 10;
-            snrLabel.TabStop = false;
-            snrLabel.BorderStyle = BorderStyle.None;
-            snrLabel.TextAlign = ContentAlignment.MiddleLeft;
-            snrLabel.Name = "snrLabel";
-            // snrBox
-            snrBox.Text = "0";
-            snrBox.Location = new Point(628, 60);
-            snrBox.Size = new Size(163, 23);
-            snrBox.MinimumSize = new Size(0, 0);
-            snrBox.MaximumSize = new Size(0, 0);
-            snrBox.Margin = new Padding(0, 12, 16, 12);
-            snrBox.Padding = new Padding(0, 0, 0, 0);
-            snrBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            snrBox.AutoSize = false;
-            snrBox.BackColor = SystemColors.Window;
-            snrBox.ForeColor = SystemColors.WindowText;
-            snrBox.TabIndex = 11;
-            snrBox.TabStop = true;
-            snrBox.BorderStyle = BorderStyle.Fixed3D;
-            snrBox.ReadOnly = false;
-            snrBox.TextAlign = HorizontalAlignment.Left;
-            snrBox.Minimum = -10M;
-            snrBox.Maximum = 10M;
-            snrBox.Value = 0M;
-            snrBox.DecimalPlaces = 0;
-            snrBox.Name = "snrBox";
-            // channelOptions
-            channelOptions.Text = "";
-            channelOptions.Location = new Point(3, 99);
-            channelOptions.Size = new Size(801, 42);
-            channelOptions.MinimumSize = new Size(0, 0);
-            channelOptions.MaximumSize = new Size(0, 0);
-            channelOptions.Margin = new Padding(3, 3, 3, 3);
-            channelOptions.Padding = new Padding(0, 6, 0, 0);
-            channelOptions.Dock = DockStyle.Fill;
-            channelOptions.AutoSize = false;
-            channelOptions.BackColor = Color.FromArgb(255, 245, 247, 250);
-            channelOptions.ForeColor = SystemColors.ControlText;
-            channelOptions.TabIndex = 12;
-            channelOptions.TabStop = false;
-            channelOptions.AutoSizeMode = AutoSizeMode.GrowOnly;
-            channelOptions.WrapContents = false;
-            channelOptions.FlowDirection = FlowDirection.LeftToRight;
-            channelOptions.BorderStyle = BorderStyle.None;
-            channelOptions.Name = "channelOptions";
-            // primaryCheck
-            primaryCheck.Text = "主路";
-            primaryCheck.Location = new Point(0, 11);
-            primaryCheck.Size = new Size(48, 21);
-            primaryCheck.MinimumSize = new Size(0, 0);
-            primaryCheck.MaximumSize = new Size(0, 0);
-            primaryCheck.Margin = new Padding(0, 5, 20, 0);
-            primaryCheck.Padding = new Padding(0, 0, 0, 0);
-            primaryCheck.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            primaryCheck.AutoSize = true;
-            primaryCheck.BackColor = Color.FromArgb(255, 245, 247, 250);
-            primaryCheck.ForeColor = SystemColors.ControlText;
-            primaryCheck.TabIndex = 0;
-            primaryCheck.TabStop = true;
-            primaryCheck.TextAlign = ContentAlignment.MiddleLeft;
-            primaryCheck.Checked = false;
-            primaryCheck.Name = "primaryCheck";
-            // loopCheck
-            loopCheck.Text = "循环";
-            loopCheck.Location = new Point(68, 11);
-            loopCheck.Size = new Size(48, 21);
-            loopCheck.MinimumSize = new Size(0, 0);
-            loopCheck.MaximumSize = new Size(0, 0);
-            loopCheck.Margin = new Padding(0, 5, 20, 0);
-            loopCheck.Padding = new Padding(0, 0, 0, 0);
-            loopCheck.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            loopCheck.AutoSize = true;
-            loopCheck.BackColor = Color.FromArgb(255, 245, 247, 250);
-            loopCheck.ForeColor = SystemColors.ControlText;
-            loopCheck.TabIndex = 1;
-            loopCheck.TabStop = true;
-            loopCheck.TextAlign = ContentAlignment.MiddleLeft;
-            loopCheck.Checked = false;
-            loopCheck.Name = "loopCheck";
-            // muteCheck
-            muteCheck.Text = "静音";
-            muteCheck.Location = new Point(136, 11);
-            muteCheck.Size = new Size(48, 21);
-            muteCheck.MinimumSize = new Size(0, 0);
-            muteCheck.MaximumSize = new Size(0, 0);
-            muteCheck.Margin = new Padding(0, 5, 20, 0);
-            muteCheck.Padding = new Padding(0, 0, 0, 0);
-            muteCheck.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            muteCheck.AutoSize = true;
-            muteCheck.BackColor = Color.FromArgb(255, 245, 247, 250);
-            muteCheck.ForeColor = SystemColors.ControlText;
-            muteCheck.TabIndex = 2;
-            muteCheck.TabStop = true;
-            muteCheck.TextAlign = ContentAlignment.MiddleLeft;
-            muteCheck.Checked = false;
-            muteCheck.Name = "muteCheck";
-            // noiseCheck
-            noiseCheck.Text = "噪声";
-            noiseCheck.Location = new Point(204, 11);
-            noiseCheck.Size = new Size(48, 21);
-            noiseCheck.MinimumSize = new Size(0, 0);
-            noiseCheck.MaximumSize = new Size(0, 0);
-            noiseCheck.Margin = new Padding(0, 5, 20, 0);
-            noiseCheck.Padding = new Padding(0, 0, 0, 0);
-            noiseCheck.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            noiseCheck.AutoSize = true;
-            noiseCheck.BackColor = Color.FromArgb(255, 245, 247, 250);
-            noiseCheck.ForeColor = SystemColors.ControlText;
-            noiseCheck.TabIndex = 3;
-            noiseCheck.TabStop = true;
-            noiseCheck.TextAlign = ContentAlignment.MiddleLeft;
-            noiseCheck.Checked = false;
-            noiseCheck.Name = "noiseCheck";
-            // encodingBtn
-            encodingBtn.Text = "编码设置";
-            encodingBtn.Location = new Point(272, 6);
-            encodingBtn.Size = new Size(104, 28);
-            encodingBtn.MinimumSize = new Size(0, 0);
-            encodingBtn.MaximumSize = new Size(0, 0);
-            encodingBtn.Margin = new Padding(0, 0, 12, 0);
-            encodingBtn.Padding = new Padding(0, 0, 0, 0);
-            encodingBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            encodingBtn.AutoSize = false;
-            encodingBtn.BackColor = Color.FromArgb(255, 245, 247, 250);
-            encodingBtn.ForeColor = SystemColors.ControlText;
-            encodingBtn.TabIndex = 4;
-            encodingBtn.TabStop = true;
-            encodingBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
-            encodingBtn.TextAlign = ContentAlignment.MiddleCenter;
-            encodingBtn.Name = "encodingBtn";
-            // sourceHintLabel
-            sourceHintLabel.Text = "每路可选择 txt、粘贴报文，或按自己的组数和字符范围随机生成。";
-            sourceHintLabel.Location = new Point(3, 144);
-            sourceHintLabel.Size = new Size(801, 50);
-            sourceHintLabel.MinimumSize = new Size(0, 0);
-            sourceHintLabel.MaximumSize = new Size(0, 0);
-            sourceHintLabel.Margin = new Padding(3, 0, 3, 0);
-            sourceHintLabel.Padding = new Padding(0, 0, 0, 0);
-            sourceHintLabel.Dock = DockStyle.Fill;
-            sourceHintLabel.AutoSize = false;
-            sourceHintLabel.BackColor = Color.FromArgb(255, 245, 247, 250);
-            sourceHintLabel.ForeColor = SystemColors.GrayText;
-            sourceHintLabel.TabIndex = 13;
-            sourceHintLabel.TabStop = false;
-            sourceHintLabel.BorderStyle = BorderStyle.None;
-            sourceHintLabel.TextAlign = ContentAlignment.MiddleLeft;
-            sourceHintLabel.Name = "sourceHintLabel";
-            // bottomPanel
-            bottomPanel.Text = "";
-            bottomPanel.Location = new Point(0, 888);
-            bottomPanel.Size = new Size(1440, 72);
-            bottomPanel.MinimumSize = new Size(0, 0);
-            bottomPanel.MaximumSize = new Size(0, 0);
-            bottomPanel.Margin = new Padding(3, 3, 3, 3);
-            bottomPanel.Padding = new Padding(16, 10, 16, 10);
-            bottomPanel.Dock = DockStyle.Bottom;
-            bottomPanel.AutoSize = false;
-            bottomPanel.BackColor = Color.FromArgb(255, 255, 255, 255);
-            bottomPanel.ForeColor = SystemColors.ControlText;
-            bottomPanel.TabIndex = 1;
-            bottomPanel.TabStop = false;
-            bottomPanel.AutoSizeMode = AutoSizeMode.GrowOnly;
-            bottomPanel.BorderStyle = BorderStyle.None;
-            bottomPanel.Name = "bottomPanel";
-            // presetButtons
-            presetButtons.Text = "";
-            presetButtons.Location = new Point(1076, 10);
-            presetButtons.Size = new Size(348, 52);
-            presetButtons.MinimumSize = new Size(0, 0);
-            presetButtons.MaximumSize = new Size(0, 0);
-            presetButtons.Margin = new Padding(3, 3, 3, 3);
-            presetButtons.Padding = new Padding(0, 8, 0, 0);
-            presetButtons.Dock = DockStyle.Right;
-            presetButtons.AutoSize = true;
-            presetButtons.BackColor = Color.FromArgb(255, 255, 255, 255);
-            presetButtons.ForeColor = SystemColors.ControlText;
-            presetButtons.TabIndex = 0;
-            presetButtons.TabStop = false;
-            presetButtons.AutoSizeMode = AutoSizeMode.GrowOnly;
-            presetButtons.WrapContents = false;
-            presetButtons.FlowDirection = FlowDirection.LeftToRight;
-            presetButtons.BorderStyle = BorderStyle.None;
-            presetButtons.Name = "presetButtons";
-            // openBtn
-            openBtn.Text = "打开配置";
-            openBtn.Location = new Point(0, 8);
-            openBtn.Size = new Size(104, 36);
-            openBtn.MinimumSize = new Size(0, 0);
-            openBtn.MaximumSize = new Size(0, 0);
-            openBtn.Margin = new Padding(0, 0, 12, 0);
-            openBtn.Padding = new Padding(0, 0, 0, 0);
-            openBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            openBtn.AutoSize = false;
-            openBtn.BackColor = Color.FromArgb(255, 255, 255, 255);
-            openBtn.ForeColor = SystemColors.ControlText;
-            openBtn.TabIndex = 0;
-            openBtn.TabStop = true;
-            openBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
-            openBtn.TextAlign = ContentAlignment.MiddleCenter;
-            openBtn.Name = "openBtn";
-            // saveBtn
-            saveBtn.Text = "保存配置";
-            saveBtn.Location = new Point(116, 8);
-            saveBtn.Size = new Size(104, 36);
-            saveBtn.MinimumSize = new Size(0, 0);
-            saveBtn.MaximumSize = new Size(0, 0);
-            saveBtn.Margin = new Padding(0, 0, 12, 0);
-            saveBtn.Padding = new Padding(0, 0, 0, 0);
-            saveBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            saveBtn.AutoSize = false;
-            saveBtn.BackColor = Color.FromArgb(255, 255, 255, 255);
-            saveBtn.ForeColor = SystemColors.ControlText;
-            saveBtn.TabIndex = 1;
-            saveBtn.TabStop = true;
-            saveBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
-            saveBtn.TextAlign = ContentAlignment.MiddleCenter;
-            saveBtn.Name = "saveBtn";
-            // exportBtn
-            exportBtn.Text = "导出音频";
-            exportBtn.Location = new Point(232, 8);
-            exportBtn.Size = new Size(104, 36);
-            exportBtn.MinimumSize = new Size(0, 0);
-            exportBtn.MaximumSize = new Size(0, 0);
-            exportBtn.Margin = new Padding(0, 0, 12, 0);
-            exportBtn.Padding = new Padding(0, 0, 0, 0);
-            exportBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            exportBtn.AutoSize = false;
-            exportBtn.BackColor = Color.FromArgb(255, 255, 255, 255);
-            exportBtn.ForeColor = SystemColors.ControlText;
-            exportBtn.TabIndex = 2;
-            exportBtn.TabStop = true;
-            exportBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
-            exportBtn.TextAlign = ContentAlignment.MiddleCenter;
-            exportBtn.Name = "exportBtn";
-            // transportButtons
-            transportButtons.Text = "";
-            transportButtons.Location = new Point(16, 10);
-            transportButtons.Size = new Size(432, 52);
-            transportButtons.MinimumSize = new Size(0, 0);
-            transportButtons.MaximumSize = new Size(0, 0);
-            transportButtons.Margin = new Padding(3, 3, 3, 3);
-            transportButtons.Padding = new Padding(0, 8, 0, 0);
-            transportButtons.Dock = DockStyle.Left;
-            transportButtons.AutoSize = true;
-            transportButtons.BackColor = Color.FromArgb(255, 255, 255, 255);
-            transportButtons.ForeColor = SystemColors.ControlText;
-            transportButtons.TabIndex = 1;
-            transportButtons.TabStop = false;
-            transportButtons.AutoSizeMode = AutoSizeMode.GrowOnly;
-            transportButtons.WrapContents = false;
-            transportButtons.FlowDirection = FlowDirection.LeftToRight;
-            transportButtons.BorderStyle = BorderStyle.None;
-            transportButtons.Name = "transportButtons";
-            // playBtn
-            playBtn.Text = "播放";
-            playBtn.Location = new Point(0, 8);
-            playBtn.Size = new Size(96, 36);
-            playBtn.MinimumSize = new Size(0, 0);
-            playBtn.MaximumSize = new Size(0, 0);
-            playBtn.Margin = new Padding(0, 0, 12, 0);
-            playBtn.Padding = new Padding(0, 0, 0, 0);
-            playBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            playBtn.AutoSize = false;
-            playBtn.BackColor = Color.FromArgb(255, 255, 255, 255);
-            playBtn.ForeColor = SystemColors.ControlText;
-            playBtn.TabIndex = 0;
-            playBtn.TabStop = true;
-            playBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
-            playBtn.TextAlign = ContentAlignment.MiddleCenter;
-            playBtn.Name = "playBtn";
-            // pauseBtn
-            pauseBtn.Text = "暂停";
-            pauseBtn.Location = new Point(108, 8);
-            pauseBtn.Size = new Size(96, 36);
-            pauseBtn.MinimumSize = new Size(0, 0);
-            pauseBtn.MaximumSize = new Size(0, 0);
-            pauseBtn.Margin = new Padding(0, 0, 12, 0);
-            pauseBtn.Padding = new Padding(0, 0, 0, 0);
-            pauseBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            pauseBtn.AutoSize = false;
-            pauseBtn.BackColor = Color.FromArgb(255, 255, 255, 255);
-            pauseBtn.ForeColor = SystemColors.ControlText;
-            pauseBtn.TabIndex = 1;
-            pauseBtn.TabStop = true;
-            pauseBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
-            pauseBtn.TextAlign = ContentAlignment.MiddleCenter;
-            pauseBtn.Name = "pauseBtn";
-            // stopBtn
-            stopBtn.Text = "停止";
-            stopBtn.Location = new Point(216, 8);
-            stopBtn.Size = new Size(96, 36);
-            stopBtn.MinimumSize = new Size(0, 0);
-            stopBtn.MaximumSize = new Size(0, 0);
-            stopBtn.Margin = new Padding(0, 0, 12, 0);
-            stopBtn.Padding = new Padding(0, 0, 0, 0);
-            stopBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            stopBtn.AutoSize = false;
-            stopBtn.BackColor = Color.FromArgb(255, 255, 255, 255);
-            stopBtn.ForeColor = SystemColors.ControlText;
-            stopBtn.TabIndex = 2;
-            stopBtn.TabStop = true;
-            stopBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
-            stopBtn.TextAlign = ContentAlignment.MiddleCenter;
-            stopBtn.Name = "stopBtn";
-            // replayBtn
-            replayBtn.Text = "重播";
-            replayBtn.Location = new Point(324, 8);
-            replayBtn.Size = new Size(96, 36);
-            replayBtn.MinimumSize = new Size(0, 0);
-            replayBtn.MaximumSize = new Size(0, 0);
-            replayBtn.Margin = new Padding(0, 0, 12, 0);
-            replayBtn.Padding = new Padding(0, 0, 0, 0);
-            replayBtn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            replayBtn.AutoSize = false;
-            replayBtn.BackColor = Color.FromArgb(255, 255, 255, 255);
-            replayBtn.ForeColor = SystemColors.ControlText;
-            replayBtn.TabIndex = 3;
-            replayBtn.TabStop = true;
-            replayBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
-            replayBtn.TextAlign = ContentAlignment.MiddleCenter;
-            replayBtn.Name = "replayBtn";
-            // statusLabel
-            statusLabel.Text = "已停止";
-            statusLabel.Location = new Point(448, 10);
-            statusLabel.Size = new Size(628, 52);
-            statusLabel.MinimumSize = new Size(0, 0);
-            statusLabel.MaximumSize = new Size(0, 0);
-            statusLabel.Margin = new Padding(3, 0, 3, 0);
-            statusLabel.Padding = new Padding(8, 0, 0, 0);
-            statusLabel.Dock = DockStyle.Fill;
-            statusLabel.AutoSize = false;
-            statusLabel.BackColor = Color.FromArgb(255, 255, 255, 255);
-            statusLabel.ForeColor = SystemColors.ControlText;
-            statusLabel.TabIndex = 2;
-            statusLabel.TabStop = false;
-            statusLabel.BorderStyle = BorderStyle.None;
-            statusLabel.TextAlign = ContentAlignment.MiddleLeft;
-            statusLabel.Name = "statusLabel";
+            currentGroupColumn.Width = 80;
+            // 
+            // mainLayout
+            // 
+            mainLayout.BackColor = Color.FromArgb(245, 247, 250);
+            mainLayout.ColumnCount = 2;
+            mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+            mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
             mainLayout.Controls.Add(channelGroup, 0, 0);
             mainLayout.Controls.Add(editorGroup, 1, 0);
+            mainLayout.Dock = DockStyle.Fill;
+            mainLayout.ForeColor = SystemColors.ControlText;
+            mainLayout.Location = new Point(0, 0);
+            mainLayout.Name = "mainLayout";
+            mainLayout.Padding = new Padding(16, 16, 16, 12);
+            mainLayout.RowCount = 1;
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            mainLayout.Size = new Size(1440, 888);
+            mainLayout.TabIndex = 0;
+            // 
+            // channelGroup
+            // 
+            channelGroup.BackColor = Color.FromArgb(245, 247, 250);
             channelGroup.Controls.Add(channelList);
             channelGroup.Controls.Add(channelButtons);
+            channelGroup.Dock = DockStyle.Fill;
+            channelGroup.ForeColor = SystemColors.ControlText;
+            channelGroup.Location = new Point(19, 19);
+            channelGroup.Name = "channelGroup";
+            channelGroup.Padding = new Padding(12, 22, 12, 12);
+            channelGroup.Size = new Size(557, 854);
+            channelGroup.TabIndex = 0;
+            channelGroup.TabStop = false;
+            channelGroup.Text = "播放通道";
+            // 
+            // channelList
+            // 
+            channelList.BackColor = SystemColors.Window;
+            channelList.Columns.AddRange(new ColumnHeader[] { nameColumn, roleColumn, frequencyColumn, speedColumn, encodingColumn, volumeColumn, currentGroupColumn });
+            channelList.Dock = DockStyle.Fill;
+            channelList.ForeColor = SystemColors.WindowText;
+            channelList.FullRowSelect = true;
+            channelList.GridLines = true;
+            channelList.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            channelList.Location = new Point(12, 38);
+            channelList.MultiSelect = false;
+            channelList.Name = "channelList";
+            channelList.Size = new Size(533, 750);
+            channelList.TabIndex = 0;
+            channelList.UseCompatibleStateImageBehavior = false;
+            channelList.View = View.Details;
+            // 
+            // channelButtons
+            // 
+            channelButtons.BackColor = Color.FromArgb(245, 247, 250);
             channelButtons.Controls.Add(addBtn);
             channelButtons.Controls.Add(deleteBtn);
             channelButtons.Controls.Add(upBtn);
             channelButtons.Controls.Add(downBtn);
+            channelButtons.Dock = DockStyle.Bottom;
+            channelButtons.ForeColor = SystemColors.ControlText;
+            channelButtons.Location = new Point(12, 788);
+            channelButtons.Name = "channelButtons";
+            channelButtons.Padding = new Padding(0, 10, 0, 0);
+            channelButtons.Size = new Size(533, 54);
+            channelButtons.TabIndex = 1;
+            channelButtons.WrapContents = false;
+            // 
+            // addBtn
+            // 
+            addBtn.BackColor = Color.FromArgb(245, 247, 250);
+            addBtn.ForeColor = SystemColors.ControlText;
+            addBtn.Location = new Point(0, 10);
+            addBtn.Margin = new Padding(0, 0, 12, 0);
+            addBtn.Name = "addBtn";
+            addBtn.Size = new Size(82, 36);
+            addBtn.TabIndex = 0;
+            addBtn.Text = "添加";
+            addBtn.UseVisualStyleBackColor = false;
+            // 
+            // deleteBtn
+            // 
+            deleteBtn.BackColor = Color.FromArgb(245, 247, 250);
+            deleteBtn.ForeColor = SystemColors.ControlText;
+            deleteBtn.Location = new Point(94, 10);
+            deleteBtn.Margin = new Padding(0, 0, 12, 0);
+            deleteBtn.Name = "deleteBtn";
+            deleteBtn.Size = new Size(82, 36);
+            deleteBtn.TabIndex = 1;
+            deleteBtn.Text = "删除";
+            deleteBtn.UseVisualStyleBackColor = false;
+            // 
+            // upBtn
+            // 
+            upBtn.BackColor = Color.FromArgb(245, 247, 250);
+            upBtn.ForeColor = SystemColors.ControlText;
+            upBtn.Location = new Point(188, 10);
+            upBtn.Margin = new Padding(0, 0, 12, 0);
+            upBtn.Name = "upBtn";
+            upBtn.Size = new Size(82, 36);
+            upBtn.TabIndex = 2;
+            upBtn.Text = "上移";
+            upBtn.UseVisualStyleBackColor = false;
+            // 
+            // downBtn
+            // 
+            downBtn.BackColor = Color.FromArgb(245, 247, 250);
+            downBtn.ForeColor = SystemColors.ControlText;
+            downBtn.Location = new Point(282, 10);
+            downBtn.Margin = new Padding(0, 0, 12, 0);
+            downBtn.Name = "downBtn";
+            downBtn.Size = new Size(82, 36);
+            downBtn.TabIndex = 3;
+            downBtn.Text = "下移";
+            downBtn.UseVisualStyleBackColor = false;
+            // 
+            // editorGroup
+            // 
+            editorGroup.BackColor = Color.FromArgb(245, 247, 250);
             editorGroup.Controls.Add(textBox);
             editorGroup.Controls.Add(previewLabel);
             editorGroup.Controls.Add(filePanel);
             editorGroup.Controls.Add(randomPanel);
             editorGroup.Controls.Add(fieldGrid);
+            editorGroup.Dock = DockStyle.Fill;
+            editorGroup.ForeColor = SystemColors.ControlText;
+            editorGroup.Location = new Point(582, 19);
+            editorGroup.Name = "editorGroup";
+            editorGroup.Padding = new Padding(16, 24, 16, 12);
+            editorGroup.Size = new Size(839, 854);
+            editorGroup.TabIndex = 1;
+            editorGroup.TabStop = false;
+            editorGroup.Text = "通道设置与报文";
+            // 
+            // textBox
+            // 
+            textBox.BackColor = SystemColors.Window;
+            textBox.Dock = DockStyle.Fill;
+            textBox.ForeColor = SystemColors.WindowText;
+            textBox.Location = new Point(16, 390);
+            textBox.Multiline = true;
+            textBox.Name = "textBox";
+            textBox.ScrollBars = ScrollBars.Vertical;
+            textBox.Size = new Size(807, 452);
+            textBox.TabIndex = 0;
+            // 
+            // previewLabel
+            // 
+            previewLabel.BackColor = Color.FromArgb(245, 247, 250);
+            previewLabel.Dock = DockStyle.Top;
+            previewLabel.ForeColor = SystemColors.ControlText;
+            previewLabel.Location = new Point(16, 360);
+            previewLabel.Name = "previewLabel";
+            previewLabel.Padding = new Padding(0, 0, 0, 6);
+            previewLabel.Size = new Size(807, 30);
+            previewLabel.TabIndex = 1;
+            previewLabel.Text = "预览";
+            previewLabel.TextAlign = ContentAlignment.BottomLeft;
+            // 
+            // filePanel
+            // 
+            filePanel.BackColor = Color.FromArgb(245, 247, 250);
+            filePanel.ColumnCount = 3;
+            filePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 84F));
+            filePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            filePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 104F));
             filePanel.Controls.Add(filePathBox, 1, 0);
             filePanel.Controls.Add(loadFileBtn, 2, 0);
             filePanel.Controls.Add(fileLabel, 0, 0);
+            filePanel.Dock = DockStyle.Top;
+            filePanel.ForeColor = SystemColors.ControlText;
+            filePanel.Location = new Point(16, 318);
+            filePanel.Name = "filePanel";
+            filePanel.Padding = new Padding(0, 7, 0, 7);
+            filePanel.RowCount = 1;
+            filePanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            filePanel.Size = new Size(807, 42);
+            filePanel.TabIndex = 2;
+            // 
+            // filePathBox
+            // 
+            filePathBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            filePathBox.BackColor = SystemColors.Control;
+            filePathBox.ForeColor = SystemColors.WindowText;
+            filePathBox.Location = new Point(84, 9);
+            filePathBox.Margin = new Padding(0);
+            filePathBox.Name = "filePathBox";
+            filePathBox.PlaceholderText = "未选择 txt 或音频文件";
+            filePathBox.ReadOnly = true;
+            filePathBox.Size = new Size(619, 23);
+            filePathBox.TabIndex = 1;
+            // 
+            // loadFileBtn
+            // 
+            loadFileBtn.Anchor = AnchorStyles.None;
+            loadFileBtn.BackColor = Color.FromArgb(245, 247, 250);
+            loadFileBtn.ForeColor = SystemColors.ControlText;
+            loadFileBtn.Location = new Point(703, 7);
+            loadFileBtn.Margin = new Padding(0);
+            loadFileBtn.Name = "loadFileBtn";
+            loadFileBtn.Size = new Size(104, 28);
+            loadFileBtn.TabIndex = 0;
+            loadFileBtn.Text = "选择文件";
+            loadFileBtn.UseVisualStyleBackColor = false;
+            // 
+            // fileLabel
+            // 
+            fileLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            fileLabel.BackColor = Color.FromArgb(245, 247, 250);
+            fileLabel.ForeColor = SystemColors.ControlText;
+            fileLabel.Location = new Point(0, 7);
+            fileLabel.Margin = new Padding(0);
+            fileLabel.Name = "fileLabel";
+            fileLabel.Size = new Size(84, 28);
+            fileLabel.TabIndex = 2;
+            fileLabel.Text = "播放文件";
+            fileLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // randomPanel
+            // 
+            randomPanel.BackColor = Color.FromArgb(245, 247, 250);
             randomPanel.Controls.Add(randomRangeRow);
             randomPanel.Controls.Add(randomCountRow);
+            randomPanel.Dock = DockStyle.Top;
+            randomPanel.ForeColor = SystemColors.ControlText;
+            randomPanel.Location = new Point(16, 234);
+            randomPanel.Name = "randomPanel";
+            randomPanel.Padding = new Padding(0, 2, 0, 2);
+            randomPanel.Size = new Size(807, 84);
+            randomPanel.TabIndex = 3;
+            // 
+            // randomRangeRow
+            // 
+            randomRangeRow.BackColor = Color.FromArgb(245, 247, 250);
             randomRangeRow.Controls.Add(rangeLabel);
             randomRangeRow.Controls.Add(randomLetterCheck);
             randomRangeRow.Controls.Add(randomNumberCheck);
             randomRangeRow.Controls.Add(randomSymbolCheck);
             randomRangeRow.Controls.Add(customLabel);
             randomRangeRow.Controls.Add(randomCustomBox);
+            randomRangeRow.Dock = DockStyle.Fill;
+            randomRangeRow.ForeColor = SystemColors.ControlText;
+            randomRangeRow.Location = new Point(0, 42);
+            randomRangeRow.Name = "randomRangeRow";
+            randomRangeRow.Size = new Size(807, 40);
+            randomRangeRow.TabIndex = 0;
+            randomRangeRow.WrapContents = false;
+            // 
+            // rangeLabel
+            // 
+            rangeLabel.AutoSize = true;
+            rangeLabel.BackColor = Color.FromArgb(245, 247, 250);
+            rangeLabel.ForeColor = SystemColors.ControlText;
+            rangeLabel.Location = new Point(0, 10);
+            rangeLabel.Margin = new Padding(0, 10, 6, 0);
+            rangeLabel.Name = "rangeLabel";
+            rangeLabel.Size = new Size(32, 17);
+            rangeLabel.TabIndex = 0;
+            rangeLabel.Text = "范围";
+            // 
+            // randomLetterCheck
+            // 
+            randomLetterCheck.AutoSize = true;
+            randomLetterCheck.BackColor = Color.FromArgb(245, 247, 250);
+            randomLetterCheck.Checked = true;
+            randomLetterCheck.CheckState = CheckState.Checked;
+            randomLetterCheck.ForeColor = SystemColors.ControlText;
+            randomLetterCheck.Location = new Point(38, 8);
+            randomLetterCheck.Margin = new Padding(0, 8, 14, 0);
+            randomLetterCheck.Name = "randomLetterCheck";
+            randomLetterCheck.Size = new Size(51, 21);
+            randomLetterCheck.TabIndex = 1;
+            randomLetterCheck.Text = "字母";
+            randomLetterCheck.UseVisualStyleBackColor = false;
+            // 
+            // randomNumberCheck
+            // 
+            randomNumberCheck.AutoSize = true;
+            randomNumberCheck.BackColor = Color.FromArgb(245, 247, 250);
+            randomNumberCheck.ForeColor = SystemColors.ControlText;
+            randomNumberCheck.Location = new Point(103, 8);
+            randomNumberCheck.Margin = new Padding(0, 8, 14, 0);
+            randomNumberCheck.Name = "randomNumberCheck";
+            randomNumberCheck.Size = new Size(51, 21);
+            randomNumberCheck.TabIndex = 2;
+            randomNumberCheck.Text = "数字";
+            randomNumberCheck.UseVisualStyleBackColor = false;
+            // 
+            // randomSymbolCheck
+            // 
+            randomSymbolCheck.AutoSize = true;
+            randomSymbolCheck.BackColor = Color.FromArgb(245, 247, 250);
+            randomSymbolCheck.ForeColor = SystemColors.ControlText;
+            randomSymbolCheck.Location = new Point(168, 8);
+            randomSymbolCheck.Margin = new Padding(0, 8, 14, 0);
+            randomSymbolCheck.Name = "randomSymbolCheck";
+            randomSymbolCheck.Size = new Size(51, 21);
+            randomSymbolCheck.TabIndex = 3;
+            randomSymbolCheck.Text = "符号";
+            randomSymbolCheck.UseVisualStyleBackColor = false;
+            // 
+            // customLabel
+            // 
+            customLabel.AutoSize = true;
+            customLabel.BackColor = Color.FromArgb(245, 247, 250);
+            customLabel.ForeColor = SystemColors.ControlText;
+            customLabel.Location = new Point(233, 10);
+            customLabel.Margin = new Padding(0, 10, 6, 0);
+            customLabel.Name = "customLabel";
+            customLabel.Size = new Size(44, 17);
+            customLabel.TabIndex = 4;
+            customLabel.Text = "自定义";
+            // 
+            // randomCustomBox
+            // 
+            randomCustomBox.BackColor = SystemColors.Window;
+            randomCustomBox.ForeColor = SystemColors.WindowText;
+            randomCustomBox.Location = new Point(283, 6);
+            randomCustomBox.Margin = new Padding(0, 6, 12, 0);
+            randomCustomBox.Name = "randomCustomBox";
+            randomCustomBox.PlaceholderText = "可追加，如 KMRA";
+            randomCustomBox.Size = new Size(220, 23);
+            randomCustomBox.TabIndex = 5;
+            // 
+            // randomCountRow
+            // 
+            randomCountRow.BackColor = Color.FromArgb(245, 247, 250);
             randomCountRow.Controls.Add(randomLabel);
             randomCountRow.Controls.Add(groupSizeLabel);
             randomCountRow.Controls.Add(randomEachBox);
@@ -1322,6 +469,126 @@ namespace CW
             randomCountRow.Controls.Add(randomUniqueCheck);
             randomCountRow.Controls.Add(randomUniqueGroupCheck);
             randomCountRow.Controls.Add(randomGenerateBtn);
+            randomCountRow.Dock = DockStyle.Top;
+            randomCountRow.ForeColor = SystemColors.ControlText;
+            randomCountRow.Location = new Point(0, 2);
+            randomCountRow.Name = "randomCountRow";
+            randomCountRow.Size = new Size(807, 40);
+            randomCountRow.TabIndex = 1;
+            randomCountRow.WrapContents = false;
+            // 
+            // randomLabel
+            // 
+            randomLabel.AutoSize = true;
+            randomLabel.BackColor = Color.FromArgb(245, 247, 250);
+            randomLabel.ForeColor = SystemColors.ControlText;
+            randomLabel.Location = new Point(0, 10);
+            randomLabel.Margin = new Padding(0, 10, 6, 0);
+            randomLabel.Name = "randomLabel";
+            randomLabel.Size = new Size(32, 17);
+            randomLabel.TabIndex = 0;
+            randomLabel.Text = "随机";
+            // 
+            // groupSizeLabel
+            // 
+            groupSizeLabel.AutoSize = true;
+            groupSizeLabel.BackColor = Color.FromArgb(245, 247, 250);
+            groupSizeLabel.ForeColor = SystemColors.ControlText;
+            groupSizeLabel.Location = new Point(38, 10);
+            groupSizeLabel.Margin = new Padding(0, 10, 6, 0);
+            groupSizeLabel.Name = "groupSizeLabel";
+            groupSizeLabel.Size = new Size(32, 17);
+            groupSizeLabel.TabIndex = 1;
+            groupSizeLabel.Text = "每组";
+            // 
+            // randomEachBox
+            // 
+            randomEachBox.BackColor = SystemColors.Window;
+            randomEachBox.ForeColor = SystemColors.WindowText;
+            randomEachBox.Location = new Point(76, 6);
+            randomEachBox.Margin = new Padding(0, 6, 12, 0);
+            randomEachBox.Maximum = new decimal(new int[] { 40, 0, 0, 0 });
+            randomEachBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            randomEachBox.Name = "randomEachBox";
+            randomEachBox.Size = new Size(68, 23);
+            randomEachBox.TabIndex = 2;
+            randomEachBox.Value = new decimal(new int[] { 4, 0, 0, 0 });
+            // 
+            // groupCountLabel
+            // 
+            groupCountLabel.AutoSize = true;
+            groupCountLabel.BackColor = Color.FromArgb(245, 247, 250);
+            groupCountLabel.ForeColor = SystemColors.ControlText;
+            groupCountLabel.Location = new Point(156, 10);
+            groupCountLabel.Margin = new Padding(0, 10, 6, 0);
+            groupCountLabel.Name = "groupCountLabel";
+            groupCountLabel.Size = new Size(32, 17);
+            groupCountLabel.TabIndex = 3;
+            groupCountLabel.Text = "组数";
+            // 
+            // randomGroupBox
+            // 
+            randomGroupBox.BackColor = SystemColors.Window;
+            randomGroupBox.ForeColor = SystemColors.WindowText;
+            randomGroupBox.Location = new Point(194, 6);
+            randomGroupBox.Margin = new Padding(0, 6, 12, 0);
+            randomGroupBox.Maximum = new decimal(new int[] { 500, 0, 0, 0 });
+            randomGroupBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            randomGroupBox.Name = "randomGroupBox";
+            randomGroupBox.Size = new Size(68, 23);
+            randomGroupBox.TabIndex = 4;
+            randomGroupBox.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            // 
+            // randomUniqueCheck
+            // 
+            randomUniqueCheck.AutoSize = true;
+            randomUniqueCheck.BackColor = Color.FromArgb(245, 247, 250);
+            randomUniqueCheck.ForeColor = SystemColors.ControlText;
+            randomUniqueCheck.Location = new Point(274, 8);
+            randomUniqueCheck.Margin = new Padding(0, 8, 14, 0);
+            randomUniqueCheck.Name = "randomUniqueCheck";
+            randomUniqueCheck.Size = new Size(87, 21);
+            randomUniqueCheck.TabIndex = 5;
+            randomUniqueCheck.Text = "组内不重复";
+            randomUniqueCheck.UseVisualStyleBackColor = false;
+            // 
+            // randomUniqueGroupCheck
+            // 
+            randomUniqueGroupCheck.AutoSize = true;
+            randomUniqueGroupCheck.BackColor = Color.FromArgb(245, 247, 250);
+            randomUniqueGroupCheck.ForeColor = SystemColors.ControlText;
+            randomUniqueGroupCheck.Location = new Point(375, 8);
+            randomUniqueGroupCheck.Margin = new Padding(0, 8, 14, 0);
+            randomUniqueGroupCheck.Name = "randomUniqueGroupCheck";
+            randomUniqueGroupCheck.Size = new Size(75, 21);
+            randomUniqueGroupCheck.TabIndex = 6;
+            randomUniqueGroupCheck.Text = "组不重复";
+            randomUniqueGroupCheck.UseVisualStyleBackColor = false;
+            // 
+            // randomGenerateBtn
+            // 
+            randomGenerateBtn.BackColor = Color.FromArgb(245, 247, 250);
+            randomGenerateBtn.ForeColor = SystemColors.ControlText;
+            randomGenerateBtn.Location = new Point(472, 6);
+            randomGenerateBtn.Margin = new Padding(8, 6, 0, 0);
+            randomGenerateBtn.Name = "randomGenerateBtn";
+            randomGenerateBtn.Size = new Size(104, 28);
+            randomGenerateBtn.TabIndex = 7;
+            randomGenerateBtn.Text = "生成";
+            randomGenerateBtn.UseVisualStyleBackColor = false;
+            // 
+            // fieldGrid
+            // 
+            fieldGrid.BackColor = Color.FromArgb(245, 247, 250);
+            fieldGrid.ColumnCount = 8;
+            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54F));
+            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1F));
+            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54F));
+            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54F));
+            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1F));
+            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54F));
+            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 54F));
+            fieldGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1F));
             fieldGrid.Controls.Add(nameLabel, 0, 0);
             fieldGrid.Controls.Add(nameBox, 1, 0);
             fieldGrid.Controls.Add(speedLabel, 3, 0);
@@ -1335,79 +602,455 @@ namespace CW
             fieldGrid.Controls.Add(snrLabel, 6, 1);
             fieldGrid.Controls.Add(snrBox, 7, 1);
             fieldGrid.Controls.Add(channelOptions, 0, 2);
-            fieldGrid.SetColumnSpan(channelOptions, 8);
             fieldGrid.Controls.Add(sourceHintLabel, 0, 3);
-            fieldGrid.SetColumnSpan(sourceHintLabel, 8);
+            fieldGrid.Dock = DockStyle.Top;
+            fieldGrid.ForeColor = SystemColors.ControlText;
+            fieldGrid.Location = new Point(16, 40);
+            fieldGrid.Name = "fieldGrid";
+            fieldGrid.Padding = new Padding(0, 0, 0, 2);
+            fieldGrid.RowCount = 4;
+            fieldGrid.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
+            fieldGrid.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
+            fieldGrid.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
+            fieldGrid.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            fieldGrid.Size = new Size(807, 194);
+            fieldGrid.TabIndex = 4;
+            // 
+            // nameLabel
+            // 
+            nameLabel.BackColor = Color.FromArgb(245, 247, 250);
+            nameLabel.Dock = DockStyle.Fill;
+            nameLabel.ForeColor = SystemColors.ControlText;
+            nameLabel.Location = new Point(0, 8);
+            nameLabel.Margin = new Padding(0, 8, 8, 8);
+            nameLabel.Name = "nameLabel";
+            nameLabel.Size = new Size(46, 32);
+            nameLabel.TabIndex = 0;
+            nameLabel.Text = "名称";
+            nameLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // nameBox
+            // 
+            nameBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            nameBox.BackColor = SystemColors.Window;
+            nameBox.ForeColor = SystemColors.WindowText;
+            nameBox.Location = new Point(54, 12);
+            nameBox.Margin = new Padding(0, 12, 16, 12);
+            nameBox.Name = "nameBox";
+            nameBox.Size = new Size(163, 23);
+            nameBox.TabIndex = 1;
+            // 
+            // speedLabel
+            // 
+            speedLabel.BackColor = Color.FromArgb(245, 247, 250);
+            speedLabel.Dock = DockStyle.Fill;
+            speedLabel.ForeColor = SystemColors.ControlText;
+            speedLabel.Location = new Point(287, 8);
+            speedLabel.Margin = new Padding(0, 8, 8, 8);
+            speedLabel.Name = "speedLabel";
+            speedLabel.Size = new Size(46, 32);
+            speedLabel.TabIndex = 2;
+            speedLabel.Text = "速度";
+            speedLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // speedBox
+            // 
+            speedBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            speedBox.BackColor = SystemColors.Window;
+            speedBox.ForeColor = SystemColors.WindowText;
+            speedBox.Location = new Point(341, 12);
+            speedBox.Margin = new Padding(0, 12, 16, 12);
+            speedBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            speedBox.Name = "speedBox";
+            speedBox.Size = new Size(163, 23);
+            speedBox.TabIndex = 3;
+            speedBox.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            // 
+            // frequencyLabel
+            // 
+            frequencyLabel.BackColor = Color.FromArgb(245, 247, 250);
+            frequencyLabel.Dock = DockStyle.Fill;
+            frequencyLabel.ForeColor = SystemColors.ControlText;
+            frequencyLabel.Location = new Point(574, 8);
+            frequencyLabel.Margin = new Padding(0, 8, 8, 8);
+            frequencyLabel.Name = "frequencyLabel";
+            frequencyLabel.Size = new Size(46, 32);
+            frequencyLabel.TabIndex = 4;
+            frequencyLabel.Text = "频率";
+            frequencyLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // frequencyBox
+            // 
+            frequencyBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            frequencyBox.BackColor = SystemColors.Window;
+            frequencyBox.ForeColor = SystemColors.WindowText;
+            frequencyBox.Location = new Point(628, 12);
+            frequencyBox.Margin = new Padding(0, 12, 16, 12);
+            frequencyBox.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
+            frequencyBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            frequencyBox.Name = "frequencyBox";
+            frequencyBox.Size = new Size(163, 23);
+            frequencyBox.TabIndex = 5;
+            frequencyBox.Value = new decimal(new int[] { 600, 0, 0, 0 });
+            // 
+            // waveformLabel
+            // 
+            waveformLabel.BackColor = Color.FromArgb(245, 247, 250);
+            waveformLabel.Dock = DockStyle.Fill;
+            waveformLabel.ForeColor = SystemColors.ControlText;
+            waveformLabel.Location = new Point(0, 56);
+            waveformLabel.Margin = new Padding(0, 8, 8, 8);
+            waveformLabel.Name = "waveformLabel";
+            waveformLabel.Size = new Size(46, 32);
+            waveformLabel.TabIndex = 6;
+            waveformLabel.Text = "波形";
+            waveformLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // waveformBox
+            // 
+            waveformBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            waveformBox.BackColor = SystemColors.Window;
+            waveformBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            waveformBox.ForeColor = SystemColors.WindowText;
+            waveformBox.Items.AddRange(new object[] { "正弦波", "锯齿波", "方波" });
+            waveformBox.Location = new Point(54, 60);
+            waveformBox.Margin = new Padding(0, 12, 16, 12);
+            waveformBox.Name = "waveformBox";
+            waveformBox.Size = new Size(163, 25);
+            waveformBox.TabIndex = 7;
+            // 
+            // volumeLabel
+            // 
+            volumeLabel.BackColor = Color.FromArgb(245, 247, 250);
+            volumeLabel.Dock = DockStyle.Fill;
+            volumeLabel.ForeColor = SystemColors.ControlText;
+            volumeLabel.Location = new Point(287, 56);
+            volumeLabel.Margin = new Padding(0, 8, 8, 8);
+            volumeLabel.Name = "volumeLabel";
+            volumeLabel.Size = new Size(46, 32);
+            volumeLabel.TabIndex = 8;
+            volumeLabel.Text = "音量";
+            volumeLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // volumeBox
+            // 
+            volumeBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            volumeBox.BackColor = SystemColors.Window;
+            volumeBox.ForeColor = SystemColors.WindowText;
+            volumeBox.Location = new Point(341, 60);
+            volumeBox.Margin = new Padding(0, 12, 16, 12);
+            volumeBox.Name = "volumeBox";
+            volumeBox.Size = new Size(163, 23);
+            volumeBox.TabIndex = 9;
+            volumeBox.Value = new decimal(new int[] { 50, 0, 0, 0 });
+            // 
+            // snrLabel
+            // 
+            snrLabel.BackColor = Color.FromArgb(245, 247, 250);
+            snrLabel.Dock = DockStyle.Fill;
+            snrLabel.ForeColor = SystemColors.ControlText;
+            snrLabel.Location = new Point(574, 56);
+            snrLabel.Margin = new Padding(0, 8, 8, 8);
+            snrLabel.Name = "snrLabel";
+            snrLabel.Size = new Size(46, 32);
+            snrLabel.TabIndex = 10;
+            snrLabel.Text = "信噪比";
+            snrLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // snrBox
+            // 
+            snrBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            snrBox.BackColor = SystemColors.Window;
+            snrBox.ForeColor = SystemColors.WindowText;
+            snrBox.Location = new Point(628, 60);
+            snrBox.Margin = new Padding(0, 12, 16, 12);
+            snrBox.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            snrBox.Minimum = new decimal(new int[] { 10, 0, 0, int.MinValue });
+            snrBox.Name = "snrBox";
+            snrBox.Size = new Size(163, 23);
+            snrBox.TabIndex = 11;
+            // 
+            // channelOptions
+            // 
+            channelOptions.BackColor = Color.FromArgb(245, 247, 250);
+            fieldGrid.SetColumnSpan(channelOptions, 8);
             channelOptions.Controls.Add(primaryCheck);
             channelOptions.Controls.Add(loopCheck);
             channelOptions.Controls.Add(muteCheck);
             channelOptions.Controls.Add(noiseCheck);
             channelOptions.Controls.Add(encodingBtn);
+            channelOptions.Dock = DockStyle.Fill;
+            channelOptions.ForeColor = SystemColors.ControlText;
+            channelOptions.Location = new Point(3, 99);
+            channelOptions.Name = "channelOptions";
+            channelOptions.Padding = new Padding(0, 6, 0, 0);
+            channelOptions.Size = new Size(801, 42);
+            channelOptions.TabIndex = 12;
+            channelOptions.WrapContents = false;
+            // 
+            // primaryCheck
+            // 
+            primaryCheck.AutoSize = true;
+            primaryCheck.BackColor = Color.FromArgb(245, 247, 250);
+            primaryCheck.ForeColor = SystemColors.ControlText;
+            primaryCheck.Location = new Point(0, 11);
+            primaryCheck.Margin = new Padding(0, 5, 20, 0);
+            primaryCheck.Name = "primaryCheck";
+            primaryCheck.Size = new Size(51, 21);
+            primaryCheck.TabIndex = 0;
+            primaryCheck.Text = "主路";
+            primaryCheck.UseVisualStyleBackColor = false;
+            // 
+            // loopCheck
+            // 
+            loopCheck.AutoSize = true;
+            loopCheck.BackColor = Color.FromArgb(245, 247, 250);
+            loopCheck.ForeColor = SystemColors.ControlText;
+            loopCheck.Location = new Point(71, 11);
+            loopCheck.Margin = new Padding(0, 5, 20, 0);
+            loopCheck.Name = "loopCheck";
+            loopCheck.Size = new Size(51, 21);
+            loopCheck.TabIndex = 1;
+            loopCheck.Text = "循环";
+            loopCheck.UseVisualStyleBackColor = false;
+            // 
+            // muteCheck
+            // 
+            muteCheck.AutoSize = true;
+            muteCheck.BackColor = Color.FromArgb(245, 247, 250);
+            muteCheck.ForeColor = SystemColors.ControlText;
+            muteCheck.Location = new Point(142, 11);
+            muteCheck.Margin = new Padding(0, 5, 20, 0);
+            muteCheck.Name = "muteCheck";
+            muteCheck.Size = new Size(51, 21);
+            muteCheck.TabIndex = 2;
+            muteCheck.Text = "静音";
+            muteCheck.UseVisualStyleBackColor = false;
+            // 
+            // noiseCheck
+            // 
+            noiseCheck.AutoSize = true;
+            noiseCheck.BackColor = Color.FromArgb(245, 247, 250);
+            noiseCheck.ForeColor = SystemColors.ControlText;
+            noiseCheck.Location = new Point(213, 11);
+            noiseCheck.Margin = new Padding(0, 5, 20, 0);
+            noiseCheck.Name = "noiseCheck";
+            noiseCheck.Size = new Size(51, 21);
+            noiseCheck.TabIndex = 3;
+            noiseCheck.Text = "噪声";
+            noiseCheck.UseVisualStyleBackColor = false;
+            // 
+            // encodingBtn
+            // 
+            encodingBtn.BackColor = Color.FromArgb(245, 247, 250);
+            encodingBtn.ForeColor = SystemColors.ControlText;
+            encodingBtn.Location = new Point(284, 6);
+            encodingBtn.Margin = new Padding(0, 0, 12, 0);
+            encodingBtn.Name = "encodingBtn";
+            encodingBtn.Size = new Size(104, 28);
+            encodingBtn.TabIndex = 4;
+            encodingBtn.Text = "编码设置";
+            encodingBtn.UseVisualStyleBackColor = false;
+            // 
+            // sourceHintLabel
+            // 
+            sourceHintLabel.BackColor = Color.FromArgb(245, 247, 250);
+            fieldGrid.SetColumnSpan(sourceHintLabel, 8);
+            sourceHintLabel.Dock = DockStyle.Fill;
+            sourceHintLabel.ForeColor = SystemColors.GrayText;
+            sourceHintLabel.Location = new Point(3, 144);
+            sourceHintLabel.Name = "sourceHintLabel";
+            sourceHintLabel.Size = new Size(801, 50);
+            sourceHintLabel.TabIndex = 13;
+            sourceHintLabel.Text = "每路可选择 txt、粘贴报文，或按自己的组数和字符范围随机生成。";
+            sourceHintLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // bottomPanel
+            // 
+            bottomPanel.BackColor = Color.FromArgb(255, 255, 255);
             bottomPanel.Controls.Add(statusLabel);
             bottomPanel.Controls.Add(transportButtons);
             bottomPanel.Controls.Add(presetButtons);
-            presetButtons.Controls.Add(openBtn);
-            presetButtons.Controls.Add(saveBtn);
-            presetButtons.Controls.Add(exportBtn);
+            bottomPanel.Dock = DockStyle.Bottom;
+            bottomPanel.ForeColor = SystemColors.ControlText;
+            bottomPanel.Location = new Point(0, 888);
+            bottomPanel.Name = "bottomPanel";
+            bottomPanel.Padding = new Padding(16, 10, 16, 10);
+            bottomPanel.Size = new Size(1440, 72);
+            bottomPanel.TabIndex = 1;
+            // 
+            // statusLabel
+            // 
+            statusLabel.BackColor = Color.FromArgb(255, 255, 255);
+            statusLabel.Dock = DockStyle.Fill;
+            statusLabel.ForeColor = SystemColors.ControlText;
+            statusLabel.Location = new Point(448, 10);
+            statusLabel.Name = "statusLabel";
+            statusLabel.Padding = new Padding(8, 0, 0, 0);
+            statusLabel.Size = new Size(628, 52);
+            statusLabel.TabIndex = 2;
+            statusLabel.Text = "已停止";
+            statusLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // transportButtons
+            // 
+            transportButtons.AutoSize = true;
+            transportButtons.BackColor = Color.FromArgb(255, 255, 255);
             transportButtons.Controls.Add(playBtn);
             transportButtons.Controls.Add(pauseBtn);
             transportButtons.Controls.Add(stopBtn);
             transportButtons.Controls.Add(replayBtn);
-            // this
+            transportButtons.Dock = DockStyle.Left;
+            transportButtons.ForeColor = SystemColors.ControlText;
+            transportButtons.Location = new Point(16, 10);
+            transportButtons.Name = "transportButtons";
+            transportButtons.Padding = new Padding(0, 8, 0, 0);
+            transportButtons.Size = new Size(432, 52);
+            transportButtons.TabIndex = 1;
+            transportButtons.WrapContents = false;
+            // 
+            // playBtn
+            // 
+            playBtn.BackColor = Color.FromArgb(255, 255, 255);
+            playBtn.ForeColor = SystemColors.ControlText;
+            playBtn.Location = new Point(0, 8);
+            playBtn.Margin = new Padding(0, 0, 12, 0);
+            playBtn.Name = "playBtn";
+            playBtn.Size = new Size(96, 36);
+            playBtn.TabIndex = 0;
+            playBtn.Text = "播放";
+            playBtn.UseVisualStyleBackColor = false;
+            // 
+            // pauseBtn
+            // 
+            pauseBtn.BackColor = Color.FromArgb(255, 255, 255);
+            pauseBtn.ForeColor = SystemColors.ControlText;
+            pauseBtn.Location = new Point(108, 8);
+            pauseBtn.Margin = new Padding(0, 0, 12, 0);
+            pauseBtn.Name = "pauseBtn";
+            pauseBtn.Size = new Size(96, 36);
+            pauseBtn.TabIndex = 1;
+            pauseBtn.Text = "暂停";
+            pauseBtn.UseVisualStyleBackColor = false;
+            // 
+            // stopBtn
+            // 
+            stopBtn.BackColor = Color.FromArgb(255, 255, 255);
+            stopBtn.ForeColor = SystemColors.ControlText;
+            stopBtn.Location = new Point(216, 8);
+            stopBtn.Margin = new Padding(0, 0, 12, 0);
+            stopBtn.Name = "stopBtn";
+            stopBtn.Size = new Size(96, 36);
+            stopBtn.TabIndex = 2;
+            stopBtn.Text = "停止";
+            stopBtn.UseVisualStyleBackColor = false;
+            // 
+            // replayBtn
+            // 
+            replayBtn.BackColor = Color.FromArgb(255, 255, 255);
+            replayBtn.ForeColor = SystemColors.ControlText;
+            replayBtn.Location = new Point(324, 8);
+            replayBtn.Margin = new Padding(0, 0, 12, 0);
+            replayBtn.Name = "replayBtn";
+            replayBtn.Size = new Size(96, 36);
+            replayBtn.TabIndex = 3;
+            replayBtn.Text = "重播";
+            replayBtn.UseVisualStyleBackColor = false;
+            // 
+            // presetButtons
+            // 
+            presetButtons.AutoSize = true;
+            presetButtons.BackColor = Color.FromArgb(255, 255, 255);
+            presetButtons.Controls.Add(openBtn);
+            presetButtons.Controls.Add(saveBtn);
+            presetButtons.Controls.Add(exportBtn);
+            presetButtons.Dock = DockStyle.Right;
+            presetButtons.ForeColor = SystemColors.ControlText;
+            presetButtons.Location = new Point(1076, 10);
+            presetButtons.Name = "presetButtons";
+            presetButtons.Padding = new Padding(0, 8, 0, 0);
+            presetButtons.Size = new Size(348, 52);
+            presetButtons.TabIndex = 0;
+            presetButtons.WrapContents = false;
+            // 
+            // openBtn
+            // 
+            openBtn.BackColor = Color.FromArgb(255, 255, 255);
+            openBtn.ForeColor = SystemColors.ControlText;
+            openBtn.Location = new Point(0, 8);
+            openBtn.Margin = new Padding(0, 0, 12, 0);
+            openBtn.Name = "openBtn";
+            openBtn.Size = new Size(104, 36);
+            openBtn.TabIndex = 0;
+            openBtn.Text = "打开配置";
+            openBtn.UseVisualStyleBackColor = false;
+            // 
+            // saveBtn
+            // 
+            saveBtn.BackColor = Color.FromArgb(255, 255, 255);
+            saveBtn.ForeColor = SystemColors.ControlText;
+            saveBtn.Location = new Point(116, 8);
+            saveBtn.Margin = new Padding(0, 0, 12, 0);
+            saveBtn.Name = "saveBtn";
+            saveBtn.Size = new Size(104, 36);
+            saveBtn.TabIndex = 1;
+            saveBtn.Text = "保存配置";
+            saveBtn.UseVisualStyleBackColor = false;
+            // 
+            // exportBtn
+            // 
+            exportBtn.BackColor = Color.FromArgb(255, 255, 255);
+            exportBtn.ForeColor = SystemColors.ControlText;
+            exportBtn.Location = new Point(232, 8);
+            exportBtn.Margin = new Padding(0, 0, 12, 0);
+            exportBtn.Name = "exportBtn";
+            exportBtn.Size = new Size(104, 36);
+            exportBtn.TabIndex = 2;
+            exportBtn.Text = "导出音频";
+            exportBtn.UseVisualStyleBackColor = false;
+            // 
+            // MultiChannelPlayer
+            // 
+            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(245, 247, 250);
+            ClientSize = new Size(1440, 960);
+            Controls.Add(mainLayout);
+            Controls.Add(bottomPanel);
             Font = new Font("Microsoft YaHei UI", 9F);
-            this.Text = "多路播放";
-            this.ClientSize = new Size(1440, 960);
-            this.StartPosition = FormStartPosition.CenterParent;
-            this.MinimumSize = new Size(1280, 860);
-            this.MaximumSize = new Size(0, 0);
-            this.Margin = new Padding(3, 3, 3, 3);
-            this.Padding = new Padding(0, 0, 0, 0);
-            this.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            this.AutoSize = false;
-            this.BackColor = Color.FromArgb(255, 245, 247, 250);
-            this.ForeColor = SystemColors.ControlText;
-            this.TabIndex = 0;
-            this.TabStop = true;
-            this.AutoSizeMode = AutoSizeMode.GrowOnly;
-            this.AutoScaleDimensions = new SizeF(7F, 17F);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.Name = "MultiChannelPlayer";
-            this.Controls.Add(mainLayout);
-            this.Controls.Add(bottomPanel);
-            transportButtons.ResumeLayout(false);
-            transportButtons.PerformLayout();
-            presetButtons.ResumeLayout(false);
-            presetButtons.PerformLayout();
-            bottomPanel.ResumeLayout(false);
-            bottomPanel.PerformLayout();
-            channelOptions.ResumeLayout(false);
-            channelOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)snrBox).EndInit();
-            ((System.ComponentModel.ISupportInitialize)volumeBox).EndInit();
-            ((System.ComponentModel.ISupportInitialize)frequencyBox).EndInit();
-            ((System.ComponentModel.ISupportInitialize)speedBox).EndInit();
-            fieldGrid.ResumeLayout(false);
-            fieldGrid.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)randomGroupBox).EndInit();
-            ((System.ComponentModel.ISupportInitialize)randomEachBox).EndInit();
-            randomCountRow.ResumeLayout(false);
-            randomCountRow.PerformLayout();
-            randomRangeRow.ResumeLayout(false);
-            randomRangeRow.PerformLayout();
-            randomPanel.ResumeLayout(false);
-            randomPanel.PerformLayout();
-            filePanel.ResumeLayout(false);
-            filePanel.PerformLayout();
+            ForeColor = SystemColors.ControlText;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MinimumSize = new Size(1280, 860);
+            Name = "MultiChannelPlayer";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "多路播放";
+            mainLayout.ResumeLayout(false);
+            channelGroup.ResumeLayout(false);
+            channelButtons.ResumeLayout(false);
             editorGroup.ResumeLayout(false);
             editorGroup.PerformLayout();
-            channelButtons.ResumeLayout(false);
-            channelButtons.PerformLayout();
-            channelGroup.ResumeLayout(false);
-            channelGroup.PerformLayout();
-            mainLayout.ResumeLayout(false);
-            mainLayout.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            filePanel.ResumeLayout(false);
+            filePanel.PerformLayout();
+            randomPanel.ResumeLayout(false);
+            randomRangeRow.ResumeLayout(false);
+            randomRangeRow.PerformLayout();
+            randomCountRow.ResumeLayout(false);
+            randomCountRow.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)randomEachBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)randomGroupBox).EndInit();
+            fieldGrid.ResumeLayout(false);
+            fieldGrid.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)speedBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)frequencyBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)volumeBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)snrBox).EndInit();
+            channelOptions.ResumeLayout(false);
+            channelOptions.PerformLayout();
+            bottomPanel.ResumeLayout(false);
+            bottomPanel.PerformLayout();
+            transportButtons.ResumeLayout(false);
+            presetButtons.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         private ColumnHeader nameColumn = null!;
