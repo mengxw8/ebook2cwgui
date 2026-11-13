@@ -442,7 +442,9 @@
             // 
             // exportBtn
             // 
-            exportBtn.Location = new Point(333, 79);
+            exportBtn.AutoSize = true;
+            exportBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
+            exportBtn.Location = new Point(333, 116);
             exportBtn.Margin = new Padding(5, 4, 5, 4);
             exportBtn.Name = "exportBtn";
             exportBtn.Size = new Size(118, 32);
@@ -475,7 +477,9 @@
             // 
             // submitAnswerBtn
             // 
-            submitAnswerBtn.Location = new Point(333, 47);
+            submitAnswerBtn.AutoSize = true;
+            submitAnswerBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
+            submitAnswerBtn.Location = new Point(333, 72);
             submitAnswerBtn.Margin = new Padding(5, 4, 5, 4);
             submitAnswerBtn.Name = "submitAnswerBtn";
             submitAnswerBtn.Size = new Size(118, 32);
@@ -485,7 +489,9 @@
             // 
             // startBtn
             // 
-            startBtn.Location = new Point(333, 14);
+            startBtn.AutoSize = true;
+            startBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
+            startBtn.Location = new Point(333, 28);
             startBtn.Margin = new Padding(5, 4, 5, 4);
             startBtn.Name = "startBtn";
             startBtn.Size = new Size(118, 32);
@@ -516,6 +522,8 @@
             // 
             // stopBtn
             // 
+            stopBtn.AutoSize = true;
+            stopBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
             stopBtn.Location = new Point(9, 189);
             stopBtn.Margin = new Padding(5, 4, 5, 4);
             stopBtn.Name = "stopBtn";
@@ -540,11 +548,11 @@
             groupBox4.Controls.Add(answerLbl2);
             groupBox4.Controls.Add(replicationBox1);
             groupBox4.Controls.Add(answerLbl1);
-            groupBox4.Location = new Point(9, 246);
+            groupBox4.Location = new Point(9, 300);
             groupBox4.Margin = new Padding(5, 4, 5, 4);
             groupBox4.Name = "groupBox4";
             groupBox4.Padding = new Padding(5, 4, 5, 4);
-            groupBox4.Size = new Size(2978, 1220);
+            groupBox4.Size = new Size(2978, 1166);
             groupBox4.TabIndex = 70;
             groupBox4.TabStop = false;
             groupBox4.Text = "拍发";
@@ -711,6 +719,8 @@
             // rePlayBtn
             // 
             rePlayBtn.Enabled = false;
+            rePlayBtn.AutoSize = true;
+            rePlayBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
             rePlayBtn.Location = new Point(9, 150);
             rePlayBtn.Margin = new Padding(5, 4, 5, 4);
             rePlayBtn.Name = "rePlayBtn";
@@ -723,6 +733,8 @@
             // continuePlayBtn
             // 
             continuePlayBtn.Enabled = false;
+            continuePlayBtn.AutoSize = true;
+            continuePlayBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
             continuePlayBtn.Location = new Point(9, 110);
             continuePlayBtn.Margin = new Padding(5, 4, 5, 4);
             continuePlayBtn.Name = "continuePlayBtn";
@@ -735,6 +747,8 @@
             // pauseBtn
             // 
             pauseBtn.Enabled = false;
+            pauseBtn.AutoSize = true;
+            pauseBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
             pauseBtn.Location = new Point(9, 71);
             pauseBtn.Margin = new Padding(5, 4, 5, 4);
             pauseBtn.Name = "pauseBtn";
@@ -746,6 +760,8 @@
             // 
             // clearAnswerBtn
             // 
+            clearAnswerBtn.AutoSize = true;
+            clearAnswerBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
             clearAnswerBtn.Location = new Point(9, 31);
             clearAnswerBtn.Margin = new Padding(5, 4, 5, 4);
             clearAnswerBtn.Name = "clearAnswerBtn";
@@ -1120,7 +1136,7 @@
             groupBox8.Margin = new Padding(5, 4, 5, 4);
             groupBox8.Name = "groupBox8";
             groupBox8.Padding = new Padding(5, 4, 5, 4);
-            groupBox8.Size = new Size(459, 116);
+            groupBox8.Size = new Size(459, 170);
             groupBox8.TabIndex = 64;
             groupBox8.TabStop = false;
             groupBox8.Text = "报文控制";
@@ -1158,6 +1174,7 @@
             ((System.ComponentModel.ISupportInitialize)groupNumBox).EndInit();
             groupBox4.ResumeLayout(false);
             groupBox5.ResumeLayout(false);
+            groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)visualizedBox).EndInit();
             groupBox6.ResumeLayout(false);
             groupBox7.ResumeLayout(false);
