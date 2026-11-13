@@ -5,6 +5,7 @@ namespace CW
 {
     internal sealed class ChannelMixSource
     {
+        public string AudioPath { get; set; } = "";
         public string Text { get; set; } = "";
         public Dictionary<char, string> Code { get; set; } = [];
         public int Speed { get; set; } = 20;
@@ -46,7 +47,9 @@ namespace CW
                 voice.IsPrimary = source.IsPrimary;
                 voice.Loop = source.IsPrimary ? false : source.Loop;
                 voice.Muted = source.IsPrimary ? false : source.Muted;
-                voice.Prepare(
+                if (!string.IsNullOrWhiteSpace(source.AudioPath))
+                    voice.PrepareAudio(source.AudioPath, source.Volume);
+                else voice.Prepare(
                     source.Text,
                     source.Code,
                     source.Speed,

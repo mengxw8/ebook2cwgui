@@ -10,6 +10,9 @@ namespace CW
     internal sealed class ChannelVoice
     {
         private readonly MorsePlayer player;
+        private short[]? audioSamples;
+        private int audioPosition;
+        private volatile float audioVolume = 0.5f;
         private string playingText = "";
         private Dictionary<char, string> playingKeys = new();
         private int speed = 20;
@@ -49,7 +52,7 @@ namespace CW
 
         public bool IsFinished => finished;
 
-        public bool HasText => !string.IsNullOrWhiteSpace(playingText);
+        public bool HasText => audioSamples is { Length: > 0 } || !string.IsNullOrWhiteSpace(playingText);
 
         public int RestartCount { get; private set; }
 
@@ -59,6 +62,7 @@ namespace CW
 
         public void Prepare(string text, Dictionary<char, string> keys, int speed, string waveform, int frequency, float volume, bool noiseEnabled, int noiseSnr)
         {
+            audioSamples = null;
             playingText = text ?? "";
             playingKeys = new Dictionary<char, string>(keys);
             this.speed = speed;
@@ -69,7 +73,22 @@ namespace CW
             QueueFromStart(volume, frequency);
         }
 
-        public void SetVolume(float volume) => player.Volume = volume;
+        public void PrepareAudio(string path, float volume)
+        {
+            audioSamples = AudioClip.Load(path);
+            audioPosition = 0;
+            audioVolume = volume;
+            playingText = "";
+            finished = false;
+            RestartCount = 0;
+            CurrentGroup = Path.GetFileName(path);
+        }
+
+        public void SetVolume(float volume)
+        {
+            audioVolume = volume;
+            player.Volume = volume;
+        }
 
         public void SetSpeed(int speed)
         {
@@ -106,6 +125,19 @@ namespace CW
                 return false;
             }
 
+            if (audioSamples != null)
+            {
+                if (audioPosition >= audioSamples.Length)
+                {
+                    finished = true;
+                    CurrentGroup = "";
+                    sample = 0;
+                    return false;
+                }
+                sample = (short)Math.Clamp(audioSamples[audioPosition++] * audioVolume, short.MinValue, short.MaxValue);
+                if (muted) sample = 0;
+                return true;
+            }
             if (!player.TryReadMonoSample(out sample))
             {
                 finished = true;
@@ -123,6 +155,12 @@ namespace CW
         public void Restart()
         {
             RestartCount++;
+            if (audioSamples != null)
+            {
+                audioPosition = 0;
+                finished = false;
+                return;
+            }
             QueueFromStart(player.Volume, 0, keepFrequency: true);
         }
 

@@ -119,16 +119,16 @@ namespace CW
             previewLabel.Padding = new Padding(0, 0, 0, 6);
 
             var fileRow = new Panel { Dock = DockStyle.Top, Height = 42, Padding = new Padding(0, 4, 0, 4) };
-            var fileLabel = new Label { Text = "报文文件", Dock = DockStyle.Left, Width = 84, TextAlign = ContentAlignment.MiddleLeft };
+            var fileLabel = new Label { Text = "播放文件", Dock = DockStyle.Left, Width = 84, TextAlign = ContentAlignment.MiddleLeft };
             StyleButton(loadFileBtn, "选择文件", 104);
             loadFileBtn.Dock = DockStyle.Right;
             filePathBox.Dock = DockStyle.Fill;
             filePathBox.ReadOnly = true;
-            filePathBox.PlaceholderText = "未选择 txt 文件";
+            filePathBox.PlaceholderText = "未选择 txt 或音频文件";
             fileRow.Controls.Add(loadFileBtn);
             fileRow.Controls.Add(filePathBox);
             fileRow.Controls.Add(fileLabel);
-            loadFileBtn.Click += (_, _) => ChooseTextFile();
+            loadFileBtn.Click += (_, _) => ChoosePlaybackFile();
 
             StyleButton(playBtn, "播放");
             StyleButton(pauseBtn, "暂停");
@@ -406,9 +406,9 @@ namespace CW
             lanes.Add(lane);
             var item = new ListViewItem(lane.Name);
             item.SubItems.Add(lane.IsPrimary ? "主" : "次");
-            item.SubItems.Add(lane.Frequency.ToString());
-            item.SubItems.Add(lane.Speed.ToString());
-            item.SubItems.Add(EncodingName(lane.EncodingType));
+            item.SubItems.Add(lane.IsAudio ? "—" : lane.Frequency.ToString());
+            item.SubItems.Add(lane.IsAudio ? "—" : lane.Speed.ToString());
+            item.SubItems.Add(lane.IsAudio ? "音频" : EncodingName(lane.EncodingType));
             item.SubItems.Add(lane.Volume.ToString());
             item.SubItems.Add("");
             item.Tag = lane;
@@ -461,9 +461,9 @@ namespace CW
         {
             var item = new ListViewItem(lane.Name) { Tag = lane };
             item.SubItems.Add(lane.IsPrimary ? "主" : "次");
-            item.SubItems.Add(lane.Frequency.ToString());
-            item.SubItems.Add(lane.Speed.ToString());
-            item.SubItems.Add(EncodingName(lane.EncodingType));
+            item.SubItems.Add(lane.IsAudio ? "—" : lane.Frequency.ToString());
+            item.SubItems.Add(lane.IsAudio ? "—" : lane.Speed.ToString());
+            item.SubItems.Add(lane.IsAudio ? "音频" : EncodingName(lane.EncodingType));
             item.SubItems.Add(lane.Volume.ToString());
             item.SubItems.Add(lane.Voice.CurrentGroup);
             return item;
@@ -476,18 +476,19 @@ namespace CW
             bool hasLane = lane != null;
             nameBox.Enabled = hasLane;
             textBox.Enabled = hasLane;
+            textBox.ReadOnly = lane?.IsAudio == true;
             loadFileBtn.Enabled = hasLane;
             filePathBox.Enabled = hasLane;
             primaryCheck.Enabled = hasLane && state == PlayState.Stopped;
             loopCheck.Enabled = hasLane;
             // 主路必须始终可发声，因此不提供静音选项。
             muteCheck.Enabled = hasLane && lane != null && !lane.IsPrimary;
-            speedBox.Enabled = hasLane;
-            frequencyBox.Enabled = hasLane;
-            waveformBox.Enabled = hasLane;
+            speedBox.Enabled = hasLane && lane?.IsAudio != true;
+            frequencyBox.Enabled = hasLane && lane?.IsAudio != true;
+            waveformBox.Enabled = hasLane && lane?.IsAudio != true;
             volumeBox.Enabled = hasLane;
-            noiseCheck.Enabled = hasLane;
-            encodingBtn.Enabled = hasLane;
+            noiseCheck.Enabled = hasLane && lane?.IsAudio != true;
+            encodingBtn.Enabled = hasLane && lane?.IsAudio != true;
             randomEachBox.Enabled = hasLane;
             randomGroupBox.Enabled = hasLane;
             randomUniqueCheck.Enabled = hasLane;
@@ -514,9 +515,9 @@ namespace CW
             volumeBox.Value = lane.Volume;
             noiseCheck.Checked = lane.NoiseEnabled;
             snrBox.Value = lane.NoiseSnr;
-            snrBox.Enabled = lane.NoiseEnabled;
-            filePathBox.Text = lane.FilePath;
-            textBox.Text = lane.Text;
+            snrBox.Enabled = !lane.IsAudio && lane.NoiseEnabled;
+            filePathBox.Text = lane.IsAudio ? lane.AudioPath : lane.FilePath;
+            textBox.Text = lane.IsAudio ? "音频文件：" + Path.GetFileName(lane.AudioPath) + "\r\n使用播放、暂停、停止、重播按钮统一控制。生成字符或选择 txt 可切换回报文。" : lane.Text;
             randomEachBox.Value = lane.RandomGroupSize;
             randomGroupBox.Value = lane.RandomGroupCount;
             randomUniqueCheck.Checked = lane.RandomUniqueInGroup;
@@ -631,7 +632,7 @@ namespace CW
                 return;
             lane.NoiseEnabled = noiseCheck.Checked;
             lane.NoiseSnr = (int)snrBox.Value;
-            snrBox.Enabled = lane.NoiseEnabled;
+            snrBox.Enabled = !lane.IsAudio && lane.NoiseEnabled;
             lane.Voice.SetNoise(lane.NoiseEnabled, lane.NoiseSnr);
         }
 
@@ -680,6 +681,7 @@ namespace CW
 
             suppressEditor = true;
             lane.FilePath = "";
+            lane.AudioPath = "";
             lane.Text = text;
             lane.PreviewDirty = false;
             filePathBox.Text = "";
@@ -688,6 +690,11 @@ namespace CW
                 ? "预览（已随机生成）"
                 : "预览（已随机生成，重播后使用这里的内容）";
             suppressEditor = false;
+            LoadEditor();
+            previewLabel.Text = state == PlayState.Stopped
+                ? "预览（已随机生成）"
+                : "预览（已随机生成，重播后使用这里的内容）";
+            RefreshRows();
             if (skipped.Length > 0)
                 MessageBox.Show("这些字符不在当前编码中，已跳过：\n" + skipped, "多路播放", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -737,7 +744,7 @@ namespace CW
             return [.. list];
         }
 
-        private void ChooseTextFile()
+        private void ChoosePlaybackFile()
         {
             if (Selected is not ChannelLane lane)
                 return;
@@ -745,17 +752,17 @@ namespace CW
             var initialDirectory = Directory.Exists(Constant.ArticlePath)
                 ? Constant.ArticlePath
                 : AppContext.BaseDirectory;
-            if (!string.IsNullOrWhiteSpace(lane.FilePath))
+            if (!string.IsNullOrWhiteSpace(lane.IsAudio ? lane.AudioPath : lane.FilePath))
             {
-                var directory = Path.GetDirectoryName(lane.FilePath);
+                var directory = Path.GetDirectoryName(lane.IsAudio ? lane.AudioPath : lane.FilePath);
                 if (!string.IsNullOrWhiteSpace(directory) && Directory.Exists(directory))
                     initialDirectory = directory;
             }
 
             using var dialog = new OpenFileDialog
             {
-                Filter = "报文文本 (*.txt)|*.txt",
-                Title = "选择报文文件",
+                Filter = "报文或音频|*.txt;*.wav;*.mp3;*.wma;*.m4a;*.aac|报文文本 (*.txt)|*.txt|音频文件|*.wav;*.mp3;*.wma;*.m4a;*.aac",
+                Title = "选择报文或音频文件",
                 InitialDirectory = initialDirectory,
             };
             if (dialog.ShowDialog(this) != DialogResult.OK)
@@ -764,12 +771,7 @@ namespace CW
             if (!ApplyFile(lane, dialog.FileName, rename: IsDefaultName(lane)))
                 return;
 
-            suppressEditor = true;
-            filePathBox.Text = lane.FilePath;
-            textBox.Text = lane.Text;
-            nameBox.Text = lane.Name;
-            previewLabel.Text = "预览";
-            suppressEditor = false;
+            LoadEditor();
             RefreshRows();
         }
 
@@ -780,7 +782,17 @@ namespace CW
         {
             try
             {
+                if (!Path.GetExtension(path).Equals(".txt", StringComparison.OrdinalIgnoreCase))
+                {
+                    AudioClip.Load(path);
+                    lane.AudioPath = path;
+                    lane.FilePath = "";
+                    lane.PreviewDirty = false;
+                    if (rename) lane.Name = Path.GetFileNameWithoutExtension(path);
+                    return true;
+                }
                 var text = ReadPracticeText(path);
+                lane.AudioPath = "";
                 lane.FilePath = path;
                 lane.Text = text;
                 lane.PreviewDirty = false;
@@ -825,7 +837,7 @@ namespace CW
             if (Selected is ChannelLane selected)
             {
                 suppressEditor = true;
-                textBox.Text = selected.Text;
+                textBox.Text = selected.IsAudio ? "音频文件：" + Path.GetFileName(selected.AudioPath) : selected.Text;
                 suppressEditor = false;
             }
 
@@ -977,9 +989,9 @@ namespace CW
         {
             ReloadUneditedFiles();
             var primary = lanes.FirstOrDefault(lane => lane.IsPrimary) ?? lanes[0];
-            if (string.IsNullOrWhiteSpace(primary.Text))
+            if (!primary.IsAudio && string.IsNullOrWhiteSpace(primary.Text))
             {
-                MessageBox.Show("主路还没有报文。请先选择一个 txt 文件。", "多路播放", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("主路还没有播放内容。请先生成报文或选择 txt、音频文件。", "多路播放", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
 
@@ -988,7 +1000,17 @@ namespace CW
                 lane.Voice.IsPrimary = lane.IsPrimary;
                 lane.Voice.Loop = lane.Loop;
                 // 主路永远不静音，确保从配置文件恢复后仍满足规则。
-            lane.Voice.Muted = lane.IsPrimary ? false : lane.Muted;
+                lane.Voice.Muted = lane.IsPrimary ? false : lane.Muted;
+                if (lane.IsAudio)
+                {
+                    try { lane.Voice.PrepareAudio(lane.AudioPath, lane.Volume / 100f); }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"无法读取音频“{lane.Name}”：{ex.Message}", "多路播放", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                    continue;
+                }
                 lane.Voice.Prepare(
                     lane.Text,
                     lane.Code,
@@ -1141,9 +1163,9 @@ namespace CW
                 var item = channelList.Items[i];
                 item.Text = lane.Name;
                 item.SubItems[1].Text = lane.IsPrimary ? "主" : "次";
-                item.SubItems[2].Text = lane.Frequency.ToString();
-                item.SubItems[3].Text = lane.Speed.ToString();
-                item.SubItems[4].Text = EncodingName(lane.EncodingType);
+                item.SubItems[2].Text = lane.IsAudio ? "—" : lane.Frequency.ToString();
+                item.SubItems[3].Text = lane.IsAudio ? "—" : lane.Speed.ToString();
+                item.SubItems[4].Text = lane.IsAudio ? "音频" : EncodingName(lane.EncodingType);
                 item.SubItems[5].Text = lane.Volume.ToString();
             }
         }
@@ -1177,9 +1199,9 @@ namespace CW
         {
             ReloadUneditedFiles();
             var primary = lanes.FirstOrDefault(lane => lane.IsPrimary) ?? lanes.FirstOrDefault();
-            if (primary == null || string.IsNullOrWhiteSpace(primary.Text))
+            if (primary == null || (!primary.IsAudio && string.IsNullOrWhiteSpace(primary.Text)))
             {
-                MessageBox.Show("主路还没有报文。请先选择一个 txt 文件。", "多路播放", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("主路还没有播放内容。请先生成报文或选择 txt、音频文件。", "多路播放", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -1252,6 +1274,7 @@ namespace CW
             var sources = lanes.Select(lane => new ChannelMixSource
             {
                 Text = lane.Text,
+                AudioPath = lane.AudioPath,
                 Code = new Dictionary<char, string>(lane.Code),
                 Speed = lane.Speed,
                 Waveform = lane.Waveform,
@@ -1307,6 +1330,7 @@ namespace CW
                     Name = lane.Name,
                     FilePath = lane.FilePath,
                     Text = lane.Text,
+                    AudioPath = lane.AudioPath,
                     EncodingType = lane.EncodingType,
                     CustomCode = lane.EncodingType == 3
                         ? lane.Code.ToDictionary(pair => pair.Key.ToString(), pair => pair.Value)
@@ -1433,6 +1457,7 @@ namespace CW
     internal sealed class ChannelLane
     {
         public string Name { get; set; } = "路1";
+        public string AudioPath { get; set; } = "";
         public string FilePath { get; set; } = "";
         public string Text { get; set; } = "";
         public bool PreviewDirty { get; set; }
@@ -1455,6 +1480,7 @@ namespace CW
         public bool RandomNumbers { get; set; }
         public bool RandomSymbols { get; set; }
         public string RandomCustom { get; set; } = "";
+        public bool IsAudio => !string.IsNullOrWhiteSpace(AudioPath);
         public ChannelVoice Voice { get; } = new(600, 20, "正弦波");
 
         public static ChannelLane FromPreset(MultiChannelPresetItem item)
@@ -1476,6 +1502,7 @@ namespace CW
             {
                 Name = string.IsNullOrWhiteSpace(item.Name) ? "路" : item.Name,
                 FilePath = item.FilePath ?? "",
+                AudioPath = item.AudioPath ?? "",
                 Text = item.Text ?? "",
                 PreviewDirty = !string.IsNullOrWhiteSpace(item.FilePath) && !File.Exists(item.FilePath),
                 EncodingType = encodingType,
@@ -1503,7 +1530,7 @@ namespace CW
             lane.Voice.Loop = lane.Loop;
             // 主路永远不静音，确保从配置文件恢复后仍满足规则。
             lane.Voice.Muted = lane.IsPrimary ? false : lane.Muted;
-            if (!string.IsNullOrWhiteSpace(lane.FilePath) && File.Exists(lane.FilePath))
+            if (!lane.IsAudio && !string.IsNullOrWhiteSpace(lane.FilePath) && File.Exists(lane.FilePath))
             {
                 try
                 {
@@ -1527,6 +1554,7 @@ namespace CW
     internal sealed class MultiChannelPresetItem
     {
         public string Name { get; set; } = "";
+        public string AudioPath { get; set; } = "";
         public string FilePath { get; set; } = "";
         public string Text { get; set; } = "";
         public int EncodingType { get; set; }
