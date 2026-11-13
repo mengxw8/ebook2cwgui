@@ -54,6 +54,7 @@ namespace CW
         public CopyingPractice()
         {
             InitializeComponent();
+            InitializeAnswerHighlighting();
             PracticeButtonLayout.UseCompactHeight(
                 startBtn, submitAnswerBtn, exportBtn, clearAnswerBtn,
                 pauseBtn, continuePlayBtn, rePlayBtn, stopBtn);
@@ -428,7 +429,9 @@ namespace CW
             //停止播放并清空播放内容
             playerWave.Stop();
             player?.Clean();
+            StopAnswerTracking();
             NoiseSettingsChanged(sender, e);
+            BeginAnswerTracking();
             player?.AddMorseCode(msgStartTxb.Text, Constant.allCharCode);
             player?.AddMorseCode(answer, Constant.allCharCode);
             player?.AddMorseCode(msgEndTxb.Text, Constant.allCharCode);
@@ -542,6 +545,7 @@ namespace CW
         {
             playerWave?.Stop();
             player?.Clean();
+            StopAnswerTracking();
 
 
             timer1.Stop();
@@ -559,6 +563,7 @@ namespace CW
         {
             playerWave?.Stop();
             player?.Clean();
+            StopAnswerTracking();
             timer1.Stop();
         }
 
@@ -628,6 +633,10 @@ namespace CW
             {
                 ShowAnswer();
             }
+            else
+            {
+                ResetAnswerHighlight();
+            }
         }
         /// <summary>
         /// 展示答案
@@ -639,7 +648,9 @@ namespace CW
             {
                 //把小写的q换成大写的Q，符合抄写习惯
                 answer = answer.Replace("q", "Q");
-                answerBox.Text = answer.Replace(Constant.StartString, "").Replace(Constant.EndString, "");
+                ResetAnswerHighlight();
+                answerBox.Text = new PracticeAnswerHighlight(answer).Text;
+                UpdateAnswerHighlight();
             }
         }
 
@@ -650,6 +661,7 @@ namespace CW
             {
                 //结束了，需要进行校报
                 player?.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speetBox.Value),waveList.Text));
+                BeginAnswerTracking();
                 player?.AddMorseCode(msgStartTxb.Text, Constant.allCharCode);
                 player?.AddMorseCode(answer, Constant.allCharCode);
                 player?.AddMorseCode(msgEndTxb.Text, Constant.allCharCode);
@@ -661,6 +673,7 @@ namespace CW
         {
             playerWave?.Stop();
             player?.Clean();
+            StopAnswerTracking();
 
             //清除缓存
             if (lastBookPath != null && Path.Exists(Path.GetDirectoryName(lastBookPath)))
@@ -677,6 +690,7 @@ namespace CW
 
         private void ClearAnswer()
         {
+            ResetAnswerHighlight();
             answerBox.Text = "";
 
         }
@@ -709,9 +723,11 @@ namespace CW
         {
             playerWave.Stop();
             player?.Clean();
+            StopAnswerTracking();
             //重播前先静默500ms显得没那么急
             player?.Mute(500);
             player?.UpdateConfig(MorseConfig.Create(Convert.ToInt16(speetBox.Value),waveList.Text));
+            BeginAnswerTracking();
             player?.AddMorseCode(msgStartTxb.Text, Constant.allCharCode);
             player?.AddMorseCode(answer, Constant.allCharCode);
             player?.AddMorseCode(msgEndTxb.Text, Constant.allCharCode);

@@ -53,6 +53,10 @@ namespace CW
 
         public event Action<string>? OnGroupPlay;
 
+        private volatile bool parsingGroup;
+
+        public bool HasQueuedAudio => parsingGroup || !charQueue.IsEmpty || !audioQueue.IsEmpty;
+
         /// <summary>
         /// 
         /// 
@@ -243,6 +247,13 @@ namespace CW
             AddMorseCode(morseCode, keys, speed, waveform);
         }
         private void ParseMusic()
+        {
+            parsingGroup = true;
+            try { ParseNextGroup(); }
+            finally { parsingGroup = false; }
+        }
+
+        private void ParseNextGroup()
         {
             var flag = charQueue.TryDequeue(out string? ch);
             if (flag && ch != null)
