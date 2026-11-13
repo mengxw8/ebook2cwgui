@@ -1,4 +1,4 @@
-﻿namespace CW
+namespace CW
 {
     partial class Form1
     {
@@ -46,10 +46,13 @@
             // 
             // button1
             // 
-            button1.Location = new Point(148, 44);
+            button1.AutoSize = true;
+            button1.AutoSizeMode = AutoSizeMode.GrowOnly;
+            button1.Padding = new Padding(6, 0, 6, 0);
+            button1.Location = new Point(136, 44);
             button1.Margin = new Padding(5, 4, 5, 4);
             button1.Name = "button1";
-            button1.Size = new Size(157, 32);
+            button1.Size = new Size(180, 32);
             button1.TabIndex = 0;
             button1.Text = "字符转音频";
             button1.UseVisualStyleBackColor = true;
@@ -57,10 +60,13 @@
             // 
             // copyBtn
             // 
-            copyBtn.Location = new Point(148, 102);
+            copyBtn.AutoSize = true;
+            copyBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
+            copyBtn.Padding = new Padding(6, 0, 6, 0);
+            copyBtn.Location = new Point(136, 102);
             copyBtn.Margin = new Padding(5, 4, 5, 4);
             copyBtn.Name = "copyBtn";
-            copyBtn.Size = new Size(157, 32);
+            copyBtn.Size = new Size(180, 32);
             copyBtn.TabIndex = 1;
             copyBtn.Text = "CW抄收练习";
             copyBtn.UseVisualStyleBackColor = true;
@@ -100,10 +106,13 @@
             // 
             // sendBtn
             // 
-            sendBtn.Location = new Point(148, 160);
+            sendBtn.AutoSize = true;
+            sendBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
+            sendBtn.Padding = new Padding(6, 0, 6, 0);
+            sendBtn.Location = new Point(136, 160);
             sendBtn.Margin = new Padding(5, 4, 5, 4);
             sendBtn.Name = "sendBtn";
-            sendBtn.Size = new Size(157, 32);
+            sendBtn.Size = new Size(180, 32);
             sendBtn.TabIndex = 2;
             sendBtn.Text = "CW发报练习";
             sendBtn.UseVisualStyleBackColor = true;
@@ -111,10 +120,13 @@
             // 
             // shortNumberBtn
             // 
-            shortNumberBtn.Location = new Point(148, 217);
+            shortNumberBtn.AutoSize = true;
+            shortNumberBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
+            shortNumberBtn.Padding = new Padding(6, 0, 6, 0);
+            shortNumberBtn.Location = new Point(136, 217);
             shortNumberBtn.Margin = new Padding(5, 4, 5, 4);
             shortNumberBtn.Name = "shortNumberBtn";
-            shortNumberBtn.Size = new Size(157, 32);
+            shortNumberBtn.Size = new Size(180, 32);
             shortNumberBtn.TabIndex = 3;
             shortNumberBtn.Text = "数字短码练习";
             shortNumberBtn.UseVisualStyleBackColor = true;
@@ -122,10 +134,13 @@
             // 
             // chineseCodeQuickQueryBtn
             // 
-            chineseCodeQuickQueryBtn.Location = new Point(148, 277);
+            chineseCodeQuickQueryBtn.AutoSize = true;
+            chineseCodeQuickQueryBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
+            chineseCodeQuickQueryBtn.Padding = new Padding(6, 0, 6, 0);
+            chineseCodeQuickQueryBtn.Location = new Point(136, 277);
             chineseCodeQuickQueryBtn.Margin = new Padding(5, 4, 5, 4);
             chineseCodeQuickQueryBtn.Name = "chineseCodeQuickQueryBtn";
-            chineseCodeQuickQueryBtn.Size = new Size(157, 32);
+            chineseCodeQuickQueryBtn.Size = new Size(180, 32);
             chineseCodeQuickQueryBtn.TabIndex = 4;
             chineseCodeQuickQueryBtn.Text = "中文电码本快查";
             chineseCodeQuickQueryBtn.UseVisualStyleBackColor = true;
@@ -133,10 +148,13 @@
             // 
             // abbreviationQuickSearchBtn
             // 
-            abbreviationQuickSearchBtn.Location = new Point(148, 340);
+            abbreviationQuickSearchBtn.AutoSize = true;
+            abbreviationQuickSearchBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
+            abbreviationQuickSearchBtn.Padding = new Padding(6, 0, 6, 0);
+            abbreviationQuickSearchBtn.Location = new Point(136, 340);
             abbreviationQuickSearchBtn.Margin = new Padding(5, 4, 5, 4);
             abbreviationQuickSearchBtn.Name = "abbreviationQuickSearchBtn";
-            abbreviationQuickSearchBtn.Size = new Size(157, 32);
+            abbreviationQuickSearchBtn.Size = new Size(180, 32);
             abbreviationQuickSearchBtn.TabIndex = 5;
             abbreviationQuickSearchBtn.Text = "简语速查";
             abbreviationQuickSearchBtn.UseVisualStyleBackColor = true;
@@ -144,10 +162,13 @@
             // 
             // ToPlayerBtn
             // 
-            ToPlayerBtn.Location = new Point(148, 401);
+            ToPlayerBtn.AutoSize = true;
+            ToPlayerBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
+            ToPlayerBtn.Padding = new Padding(6, 0, 6, 0);
+            ToPlayerBtn.Location = new Point(136, 401);
             ToPlayerBtn.Margin = new Padding(5, 4, 5, 4);
             ToPlayerBtn.Name = "ToPlayerBtn";
-            ToPlayerBtn.Size = new Size(157, 32);
+            ToPlayerBtn.Size = new Size(180, 32);
             ToPlayerBtn.TabIndex = 6;
             ToPlayerBtn.Text = "莫尔斯播放器";
             ToPlayerBtn.UseVisualStyleBackColor = true;
@@ -155,10 +176,13 @@
             // 
             // multiChannelBtn
             // 
-            multiChannelBtn.Location = new Point(148, 459);
+            multiChannelBtn.AutoSize = true;
+            multiChannelBtn.AutoSizeMode = AutoSizeMode.GrowOnly;
+            multiChannelBtn.Padding = new Padding(6, 0, 6, 0);
+            multiChannelBtn.Location = new Point(136, 459);
             multiChannelBtn.Margin = new Padding(5, 4, 5, 4);
             multiChannelBtn.Name = "multiChannelBtn";
-            multiChannelBtn.Size = new Size(157, 32);
+            multiChannelBtn.Size = new Size(180, 32);
             multiChannelBtn.TabIndex = 7;
             multiChannelBtn.Text = "多路播放";
             multiChannelBtn.UseVisualStyleBackColor = true;

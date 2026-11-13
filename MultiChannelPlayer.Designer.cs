@@ -379,7 +379,7 @@ namespace CW
             filePanel.MinimumSize = new Size(0, 0);
             filePanel.MaximumSize = new Size(0, 0);
             filePanel.Margin = new Padding(3, 3, 3, 3);
-            filePanel.Padding = new Padding(0, 4, 0, 4);
+            filePanel.Padding = new Padding(0, 7, 0, 7);
             filePanel.Anchor = (AnchorStyles)5;
             filePanel.Dock = (DockStyle)1;
             filePanel.AutoSize = false;
@@ -395,8 +395,8 @@ namespace CW
             filePanel.Controls.Add(fileLabel);
             // loadFileBtn
             loadFileBtn.Text = "选择文件";
-            loadFileBtn.Location = new Point(-41, 4);
-            loadFileBtn.Size = new Size(104, 34);
+            loadFileBtn.Location = new Point(-41, 7);
+            loadFileBtn.Size = new Size(104, 28);
             loadFileBtn.MinimumSize = new Size(0, 0);
             loadFileBtn.MaximumSize = new Size(0, 0);
             loadFileBtn.Margin = new Padding(0, 0, 12, 0);
@@ -780,7 +780,7 @@ namespace CW
             // randomGenerateBtn
             randomGenerateBtn.Text = "生成";
             randomGenerateBtn.Location = new Point(459, 6);
-            randomGenerateBtn.Size = new Size(82, 28);
+            randomGenerateBtn.Size = new Size(104, 28);
             randomGenerateBtn.MinimumSize = new Size(0, 0);
             randomGenerateBtn.MaximumSize = new Size(0, 0);
             randomGenerateBtn.Margin = new Padding(8, 6, 0, 0);
@@ -1187,7 +1187,7 @@ namespace CW
             // encodingBtn
             encodingBtn.Text = "编码设置";
             encodingBtn.Location = new Point(272, 6);
-            encodingBtn.Size = new Size(104, 36);
+            encodingBtn.Size = new Size(104, 28);
             encodingBtn.MinimumSize = new Size(0, 0);
             encodingBtn.MaximumSize = new Size(0, 0);
             encodingBtn.Margin = new Padding(0, 0, 12, 0);
