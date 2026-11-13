@@ -126,7 +126,7 @@
             // 
             ExportBtn.Location = new Point(24, 42);
             ExportBtn.Name = "ExportBtn";
-            ExportBtn.Size = new Size(75, 23);
+            ExportBtn.Size = new Size(75, 25);
             ExportBtn.TabIndex = 20;
             ExportBtn.Text = "导出音频";
             ExportBtn.UseVisualStyleBackColor = true;
@@ -141,7 +141,7 @@
             groupBox3.Controls.Add(PauseBtn);
             groupBox3.Location = new Point(608, 14);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(169, 90);
+            groupBox3.Size = new Size(169, 96);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "播放设置";
@@ -150,49 +150,49 @@
             // 
             StartBtn.Location = new Point(6, 16);
             StartBtn.Name = "StartBtn";
-            StartBtn.Size = new Size(75, 23);
+            StartBtn.Size = new Size(75, 25);
             StartBtn.TabIndex = 6;
-            StartBtn.Text = "开始 (Enter)";
+            StartBtn.Text = "开始";
             StartBtn.UseVisualStyleBackColor = true;
             StartBtn.Click += StartBtn_Click;
             // 
             // StopBtn
             // 
-            StopBtn.Location = new Point(87, 61);
+            StopBtn.Location = new Point(87, 69);
             StopBtn.Name = "StopBtn";
-            StopBtn.Size = new Size(75, 23);
+            StopBtn.Size = new Size(75, 25);
             StopBtn.TabIndex = 23;
-            StopBtn.Text = "停止 (Esc)";
+            StopBtn.Text = "停止";
             StopBtn.UseVisualStyleBackColor = true;
             StopBtn.Click += StopBtn_Click;
             // 
             // ReplayBtn
             // 
-            ReplayBtn.Location = new Point(87, 37);
+            ReplayBtn.Location = new Point(87, 42);
             ReplayBtn.Name = "ReplayBtn";
-            ReplayBtn.Size = new Size(75, 23);
+            ReplayBtn.Size = new Size(75, 25);
             ReplayBtn.TabIndex = 18;
-            ReplayBtn.Text = "重播 (R)";
+            ReplayBtn.Text = "重播";
             ReplayBtn.UseVisualStyleBackColor = true;
             ReplayBtn.Click += ReplayBtn_Click;
             // 
             // ContinueBtn
             // 
-            ContinueBtn.Location = new Point(6, 62);
+            ContinueBtn.Location = new Point(6, 69);
             ContinueBtn.Name = "ContinueBtn";
-            ContinueBtn.Size = new Size(75, 23);
+            ContinueBtn.Size = new Size(75, 25);
             ContinueBtn.TabIndex = 24;
-            ContinueBtn.Text = "继续（空格）";
+            ContinueBtn.Text = "继续";
             ContinueBtn.UseVisualStyleBackColor = true;
             ContinueBtn.Click += ContinueBtn_Click;
             // 
             // PauseBtn
             // 
-            PauseBtn.Location = new Point(6, 39);
+            PauseBtn.Location = new Point(6, 42);
             PauseBtn.Name = "PauseBtn";
-            PauseBtn.Size = new Size(75, 23);
+            PauseBtn.Size = new Size(75, 25);
             PauseBtn.TabIndex = 19;
-            PauseBtn.Text = "暂停（空格）";
+            PauseBtn.Text = "暂停";
             PauseBtn.UseVisualStyleBackColor = true;
             PauseBtn.Click += PauseBtn_Click;
             // 
@@ -236,9 +236,9 @@
             // 
             CodingDefinitionBtn.Location = new Point(503, 15);
             CodingDefinitionBtn.Name = "CodingDefinitionBtn";
-            CodingDefinitionBtn.Size = new Size(83, 23);
+            CodingDefinitionBtn.Size = new Size(83, 25);
             CodingDefinitionBtn.TabIndex = 5;
-            CodingDefinitionBtn.Text = "编码设置 (S)";
+            CodingDefinitionBtn.Text = "编码设置";
             CodingDefinitionBtn.UseVisualStyleBackColor = true;
             CodingDefinitionBtn.Click += CodingDefinitionBtn_Click;
             // 
@@ -315,7 +315,7 @@
             // 
             SelectFileBtn.Location = new Point(9, 16);
             SelectFileBtn.Name = "SelectFileBtn";
-            SelectFileBtn.Size = new Size(75, 23);
+            SelectFileBtn.Size = new Size(75, 25);
             SelectFileBtn.TabIndex = 7;
             SelectFileBtn.Text = "选择文件";
             SelectFileBtn.UseVisualStyleBackColor = true;

@@ -42,6 +42,9 @@ namespace CW
         public Player()
         {
             InitializeComponent();
+            PracticeButtonLayout.UseCompactHeight(
+                StartBtn, PauseBtn, ContinueBtn, ReplayBtn, StopBtn,
+                SelectFileBtn, CodingDefinitionBtn, ExportBtn);
             ThemeManager.Apply(this);
             player.OnGroupPlay += OnGroupPlay;
             channelModeBox = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(1110, 28), Size = new Size(150, 25) };
