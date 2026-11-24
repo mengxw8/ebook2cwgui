@@ -24,6 +24,7 @@ using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
@@ -48,6 +49,15 @@ group => group.Value // 取最后一个值（覆盖冲突键）
 
         private readonly MorsePlayer morsePlayer;
         private readonly WaveOutEvent waveOut = new();
+        private Action<string>? groupPlaybackHandler;
+        private int answerPlaybackGeneration;
+        private int playedAnswerGroup = -1;
+        private int playbackGroupCount;
+        private int playbackHeaderGroupCount;
+        private string playbackAnswerBody = "";
+        private MatchCollection? playbackAnswerGroups;
+        private Match? highlightedAnswerGroup;
+        private bool queuingAnswerAudio;
         MorseConfig morseConfig = MorseConfig.Create(20);
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
@@ -87,6 +97,13 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             morseConfig.Speed = Convert.ToInt32(speetBox.Value);
             morsePlayer = new MorsePlayer(Convert.ToInt32(toneBox.Value), morseConfig);
             waveOut.Init(morsePlayer);
+            timer1.Tick += (_, _) =>
+            {
+                if (waveOut.PlaybackState == PlaybackState.Stopped ||
+                    (!queuingAnswerAudio && playedAnswerGroup >= 0 &&
+                     waveOut.PlaybackState == PlaybackState.Playing && !morsePlayer.HasQueuedAudio))
+                    StopAnswerTracking();
+            };
             NoiseSettingsChanged(this, EventArgs.Empty);
             EnableSnapLayout();
         }
@@ -308,13 +325,9 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             File.WriteAllText(lastPath, answer);
             waveOut.Stop();
             morsePlayer.Clean();
-            morsePlayer?.UpdateConfig(MorseConfig.Create(Convert.ToInt32(speetBox.Value), waveList.Text));
-            var task = Task.Run(() =>
-            {
-
-                morsePlayer?.AddMorseCode(answer, keys, Convert.ToInt32(speetBox.Value));
-
-            });
+            BeginAnswerTracking();
+            string playbackAnswer = answer;
+            morsePlayer.AddMorseCode(playbackAnswer, keys, (int)speetBox.Value, waveList.Text);
 
             //解除封禁
             pauseBtn.Enabled = true;
@@ -333,15 +346,23 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             //Mp3Player.Play(audioFileName);
 
             startBtn.Enabled = true;
-            await task;
             //处理校报逻辑
             if (checkAnswerChb.Checked)
             {
-                var task2 = Task.Run(() =>
-                {                    
-                    morsePlayer?.AddMorseCode(answer, keys, Convert.ToInt32(checkAnserSpeed.Value));
-                });
-                await task2;
+                int generation = answerPlaybackGeneration;
+                queuingAnswerAudio = true;
+                await Task.Yield();
+                if (generation == answerPlaybackGeneration)
+                {
+                    try
+                    {
+                        morsePlayer.AddMorseCode(playbackAnswer, keys, (int)checkAnserSpeed.Value);
+                    }
+                    finally
+                    {
+                        queuingAnswerAudio = false;
+                    }
+                }
             }
 
 
@@ -436,7 +457,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
 
             waveOut.Stop();
             morsePlayer.Clean();
-            timer1.Stop();
+            StopAnswerTracking();
             if (answer == "")
             {
                 MessageBox.Show("请先开始抄收！");
@@ -450,6 +471,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
         private void StopBtn_Click(object sender, EventArgs e)
         {
             waveOut.Stop();
+            StopAnswerTracking();
 
         }
 
@@ -531,6 +553,10 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             {
                 ShowAnswer();
             }
+            else
+            {
+                ResetAnswerHighlight();
+            }
         }
         /// <summary>
         /// 展示答案
@@ -540,18 +566,106 @@ group => group.Value // 取最后一个值（覆盖冲突键）
 
             if (answer != "")
             {
+                ResetAnswerHighlight();
                 answerBox.Text = GetAnswerBody();
+                UpdateAnswerHighlight();
             }
         }
 
-        /// <summary>移除控制报头和报尾，并清除边界空白，显示答案不以空格开头。</summary>
-        private string GetAnswerBody()
+        private void BeginAnswerTracking()
         {
+            StopAnswerTracking();
+            playbackGroupCount = CountAnswerGroups(answer);
+            if (playbackGroupCount == 0) return;
+
+            playbackAnswerBody = NormalizeAnswerLineEndings(GetAnswerBody(out playbackHeaderGroupCount));
+            playbackAnswerGroups = Regex.Matches(playbackAnswerBody, @"\S+");
+            int generation = answerPlaybackGeneration;
+            groupPlaybackHandler = _ =>
+            {
+                if (IsDisposed || Disposing || !IsHandleCreated) return;
+                try
+                {
+                    BeginInvoke((Action)(() =>
+                    {
+                        if (generation != answerPlaybackGeneration || IsDisposed || Disposing) return;
+                        // The checking pass reads the same message again, including its header and footer.
+                        playedAnswerGroup = (playedAnswerGroup + 1) % playbackGroupCount;
+                        UpdateAnswerHighlight();
+                    }));
+                }
+                catch (InvalidOperationException) when (IsDisposed || Disposing || !IsHandleCreated)
+                {
+                }
+            };
+            morsePlayer.OnGroupPlay += groupPlaybackHandler;
+            timer1.Start();
+        }
+
+        private void StopAnswerTracking()
+        {
+            answerPlaybackGeneration++;
+            timer1.Stop();
+            if (groupPlaybackHandler != null)
+            {
+                morsePlayer.OnGroupPlay -= groupPlaybackHandler;
+                groupPlaybackHandler = null;
+            }
+            playedAnswerGroup = -1;
+            queuingAnswerAudio = false;
+            ResetAnswerHighlight();
+        }
+
+        private void UpdateAnswerHighlight()
+        {
+            ResetAnswerHighlight();
+            int bodyIndex = playedAnswerGroup - playbackHeaderGroupCount;
+            if (!showAnswerChb.Checked || playbackAnswerGroups == null || bodyIndex < 0 ||
+                bodyIndex >= playbackAnswerGroups.Count ||
+                NormalizeAnswerLineEndings(answerBox.Text) != playbackAnswerBody)
+                return;
+
+            highlightedAnswerGroup = playbackAnswerGroups[bodyIndex];
+            SetAnswerGroupBackground(highlightedAnswerGroup, Color.Yellow);
+        }
+
+        private void ResetAnswerHighlight()
+        {
+            if (highlightedAnswerGroup is { } group && group.Index + group.Length <= answerBox.TextLength)
+                SetAnswerGroupBackground(group, answerBox.BackColor);
+            highlightedAnswerGroup = null;
+        }
+
+        private void SetAnswerGroupBackground(Match group, Color background)
+        {
+            int selectionStart = answerBox.SelectionStart;
+            int selectionLength = answerBox.SelectionLength;
+            answerBox.Select(group.Index, group.Length);
+            answerBox.SelectionBackColor = background;
+            answerBox.Select(selectionStart, selectionLength);
+            if (selectionLength == 0)
+                answerBox.SelectionBackColor = answerBox.BackColor;
+        }
+
+        private static int CountAnswerGroups(string text) => Regex.Count(text, @"\S+");
+
+        private static string NormalizeAnswerLineEndings(string text) =>
+            text.Replace("\r\n", "\n").Replace('\r', '\n');
+
+        /// <summary>移除控制报头和报尾，并清除边界空白，显示答案不以空格开头。</summary>
+        private string GetAnswerBody() => GetAnswerBody(out _);
+
+        private string GetAnswerBody(out int headerGroupCount)
+        {
+            headerGroupCount = 0;
             string body = answer;
             string header = NormalizeMessageHeader(msgStartTxb.Text);
             string footer = NormalizeMessageFooter(msgEndTxb.Text);
             if (body.StartsWith(header, StringComparison.OrdinalIgnoreCase))
+            {
+                headerGroupCount = CountAnswerGroups(header);
                 body = body[header.Length..];
+            }
             if (body.EndsWith(footer, StringComparison.OrdinalIgnoreCase))
                 body = body[..^footer.Length];
             return body.Trim();
@@ -563,6 +677,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
         {
             waveOut.Stop();
             morsePlayer.Clean();
+            StopAnswerTracking();
             //清除缓存
             if (Path.Exists(Path.GetDirectoryName(Constant.TempPath)))
             {
@@ -578,6 +693,7 @@ group => group.Value // 取最后一个值（覆盖冲突键）
 
         private void ClearAnswer()
         {
+            ResetAnswerHighlight();
             answerBox.Text = "";
 
         }
@@ -599,10 +715,6 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             waveOut?.Play();
             continuePlayBtn.Enabled = false;
             pauseBtn.Enabled = true;
-            if (checkAnswerChb.Checked)
-            {
-                timer1.Start();
-            }
         }
 
         private void ResumeBtn_Click(object sender, EventArgs e)
@@ -610,12 +722,8 @@ group => group.Value // 取最后一个值（覆盖冲突键）
             //重播，直接情况重新生成
             waveOut.Stop();
             morsePlayer.Clean();
-            var task = Task.Run(() =>
-            {
-
-                morsePlayer.AddMorseCode(answer, keys);
-
-            });
+            BeginAnswerTracking();
+            morsePlayer.AddMorseCode(answer, keys);
             waveOut.Play();
         }
 
