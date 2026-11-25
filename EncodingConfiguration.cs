@@ -17,7 +17,8 @@ namespace CW
     public partial class EncodingConfiguration : Form
     {
 
-        //编码方式，默认为正常编码
+        // 码表由运行时加载与保存，无需由 WinForms 设计器序列化。
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Dictionary<char, string> Code { get; set; } = Constant.allCharCode;
         //这个是编码的类型，默认是正常编码
         //0默认编码

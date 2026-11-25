@@ -8,18 +8,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # 构建（Debug）
 dotnet build
 
-# 发布独立可执行文件（Release, win-x64, 无 .NET 依赖）
+# 自包含发布（Release、win-x64）
 dotnet publish -c Release -r win-x64 --self-contained
 
 # 快速发布（同 build.bat）
 dotnet publish -c Release -r win-x64 --self-contained
 ```
 
-项目基于 .NET 8 + Windows Forms，需要 Windows 平台编译和运行。无测试项目。
+项目使用 .NET 10 和 Windows Forms，目标框架为 `net10.0-windows`。
+
+- 在 Windows 上通过命令行构建时，安装 .NET 10 SDK。
+- 使用 Visual Studio 构建或编辑 WinForms 界面时，安装 Visual Studio 2026（18.0 或更高版本），并勾选「.NET 桌面开发」工作负载。若使用较新的 .NET 10 SDK，请确认 Visual Studio 版本与该 SDK 兼容。
+
+运行 `win-x64` 的依赖框架版（framework-dependent）需要 x64 版 .NET 10 桌面运行时。自包含版（self-contained）随包提供所需的 .NET 运行时。
 
 ## 技术栈
 
-- **GUI**: Windows Forms (.NET 8 `net8.0-windows`)
+- **GUI**: Windows Forms (.NET 10 `net10.0-windows`)
 - **音频**: NAudio（实时合成/播放）+ NAudio.Lame（MP3 编码）
 - **数据库**: SQLite，通过 SqlSugarCoreNoDrive ORM 访问（`db/CW.db`）
 - **ORM 实体**: `db/entity/` 下，使用 `[SugarTable]` / `[SugarColumn]` 特性标注
@@ -72,7 +77,7 @@ dotnet publish -c Release -r win-x64 --self-contained
 
 ## 关键开发约定
 
-- .NET 8，启用 nullable 和 implicit usings，允许 unsafe 代码块
+- .NET 10，启用 nullable 和 implicit usings，允许 unsafe 代码块
 - 嵌入字体 `Resources/consola.ttf` 作为内嵌资源
 - `ebook2cw.exe`、`db/CW.db`、`text/`、`word/` 目录在发布时复制到输出目录
 - 没有单元测试——所有验证通过手动运行 GUI 完成

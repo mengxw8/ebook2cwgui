@@ -157,10 +157,17 @@ void loop() {
 
 ### 构建和运行
 
-项目需要 Windows、Visual Studio 2022 或 .NET 8 SDK。构建命令：
+项目使用 .NET 10 和 Windows Forms，目标框架为 `net10.0-windows`。
+
+- 在 Windows 上通过命令行构建时，安装 .NET 10 SDK。
+- 使用 Visual Studio 构建或编辑 WinForms 界面时，安装 Visual Studio 2026（18.0 或更高版本），并勾选「.NET 桌面开发」工作负载。若使用较新的 .NET 10 SDK，请确认 Visual Studio 版本与该 SDK 兼容。
+
+构建和自包含发布命令如下。
 
     dotnet build
     dotnet publish -c Release -r win-x64 --self-contained
+
+运行 `win-x64` 的依赖框架版（framework-dependent）需要 x64 版 .NET 10 桌面运行时。自包含版（self-contained）随包提供所需的 .NET 运行时。
 
 发布目录需要保留 ebook2cw.exe、db/CW.db、text/ 和 word/Level8.json。新闻练习需要网络连接，其他内置练习和播放器功能可以离线使用。提交修改后建议执行：
 
